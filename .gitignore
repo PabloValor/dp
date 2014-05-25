@@ -1,0 +1,8 @@
+*.pyc
+*.sqlite
+bin
+build
+include
+lib
+.Python
+.DS_Store
