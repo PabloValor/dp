@@ -1,0 +1,76 @@
+html{
+	background-color:#CCC;
+	padding:0;
+	height:100%;
+	overflow:auto;
+}
+body{
+	height:100%;
+	padding:0;
+	height:100%;
+}
+#admin-headerWrapper{
+	position:relative;
+	width:100%;
+	background-color:#333;
+	color:#CCC;
+	overflow:auto;
+}
+#admin-headerLinks{
+	display:inline-block;
+}
+#admin-headerLinks a{
+	color:#DDD;
+	font-size:16px;
+	text-decoration:none;
+	margin-right:10px;
+}
+#admin-headerLinks a:hover{
+	color:#FFF;
+	text-decoration:underline;
+}
+#admin-header{
+	position:relative;
+	width: 1000px;
+	margin:0 auto 0 auto;
+	z-index:0;
+}
+#admin-title{
+	display:inline-block;
+	font-size:24px;
+	font-weight:normal;
+	margin: 10px;
+	color:#FFF;
+}
+#admin-options{
+	float:right;
+}
+
+#admin-editor{
+	position:relative;
+	float:left;
+	padding:0;
+	margin:0;
+	width:40%;
+	height:100%;	
+}
+#content{
+	display:block;
+	margin:10px;
+}
+#contentWrapper{
+	display:block;
+	float:right;
+	position:relative;
+	height: 100%;
+	width: 60%;
+	margin-top:0;
+	padding:0 0px;
+	box-shadow:none;
+	overflow: scroll;
+}
+
+#msgbox{
+}
+#deleteButton{
+}

@@ -1,0 +1,11 @@
+#loginWrapper{
+	margin: 100px auto 0 auto;
+	padding: 10px 50px 20px 50px;
+	width:250px;
+	background-color:#BBB;
+	border: 1px #444 solid;
+	box-shadow: 0 0 10px #333;
+}
+input{
+	width:150px;
+}

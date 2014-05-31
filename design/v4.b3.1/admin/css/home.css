@@ -1,0 +1,31 @@
+.pageLink{
+	color:#111;
+	text-decoration:none;
+}
+.pageLink:hover{
+	color:#111;
+	text-decoration:underline;
+}
+#newPage{
+	margin-top:30px; 
+	padding:2px;
+	font-size:12px;
+}
+#newPageWrapper{
+	margin: 30px 40px 30px 0;
+	padding:30px;
+	background-color:#AAA;
+	border: 1px #444 solid;
+	display:none;
+}
+#goPathLink{
+	margin-right:10px;
+	margin-bottom:10px;
+}
+
+.pluginfiles, .themefiles{
+	display:none;
+}
+.plugindirs, .themedirs{
+	display:block;
+}

@@ -1,0 +1,149 @@
+/* Flip tile */
+.tileFlipText{
+	z-index:0;	
+	overflow:visible;
+}
+.tileFlipText:hover{
+	box-shadow:none;
+	outline:none;
+	padding:0;
+}
+.tileFlipText>.flipContainer{
+	height:100%;
+	width:100%;
+	z-index:0;	
+}
+.tileFlipText>.flipContainer>div{
+	-webkit-transition:-webkit-transform 0.5s;
+	-moz-transition:-moz-transform 0.5s;
+	-o-transition:-o-transform 0.5s;
+	-ms-transition:-ms-transform 0.5s;
+	transition:transform 0.5s;
+}
+.tileFlipText:hover .flipContainer>div{
+	outline: 1px solid #FFF;
+	-moz-box-shadow: 0 0 10px #DDD;
+	-webkit-box-shadow: 0 0 10px #DDD;
+	box-shadow: 0 0 10px #DDD;
+}
+@-moz-document url-prefix() { /* Firefox renders outlines wrong, so fix it */
+   .tileFlipText:hover .flipContainer>div{
+		outline: none;
+		-moz-box-shadow: 0 0 10px #DDD, 0 0 1px 1px #FFF;
+		box-shadow: 0 0 10px #DDD, 0 0 1px 1px #FFF;
+	}	
+}
+.tileFlipText:hover.noClick .flipContainer>div{
+	outline: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.support3D.horizontal.tileFlipText:hover .flipBack{
+	-moz-transform: perspective(600px) rotateY(0);
+	-webkit-transform: perspective(600px) rotateY(0);
+	transform: perspective(600px) rotateY(0);
+}
+.support3D.vertical.tileFlipText:hover .flipBack{
+	-moz-transform: perspective(600px) rotateX(0);
+	-webkit-transform: perspective(600px) rotateX(0);
+	transform: perspective(600px) rotateX(0);
+}
+.support3D.horizontal.tileFlipText:hover .flipFront{
+	-webkit-transform: perspective(600px) rotateY(-179.9deg);
+	-moz-transform: perspective(600px) rotateY(-179.9deg);
+	transform: perspective(600px) rotateY(-179.9deg);
+}
+.support3D.vertical.tileFlipText:hover .flipFront{
+	-webkit-transform: perspective(600px) rotateX(-179.9deg);
+	-moz-transform: perspective(600px) rotateX(-179.9deg);
+	transform: perspective(600px) rotateX(-179.9deg);
+}
+.tileFlipText .flipFront>h3{
+	display:table-cell;
+	position: relative;
+	vertical-align: middle;
+	font-weight: 300;
+	font-size: 36px;
+	padding:0 0 8px 0;	
+	text-align: center;
+	color:#FFF;
+}
+.tileFlipText .flipFront>h3>img{
+	position: relative;
+	vertical-align: middle;
+	top:-5px;
+}
+.tileFlipText .flipFront{
+	position: absolute;
+	display:table;
+	padding:0;
+	marign:0;
+	width: 100%;
+	height: 100%;
+	overflow:hidden;
+	z-index:2;
+
+	-moz-backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+.horizontal.tileFlipText .flipFront{
+	-moz-transform: perspective(600px) rotateY(0deg);
+	-webkit-transform: perspective(600px) rotateY(0deg);
+	transform: perspective(600px) rotateY(0deg);
+}
+.vertical.tileFlipText .flipFront{
+	-moz-transform: perspective(600px) rotateX(0deg);
+	-webkit-transform: perspective(600px) rotateX(0deg);
+	transform: perspective(600px) rotateX(0deg);
+}
+.tileFlipText .flipBack{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: table;
+	color: white;
+	text-align: center;
+	z-index:0;
+	background:inherit;
+}
+.support3D.tileFlipText .flipBack{
+	-moz-backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+.support3D.horizontal.tileFlipText .flipBack{
+	-moz-transform: perspective(600px) rotateY(180deg);
+	-webkit-transform: perspective(600px) rotateY(180deg);
+	transform: perspective(600px) rotateY(180deg);
+}
+.support3D.vertical.tileFlipText .flipBack{
+	-moz-transform: perspective(600px) rotateX(180deg);
+	-webkit-transform: perspective(600px) rotateX(180deg);
+	transform: perspective(600px) rotateX(180deg);
+}
+.tileFlipText .flipBack>h5{
+	display:table-cell;
+	color:#FFF;
+	position: relative;
+	vertical-align: middle;
+	font-weight: 300;
+	font-size: 18px;
+	padding:0 0 8px 0;	
+	margin:3px;
+}
+.tileFlipText .tileLabelWrapper.top{
+	right:0;
+}
+.tileFlipText .tileLabelWrapper.bottom{
+	bottom:0;
+	right:0;
+	left:0;
+}
+@-moz-document url-prefix() {
+	.tileFlipText .tileLabelWrapper.bottom{
+	        bottom:1px;
+	}
+}
+html.safari {-webkit-font-smoothing: antialiased}

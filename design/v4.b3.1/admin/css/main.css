@@ -1,0 +1,153 @@
+/*GENERAL*/
+html{
+	background-color:#CCC;
+	font-family:  'Open Sans', Segoe UI, Tahoma,Helvetica,sans-serif;
+	font-size:13px;
+	color: #111;
+	overflow-y:scroll;
+	margin:0;padding:0;
+}
+body{
+	margin:0;padding:0;
+}
+#wrapper{
+	width: 1000px;
+	margin:0 auto 50px auto;
+	padding-top:70px;
+	position:relative;
+	z-index:0;
+}
+#headerWrapper{
+	position:absolute;
+	width:100%;
+	background-color:#333;
+	z-index:99;
+}
+#header{
+	width:1000px;
+	padding: 0 10px;
+	margin:0 auto;
+}
+#header h1{
+	display:inline-block;
+	margin-top:5px;
+}
+#header h1 a{
+	z-index:99;
+	color:#FFF;
+}
+#footer{ /*show a little footer in the rightdown corner*/
+	position:fixed;
+	bottom:5px;
+	right:5px;
+	font-size:12px;
+	font-weight:lighter;
+	z-index:-100; /* draw it behind everything */
+	text-decoration:none;
+	color:#555;	
+}
+#footer:hover{
+	text-decoration:underline;
+	color:#BBB;
+}
+#logoutLink{
+	position:relative;
+	text-decoration:none;
+	font-size:14px;
+	z-index:99;
+	color:#FFF;
+	float:right;
+	top:30px;
+}
+#logoutLink:hover{
+	color:#F90;
+}
+/* FORMS */
+button{
+	 border:1px solid #FFF;
+	 padding: 2px 5px;
+	 margin-left:5px;
+	 background-color:#509601;
+	 color: #FFF;
+}
+button:hover{
+	background-color:#0F6D32;
+	cursor:pointer;
+}
+button:active{
+	background-color:#509601;
+}
+input{
+}
+
+h1{
+	font-size:36px;
+	font-weight:500;
+	margin:25px 0 5px 0;
+}
+h2{
+	font-size:26px;
+	font-weight:500;
+	margin:15px 0 10px 0;
+}
+h3{
+	font-size:18px;
+	font-weight:600;
+	margin:20px 0 7px 0;
+}
+
+h1 a{
+	color:#222;
+	text-decoration:none;
+}
+h1 a:hover{
+	color:#222;
+	text-decoration:underline;
+}
+
+a{
+	color:#111;
+	text-decoration:underline;
+}
+a:hover{
+	color: #789600;
+}
+a:active, a:selected, a:visited, a:focus {
+ 	outline: none;
+	border:none;
+}
+/*--------------------------*/
+.messagebox{
+	width:100px;
+	margin-left:15px;
+	border:1px solid #F90;
+	background:#DDD;
+	padding:3px;
+	color:#F90;
+	margin-top: 2px;
+}
+.messageboxok{
+	width:auto;
+	margin-left:15px;
+	border:1px solid #608600;
+	background:#DDD;
+	padding:3px;
+	font-weight:bold;
+	color:#608600;
+	margin-top: 2px;
+}
+.messageboxerror{
+	width:auto;
+	margin-left:15px;
+	border:1px solid #CC0000;
+	background:#DDD;
+	padding:3px;
+	font-weight:bold;
+	color:#CC0000;
+	margin-top: 2px;
+}
+hr{
+	border:none;
+	border:none;
+	border-top:1px solid #333;
+}
