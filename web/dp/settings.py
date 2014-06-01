@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'django_extensions',
+    'rest_framework',
     'tournaments',
     'games',
 )
@@ -110,3 +111,4 @@ POINTS = {
     'classic': 2,
     'double': 2,
 }
+

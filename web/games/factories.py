@@ -11,6 +11,7 @@ class GameFactory(factory.Factory):
     name = factory.Sequence(lambda n: 'Torneo {0}'.format(n))
     tournament = factory.LazyAttribute(lambda a: TournamentFactory())
     classic = False
+    owner = factory.LazyAttribute(lambda a: PlayerFactory())
 
 class TeamFactory(factory.Factory):
     name = factory.Sequence(lambda n: 'Team {0}'.format(n))
@@ -33,7 +34,6 @@ class MatchFactory(factory.Factory):
 
 class PlayerFactory(factory.Factory):
     username = factory.Sequence(lambda n: 'Name {0}'.format(n))
-    game = factory.LazyAttribute(lambda a: GameFactory())
 
 class PlayerMatchPredictionFactory(factory.Factory):
     player = factory.LazyAttribute(lambda a: PlayerFactory())

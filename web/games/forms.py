@@ -9,7 +9,7 @@ class PlayerCreationForm(forms.ModelForm):
 
     class Meta:
         model = Player
-        fields = ('username', 'email', 'game', 'initial_points', 'is_staff')
+        fields = ('username', 'email', 'initial_points', 'is_staff')
         exclude = ('is_active', 'date_joined', 'last_login', 'age',
                   'first_name', 'last_name', 'password')
  

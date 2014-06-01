@@ -3,19 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from tournaments.models import Tournament, Team, Fixture, Match
 
-class Game(models.Model):
-    name = models.CharField(max_length = 100)
-    tournament = models.ForeignKey(Tournament)
-    classic = models.BooleanField(default = True, verbose_name = "Modo Clasico")
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Juego"
-
 class Player(User):
-    game = models.ForeignKey(Game, null = True)
     initial_points = models.IntegerField(verbose_name = 'Puntos iniciales', default = 0)
 
     def __unicode__(self):
@@ -32,13 +20,13 @@ class Player(User):
                                         local_team_goals = local_team_goals, 
                                         visitor_team_goals = visitor_team_goals)
 
-    def get_total_points(self):
-        return FixturePlayerPoints.get_player_points(self.game.id, self.id) + self.initial_points
+    def get_total_points(self, game):
+        return FixturePlayerPoints.get_player_points(game.id, self.id) + self.initial_points
 
-    def get_fixture_points(self, fixture):
+    def get_fixture_points(self, fixture, game):
         points = 0
         if fixture.is_finished:
-            points = sum([player_prediction.get_points() 
+            points = sum([player_prediction.get_points(game) 
                         for player_prediction in self.playermatchprediction_set.all() 
                         if not player_prediction.match.suspended and player_prediction.match.fixture.pk == fixture.pk])
     
@@ -53,6 +41,20 @@ class Player(User):
     class Meta:
         verbose_name = "Jugador"
         verbose_name_plural = "Jugadores"
+
+class Game(models.Model):
+    owner = models.ForeignKey(Player, related_name = 'owner_games')
+    players =  models.ManyToManyField(Player, related_name = 'games')
+    name = models.CharField(max_length = 100)
+    tournament = models.ForeignKey(Tournament)
+    classic = models.BooleanField(default = True, verbose_name = "Modo Clasico")
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Juego"
+
 
 class PlayerMatchPrediction(models.Model):
     player = models.ForeignKey(Player)
@@ -71,8 +73,8 @@ class PlayerMatchPrediction(models.Model):
         return self.match.local_team_goals == self.local_team_goals and  \
                self.match.visitor_team_goals == self.visitor_team_goals
 
-    def get_points(self):
-        if self.player.game.classic:
+    def get_points(self, game):
+        if game.classic:
             return self.get_points_classic()
         else:
             return self.get_points_dp()

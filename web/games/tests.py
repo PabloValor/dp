@@ -9,13 +9,13 @@ class TournamentTest(TestCase):
     def test_the_player_setting_fixtures_results(self):
         # Matchs
         tournament = TournamentFactory()
-#        match = MatchFactory()
-#
-#        # Player
-#        player = PlayerFactory()
-#        player.make_prediction(match.pk, 0, 0)
-#
-#        self.assertEqual(len(player.playermatchprediction_set.all()), 1)
+        match = MatchFactory()
+
+        # Player
+        player = PlayerFactory()
+        player.make_prediction(match.pk, 0, 0)
+
+        self.assertEqual(len(player.playermatchprediction_set.all()), 1)
         self.assertEqual(1, 1)
 
 class ExactPredictionTest(TestCase):
@@ -119,6 +119,7 @@ class MoralPredictionTest(TestCase):
 class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_one_correct_exact_prediction(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture)
         match_prediction = \
@@ -128,11 +129,12 @@ class DPGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_a_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(3, fixture_points)
 
     def test_player_points_from_some_exact_prediction_and_some_not(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         # Match 1
         match = MatchFactory(fixture = fixture, visitor_team_goals = 2, local_team_goals = 0)
@@ -161,11 +163,12 @@ class DPGamePlayerPointsTest(TestCase):
         self.assertFalse(match_prediction_false.is_a_exact_prediction())
         self.assertFalse(match_prediction_2_false.is_a_exact_prediction())
 
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(3, fixture_points)
 
     def test_player_points_from_one_moral_prediction(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture)
         match_prediction = \
@@ -175,11 +178,12 @@ class DPGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals + 1)
 
         self.assertTrue(match_prediction.is_a_moral_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(1, fixture_points)
 
     def test_player_points_from_some_moral_prediction_and_some_not(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         # Match 1
         match = MatchFactory(fixture = fixture, visitor_team_goals = 2, local_team_goals = 0)
@@ -215,11 +219,12 @@ class DPGamePlayerPointsTest(TestCase):
         self.assertFalse(match_prediction_2_false.is_a_moral_prediction())
         self.assertTrue(match_prediction_2_true.is_a_moral_prediction())
 
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(2, fixture_points)
 
     def test_player_points_from_moral_and_exact_predictions(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
 
         # Match 1
@@ -258,11 +263,12 @@ class DPGamePlayerPointsTest(TestCase):
                                            visitor_team_goals = match_3.visitor_team_goals,
                                            local_team_goals = match_3.local_team_goals) # points = 3
 
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(8, fixture_points)
 
     def test_player_points_from_one_correct_exact_prediction_of_a_classic_match(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture, is_classic = True)
         match_prediction = \
@@ -272,11 +278,12 @@ class DPGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_a_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(6, fixture_points)
 
     def test_player_points_from_one_correct_moral_prediction_of_a_classic_match(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture, is_classic = True)
         match_prediction = \
@@ -286,11 +293,12 @@ class DPGamePlayerPointsTest(TestCase):
                                            local_team_goals = (match.local_team_goals + 1))
 
         self.assertTrue(match_prediction.is_a_moral_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(2, fixture_points)
 
     def test_player_points_from_one_correct_exact_prediction_with_double(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture)
         match_prediction = \
@@ -301,11 +309,12 @@ class DPGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_a_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(6, fixture_points)
 
     def test_player_points_from_one_correct_moral_prediction_with_double(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture)
         match_prediction = \
@@ -316,11 +325,12 @@ class DPGamePlayerPointsTest(TestCase):
                                            local_team_goals = (match.local_team_goals + 1))
 
         self.assertTrue(match_prediction.is_a_moral_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(2, fixture_points)
 
     def test_get_player_points_from_one_correct_exact_prediction_with_double_of_a_classic_match(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture, is_classic = True)
         match_prediction = \
@@ -331,11 +341,12 @@ class DPGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_a_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(12, fixture_points)
 
     def test_player_points_from_one_correct_moral_prediction_with_double_of_a_classic_match(self):
         player = PlayerFactory()
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture, is_classic = True)
         match_prediction = \
@@ -346,11 +357,12 @@ class DPGamePlayerPointsTest(TestCase):
                                            local_team_goals = (match.local_team_goals + 1))
 
         self.assertTrue(match_prediction.is_a_moral_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(4, fixture_points)
 
     def test_player_points_with_initial_points(self):
         player = PlayerFactory(initial_points = 2)
+        game = GameFactory(owner = player)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture)
         match_prediction = \
@@ -360,14 +372,14 @@ class DPGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_a_moral_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(5, fixture_points)
 
 class ClassicGamePlayerPointsTest(TestCase):
     def test_draw_prediction_false(self):
         fixture = FixtureFactory(is_finished = True)
-        game = GameFactory(classic = True)
-        player = PlayerFactory(game = game)
+        player = PlayerFactory()
+        game = GameFactory(classic = True, owner = player)
         match = MatchFactory(fixture = fixture,
                              is_classic = True, 
                              visitor_team_goals = 0,
@@ -379,13 +391,13 @@ class ClassicGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
         self.assertFalse(player_prediction.is_a_moral_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(0, fixture_points)
 
     def test_draw_prediction_true(self):
         fixture = FixtureFactory(is_finished = True)
-        game = GameFactory(classic = True)
-        player = PlayerFactory(game = game)
+        player = PlayerFactory()
+        game = GameFactory(classic = True, owner = player)
         match = MatchFactory(fixture = fixture,
                              is_classic = True, 
                              visitor_team_goals = 0,
@@ -397,13 +409,13 @@ class ClassicGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
         self.assertTrue(player_prediction.is_a_moral_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(1, fixture_points)
 
     def test_win_prediction_true(self):
         fixture = FixtureFactory(is_finished = True)
-        game = GameFactory(classic = True)
-        player = PlayerFactory(game = game)
+        player = PlayerFactory()
+        game = GameFactory(classic = True, owner = player)
         match = MatchFactory(fixture = fixture,
                              is_classic = True, 
                              visitor_team_goals = 2,
@@ -415,13 +427,13 @@ class ClassicGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
         self.assertTrue(player_prediction.is_a_moral_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(1, fixture_points)
 
     def test_multiples_predictions(self):
         fixture = FixtureFactory(is_finished = True)
-        game = GameFactory(classic = True)
-        player = PlayerFactory(game = game)
+        player = PlayerFactory()
+        game = GameFactory(classic = True, owner = player)
         # Prediction ok
         match = MatchFactory(fixture = fixture,
                              is_classic = True, 
@@ -457,12 +469,13 @@ class ClassicGamePlayerPointsTest(TestCase):
         self.assertTrue(player_prediction.is_a_moral_prediction())
         self.assertFalse(player_prediction_1.is_a_moral_prediction())
         self.assertTrue(player_prediction_2.is_a_moral_prediction())
-        fixture_points = player.get_fixture_points(match.fixture)
+        fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(2, fixture_points)
 
     def test_fixture_points(self):
         game = GameFactory(classic = True)
-        player = PlayerFactory(game = game)
+        player = PlayerFactory()
+        game = GameFactory(classic = True, owner = player)
         fixture = FixtureFactory(is_finished = True)
         fixture_2 = FixtureFactory(tournament = fixture.tournament, is_finished = True)
         # Prediction ok
@@ -511,10 +524,10 @@ class ClassicGamePlayerPointsTest(TestCase):
                                            visitor_team_goals = 0,
                                            local_team_goals = 0)
 
-        fixture_points = player.get_fixture_points(fixture)
+        fixture_points = player.get_fixture_points(fixture, game)
         self.assertEqual(2, fixture_points)
 
-        fixture2_points = player.get_fixture_points(fixture_2)
+        fixture2_points = player.get_fixture_points(fixture_2, game)
         self.assertEqual(1, fixture2_points)
 
         fixture_points = FixturePlayerPointsFactory(fixture = fixture, 
@@ -526,7 +539,7 @@ class ClassicGamePlayerPointsTest(TestCase):
                                                     game = game,
                                                     player = player,
                                                     points = fixture2_points)
-        self.assertEqual(3, player.get_total_points())
+        self.assertEqual(3, player.get_total_points(game))
 
 
 class TournamentFixtureTest(TestCase):
