@@ -112,3 +112,7 @@ POINTS = {
     'double': 2,
 }
 
+AUTHENTICATION_BACKENDS = (
+    'games.backends.PlayerAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
