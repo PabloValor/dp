@@ -1,6 +1,6 @@
-from django.test import TestCase
 import unittest
 from datetime import datetime, timedelta
+from django.test import TestCase
 from tournaments.models import Team, Fixture, Match
 from .models import Player
 from .factories import *
@@ -562,7 +562,7 @@ class TournamentFixtureTest(TestCase):
         fixture_2 = FixtureFactory(tournament = tournament, is_finished = True)
         self.assertTrue(tournament.get_current_fixture())
 
-class FixturePredictions(TestCase):
+class FixturePredictionsTest(TestCase):
     def test_get_fixture_predictions(self):
         player = PlayerFactory()
         fixture_1 = FixtureFactory()
@@ -580,4 +580,208 @@ class FixturePredictions(TestCase):
         self.assertEqual(2, len(player.get_fixture_predictions(fixture_1)))
         self.assertFalse(player.get_fixture_predictions(fixture_2))
 
-# Create your tests here.
+# REST API
+import json
+from django.core.urlresolvers import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase
+from rest_framework.authtoken.models import Token
+from .serializers import GameSerializer
+
+class GameAPITest(APITestCase):
+    def test_get_200_OK(self):
+        player = PlayerFactory()
+        game_1 = GameFactory(owner = player)
+        game_2 = GameFactory(owner = player)
+
+        url = reverse('gameList')
+        response = self.client.get(url)
+        r_games = json.loads(response.content)
+
+        self.assertEqual(r_games[0]['name'], game_1.name)
+        self.assertEqual(r_games[1]['name'], game_2.name)
+        self.assertEqual(len(r_games), 2)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_404_NOT_FOUND(self):
+        url = reverse('gameDetail', kwargs = {'pk': 1 })
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_create_201_CREATED(self):
+        player = PlayerFactory()
+        tournament = TournamentFactory()
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameList')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_401_UNAUTHORIZED(self):
+        player = PlayerFactory()
+        tournament = TournamentFactory()
+
+        url = reverse('gameList')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk }
+
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_create_get_200_OK(self):
+        player = PlayerFactory()
+        tournament = TournamentFactory()
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Create two games
+        url = reverse('gameList')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        data = { 'name' : 'Game 2', 'tournament': tournament.pk }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # Get Games
+        response = self.client.get(url)
+        games = json.loads(response.content)
+        self.assertEqual(len(games), 2)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_update_200_OK(self):
+        game = GameFactory()
+        owner = game.owner
+
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameDetail', kwargs = {'pk': game.pk })
+
+        game.name = 'New Game'
+        serializer = GameSerializer(game)
+        response = self.client.put(url, serializer.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_update_401_UNAUTHORIZED(self):
+        game = GameFactory()
+
+        url = reverse('gameDetail', kwargs = {'pk': game.pk })
+
+        serializer = GameSerializer(game)
+        response = self.client.put(url, serializer.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_update_403_FORBIDDEN(self):
+        player = PlayerFactory()
+        game = GameFactory()
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameDetail', kwargs = {'pk': game.pk })
+
+        serializer = GameSerializer(game)
+        response = self.client.put(url, serializer.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_update_201_CREATED(self):
+        game = GameFactory()
+        owner = game.owner
+
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameDetail', kwargs = {'pk': game.pk + 1 })
+
+        serializer = GameSerializer(game)
+        response = self.client.put(url, serializer.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_update_get_200_OK(self):
+        game = GameFactory()
+        owner = game.owner
+
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameDetail', kwargs = {'pk': game.pk })
+
+        # Update
+        name = 'New Game'
+        game.name = name
+        serializer = GameSerializer(game)
+        response = self.client.put(url, serializer.data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Get
+        response = self.client.get(url)
+        game = json.loads(response.content)
+        self.assertEqual(game['name'], name)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_get_update_200_OK(self):
+        player = PlayerFactory()
+        tournament = TournamentFactory()
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Create 
+        url = reverse('gameList')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # Get
+        response = self.client.get(url)
+        games = json.loads(response.content)
+        self.assertEqual(len(games), 1)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Update
+        game = games[0]
+        url = reverse('gameDetail', kwargs = {'pk': game['id'] })
+        game['name'] = 'Game 2'
+        response = self.client.put(url, game, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_delete_200_OK(self):
+        game = GameFactory()
+        owner = game.owner
+
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameDetail', kwargs = {'pk': game.pk })
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Game.objects.all().count(), 0)
+
+    def test_delete_403_FORBIDDEN(self):
+        game = GameFactory()
+        player = PlayerFactory()
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameDetail', kwargs = {'pk': game.pk })
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_delete_401_UNAUTHORIZED(self):
+        game = GameFactory()
+
+        url = reverse('gameDetail', kwargs = {'pk': game.pk })
+
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+

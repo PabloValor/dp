@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'south',
     'django_extensions',
     'rest_framework',
+    'rest_framework.authtoken',
     'tournaments',
     'games',
 )
@@ -116,3 +117,11 @@ AUTHENTICATION_BACKENDS = (
     'games.backends.PlayerAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}

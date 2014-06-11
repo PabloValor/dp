@@ -9,7 +9,7 @@ class GameList(generics.ListCreateAPIView):
     serializer_class = GameSerializer
 
     def pre_save(self, obj):
-        obj.owner = self.request.user
+        obj.owner = self.request.user.player
 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
@@ -17,7 +17,7 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GameSerializer
 
     def pre_save(self, obj):
-        obj.owner = self.request.user
+        obj.owner = self.request.user.player
 
 class PlayerList(generics.ListAPIView):
     queryset = Player.objects.all()

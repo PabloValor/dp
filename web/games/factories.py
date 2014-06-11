@@ -33,7 +33,8 @@ class MatchFactory(factory.Factory):
     is_classic = False
 
 class PlayerFactory(factory.Factory):
-    username = factory.Sequence(lambda n: 'Name {0}'.format(n))
+    username = factory.Sequence(lambda n: 'name_{0}'.format(n))
+    password = factory.Sequence(lambda n: 'password_{0}'.format(n))
 
 class PlayerMatchPredictionFactory(factory.Factory):
     player = factory.LazyAttribute(lambda a: PlayerFactory())
