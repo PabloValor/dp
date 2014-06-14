@@ -594,6 +594,9 @@ class GameAPITest(APITestCase):
         game_1 = GameFactory(owner = player)
         game_2 = GameFactory(owner = player)
 
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
         url = reverse('gameList')
         response = self.client.get(url)
         r_games = json.loads(response.content)
@@ -604,6 +607,10 @@ class GameAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_404_NOT_FOUND(self):
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
         url = reverse('gameDetail', kwargs = {'pk': 1 })
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -785,3 +792,169 @@ class GameAPITest(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+class PlayerAPITest(APITestCase):
+    def test_create_200_OK(self): 
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nico' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Player.objects.all().count(), 1)
+
+    def test_create_username_duplicated_400_BAD_REQUEST(self): 
+        player = PlayerFactory()
+        data = { 'username': player.username,
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nico' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Player.objects.all().count(), 1)
+        self.assertTrue(response.data.has_key('username'))
+
+    def test_create_without_username_400_BAD_REQUEST(self): 
+        data = { 'username': '',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nico' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Player.objects.all().count(), 0)
+        self.assertTrue(response.data.has_key('username'))
+
+    def test_create_without_password_400_BAD_REQUEST(self): 
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': '' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Player.objects.all().count(), 0)
+        self.assertTrue(response.data.has_key('password'))
+
+    def test_create_username_duplicated_400_BAD_REQUEST(self): 
+        player = PlayerFactory()
+        data = { 'username': player.username,
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nico' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Player.objects.all().count(), 1)
+        self.assertTrue(response.data.has_key('username'))
+
+    def test_update_user_401_UNAUTHORIZED(self):
+        game = GameFactory()
+        player = PlayerFactory()
+        data = { 'games': [game.pk] }
+
+        url = reverse('playerUpdate', kwargs = { 'pk': player.pk })
+        response = self.client.put(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_update_other_user_401_UNAUTHORIZED(self):
+        player = PlayerFactory()
+        player_2 = PlayerFactory()
+
+        game = GameFactory()
+        data = { 'games': [game.pk] }
+
+        # Player authentication
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player tries to update Player 2 
+        url = reverse('playerUpdate', kwargs = { 'pk': player_2.pk })
+        response = self.client.put(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_update_user_200_OK(self):
+        player = PlayerFactory()
+        game = GameFactory()
+
+        data = { 'games': [game.pk] }
+
+        # Player authentication
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerUpdate', kwargs = { 'pk': player.pk })
+        response = self.client.put(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        player_game = Player.objects.get(pk = player.pk).games.all()[0]
+        self.assertEqual(player_game.pk, game.pk)
+
+    def test_update_user_forbidden_values_200_OK(self):
+        player = PlayerFactory()
+        game = GameFactory()
+
+        data = { 'games': [game.pk], 
+                'username': 'nico',
+                'email': 'nico@email.com'}
+
+        # Player authentication
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerUpdate', kwargs = { 'pk': player.pk })
+        response = self.client.put(url, data)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        player_db = Player.objects.get(pk = player.pk)
+        self.assertEqual(player_db.username, player.username)
+        self.assertEqual(player_db.email, player.email)
+
+
+    def test_get_list_of_players_200_OK(self): 
+        player = PlayerFactory()
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerList')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_list_of_players_401_UNAUTHORIZED(self): 
+        player = PlayerFactory()
+
+        url = reverse('playerList')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_player_200_OK(self): 
+        player = PlayerFactory()
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerDetail', kwargs = {'pk': player.pk })
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_player_401_UNAUTHORIZED(self): 
+        player = PlayerFactory()
+
+        url = reverse('playerDetail', kwargs = {'pk': player.pk })
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
