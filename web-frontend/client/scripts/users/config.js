@@ -5,5 +5,8 @@ angular.module('app.users', []).config(['$routeProvider', function($routeProvide
       })
 }]);
 
+angular.module('app.users').config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push('TokenInterceptor');
+}]);
 
 
