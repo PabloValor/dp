@@ -122,11 +122,20 @@ AUTHENTICATION_BACKENDS = (
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     )
 }
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:9000',
+)
+
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+    'WWW-Authenticate',
 )

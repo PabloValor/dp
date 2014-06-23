@@ -20,7 +20,6 @@ angular.module('app.users')
 .factory('AuthenticationService', ['$http', 'Session', function($http, Session) {
         return {
             login: function(credentials, f_success, f_error) {
-                console.log(credentials);
                 return $http.post('http://127.0.0.1:8000/api-token-auth/', credentials)
                             .success(function(response) {
                                 console.log(response)
@@ -41,7 +40,6 @@ angular.module('app.users')
                 Session.destroy();
             },
             isAuthenticated: function() {
-                console.log(Session.get('token'));
                 return !!Session.get('token');
             }
         };
@@ -53,7 +51,7 @@ angular.module('app.users')
         request: function(config) {
             config.headers = config.headers || {};
             if(!!Session.get('token')) {
-                config.headers['WWW-Authenticate'] = Session.get('token');
+                config.headers['Authorization'] = 'Token ' + Session.get('token');
             }
 
             return config;
