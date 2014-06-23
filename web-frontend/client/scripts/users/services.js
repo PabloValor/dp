@@ -17,10 +17,27 @@ angular.module('app.users')
     return this;
 }])
 
-.factory('AuthenticationService', ['$http', 'Session', function($http, Session) {
+.factory('TokenInterceptor', ['$q', 'Session', function($q, Session) {
+    return {
+        request: function(config) {
+            config.headers = config.headers || {};
+            if(!!Session.get('token')) {
+                config.headers['Authorization'] = 'Token ' + Session.get('token');
+            }
+
+            return config;
+        },
+        response: function(response) {
+            return response || $q.when(response);
+        }
+    };
+}])
+
+.factory('AuthenticationService', ['$http', 'Session', 'SETTINGS', function($http, Session, SETTINGS) {
         return {
             login: function(credentials, f_success, f_error) {
-                return $http.post('http://127.0.0.1:8000/api-token-auth/', credentials)
+                console.log(SETTINGS);
+                return $http.post(SETTINGS.url.auth(), credentials)
                             .success(function(response) {
                                 console.log(response)
                                 Session.create(response.token);
@@ -46,18 +63,16 @@ angular.module('app.users')
     }
 ])
 
-.factory('TokenInterceptor', ['$q', 'Session', function($q, Session) {
+.factory('UserService', ['$http', 'SETTINGS', function($http, SETTINGS) {
     return {
-        request: function(config) {
-            config.headers = config.headers || {};
-            if(!!Session.get('token')) {
-                config.headers['Authorization'] = 'Token ' + Session.get('token');
-            }
-
-            return config;
-        },
-        response: function(response) {
-            return response || $q.when(response);
+        create: function(user) {
+            $http.post(SETTINGS.url.player(), user)
+                .success(function(response) {
+                    console.log(response);
+                })
+                .error(function(response) {
+                    console.log(response);
+                });
         }
-    };
+    }
 }]);

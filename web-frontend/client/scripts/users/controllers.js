@@ -20,7 +20,26 @@ angular.module('app.users')
         $scope.logout = function() {
             AuthenticationService.logout();
         };
+
+    }
+])
+
+.controller('SignupController', ['$scope', '$location', 'UserService', 'AuthenticationService',
+    function($scope, $location, UserService, AuthenticationService)  {
+
+        if(AuthenticationService.isAuthenticated()) {
+            $location.path('/');
+        }
+
+        $scope.user = {
+            username: '',
+            email: '',
+            password: '' 
+        };
+
+
+        $scope.signup = function(user) {
+            UserService.create(user);
+        };
     }
 ]);
-
-

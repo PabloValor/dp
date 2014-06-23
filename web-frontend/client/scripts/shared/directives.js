@@ -29,6 +29,7 @@
               case '/pages/500':
               case '/pages/signin':
               case '/signin':
+              case '/signup':
               case '/pages/signup':
                 return $element.addClass('body-special');
               case '/pages/lock-screen':

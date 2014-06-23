@@ -71,6 +71,13 @@
         redirectTo: '/404'
       });
     }
-  ]);
+  ])
+      
+.constant('SETTINGS', {
+    url : { base: 'http://127.0.0.1:8000',
+            auth: function() { return this.base + '/api-token-auth/' },
+            player: function() { return this.base + '/games/player/' } 
+    }
+}); 
 
 }).call(this);
