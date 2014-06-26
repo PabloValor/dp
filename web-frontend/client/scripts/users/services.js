@@ -49,7 +49,7 @@ angular.module('app.users')
                                 console.log(response);
 
                                 if(!!f_error) {
-                                    f_success(response);
+                                    f_error(response);
                                 }
                             });
             },
@@ -65,13 +65,21 @@ angular.module('app.users')
 
 .factory('UserService', ['$http', 'SETTINGS', function($http, SETTINGS) {
     return {
-        create: function(user) {
+        create: function(user, f_success, f_error) {
             $http.post(SETTINGS.url.player(), user)
                 .success(function(response) {
                     console.log(response);
+
+                    if(!!f_success) {
+                        f_success(response);
+                    }
                 })
                 .error(function(response) {
                     console.log(response);
+
+                    if(!!f_error) {
+                        f_error(response);
+                    }
                 });
         }
     }

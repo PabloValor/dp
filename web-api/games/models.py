@@ -6,6 +6,10 @@ from tournaments.models import Tournament, Team, Fixture, Match
 class Player(User):
     initial_points = models.IntegerField(verbose_name = 'Puntos iniciales', default = 0)
 
+    class Meta:
+        verbose_name = "Jugador"
+        verbose_name_plural = "Jugadores"
+
     def __unicode__(self):
         return self.username
 
@@ -37,10 +41,7 @@ class Player(User):
         predictions = self.playermatchprediction_set.filter(match_id__in = match_ids)
 
         return predictions
-        
-    class Meta:
-        verbose_name = "Jugador"
-        verbose_name_plural = "Jugadores"
+
 
 class Game(models.Model):
     owner = models.ForeignKey(Player, related_name = 'owner_games')

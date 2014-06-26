@@ -23,7 +23,7 @@
                 <span class="line-thru">OR</span>
 
                 <section>
-                    <form class="form-horizontal" ng-submit="signup(user)">
+                    <form class="form-horizontal" ng-submit="signup(user)" name="form_signup" no-validate>
                         <div class="form-group">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-addon">
@@ -31,7 +31,9 @@
                                 </span>
                                 <input  type="text"
                                         class="form-control"
-                                        placeholder="User name"
+                                        placeholder="apodo"
+                                        tabindex = "1" 
+                                        required
                                         ng-model="user.username"
                                         >
                             </div>
@@ -43,7 +45,9 @@
                                 </span>
                                 <input type="email"
                                        class="form-control"
-                                       placeholder="Email"
+                                       placeholder="email"
+                                       tabindex = "2" 
+                                        required
                                        ng-model="user.email"
                                        >
                             </div>
@@ -55,23 +59,32 @@
                                 </span>
                                 <input type="password"
                                        class="form-control"
-                                       placeholder="Password"
+                                       placeholder="clave"
+                                       tabindex = "3" 
+                                       required
                                        ng-model="user.password"
                                        >
                             </div>
                         </div>
 
+                        <div class="form-group" ng-show="signupFailed">
+                            <p class="text-danger" ng-repeat="error in signupFailed.errors">{{ error[0] }}</p>
+                        </div>
+
                         <div class="form-group">
                             <p class="text-muted text-small">By clicking on Sign up, you agree to <a href="javascript:;">terms & conditions</a> and <a href="javascript:;">privacy policy</a></p>
                             <div class="divider"></div>
-                            <button type="submit" class="btn btn-primary btn-block btn-lg">Sign up</button>
+                            <button type="submit" 
+                                    tabindex = "4" 
+                                    ng-disabled="!form_signup.$valid"
+                                    class="btn btn-primary btn-block btn-lg">Crear</button>
                         </div>
  
                     </form>
                 </section>
 
                 <section>
-                    <p class="text-center text-muted">Already have an account? <a href="#/pages/signin" >Log in now</a></p>
+                    <p class="text-center text-muted">Ya tienes una cuenta? <a href="#/pages/signin" >Logueate</a></p>
                 </section>
 
             </div>

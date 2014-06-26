@@ -3,7 +3,6 @@ angular.module('app.users')
 
 .controller('LoginController', ['$scope', '$location', 'AuthenticationService', 
     function($scope, $location, AuthenticationService)  {
-
         if(AuthenticationService.isAuthenticated()) {
             $location.path('/');
         }
@@ -14,7 +13,10 @@ angular.module('app.users')
         };
 
         $scope.login = function() {
-            AuthenticationService.login($scope.credentials);
+            AuthenticationService.login($scope.credentials,
+                function(response) {
+                    $location.path('/');
+                });
         };
 
         $scope.logout = function() {
@@ -26,7 +28,6 @@ angular.module('app.users')
 
 .controller('SignupController', ['$scope', '$location', 'UserService', 'AuthenticationService',
     function($scope, $location, UserService, AuthenticationService)  {
-
         if(AuthenticationService.isAuthenticated()) {
             $location.path('/');
         }
@@ -37,9 +38,16 @@ angular.module('app.users')
             password: '' 
         };
 
-
         $scope.signup = function(user) {
-            UserService.create(user);
+            $scope.signupFailed = {};
+            UserService.create(user, 
+                function(response) {
+                    $location.path('/signin');
+                },
+                function(errors) {
+                    // See different kinds of errors
+                    $scope.signupFailed = { errors : errors };
+                });
         };
     }
 ]);

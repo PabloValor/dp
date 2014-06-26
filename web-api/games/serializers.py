@@ -19,7 +19,17 @@ class PlayerSerializer(serializers.ModelSerializer):
 class PlayerCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
+        write_only_fields = ('password',) 
         fields = ('username', 'email', 'password')
+
+    def validate_email(self, attrs, source):
+        if not attrs['email']:
+            raise serializers.ValidationError('The email field is required.')
+        else:
+            if Player.objects.filter(email = attrs[source]).exists():
+                raise serializers.ValidationError('There is a user with the same email.')
+
+        return attrs
 
     def restore_object(self, attrs, instance = None):
         # Retrieves
