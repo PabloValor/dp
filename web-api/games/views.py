@@ -10,7 +10,7 @@ class GameList(generics.ListCreateAPIView):
     serializer_class = GameSerializer
 
     def pre_save(self, obj):
-        obj.owner = self.request.user.player
+        obj.owner = self.request.user
 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
@@ -18,7 +18,7 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GameSerializer
 
     def pre_save(self, obj):
-        obj.owner = self.request.user.player
+        obj.owner = self.request.user
 
 class PlayerList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -52,7 +52,6 @@ def auth_by_token(request, backend):
         user=user.is_authenticated() and user or None
         )
 
-    import ipdb; ipdb.set_trace()
     if user and user.is_active:
         return user
     else:
@@ -71,7 +70,6 @@ def social_register(request):
             return Response(str(err), status=400)
         if user:
             strategy = load_strategy(request=request, backend=backend)
-            import ipdb; ipdb.set_trace()
             _do_login(strategy, user, user.social_user)
             return Response( "User logged in", status=status.HTTP_200_OK )
         else:

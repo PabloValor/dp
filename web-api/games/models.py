@@ -1,20 +1,10 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 from tournaments.models import Tournament, Team, Fixture, Match
 
-class Player(AbstractBaseUser):
+class Player(AbstractUser):
     initial_points = models.IntegerField(verbose_name = 'Puntos iniciales', default = 0)
-
-    username = models.CharField(max_length=254, unique=True)
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
-    email = models.EmailField(blank=True)
-    synergy_level = models.IntegerField()
-    is_team_player = models.BooleanField(default=False)
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'synergy_level']
 
     class Meta:
         verbose_name = "Jugador"
@@ -54,8 +44,8 @@ class Player(AbstractBaseUser):
 
 
 class Game(models.Model):
-    owner = models.ForeignKey(Player, related_name = 'owner_games')
-    players =  models.ManyToManyField(Player, related_name = 'games')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = 'owner_games')
+    players =  models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'games')
     name = models.CharField(max_length = 100)
     tournament = models.ForeignKey(Tournament)
     classic = models.BooleanField(default = True, verbose_name = "Modo Clasico")
@@ -68,7 +58,7 @@ class Game(models.Model):
 
 
 class PlayerMatchPrediction(models.Model):
-    player = models.ForeignKey(Player)
+    player = models.ForeignKey(settings.AUTH_USER_MODEL)
     match = models.ForeignKey(Match)
     local_team_goals = models.PositiveIntegerField()
     visitor_team_goals = models.PositiveIntegerField()
@@ -118,7 +108,7 @@ class PlayerMatchPrediction(models.Model):
 
 class FixturePlayerPoints(models.Model):
     fixture = models.ForeignKey(Fixture)
-    player = models.ForeignKey(Player)
+    player = models.ForeignKey(settings.AUTH_USER_MODEL)
     game = models.ForeignKey(Game) # For simplest queries 
     points = models.IntegerField(verbose_name = 'Puntos')
 

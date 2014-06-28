@@ -5,8 +5,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        return obj.owner == request.user.player
+        return obj.owner == request.user
 
 class IsSameUser(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return request.method == 'PUT' and  obj == request.user.player
+        return request.method == 'PUT' and  obj == request.user

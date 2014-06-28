@@ -6,24 +6,68 @@ from django.db import models
 
 
 class Migration(SchemaMigration):
+    needed_by = (
+        ('authtoken', '0001_initial'),
+    )
+
+    depends_on = (
+        ('tournaments', '0001_initial'),
+    )
 
     def forwards(self, orm):
+        # Adding model 'Player'
+        db.create_table(u'games_player', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('password', self.gf('django.db.models.fields.CharField')(max_length=128)),
+            ('last_login', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('is_superuser', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('username', self.gf('django.db.models.fields.CharField')(unique=True, max_length=30)),
+            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
+            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=30, blank=True)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, blank=True)),
+            ('is_staff', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('is_active', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('date_joined', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('initial_points', self.gf('django.db.models.fields.IntegerField')(default=0)),
+        ))
+        db.send_create_signal(u'games', ['Player'])
+
+        # Adding M2M table for field groups on 'Player'
+        m2m_table_name = db.shorten_name(u'games_player_groups')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('player', models.ForeignKey(orm[u'games.player'], null=False)),
+            ('group', models.ForeignKey(orm[u'auth.group'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['player_id', 'group_id'])
+
+        # Adding M2M table for field user_permissions on 'Player'
+        m2m_table_name = db.shorten_name(u'games_player_user_permissions')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('player', models.ForeignKey(orm[u'games.player'], null=False)),
+            ('permission', models.ForeignKey(orm[u'auth.permission'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['player_id', 'permission_id'])
+
         # Adding model 'Game'
         db.create_table(u'games_game', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('owner', self.gf('django.db.models.fields.related.ForeignKey')(related_name='owner_games', to=orm['games.Player'])),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('tournament', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['tournaments.Tournament'])),
             ('classic', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
         db.send_create_signal(u'games', ['Game'])
 
-        # Adding model 'Player'
-        db.create_table(u'games_player', (
-            (u'user_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True, primary_key=True)),
-            ('game', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['games.Game'], null=True)),
-            ('initial_points', self.gf('django.db.models.fields.IntegerField')(default=0)),
+        # Adding M2M table for field players on 'Game'
+        m2m_table_name = db.shorten_name(u'games_game_players')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('game', models.ForeignKey(orm[u'games.game'], null=False)),
+            ('player', models.ForeignKey(orm[u'games.player'], null=False))
         ))
-        db.send_create_signal(u'games', ['Player'])
+        db.create_unique(m2m_table_name, ['game_id', 'player_id'])
 
         # Adding model 'PlayerMatchPrediction'
         db.create_table(u'games_playermatchprediction', (
@@ -48,11 +92,20 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
+        # Deleting model 'Player'
+        db.delete_table(u'games_player')
+
+        # Removing M2M table for field groups on 'Player'
+        db.delete_table(db.shorten_name(u'games_player_groups'))
+
+        # Removing M2M table for field user_permissions on 'Player'
+        db.delete_table(db.shorten_name(u'games_player_user_permissions'))
+
         # Deleting model 'Game'
         db.delete_table(u'games_game')
 
-        # Deleting model 'Player'
-        db.delete_table(u'games_player')
+        # Removing M2M table for field players on 'Game'
+        db.delete_table(db.shorten_name(u'games_game_players'))
 
         # Deleting model 'PlayerMatchPrediction'
         db.delete_table(u'games_playermatchprediction')
@@ -75,22 +128,6 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        u'auth.user': {
-            'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
             'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
@@ -111,13 +148,26 @@ class Migration(SchemaMigration):
             'classic': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'owner': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'owner_games'", 'to': u"orm['games.Player']"}),
+            'players': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'games'", 'symmetrical': 'False', 'to': u"orm['games.Player']"}),
             'tournament': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tournaments.Tournament']"})
         },
         u'games.player': {
-            'Meta': {'object_name': 'Player', '_ormbases': [u'auth.User']},
-            'game': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['games.Game']", 'null': 'True'}),
+            'Meta': {'object_name': 'Player'},
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'initial_points': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            u'user_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True', 'primary_key': 'True'})
+            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
+            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
         u'games.playermatchprediction': {
             'Meta': {'object_name': 'PlayerMatchPrediction'},
@@ -138,7 +188,7 @@ class Migration(SchemaMigration):
         },
         u'tournaments.match': {
             'Meta': {'object_name': 'Match'},
-            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 5, 24, 0, 0)'}),
+            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2014, 6, 28, 0, 0)'}),
             'fixture': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tournaments.Fixture']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_classic': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
