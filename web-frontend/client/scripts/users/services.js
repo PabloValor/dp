@@ -53,7 +53,7 @@ angular.module('app.users')
                             });
             },
             login_social: function(token, backend, f_success, f_error) {
-                return $http.post(SETTINGS.url.social_auth(), 
+                return $http.post(SETTINGS.url.social_auth(backend), 
                                   { "access_token": token, "backend": backend })
 
                             .success(function(response) {

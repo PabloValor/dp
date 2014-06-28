@@ -38,29 +38,16 @@ class PlayerUpdate(generics.UpdateAPIView):
     queryset = Player.objects.all()
     serializer_class = PlayerUpdateSerializer
 
-from rest_framework.decorators import api_view, permission_classes
-from django.views.decorators.csrf import csrf_exempt
-from social.apps.django_app.utils import strategy, load_strategy 
-from social.apps.django_app.views import _do_login
+from rest_framework.decorators import api_view
+from social.apps.django_app.utils import strategy
 
 @strategy()
-def auth_by_token(request, backend):
-    user = request.strategy.backend.do_auth(access_token=request.DATA.get('access_token'))
-
-    if user and user.is_active:
-        return user
-    else:
-        return None
-        
-@csrf_exempt
 @api_view(['POST'])
-@permission_classes((permissions.AllowAny,))
-def social_register(request):
+def social_register(request, backend):
     auth_token = request.DATA.get('access_token', None)
-    backend = request.DATA.get('backend', None)
-    if auth_token and backend:
+    if auth_token:
         try:
-            user = auth_by_token(request, backend)
+            user = request.strategy.backend.do_auth(access_token=auth_token)
         except Exception, err:
             return Response(str(err), status=400)
 
@@ -70,3 +57,4 @@ def social_register(request):
             return Response("Bad Credentials", status=403)
     else:
         return Response("Bad request", status=400)
+
