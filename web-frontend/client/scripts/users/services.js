@@ -36,7 +36,6 @@ angular.module('app.users')
 .factory('AuthenticationService', ['$http', 'Session', 'SETTINGS', function($http, Session, SETTINGS) {
         return {
             login: function(credentials, f_success, f_error) {
-                console.log(SETTINGS);
                 return $http.post(SETTINGS.url.auth(), credentials)
                             .success(function(response) {
                                 console.log(response)
@@ -44,6 +43,25 @@ angular.module('app.users')
                                 if(!!f_success) {
                                     f_success(response);
                                 }
+                            })
+                            .error(function(response) {
+                                console.log(response);
+
+                                if(!!f_error) {
+                                    f_error(response);
+                                }
+                            });
+            },
+            login_social: function(token, backend, f_success, f_error) {
+                return $http.post(SETTINGS.url.social_auth(), 
+                                  { "access_token": token, "backend": backend })
+
+                            .success(function(response) {
+                                        Session.create(response.token);
+
+                                        if(!!f_success) {
+                                            f_success(response);
+                                        }
                             })
                             .error(function(response) {
                                 console.log(response);
@@ -85,48 +103,24 @@ angular.module('app.users')
     }
 }])
 
-.factory('Facebook',['$q', '$window', '$rootScope', 
-    function($q, $window, $rootScope) {
-	var resolve = function(errval, retval, deferred) {
-          $rootScope.$apply(function() {
-	        if (errval) {
-		    deferred.reject(errval);
-	        } else {
-		    retval.connected = true;
-	            deferred.resolve(retval);
-	        }
-	    });
-        }
-
-	var _login = function(){
-	    var deferred = $q.defer();
-            //first check if we already have logged in
-	    FB.getLoginStatus(function(response) {
-                console.log(response);
-	        if (response.status === 'connected') {
-	            // the user is logged in and has authenticated your
-		    // app
-		    console.log("fb user already logged in");
-		    deferred.resolve(response);
-		} else {
-		    // the user is logged in to Facebook, 
-		    // but has not authenticated your app
-		    FB.login(function(response){
-		        if(response.authResponse){
-			    console.log("fb user logged in");
-			    resolve(null, response, deferred);
-			}else{
-			    console.log("fb user could not log in");
-			    resolve(response.error, null, deferred);
-			}
-		    });
-		 }
-	     });
-			
-	     return deferred.promise;
-	}
-
-	return{
-		login: _login,
+.factory('Facebook',['$q', '$window', '$rootScope', 'AuthenticationService',
+    function($q, $window, $rootScope, AuthenticationService) {
+	return {
+		login: function(f_success, f_error) {
+                    FB.getLoginStatus(function(response) {
+                        if (response.status === 'connected') {
+                            console.log('connected');
+                            AuthenticationService.login_social(response.authResponse.accessToken, "facebook", f_success, f_error);
+                        } else {
+                            FB.login(function(response) {
+                                if(response.authResponse) {
+                                    AuthenticationService.login_social(response.authResponse.accessToken, "facebook", f_success, f_error);
+                                } else {
+                                    console.log('impossible to connect');
+                                }
+                            }, { scope: ['public_profile', 'email', 'user_friends']});
+                        }
+                    });
+                }
 	};
 }]);

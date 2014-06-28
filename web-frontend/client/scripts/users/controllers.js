@@ -20,18 +20,11 @@ angular.module('app.users')
         };
 
         $scope.login_fb = function() {
-            Facebook.login().then(function(response) {
-                console.log("posteando");
-                $http.post(SETTINGS.url.social_auth(), 
-                    { "access_token": response.authResponse.accessToken, 
-                      "backend": "facebook" })
-                    .success(function(response) {
-                        console.log(response);
-                    })
-                    .error(function(response) {
-                        console.log(response);
-                    });
-            });
+            Facebook.login(
+                function(response) { 
+                    $location.path('/');
+                }, 
+                function(response) { console.log(response); });
         };
 
         $scope.logout = function() {
