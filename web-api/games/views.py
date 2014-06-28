@@ -45,12 +45,7 @@ from social.apps.django_app.views import _do_login
 
 @strategy()
 def auth_by_token(request, backend):
-    backend = request.strategy.backend
-    user=request.user
-    user = backend.do_auth(
-        access_token=request.DATA.get('access_token'),
-        user=user.is_authenticated() and user or None
-        )
+    user = request.strategy.backend.do_auth(access_token=request.DATA.get('access_token'))
 
     if user and user.is_active:
         return user
@@ -68,9 +63,8 @@ def social_register(request):
             user = auth_by_token(request, backend)
         except Exception, err:
             return Response(str(err), status=400)
+
         if user:
-            strategy = load_strategy(request=request, backend=backend)
-            _do_login(strategy, user, user.social_user)
             return Response({ 'token': user.auth_token.key },  status=status.HTTP_200_OK )
         else:
             return Response("Bad Credentials", status=403)
