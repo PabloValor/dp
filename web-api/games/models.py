@@ -1,10 +1,20 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser
 from tournaments.models import Tournament, Team, Fixture, Match
 
-class Player(User):
+class Player(AbstractBaseUser):
     initial_points = models.IntegerField(verbose_name = 'Puntos iniciales', default = 0)
+
+    username = models.CharField(max_length=254, unique=True)
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(blank=True)
+    synergy_level = models.IntegerField()
+    is_team_player = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email', 'synergy_level']
 
     class Meta:
         verbose_name = "Jugador"

@@ -1,8 +1,8 @@
 'use strict';
 angular.module('app.users')
 
-.controller('LoginController', ['$scope', '$location', 'AuthenticationService', 
-    function($scope, $location, AuthenticationService)  {
+.controller('LoginController', ['$scope', '$location', '$http', 'AuthenticationService', 'Facebook', 'SETTINGS',
+    function($scope, $location, $http, AuthenticationService, Facebook, SETTINGS)  {
         if(AuthenticationService.isAuthenticated()) {
             $location.path('/');
         }
@@ -17,6 +17,21 @@ angular.module('app.users')
                 function(response) {
                     $location.path('/');
                 });
+        };
+
+        $scope.login_fb = function() {
+            Facebook.login().then(function(response) {
+                console.log("posteando");
+                $http.post(SETTINGS.url.social_auth(), 
+                    { "access_token": response.authResponse.accessToken, 
+                      "backend": "facebook" })
+                    .success(function(response) {
+                        console.log(response);
+                    })
+                    .error(function(response) {
+                        console.log(response);
+                    });
+            });
         };
 
         $scope.logout = function() {

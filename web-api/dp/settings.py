@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'social.apps.django_app.default',
     'south',
     'django_extensions',
     'rest_framework',
@@ -116,6 +117,8 @@ POINTS = {
 }
 
 AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookAppOAuth2',
+    'social.backends.facebook.FacebookOAuth2',
     'games.backends.PlayerAuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -139,3 +142,9 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'WWW-Authenticate',
 )
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1480234775555747'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'ab0980264107f9856823e3650a1871da'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+AUTH_USER_MODEL = 'games.models.Player'
