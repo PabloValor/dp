@@ -7,21 +7,20 @@ from .models import (
         Game, Player, PlayerMatchPrediction, FixturePlayerPoints,
 )
 
-class PlayerInline(admin.StackedInline):
-    model = Player
         
-class GameAdmin(admin.ModelAdmin):
-    inlines = (PlayerInline,)
+class GameInline(admin.StackedInline):
+    model = Game
 
 class FixturePlayerPointsAdmin(admin.ModelAdmin):
     model = FixturePlayerPoints
 
 class PlayerAdmin(admin.ModelAdmin):
+    inlines = (GameInline,)
     model = Player
     form = PlayerCreationForm
 
 
-admin.site.register(Game, GameAdmin)
+admin.site.register(Game)
 admin.site.register(PlayerMatchPrediction)
 admin.site.register(FixturePlayerPoints, FixturePlayerPointsAdmin)
 admin.site.register(Player, PlayerAdmin)

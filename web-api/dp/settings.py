@@ -66,7 +66,7 @@ WSGI_APPLICATION = 'dp.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 import dj_database_url
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://dp:dp@localhost:5432/dp')
+    'default': dj_database_url.config(default='postgres://dp:dp@localhost:5433/dp')
 }
 
 # Internationalization
