@@ -48,10 +48,13 @@ class Player(AbstractUser):
 
 class Game(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = 'owner_games')
-    players =  models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'games')
+    players =  models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'games',through = 'GamePlayer')
     name = models.CharField(max_length = 100)
     tournament = models.ForeignKey(Tournament)
     classic = models.BooleanField(default = True, verbose_name = "Modo Clasico")
+
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
 
     def __unicode__(self):
         return self.name
@@ -59,6 +62,16 @@ class Game(models.Model):
     class Meta:
         verbose_name = "Juego"
 
+class GamePlayer(models.Model):
+    player = models.ForeignKey(settings.AUTH_USER_MODEL)
+    game = models.ForeignKey(Game)
+    player_invitation_status = models.NullBooleanField()
+
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
+    def __unicode__(self):
+        return self.player
 
 class PlayerMatchPrediction(models.Model):
     player = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -66,6 +79,9 @@ class PlayerMatchPrediction(models.Model):
     local_team_goals = models.PositiveIntegerField()
     visitor_team_goals = models.PositiveIntegerField()
     is_double = models.BooleanField(verbose_name = "Doble", default = False)
+
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
 
     def is_a_moral_prediction(self):
         prediction_local_team_had_won = self.__class__.has_local_team_won(self.local_team_goals, self.visitor_team_goals)

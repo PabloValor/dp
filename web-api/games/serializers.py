@@ -1,16 +1,25 @@
 from rest_framework import serializers
-from .models import Game, Player
+from .models import Game, Player, GamePlayer
+
+class GamePlayerSerializer(serializers.ModelSerializer):
+    id = serializers.Field(source = 'player.id')
+
+    class Meta:
+        model = GamePlayer
+        fields = ('player', )
 
 class GameSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source = 'owner.username')
+    gameplayers =  GamePlayerSerializer(source="gameplayer_set", many = True)
 
     class Meta:
         model = Game
-        fields  = ('id', 'owner', 'name', 'tournament', 'players')
+        fields  = ('id', 'owner', 'name', 'tournament', 'gameplayers')
 
 class PlayerSerializer(serializers.ModelSerializer):
 #    games = serializers.PrimaryKeyRelatedField(many = True)
 #    owner_games = serializers.PrimaryKeyRelatedField(many = True)
+#    GamePlayerSerializer.base_fields['player'] = PlayerSerializer()
 
     class Meta:
         model = Player

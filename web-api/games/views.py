@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from .models import Game, Player
+from .models import Game, Player, GamePlayer
 from .serializers import GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer
 from .permissions import IsOwnerOrReadOnly, IsSameUser
 
@@ -14,7 +14,8 @@ class GameList(generics.ListCreateAPIView):
 
     def post_save(self, obj, created=False):
         if not obj.players.filter(id = obj.owner.id).exists():
-            obj.players.add(obj.owner)
+            game_player = GamePlayer.objects.create(player = obj.owner, game = obj, player_invitation_status = True)
+            game_player.save()
 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
