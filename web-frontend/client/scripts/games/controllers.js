@@ -7,8 +7,8 @@ angular.module('app.games')
     }
 ])
 
-.controller('NewGameController', ['$scope', 'TournamentService', 'GameService', 'Facebook', 'UserService',
-    function($scope, TournamentService, GameService, Facebook, UserService)  {
+.controller('NewGameController', ['$scope', '$location', 'TournamentService', 'GameService', 'Facebook', 'UserService', 'Data',
+    function($scope, $location, TournamentService, GameService, Facebook, UserService, Data)  {
         TournamentService.all(function(tournaments) {
             $scope.tournaments = tournaments;
         });
@@ -47,15 +47,27 @@ angular.module('app.games')
 
         $scope.newGame = function() {
             var friends = $scope.friends.filter(function(item) { return item.checked });
-            var gameplayers = friends.map(function(item) { return { 'player': item.id } });
+            var gameplayers = friends.map(function(item) { return { 'player': item.id, 'username': item.username } });
+            var game = {'name' : $scope.game.name, 'tournament': $scope.game.tournament.id, 'gameplayers': gameplayers};
 
-            GameService.new({'name' : $scope.game.name, 'tournament': $scope.game.tournament.id, 'gameplayers': gameplayers},
-                function() {
+            GameService.new(game,
+                function(game) {
                     console.log("creado con exito");
+                    Data.currentGame = game;
+                    Data.currentGame.new = true;
+                    $location.path('/torneo/' + game.id);
                 },
                 function() {
                     console.log("hubo un error");
                 });
         };
+    }
+])
+
+.controller('DetailGameController', ['$scope', '$routeParams', 'GameService', 'Data',
+    function($scope, $routeParams, GameService, Data)  {
+        console.log($routeParams.gameId);
+        console.log(Data);
+        $scope.game = Data.currentGame;
     }
 ]);

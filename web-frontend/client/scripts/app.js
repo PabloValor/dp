@@ -78,6 +78,8 @@
     }
 }) 
 
+.factory('Data', function () { return { }; })
+
 .run(function ($rootScope, $location, AuthenticationService) {
     $rootScope.$on("$routeChangeStart", function(event, next, current){
         if (next.authenticate && !AuthenticationService.isAuthenticated()){

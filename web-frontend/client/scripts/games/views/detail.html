@@ -1,0 +1,34 @@
+<section class="page" ng-controller="DetailGameController">
+    <div class="col-md-6">
+        <section class="panel panel-default">
+            <div class="panel-heading"><strong><span class="flaticon-football7"></span> <span data-i18n="Torneo"></span></strong></div>
+            <div class="panel-body game-details">
+                    <div class="form-group game-header">
+                        <i class="flaticon-big55"></i>
+                        <span>{{ game.name }}</span>
+                    </div>
+
+                    <div class="form-group game-header">
+                        <i class="flaticon-soccer64"></i>
+                        <span>{{ game.tournament_name }}</span>
+                    </div>
+
+                    <div class="form-group game-header">
+                        <i class="flaticon-soccer51"></i>
+                        <span>Jugadores</span>
+                    </div>
+
+                    <div class="form-group game-players" ng-repeat="player in game.gameplayers" >
+                        <i class="flaticon-tshirt19"></i>
+                            <span>{{ player.username }}</span>
+                    </div>
+
+                    <accordion  class="ui-accordion">
+                        <accordion-group heading="Reglas">
+                            This content is straight in the template.
+                        </accordion-group>
+                    </accordion>
+            </div>
+        </section>
+    </div>
+</section>

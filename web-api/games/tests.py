@@ -803,7 +803,7 @@ class GameAPITest(APITestCase):
 
         # Create 
         url = reverse('gameList')
-        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id}] }
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id, 'username': player.username}] }
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(Game.objects.count(), 1)

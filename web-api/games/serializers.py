@@ -3,18 +3,21 @@ from .models import Game, Player, GamePlayer
 
 class GamePlayerSerializer(serializers.ModelSerializer):
     id = serializers.Field(source = 'player.id')
+    username = serializers.Field(source = 'player.username')
 
     class Meta:
         model = GamePlayer
-        fields = ('player', )
+        fields = ('player', 'username',)
 
 class GameSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source = 'owner.username')
+    tournament_name = serializers.Field(source = 'tournament.name')
+
     gameplayers =  GamePlayerSerializer(source="gameplayer_set", many = True)
 
     class Meta:
         model = Game
-        fields  = ('id', 'owner', 'name', 'tournament', 'gameplayers')
+        fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 'gameplayers')
 
 class PlayerSerializer(serializers.ModelSerializer):
 #    games = serializers.PrimaryKeyRelatedField(many = True)

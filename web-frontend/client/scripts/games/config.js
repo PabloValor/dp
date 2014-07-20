@@ -6,6 +6,9 @@ angular.module('app.games', [])
             .when('/games', { templateUrl: 'scripts/games/views/all.html' })
             .when('/torneos', { templateUrl: 'scripts/games/views/all.html' })
 
+            .when('/game/:gameId', { templateUrl: 'scripts/games/views/detail.html' })
+            .when('/torneo/:gameId', { templateUrl: 'scripts/games/views/detail.html' })
+
             .when('/games/create', { templateUrl: 'scripts/games/views/all.html' })
             .when('/torneos/nuevo', { templateUrl: 'scripts/games/views/new.html' })
 }])

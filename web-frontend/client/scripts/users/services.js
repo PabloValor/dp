@@ -40,7 +40,7 @@ angular.module('app.users')
                             .success(function(response) {
                                 console.log(response)
                                 Session.create('token', response.token);
-                                Session.create('id', response.id);
+                                Session.create('username', credentials.username);
                                 if(!!f_success) {
                                     f_success(response);
                                 }
@@ -104,7 +104,7 @@ angular.module('app.users')
                 });
         }, 
         getFriends: function(f_success, f_error) {
-            $http.get(SETTINGS.url.playerFriends(Session.get('id')))
+            $http.get(SETTINGS.url.playerFriends())
                 .success(function(response) {
                     console.log(response);
 
