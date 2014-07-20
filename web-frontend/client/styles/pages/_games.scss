@@ -1,0 +1,58 @@
+.game-details {
+    .game-header span {
+        font-size: 35px;
+        margin-left: 10px;
+    }
+
+    i:before {
+        font-size: 40px;
+    }
+
+    .game-players {
+        margin-left: 20px;
+        line-height: 10px;
+
+        i:before {
+            font-size: 25px;
+        }
+    }
+
+    .email-players {
+        margin-left: 20px;
+        line-height: 10px;
+
+        i:before {
+            font-size: 15px;
+        }
+
+        span {
+            margin-left: 3px;
+        }
+    }
+
+    .facebook-players {
+        margin-left: 15px;
+        line-height: 10px;
+
+        .bg-facebook {
+            background-color: #767676;
+            color: white;
+        }
+
+        .btn-icon-round-sm {
+            height: 20px;
+            line-height: 20px;
+            width: 20px;
+        }
+
+        i:before {
+            font-size: 14px;
+        }
+
+        span {
+            margin-left: 3px;
+        }
+    }
+}
+
+

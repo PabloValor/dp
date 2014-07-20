@@ -637,12 +637,12 @@ cite {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003605}}
 .text-primary {
-  color: #1c7ebb;
+  color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003608}}
 a.text-primary:hover {
-  color: #15608f;
+  color: #1a8468;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003605}}
@@ -692,12 +692,12 @@ a.text-danger:hover {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003593}}
 .bg-primary {
-  background-color: #1c7ebb;
+  background-color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003596}}
 a.bg-primary:hover {
-  background-color: #15608f;
+  background-color: #1a8468;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003593}}
@@ -843,7 +843,7 @@ blockquote {
   padding: 10px 20px;
   margin: 0 0 20px;
   font-size: 17.5px;
-  border-left: 5px solid #1c7ebb;
+  border-left: 5px solid #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_type\.scss}line{font-family:\00003230}}
 blockquote p:last-child,
@@ -872,7 +872,7 @@ blockquote .small:before {
 blockquote.pull-right {
   padding-right: 15px;
   padding-left: 0;
-  border-right: 5px solid #1c7ebb;
+  border-right: 5px solid #23ae89;
   border-left: 0;
   text-align: right;
 }
@@ -3182,20 +3182,20 @@ select[multiple].input-lg,
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_buttons\.scss}line{font-family:\0000360}}
 .btn-primary {
   color: white;
-  background-color: #1c7ebb;
-  border-color: #196fa5;
+  background-color: #23ae89;
+  border-color: #1f9978;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003508}}
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
   color: white;
-  background-color: #176698;
-  border-color: #114b70;
+  background-color: #1c8c6e;
+  border-color: #146650;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003513}}
 .open .btn-primary.dropdown-toggle {
   color: white;
-  background-color: #176698;
-  border-color: #114b70;
+  background-color: #1c8c6e;
+  border-color: #146650;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003519}}
 .btn-primary:active, .btn-primary.active {
@@ -3207,12 +3207,12 @@ select[multiple].input-lg,
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003532}}
 .btn-primary.disabled, .btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled.active, .btn-primary[disabled], .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled]:active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary.active {
-  background-color: #1c7ebb;
-  border-color: #196fa5;
+  background-color: #23ae89;
+  border-color: #1f9978;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003538}}
 .btn-primary .badge {
-  color: #1c7ebb;
+  color: #23ae89;
   background-color: white;
 }
 
@@ -4555,7 +4555,7 @@ input[type="button"].btn-block {
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
   text-decoration: none;
   color: white;
-  background-color: #1c7ebb;
+  background-color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_dropdowns\.scss}line{font-family:\0000387}}
@@ -4563,7 +4563,7 @@ input[type="button"].btn-block {
   color: white;
   text-decoration: none;
   outline: 0;
-  background-color: #1c7ebb;
+  background-color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_dropdowns\.scss}line{font-family:\00003102}}
@@ -5136,7 +5136,7 @@ input[type="button"].btn-block {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_navs\.scss}line{font-family:\00003133}}
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
   color: white;
-  background-color: #1c7ebb;
+  background-color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_navs\.scss}line{font-family:\00003144}}
@@ -5830,8 +5830,8 @@ input[type="button"].btn-block {
 .pagination > li > span:hover,
 .pagination > li > span:focus {
   color: white;
-  background-color: #1c7ebb;
-  border-color: #1c7ebb;
+  background-color: #23ae89;
+  border-color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_pagination\.scss}line{font-family:\0000353}}
 .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus,
@@ -5840,8 +5840,8 @@ input[type="button"].btn-block {
 .pagination > .active > span:focus {
   z-index: 2;
   color: white;
-  background-color: #1c7ebb;
-  border-color: #1c7ebb;
+  background-color: #23ae89;
+  border-color: #23ae89;
   cursor: default;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_pagination\.scss}line{font-family:\0000368}}
@@ -5928,7 +5928,7 @@ input[type="button"].btn-block {
 .pager li > a:hover,
 .pager li > a:focus {
   text-decoration: none;
-  background-color: #1c7ebb;
+  background-color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_pager\.scss}line{font-family:\0000332}}
 .pager .next > a,
@@ -5990,11 +5990,11 @@ input[type="button"].btn-block {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_labels\.scss}line{font-family:\0000346}}
 .label-primary {
-  background-color: #1c7ebb;
+  background-color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003583}}
 .label-primary[href]:hover, .label-primary[href]:focus {
-  background-color: #15608f;
+  background-color: #1a8468;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_labels\.scss}line{font-family:\0000350}}
@@ -6302,7 +6302,7 @@ a.thumbnail.active {
   line-height: 20px;
   color: white;
   text-align: center;
-  background-color: #1c7ebb;
+  background-color: #23ae89;
   -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   -webkit-transition: width 0.6s ease;
@@ -6457,8 +6457,8 @@ a.list-group-item:hover, a.list-group-item:focus {
 a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.active:focus {
   z-index: 2;
   color: white;
-  background-color: #1c7ebb;
-  border-color: #1c7ebb;
+  background-color: #23ae89;
+  border-color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_list-group\.scss}line{font-family:\0000378}}
 a.list-group-item.active .list-group-item-heading, a.list-group-item.active:hover .list-group-item-heading, a.list-group-item.active:focus .list-group-item-heading {
@@ -6466,7 +6466,7 @@ a.list-group-item.active .list-group-item-heading, a.list-group-item.active:hove
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_list-group\.scss}line{font-family:\0000381}}
 a.list-group-item.active .list-group-item-text, a.list-group-item.active:hover .list-group-item-text, a.list-group-item.active:focus .list-group-item-text {
-  color: #b0d9f3;
+  color: #aeefde;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003469}}
@@ -6855,21 +6855,21 @@ a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-g
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_panels\.scss}line{font-family:\00003227}}
 .panel-primary {
-  border-color: #1c7ebb;
+  border-color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003407}}
 .panel-primary > .panel-heading {
   color: white;
-  background-color: #1c7ebb;
-  border-color: #1c7ebb;
+  background-color: #23ae89;
+  border-color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003412}}
 .panel-primary > .panel-heading + .panel-collapse .panel-body {
-  border-top-color: #1c7ebb;
+  border-top-color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003417}}
 .panel-primary > .panel-footer + .panel-collapse .panel-body {
-  border-bottom-color: #1c7ebb;
+  border-bottom-color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_panels\.scss}line{font-family:\00003230}}
@@ -7864,13 +7864,13 @@ body {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_scaffolding\.scss}line{font-family:\000037}}
 ::selection {
-  background: #1c7ebb;
+  background: #23ae89;
   color: white;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_scaffolding\.scss}line{font-family:\0000311}}
 ::-moz-selection {
-  background: #1c7ebb;
+  background: #23ae89;
   color: white;
 }
 
@@ -7891,7 +7891,7 @@ span.block {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_scaffolding\.scss}line{font-family:\0000328}}
 .bg-primary {
-  background-color: #1c7ebb;
+  background-color: #23ae89;
   color: white;
 }
 
@@ -7977,7 +7977,7 @@ span.block {
 .gradient-text {
   font-size: 150px;
   font-weight: 300;
-  color: #1c7ebb;
+  color: #23ae89;
   background: -webkit-linear-gradient(92deg, #fb83fa, #00aced);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -8035,7 +8035,7 @@ span.block {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_type\.scss}line{font-family:\0000327}}
 .color-primary {
-  color: #1c7ebb;
+  color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_type\.scss}line{font-family:\0000330}}
@@ -8106,18 +8106,18 @@ span.block {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_type\.scss}line{font-family:\0000378}}
 .dropcap.colored {
-  color: #1c7ebb;
+  color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_type\.scss}line{font-family:\0000383}}
 .dropcap-square.colored,
 .dropcap-circle.colored {
-  background-color: #1c7ebb;
+  background-color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_type\.scss}line{font-family:\0000389}}
 .highlight {
-  background-color: #1c7ebb;
+  background-color: #23ae89;
   color: white;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -8202,13 +8202,13 @@ span.block {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_tables\.scss}line{font-family:\0000330}}
 .table-dynamic .table-bordered thead th .glyphicon-chevron-up:hover,
 .table-dynamic .table-bordered thead th .glyphicon-chevron-down:hover {
-  color: #1c7ebb;
+  color: #23ae89;
   cursor: pointer;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_tables\.scss}line{font-family:\0000334}}
 .table-dynamic .table-bordered thead th .glyphicon-chevron-up.active,
 .table-dynamic .table-bordered thead th .glyphicon-chevron-down.active {
-  color: #1c7ebb;
+  color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_tables\.scss}line{font-family:\0000339}}
 .table-dynamic .table-bordered thead th .glyphicon-chevron-up {
@@ -8380,7 +8380,7 @@ span.block {
   position: absolute;
   top: 7px;
   left: -15px;
-  background-color: #1c7ebb;
+  background-color: #23ae89;
   border-radius: 50%;
   display: block;
 }
@@ -8518,7 +8518,7 @@ span.block {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-input\.scss}line{font-family:\0000310}}
 .form-control:focus {
-  border-color: #1c7ebb;
+  border-color: #23ae89;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -8537,11 +8537,11 @@ span.block {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-input\.scss}line{font-family:\0000327}}
 input.input-primary {
-  border-color: #1c7ebb;
+  border-color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-input\.scss}line{font-family:\0000329}}
 input.input-primary:focus {
-  border-color: #1c7ebb;
+  border-color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-input\.scss}line{font-family:\0000333}}
@@ -8690,9 +8690,9 @@ input.input-danger:focus {
 .switch :checked + i {
   padding-right: 0;
   padding-left: 25px;
-  -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #1c7ebb;
-  -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #1c7ebb;
-  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #1c7ebb;
+  -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #23ae89;
+  -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #23ae89;
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-switch\.scss}line{font-family:\0000330}}
@@ -8744,17 +8744,17 @@ input.input-danger:focus {
 .btn-line-primary {
   color: #767676;
   background-color: transparent;
-  border-color: #196fa5;
+  border-color: #1f9978;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_buttons\.scss}line{font-family:\0000311}}
 .btn-line-primary:hover, .btn-line-primary:focus, .btn-line-primary:active, .btn-line-primary.active {
   color: white;
-  background-color: #1c7ebb;
+  background-color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_buttons\.scss}line{font-family:\0000316}}
 .open .btn-line-primary.dropdown-toggle {
   color: white;
-  background-color: #1c7ebb;
+  background-color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_buttons\.scss}line{font-family:\0000335}}
@@ -9371,7 +9371,7 @@ html {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_badges\.scss}line{font-family:\000035}}
 .badge-primary {
-  background-color: #1c7ebb;
+  background-color: #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_badges\.scss}line{font-family:\000039}}
@@ -9450,16 +9450,16 @@ html {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_breadcrumbs\.scss}line{font-family:\0000349}}
 .breadcrumb-alt > li > a:hover, .breadcrumb-alt > li > a.active {
   text-decoration: none;
-  background-color: #1c7ebb;
+  background-color: #23ae89;
   color: #fff;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_breadcrumbs\.scss}line{font-family:\0000353}}
 .breadcrumb-alt > li > a:hover:before, .breadcrumb-alt > li > a.active:before {
-  border-color: #1c7ebb #1c7ebb #1c7ebb rgba(0, 0, 0, 0);
+  border-color: #23ae89 #23ae89 #23ae89 rgba(0, 0, 0, 0);
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_breadcrumbs\.scss}line{font-family:\0000356}}
 .breadcrumb-alt > li > a:hover:after, .breadcrumb-alt > li > a.active:after {
-  border-left: 1em solid #1c7ebb;
+  border-left: 1em solid #23ae89;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_callout\.scss}line{font-family:\000031}}
@@ -9570,11 +9570,11 @@ html {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_dropdowns\.scss}line{font-family:\0000350}}
 .dropdown-menu.with-arrow.panel-primary:before {
-  border-bottom: 8px solid #1c7ebb;
+  border-bottom: 8px solid #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_dropdowns\.scss}line{font-family:\0000353}}
 .dropdown-menu.with-arrow.panel-primary:after {
-  border-bottom: 7px solid #1c7ebb;
+  border-bottom: 7px solid #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_dropdowns\.scss}line{font-family:\0000358}}
 .dropdown-menu.with-arrow.panel-success:before {
@@ -9667,7 +9667,7 @@ img.img80_80 {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_list-group\.scss}line{font-family:\0000316}}
 .list-info li .icon {
   margin-right: 10px;
-  color: #1c7ebb;
+  color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_list-group\.scss}line{font-family:\0000321}}
 .list-info li label {
@@ -9680,8 +9680,8 @@ img.img80_80 {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_mail\.scss}line{font-family:\000038}}
 .mail-categories .list-group .list-group-item.active > a {
-  border-left: 3px solid #1c7ebb;
-  color: #1c7ebb;
+  border-left: 3px solid #23ae89;
+  color: #23ae89;
   background-color: #fafafa;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_mail\.scss}line{font-family:\0000315}}
@@ -9696,8 +9696,8 @@ img.img80_80 {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_mail\.scss}line{font-family:\0000320}}
 .mail-categories .list-group .list-group-item > a:hover {
-  border-left: 3px solid #1c7ebb;
-  color: #1c7ebb;
+  border-left: 3px solid #23ae89;
+  color: #23ae89;
   background-color: #fafafa;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_mail\.scss}line{font-family:\0000326}}
@@ -9951,9 +9951,9 @@ img.img80_80 {
 .panel-profile .profile {
   margin: 5px 15px 5px 5px;
   border-radius: 50%;
-  -webkit-box-shadow: 0 0 0 5px #2b9adf, 0 0 10px 0 rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 0 0 5px #2b9adf, 0 0 10px 0 rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 0 5px #2b9adf, 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 0 0 5px #2fd5a9, 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 0 5px #2fd5a9, 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 5px #2fd5a9, 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_panels\.scss}line{font-family:\00003134}}
 .panel-profile .profile img {
@@ -10407,7 +10407,7 @@ img.img80_80 {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/plugins\/_bootstrap-slider\.scss}line{font-family:\0000395}}
 .slider-selection {
   position: absolute;
-  background-color: #1c7ebb;
+  background-color: #23ae89;
   -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   -moz-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
@@ -10912,7 +10912,7 @@ button.toast-close-button {
 .wizard > .steps .current a,
 .wizard > .steps .current a:hover,
 .wizard > .steps .current a:active {
-  background: #1c7ebb;
+  background: #23ae89;
   color: #fff;
   cursor: default;
 }
@@ -10921,7 +10921,7 @@ button.toast-close-button {
 .wizard > .steps .done a,
 .wizard > .steps .done a:hover,
 .wizard > .steps .done a:active {
-  background: #1c7ebb;
+  background: #23ae89;
   color: #fff;
   opacity: .6;
 }
@@ -11041,7 +11041,7 @@ button.toast-close-button {
 .wizard > .actions a,
 .wizard > .actions a:hover,
 .wizard > .actions a:active {
-  background: #1c7ebb;
+  background: #23ae89;
   color: #fff;
   display: block;
   padding: 0.5em 1em;
@@ -11175,7 +11175,7 @@ button.toast-close-button {
 .page-err {
   width: 100%;
   height: 100%;
-  background-color: #1f8dd1;
+  background-color: #27c39a;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_err\.scss}line{font-family:\000037}}
 .page-err .err-status {
@@ -11184,12 +11184,12 @@ button.toast-close-button {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_err\.scss}line{font-family:\000039}}
 .page-err .err-status h1 {
   margin: 100px 0 -45px;
-  color: #1c7ebb;
+  color: #23ae89;
   font-size: 200px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_err\.scss}line{font-family:\0000315}}
 .page-err .err-message {
-  background-color: #1c7ebb;
+  background-color: #23ae89;
   padding: 24px;
   text-transform: uppercase;
 }
@@ -11211,12 +11211,12 @@ button.toast-close-button {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_err\.scss}line{font-family:\0000338}}
 .page-err .btn-goback:hover, .page-err .btn-goback:focus, .page-err .btn-goback:active, .page-err .btn-goback.active {
-  color: #1f8dd1;
+  color: #27c39a;
   background-color: white;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_err\.scss}line{font-family:\0000343}}
 .open .page-err .btn-goback.dropdown-toggle {
-  color: #1f8dd1;
+  color: #27c39a;
   background-color: white;
 }
 
@@ -11261,7 +11261,7 @@ button.toast-close-button {
   -moz-border-radius-bottomleft: 2px;
   -webkit-border-bottom-left-radius: 2px;
   border-bottom-left-radius: 2px;
-  color: #1c7ebb;
+  color: #23ae89;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_lock-screen\.scss}line{font-family:\0000352}}
 .page-lock .lock-box .lock-img img {
@@ -11297,7 +11297,7 @@ button.toast-close-button {
   -moz-border-radius-bottomright: 2px;
   -webkit-border-bottom-right-radius: 2px;
   border-bottom-right-radius: 2px;
-  color: #1c7ebb;
+  color: #23ae89;
 }
 @media screen and (min-width: 768px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_lock-screen\.scss}line{font-family:\0000369}}
@@ -11661,6 +11661,62 @@ button.toast-close-button {
 .demoslider-container {
   max-width: 600px;
   margin: auto;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\000032}}
+.game-details .game-header span {
+  font-size: 35px;
+  margin-left: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\000037}}
+.game-details i:before {
+  font-size: 40px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000311}}
+.game-details .game-players {
+  margin-left: 20px;
+  line-height: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000315}}
+.game-details .game-players i:before {
+  font-size: 25px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000320}}
+.game-details .email-players {
+  margin-left: 20px;
+  line-height: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000324}}
+.game-details .email-players i:before {
+  font-size: 15px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000328}}
+.game-details .email-players span {
+  margin-left: 3px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000333}}
+.game-details .facebook-players {
+  margin-left: 15px;
+  line-height: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000337}}
+.game-details .facebook-players .bg-facebook {
+  background-color: #767676;
+  color: white;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000342}}
+.game-details .facebook-players .btn-icon-round-sm {
+  height: 20px;
+  line-height: 20px;
+  width: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000348}}
+.game-details .facebook-players i:before {
+  font-size: 14px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000352}}
+.game-details .facebook-players span {
+  margin-left: 3px;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_nav\.scss}line{font-family:\000037}}
@@ -12123,7 +12179,7 @@ button.toast-close-button {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003184}}
 .top-header .top-nav .nav-left > li ul.dropdown-menu a:hover,
 .top-header .top-nav .nav-right > li ul.dropdown-menu a:hover {
-  background-color: #1c7ebb;
+  background-color: #23ae89;
   color: #fff;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003189}}

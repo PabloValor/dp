@@ -20,6 +20,7 @@ angular.module('app.users')
         };
 
         $scope.login_fb = function() {
+            console.log("login fb");
             Facebook.login(
                 function(response) { 
                     $location.path('/');

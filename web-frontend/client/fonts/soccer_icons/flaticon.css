@@ -40,184 +40,187 @@
 .flaticon-football104:before {
 	content: "\e008";
 }
-.flaticon-football118:before {
+.flaticon-football112:before {
 	content: "\e009";
 }
-.flaticon-football124:before {
+.flaticon-football118:before {
 	content: "\e00a";
 }
-.flaticon-football141:before {
+.flaticon-football124:before {
 	content: "\e00b";
 }
-.flaticon-football21:before {
+.flaticon-football141:before {
 	content: "\e00c";
 }
-.flaticon-football26:before {
+.flaticon-football21:before {
 	content: "\e00d";
 }
-.flaticon-football33:before {
+.flaticon-football26:before {
 	content: "\e00e";
 }
-.flaticon-football35:before {
+.flaticon-football33:before {
 	content: "\e00f";
 }
-.flaticon-football37:before {
+.flaticon-football35:before {
 	content: "\e010";
 }
-.flaticon-football42:before {
+.flaticon-football37:before {
 	content: "\e011";
 }
-.flaticon-football43:before {
+.flaticon-football42:before {
 	content: "\e012";
 }
-.flaticon-football57:before {
+.flaticon-football43:before {
 	content: "\e013";
 }
-.flaticon-football58:before {
+.flaticon-football57:before {
 	content: "\e014";
 }
-.flaticon-football59:before {
+.flaticon-football58:before {
 	content: "\e015";
 }
-.flaticon-football66:before {
+.flaticon-football59:before {
 	content: "\e016";
 }
-.flaticon-football68:before {
+.flaticon-football66:before {
 	content: "\e017";
 }
-.flaticon-football69:before {
+.flaticon-football68:before {
 	content: "\e018";
 }
-.flaticon-football7:before {
+.flaticon-football69:before {
 	content: "\e019";
 }
-.flaticon-football72:before {
+.flaticon-football7:before {
 	content: "\e01a";
 }
-.flaticon-football75:before {
+.flaticon-football72:before {
 	content: "\e01b";
 }
-.flaticon-football78:before {
+.flaticon-football75:before {
 	content: "\e01c";
 }
-.flaticon-football81:before {
+.flaticon-football78:before {
 	content: "\e01d";
 }
-.flaticon-football84:before {
+.flaticon-football81:before {
 	content: "\e01e";
 }
-.flaticon-football86:before {
+.flaticon-football84:before {
 	content: "\e01f";
-        font-size: 30px;
+}
+.flaticon-football86:before {
+	content: "\e020";
+        font-size:20px
 }
 .flaticon-goal3:before {
-	content: "\e020";
-}
-.flaticon-planning1:before {
 	content: "\e021";
 }
-.flaticon-running33:before {
+.flaticon-planning1:before {
 	content: "\e022";
 }
-.flaticon-soccer13:before {
+.flaticon-running33:before {
 	content: "\e023";
 }
-.flaticon-soccer14:before {
+.flaticon-soccer13:before {
 	content: "\e024";
 }
-.flaticon-soccer17:before {
+.flaticon-soccer14:before {
 	content: "\e025";
 }
-.flaticon-soccer18:before {
+.flaticon-soccer17:before {
 	content: "\e026";
 }
-.flaticon-soccer22:before {
+.flaticon-soccer18:before {
 	content: "\e027";
 }
-.flaticon-soccer24:before {
+.flaticon-soccer22:before {
 	content: "\e028";
 }
-.flaticon-soccer26:before {
+.flaticon-soccer24:before {
 	content: "\e029";
 }
-.flaticon-soccer29:before {
+.flaticon-soccer26:before {
 	content: "\e02a";
 }
-.flaticon-soccer34:before {
+.flaticon-soccer29:before {
 	content: "\e02b";
 }
-.flaticon-soccer38:before {
+.flaticon-soccer34:before {
 	content: "\e02c";
 }
-.flaticon-soccer43:before {
+.flaticon-soccer38:before {
 	content: "\e02d";
 }
-.flaticon-soccer44:before {
+.flaticon-soccer43:before {
 	content: "\e02e";
 }
-.flaticon-soccer47:before {
+.flaticon-soccer44:before {
 	content: "\e02f";
 }
-.flaticon-soccer51:before {
+.flaticon-soccer47:before {
 	content: "\e030";
 }
-.flaticon-soccer52:before {
+.flaticon-soccer51:before {
 	content: "\e031";
 }
-.flaticon-soccer58:before {
+.flaticon-soccer52:before {
 	content: "\e032";
 }
-.flaticon-soccer60:before {
+.flaticon-soccer58:before {
 	content: "\e033";
 }
-.flaticon-soccer61:before {
+.flaticon-soccer60:before {
 	content: "\e034";
 }
-.flaticon-soccer64:before {
+.flaticon-soccer61:before {
 	content: "\e035";
 }
-.flaticon-soccer65:before {
+.flaticon-soccer64:before {
 	content: "\e036";
 }
-.flaticon-soccer67:before {
+.flaticon-soccer65:before {
 	content: "\e037";
 }
-.flaticon-soccer71:before {
+.flaticon-soccer67:before {
 	content: "\e038";
 }
-.flaticon-soccer72:before {
+.flaticon-soccer71:before {
 	content: "\e039";
 }
-.flaticon-soccer76:before {
+.flaticon-soccer72:before {
 	content: "\e03a";
 }
-.flaticon-soccer9:before {
+.flaticon-soccer76:before {
 	content: "\e03b";
 }
-.flaticon-sport4:before {
+.flaticon-soccer9:before {
 	content: "\e03c";
 }
-.flaticon-sportive44:before {
+.flaticon-sport4:before {
 	content: "\e03d";
 }
-.flaticon-sports35:before {
+.flaticon-sportive44:before {
 	content: "\e03e";
 }
-.flaticon-stadium1:before {
+.flaticon-sports35:before {
 	content: "\e03f";
 }
-.flaticon-stadium2:before {
+.flaticon-stadium1:before {
 	content: "\e040";
 }
-.flaticon-trophy33:before {
+.flaticon-stadium2:before {
 	content: "\e041";
 }
-.flaticon-trophy46:before {
+.flaticon-trophy33:before {
 	content: "\e042";
 }
-.flaticon-tshirt19:before {
+.flaticon-trophy46:before {
 	content: "\e043";
 }
-.flaticon-winners:before {
+.flaticon-tshirt19:before {
 	content: "\e044";
+}
+.flaticon-winners:before {
+	content: "\e045";
 }

@@ -129,9 +129,11 @@ angular.module('app.users')
 		login: function(f_success, f_error) {
                     FB.getLoginStatus(function(response) {
                         if (response.status === 'connected') {
+                            console.log(response)
                             AuthenticationService.login_social(response.authResponse.accessToken, "facebook", f_success, f_error);
                         } else {
                             FB.login(function(response) {
+                                console.log(response)
                                 if(response.authResponse) {
                                     AuthenticationService.login_social(response.authResponse.accessToken, "facebook", f_success, f_error);
                                 } else {

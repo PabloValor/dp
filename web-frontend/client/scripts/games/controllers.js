@@ -13,9 +13,14 @@ angular.module('app.games')
             $scope.tournaments = tournaments;
         });
 
-        $scope.emailPlayers = [{email:''}];
+        $scope.emailPlayers = [{ email : '' }];
+
         $scope.addEmailPlayer = function() {
             $scope.emailPlayers.push({email:''});
+            console.log($scope.emailPlayers);
+        };
+        $scope.emailFilter = function(value) {
+            return !!value.email;
         };
 
         $scope.removeEmailPlayer = function(player) {
@@ -41,7 +46,10 @@ angular.module('app.games')
         );
 
         $scope.newGame = function() {
-            GameService.new({'name' : $scope.game.name, 'tournament': $scope.game.tournament.id },
+            var friends = $scope.friends.filter(function(item) { return item.checked });
+            var gameplayers = friends.map(function(item) { return { 'player': item.id } });
+
+            GameService.new({'name' : $scope.game.name, 'tournament': $scope.game.tournament.id, 'gameplayers': gameplayers},
                 function() {
                     console.log("creado con exito");
                 },
