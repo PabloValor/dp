@@ -6,15 +6,9 @@ angular.module('app.users', [])
 }])
 
 .config(['$routeProvider', function($routeProvider) {
-      return $routeProvider.when('/signup', {
-        templateUrl: 'scripts/users/views/signup.html'
-      })
-}])
-
-.config(['$routeProvider', function($routeProvider) {
-      return $routeProvider.when('/signin', {
-        templateUrl: 'scripts/users/views/signin.html'
-      })
+      return $routeProvider
+            .when('/signup', { templateUrl: 'scripts/users/views/signup.html' })
+            .when('/signin', { templateUrl: 'scripts/users/views/signin.html' })
 }]);
 
 

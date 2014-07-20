@@ -12,6 +12,10 @@ class GameList(generics.ListCreateAPIView):
     def pre_save(self, obj):
         obj.owner = self.request.user
 
+    def post_save(self, obj, created=False):
+        if not obj.players.filter(id = obj.owner.id).exists():
+            obj.players.add(obj.owner)
+
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
     queryset = Game.objects.all()
@@ -37,6 +41,15 @@ class PlayerUpdate(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated, IsSameUser,)
     queryset = Player.objects.all()
     serializer_class = PlayerUpdateSerializer
+
+class FriendsList(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated, IsSameUser,)
+    serializer_class = PlayerSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return user.friends.all()
+
 
 from rest_framework.decorators import api_view
 from social.apps.django_app.utils import strategy

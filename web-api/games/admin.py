@@ -17,7 +17,6 @@ class FixturePlayerPointsAdmin(admin.ModelAdmin):
 class PlayerAdmin(admin.ModelAdmin):
     inlines = (GameInline,)
     model = Player
-    form = PlayerCreationForm
 
 
 admin.site.register(Game)

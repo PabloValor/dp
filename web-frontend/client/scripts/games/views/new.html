@@ -1,0 +1,78 @@
+<section class="page" ng-controller="NewGameController">
+    <form role="form" novalidate data-ng-submit="newGame()" name="form_game">
+    <div class="col-md-6">
+        <section class="panel panel-default">
+            <div class="panel-heading"><strong><span class="flaticon-football7"></span> <span data-i18n="Nuevo Torneo"></span></strong></div>
+            <div class="panel-body">
+                    <div class="form-group">
+                        <label data-i18n="Nombre"></label>
+                        <input type="text" class="form-control" ng-model="game.name" placeholder="Nombre del Torneo" required>
+                    </div>
+                    <div class="form-group">
+                    <label data-i18n="Liga"></label><br>
+                        <span class="ui-select ">
+                            <select ng-model="game.tournament" ng-options="tournament.name for tournament in tournaments" required>
+                                <option value="" data-i18n="-- Seleccione una Liga --"></option>
+                            </select>
+                        </span>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" data-i18n="Crear" data-ng-disabled="!form_game.$valid"></button>
+            </div>
+        </section>
+    </div>
+    <div class="col-md-6">
+        <section class="panel panel-default">
+            <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> <span data-i18n="Jugadores"></span></strong></div>
+            <div class="panel-body">
+                <div class="ui-tab-container">
+                    <tabset justified="true" class="ui-tab">
+                        <tab heading="Amigos">
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="friendsFilter" placeholder="Buscar" required>
+                            </div>
+                            <div class="form-group" ng-repeat="friend in friends | filter:friendsFilter" >
+                                <label class="ui-checkbox">
+                                    <input name="checkbox2" type="checkbox" value="{{ friend.id }}" ng-model="friend.checked"><span>{{ friend.username }}</span>
+                                </label>
+                            </div>
+                        </tab>
+                        <tab heading="Facebook">
+                            <div class="callout callout-info">
+                                <p>Invita nuevos amigos de Facebook</p>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="facebookFilter" placeholder="Buscar" required>
+                            </div>
+                            <div class="form-group" ng-repeat="facebookPlayer in facebookPlayers | filter:facebookFilter" >
+                                <label class="ui-checkbox">
+                                    <input name="checkbox2" type="checkbox" value="{{ facebookPlayer.id }}" ng-model="facebookPlayer.checked"><span>{{ facebookPlayer.name }}</span>
+                                </label>
+                            </div>
+                        </tab>
+                        <tab heading="Emails">
+                            <div class="form-group" ng-repeat="player in emailPlayers">
+
+                                <div class="input-group">
+                                    <input type="email" class="form-control" ng-model="player.email" placeholder="email@email.com">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-danger btn" type="button" ng-click="removeEmailPlayer(player)" ng-disabled="emailPlayers.length == 1">
+                                            <span class="glyphicon glyphicon-minus"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-success btn-sm" ng-click="addEmailPlayer()">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    </form>      
+</section>

@@ -34,8 +34,8 @@ angular.module('app.users')
     }
 ])
 
-.controller('SignupController', ['$scope', '$location', 'UserService', 'AuthenticationService',
-    function($scope, $location, UserService, AuthenticationService)  {
+.controller('SignupController', ['$scope', '$location', 'UserService', 'AuthenticationService', 'Facebook',
+    function($scope, $location, UserService, AuthenticationService, Facebook)  {
         if(AuthenticationService.isAuthenticated()) {
             $location.path('/');
         }
@@ -44,6 +44,14 @@ angular.module('app.users')
             username: '',
             email: '',
             password: '' 
+        };
+
+        $scope.signup_fb = function() {
+            Facebook.login(
+                function(response) { 
+                    $location.path('/');
+                }, 
+                function(response) { console.log(response); });
         };
 
         $scope.signup = function(user) {

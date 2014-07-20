@@ -73,7 +73,8 @@
     url : { base: 'http://127.0.0.1:8000',
             auth: function() { return this.base + '/api-token-auth/' },
             social_auth: function(backend) { return this.base + '/games/sociallogin/' + backend },
-            player: function() { return this.base + '/games/player/' } 
+            player: function() { return this.base + '/games/player/' } ,
+            playerFriends: function() { return this.base + '/games/player/friends' } 
     }
 }) 
 

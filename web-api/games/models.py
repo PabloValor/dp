@@ -7,6 +7,7 @@ class Player(AbstractUser):
     REQUIRED_FIELDS = ["email", ]
 
     initial_points = models.IntegerField(verbose_name = 'Puntos iniciales', default = 0)
+    friends = models.ManyToManyField('self')
 
     class Meta:
         verbose_name = "Jugador"

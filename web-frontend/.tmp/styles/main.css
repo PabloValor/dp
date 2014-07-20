@@ -8425,10 +8425,11 @@ span.block {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\0000386}}
 .ui-checkbox input[type="checkbox"]:checked + span:before {
-  background-color: #1c7ebb;
-  border: 1px solid #1c7ebb;
+  /* CAMBIE */
+  background-color: #23ae89;
+  border: 1px solid #23ae89;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\0000391}}
 .ui-checkbox input[type="checkbox"]:checked + span:after {
   content: "";
   width: 8px;
@@ -8440,13 +8441,13 @@ span.block {
   background-size: 14px 14px;
   display: block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\00003102}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\00003103}}
 .ui-checkbox input[type="checkbox"]:disabled:checked + span:before {
   opacity: .65;
   background-color: #ccc;
   border: 1px solid #ccc;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\00003107}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\00003108}}
 .ui-checkbox input[type="checkbox"]:disabled:checked + span:after {
   opacity: .65;
   cursor: no-drop;

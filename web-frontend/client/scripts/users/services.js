@@ -2,8 +2,8 @@
 angular.module('app.users')
 
 .service('Session', ['$window', function($window) {
-    this.create = function(token) {
-        $window.sessionStorage.token = token;
+    this.create = function(key, value) {
+        $window.sessionStorage[key] = value;
     };
 
     this.destroy = function() {
@@ -39,7 +39,8 @@ angular.module('app.users')
                 return $http.post(SETTINGS.url.auth(), credentials)
                             .success(function(response) {
                                 console.log(response)
-                                Session.create(response.token);
+                                Session.create('token', response.token);
+                                Session.create('id', response.id);
                                 if(!!f_success) {
                                     f_success(response);
                                 }
@@ -53,11 +54,13 @@ angular.module('app.users')
                             });
             },
             login_social: function(token, backend, f_success, f_error) {
+                Session.create('fb-token', token);
+
                 return $http.post(SETTINGS.url.social_auth(backend), 
                                   { "access_token": token, "backend": backend })
 
                             .success(function(response) {
-                                        Session.create(response.token);
+                                        Session.create('token', response.token);
 
                                         if(!!f_success) {
                                             f_success(response);
@@ -81,7 +84,7 @@ angular.module('app.users')
     }
 ])
 
-.factory('UserService', ['$http', 'SETTINGS', function($http, SETTINGS) {
+.factory('UserService', ['$http', 'SETTINGS', 'Session',  function($http, SETTINGS, Session) {
     return {
         create: function(user, f_success, f_error) {
             $http.post(SETTINGS.url.player(), user)
@@ -99,17 +102,33 @@ angular.module('app.users')
                         f_error(response);
                     }
                 });
+        }, 
+        getFriends: function(f_success, f_error) {
+            $http.get(SETTINGS.url.playerFriends(Session.get('id')))
+                .success(function(response) {
+                    console.log(response);
+
+                    if(!!f_success) {
+                        f_success(response);
+                    }
+                })
+                .error(function(response) {
+                    console.log(response);
+
+                    if(!!f_error) {
+                        f_error(response);
+                    }
+                });
+            }
         }
-    }
 }])
 
-.factory('Facebook',['$q', '$window', '$rootScope', 'AuthenticationService',
-    function($q, $window, $rootScope, AuthenticationService) {
+.factory('Facebook',['$http',  '$window', '$rootScope', 'AuthenticationService', 'Session', 
+    function($http, $window, $rootScope, AuthenticationService, Session) {
 	return {
 		login: function(f_success, f_error) {
                     FB.getLoginStatus(function(response) {
                         if (response.status === 'connected') {
-                            console.log('connected');
                             AuthenticationService.login_social(response.authResponse.accessToken, "facebook", f_success, f_error);
                         } else {
                             FB.login(function(response) {
@@ -121,6 +140,26 @@ angular.module('app.users')
                             }, { scope: ['public_profile', 'email', 'user_friends']});
                         }
                     });
+                }, 
+                getFriends: function(f_success, f_error) {
+                    $http.get("https://graph.facebook.com/v2.0/me/invitable_friends", { params: {'access_token': Session.get('fb-token')}})
+                        .success(function (response) {
+                                    console.log(response);
+                                    if (response && !response.error) {
+                                        if(!!f_success) {
+                                            f_success(response);
+                                        }
+                                    }
+
+                                })
+                        .error(function (response) {
+                                    if(!!f_error) {
+                                        f_error(response);
+                                    }
+                                })
+                },
+                isAuthenticated: function() {
+                    return !!Session.get('fb-token');
                 }
 	};
 }]);

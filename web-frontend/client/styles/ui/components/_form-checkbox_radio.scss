@@ -84,8 +84,9 @@
     }
 
     input[type="checkbox"]:checked + span:before {
-        background-color: $brand-primary;
-        border: 1px solid $brand-primary;         
+        /* CAMBIE */
+        background-color: $brand-success;
+        border: 1px solid $brand-success;         
     }
     input[type="checkbox"]:checked + span:after {
         content: "";

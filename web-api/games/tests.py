@@ -792,6 +792,24 @@ class GameAPITest(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_create_with_two_players_200_OK(self):
+        # The owner is a player
+        owner = PlayerFactory()
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        player = PlayerFactory()
+        tournament = TournamentFactory()
+
+        # Create 
+        url = reverse('gameList')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'players' : [player.id] }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(Game.objects.count(), 1)
+        self.assertEqual(Game.objects.all()[0].players.count(), 2)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
 class PlayerAPITest(APITestCase):
     def test_create_200_OK(self): 
         data = { 'username': 'nico',
@@ -958,3 +976,4 @@ class PlayerAPITest(APITestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
