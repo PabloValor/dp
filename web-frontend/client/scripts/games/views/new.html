@@ -90,6 +90,11 @@
                             <span>Jugadores</span>
                         </div>
 
+                        <div class="form-group game-owner">
+                            <i class="flaticon-soccer18"></i>
+                              <span>{{ owner }}</span>
+                        </div>
+
                         <div class="form-group game-players" ng-repeat="friend in friends | filter: {checked: true}" >
                             <i class="flaticon-tshirt19"></i>
                               <span>{{ friend.username }}</span>

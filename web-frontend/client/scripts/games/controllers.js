@@ -13,6 +13,7 @@ angular.module('app.games')
             $scope.tournaments = tournaments;
         });
 
+        $scope.owner = UserService.getUsername();
         $scope.emailPlayers = [{ email : '' }];
 
         $scope.addEmailPlayer = function() {

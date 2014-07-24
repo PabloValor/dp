@@ -11,9 +11,20 @@
     .game-players {
         margin-left: 20px;
         line-height: 10px;
+        margin-bottom: 20px;
 
         i:before {
-            font-size: 25px;
+            font-size: 30px;
+        }
+    }
+
+    .game-owner {
+        margin-left: 18px;
+        margin-bottom: 20px;
+        line-height: 10px;
+
+        i:before {
+            font-size: 36px;
         }
     }
 

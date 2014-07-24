@@ -40,7 +40,7 @@ angular.module('app.users')
                             .success(function(response) {
                                 console.log(response)
                                 Session.create('token', response.token);
-                                Session.create('username', credentials.username);
+                                Session.create('username', response.username);
                                 if(!!f_success) {
                                     f_success(response);
                                 }
@@ -60,7 +60,9 @@ angular.module('app.users')
                                   { "access_token": token, "backend": backend })
 
                             .success(function(response) {
+                                        console.log(response);
                                         Session.create('token', response.token);
+                                        Session.create('username', response.username);
 
                                         if(!!f_success) {
                                             f_success(response);
@@ -86,6 +88,9 @@ angular.module('app.users')
 
 .factory('UserService', ['$http', 'SETTINGS', 'Session',  function($http, SETTINGS, Session) {
     return {
+        getUsername : function(){
+          return Session.get('username');
+        },
         create: function(user, f_success, f_error) {
             $http.post(SETTINGS.url.player(), user)
                 .success(function(response) {
