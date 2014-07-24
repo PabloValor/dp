@@ -66,7 +66,6 @@ def social_register(request, backend):
             return Response(str(err), status=400)
 
         if user:
-          import ipdb; ipdb.set_trace()
           return Response({ 'token': user.auth_token.key, 'username': user.username },  status=status.HTTP_200_OK )
         else:
             return Response("Bad Credentials", status=403)
