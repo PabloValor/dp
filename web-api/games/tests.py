@@ -591,18 +591,18 @@ from .serializers import GameSerializer
 class GameAPITest(APITestCase):
     def test_get_200_OK(self):
         player = PlayerFactory()
-        game_1 = GameFactory(owner = player)
-        game_2 = GameFactory(owner = player)
+        game_1 = GamePlayerFactory(player = player)
+        game_2 = GamePlayerFactory(player = player)
 
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        url = reverse('gameList')
+        url = reverse('gamePlayerList')
         response = self.client.get(url)
         r_games = json.loads(response.content)
 
-        self.assertEqual(r_games[0]['name'], game_1.name)
-        self.assertEqual(r_games[1]['name'], game_2.name)
+        self.assertEqual(r_games[0]['game']['name'], game_1.game.name)
+        self.assertEqual(r_games[1]['game']['name'], game_2.game.name)
         self.assertEqual(len(r_games), 2)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -657,6 +657,7 @@ class GameAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # Get Games
+        url = reverse('gamePlayerList')
         response = self.client.get(url)
         games = json.loads(response.content)
         self.assertEqual(len(games), 2)
@@ -747,13 +748,14 @@ class GameAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # Get
+        url = reverse('gamePlayerList')
         response = self.client.get(url)
         games = json.loads(response.content)
         self.assertEqual(len(games), 1)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Update
-        game = games[0]
+        game = games[0]['game']
         url = reverse('gameDetail', kwargs = {'pk': game['id'] })
         game['name'] = 'Game 2'
         response = self.client.put(url, game, format='json')

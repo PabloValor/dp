@@ -19,6 +19,15 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 'gameplayers')
 
+class GamePlayerReadOnlySerializer(serializers.ModelSerializer):
+    username = serializers.Field(source = 'player.username')
+
+    class Meta:
+        model = GamePlayer
+        fields = ('player', 'username', 'game', 'player_invitation_status',)
+
+GamePlayerReadOnlySerializer.base_fields['game'] = GameSerializer()
+
 class PlayerSerializer(serializers.ModelSerializer):
 #    games = serializers.PrimaryKeyRelatedField(many = True)
 #    owner_games = serializers.PrimaryKeyRelatedField(many = True)

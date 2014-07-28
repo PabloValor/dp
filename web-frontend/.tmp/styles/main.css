@@ -11729,6 +11729,16 @@ button.toast-close-button {
 .game-details .facebook-players span {
   margin-left: 3px;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000369}}
+.game-details .reglas .panel-group {
+  margin-top: 40px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000378}}
+.game-list tbody tr a {
+  color: #23ae89;
+  font-weight: bold;
+}
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_nav\.scss}line{font-family:\000037}}
 #nav-container {

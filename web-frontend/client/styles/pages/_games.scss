@@ -64,6 +64,23 @@
             margin-left: 3px;
         }
     }
+
+    .reglas {
+        .panel-group {
+            margin-top: 40px;
+        }
+    }
+}
+
+.game-list {
+  tbody {
+    tr {
+      a {
+        color: $brand-primary;
+        font-weight: bold;
+      }
+    }
+  }
 }
 
 

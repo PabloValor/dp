@@ -3,7 +3,10 @@ angular.module('app.games')
 
 .controller('GameController', ['$scope', 'GameService', 
     function($scope, GameService)  {
-        $scope.games = GameService.all();
+        GameService.all(function(playergames) {
+          $scope.playergames = playergames;
+        });
+
     }
 ])
 
@@ -67,8 +70,16 @@ angular.module('app.games')
 
 .controller('DetailGameController', ['$scope', '$routeParams', 'GameService', 'Data',
     function($scope, $routeParams, GameService, Data)  {
-        console.log($routeParams.gameId);
-        console.log(Data);
-        $scope.game = Data.currentGame;
+        if(!!Data.currentGame && Data.currentGame.new) {
+          $scope.game = Data.currentGame;
+          $scope.show_message = true;
+          Data.currentGame.new = false;
+        } else {
+          GameService.get($routeParams.gameId, 
+            function(game) {
+              $scope.game = game;
+          });
+        }
+      
     }
 ]);

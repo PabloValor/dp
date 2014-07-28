@@ -1,10 +1,20 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from .models import Game, Player, GamePlayer
-from .serializers import GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer
+from .serializers import GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer, GamePlayerReadOnlySerializer
 from .permissions import IsOwnerOrReadOnly, IsSameUser
 
-class GameList(generics.ListCreateAPIView):
+class GamePlayerList(generics.ListAPIView):
+    ## HACER TESTS
+    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
+    serializer_class = GamePlayerReadOnlySerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return user.gameplayer_set.all()
+
+
+class GameList(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
     queryset = Game.objects.all()
     serializer_class = GameSerializer

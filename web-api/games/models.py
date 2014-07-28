@@ -70,9 +70,6 @@ class GamePlayer(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
-    def __unicode__(self):
-        return self.player
-
 class PlayerMatchPrediction(models.Model):
     player = models.ForeignKey(settings.AUTH_USER_MODEL)
     match = models.ForeignKey(Match)

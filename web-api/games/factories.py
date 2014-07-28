@@ -1,6 +1,6 @@
 import factory
 from random import randrange
-from .models import Player, PlayerMatchPrediction, Game, FixturePlayerPoints
+from .models import Player, PlayerMatchPrediction, Game, FixturePlayerPoints, GamePlayer
 from tournaments.factories import *
 
 class GameFactory(factory.Factory):
@@ -8,6 +8,11 @@ class GameFactory(factory.Factory):
     tournament = factory.LazyAttribute(lambda a: TournamentFactory())
     classic = False
     owner = factory.LazyAttribute(lambda a: PlayerFactory())
+
+class GamePlayerFactory(factory.Factory):
+    player = factory.LazyAttribute(lambda a: PlayerFactory())
+    game = factory.LazyAttribute(lambda a: GameFactory())
+    player_invitation_status = False
 
 class PlayerFactory(factory.Factory):
     username = factory.Sequence(lambda n: 'name_{0}'.format(n))

@@ -1,9 +1,10 @@
 from django.conf.urls import patterns, url
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import GameList, GameDetail, PlayerList, PlayerDetail, PlayerCreate, PlayerUpdate, FriendsList
+from .views import *
 
 urlpatterns = patterns('games.views',
         url(r'^$', GameList.as_view(), name = 'gameList'),
+        url(r'^list/$', GamePlayerList.as_view(), name = 'gamePlayerList'),
         url(r'^(?P<pk>[0-9]+)/$', GameDetail.as_view(), name = 'gameDetail'),
         url(r'^player/$', PlayerCreate.as_view(), name = 'playerCreate'),
         url(r'^player/friends$', FriendsList.as_view(), name = 'friendsList'),
