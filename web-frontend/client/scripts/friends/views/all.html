@@ -5,7 +5,7 @@
             <div class="panel-body">
               <table class="table friends-list table-striped table-hover">
                   <tbody>
-                      <tr ng-repeat="friend in friends" >
+                      <tr ng-repeat="friend in friends" ng-if="friend.is_friend">
                           <td ng-click="selectFriend(friend)"> {{ friend.username }} </td>
                       </tr>
                   </tbody>

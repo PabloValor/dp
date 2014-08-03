@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from .forms import PlayerCreationForm
 from .models import (
-        Game, Player, PlayerMatchPrediction, FixturePlayerPoints, GamePlayer
+        Game, Player, PlayerMatchPrediction, FixturePlayerPoints, GamePlayer, PlayerFriend
 )
 
 
@@ -25,3 +25,4 @@ admin.site.register(Game, GameAdmin)
 admin.site.register(PlayerMatchPrediction)
 admin.site.register(FixturePlayerPoints)
 admin.site.register(Player, PlayerAdmin)
+admin.site.register(PlayerFriend)

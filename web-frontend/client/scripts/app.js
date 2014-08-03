@@ -76,6 +76,7 @@
             player: function() { return this.base + '/games/player/' } ,
             playerFriends: function() { return this.base + '/games/player/friends' },
             playerSearch: function(username) { return this.base + '/games/players/search/' + username + '/'},
+            playerMakeFriend: function() { return this.base + '/games/player/friend/'},
             newGame: function() { return this.base + '/games/' },
             games: function() { return this.base + '/games/list/' },
             game: function(id) { return this.base + '/games/' + id + '/' } 

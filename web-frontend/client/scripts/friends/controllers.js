@@ -4,13 +4,13 @@ angular.module('app.friends')
 .controller('FriendsController', ['$scope', 'UserService', 
     function($scope, UserService)  {
         UserService.getFriends(
-                function(friends) {
-                    $scope.friends = friends;
-                    console.log(friends);
-                },
-                function(error) {
-                    console.log(error);
-                }
+          function(friends) {
+              $scope.friends = friends;
+              console.log(friends);
+          },
+          function(error) {
+              console.log(error);
+          }
         );
 
         $scope.selectFriend = function(friend) {
@@ -21,7 +21,6 @@ angular.module('app.friends')
 
 .controller('FriendsSearchController', ['$scope', 'UserService', 
     function($scope, UserService)  {
-
       $scope.intro = true;
       $scope.not_found = false;
 
@@ -40,7 +39,17 @@ angular.module('app.friends')
           function(response) {
             console.log("no funca el server");
           });
-      }
+      };
+
+      $scope.makeFriend = function(player) {
+        UserService.makeFriend(player.id, 
+          function(response) {
+            player.is_friend = null;
+          }, 
+          function(response) {
+            console.log("no funca el server");
+          });
+      };
 
     }
 ])

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Game, Player, GamePlayer
+from .models import Game, Player, GamePlayer, PlayerFriend
 
 class GamePlayerSerializer(serializers.ModelSerializer):
     id = serializers.Field(source = 'player.id')
@@ -36,6 +36,36 @@ class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         fields = ('id', 'username',)
+
+class IsFriendField(serializers.Field):
+    def to_native(self, friends):
+        request = self.context['request']
+        return request.user in friends
+
+class PlayerSearchSerializer(serializers.ModelSerializer):
+    is_friend = IsFriendField(source = 'get_true_friends')
+    is_limbo_friend = IsFriendField(source = 'get_limbo_friends')
+
+    class Meta:
+        model = Player
+        fields = ('id', 'username','is_friend', 'is_limbo_friend')
+
+class PlayerFriendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlayerFriend
+        fields = ('friend',)
+
+    def validate(self, attrs):
+        player = self.context['request'].user
+        friend = attrs['friend']
+
+        if player.friends.filter(id = friend.id).exists():
+            raise serializers.ValidationError("They are already friends")
+
+        if friend.friends.filter(id = player.id).exists():
+            raise serializers.ValidationError("They are already friends")
+
+        return attrs
 
 class PlayerCreateSerializer(serializers.ModelSerializer):
     class Meta:

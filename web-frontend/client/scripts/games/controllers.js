@@ -24,7 +24,7 @@ angular.module('app.games')
             console.log($scope.emailPlayers);
         };
         $scope.emailFilter = function(value) {
-            return !!value.email;
+            return !!value.email && value.is_friend;
         };
 
         $scope.removeEmailPlayer = function(player) {

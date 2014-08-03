@@ -109,9 +109,16 @@ angular.module('app.users')
                 });
         }, 
         getFriends: function(f_success, f_error) {
+            if(!!Data.friends) {
+                f_success(Data.friends);
+                return;
+            } 
+
             $http.get(SETTINGS.url.playerFriends())
                 .success(function(response) {
                     console.log(response);
+
+                    Data.friends = response;
 
                     if(!!f_success) {
                         f_success(response);

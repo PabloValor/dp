@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from tournaments.models import Tournament, Team, Fixture, Match
@@ -7,7 +8,7 @@ class Player(AbstractUser):
     REQUIRED_FIELDS = ["email", ]
 
     initial_points = models.IntegerField(verbose_name = 'Puntos iniciales', default = 0)
-    friends = models.ManyToManyField('self')
+    friends = models.ManyToManyField('self', through = 'PlayerFriend', symmetrical = False)
 
     class Meta:
         verbose_name = "Jugador"
@@ -15,6 +16,21 @@ class Player(AbstractUser):
 
     def __unicode__(self):
         return self.username
+
+    def get_all_friends(self):
+        players = [pf.player for pf in self.friend.filter()]
+        friends = [pf.friend for pf in self.friend_player.filter()]
+        return players + friends
+
+    def get_true_friends(self):
+        players = [pf.player for pf in self.friend.filter(status = True)]
+        friends = [pf.friend for pf in self.friend_player.filter(status = True)]
+        return players + friends
+
+    def get_limbo_friends(self):
+        # Friends that didn't answer the Friends Petition
+        friends = [pf.player for pf in self.friend.filter(status = None)]
+        return friends
 
     def make_prediction(self, match_id, local_team_goals, visitor_team_goals):
         prediction = PlayerMatchPrediction.objects.filter(match_id = match_id, player_id = self.pk)
@@ -44,6 +60,17 @@ class Player(AbstractUser):
         predictions = self.playermatchprediction_set.filter(match_id__in = match_ids)
 
         return predictions
+
+class PlayerFriend(models.Model):
+    player = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = 'friend_player')
+    friend = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = 'friend')
+    status = models.NullBooleanField()
+
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
+    def __unicode__(self):
+      return '{0} - {1}'.format(self.player, self.friend)
 
 
 class Game(models.Model):

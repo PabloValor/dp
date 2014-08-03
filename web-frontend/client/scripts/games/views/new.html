@@ -31,7 +31,7 @@
                                     <input type="text" class="form-control" ng-model="friendsFilter" placeholder="Buscar">
                                 </div>
                                 <div class="form-group" ng-repeat="friend in friends | filter:friendsFilter" >
-                                    <label class="ui-checkbox">
+                                    <label class="ui-checkbox" ng-if="friend.is_friend">
                                         <input name="checkbox2" type="checkbox" value="{{ friend.id }}" ng-model="friend.checked"><span>{{ friend.username }}</span>
                                     </label>
                                 </div>
