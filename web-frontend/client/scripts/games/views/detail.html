@@ -6,7 +6,7 @@
 
     <div class="col-md-6">
         <section class="panel panel-default">
-            <div class="panel-heading"><strong><span class="flaticon-football7"></span> <span data-i18n="Torneo"></span></strong></div>
+            <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> <span data-i18n="Torneo"></span></strong></div>
             <div class="panel-body game-details">
                     <div class="form-group game-header">
                         <i class="flaticon-big55"></i>
@@ -28,7 +28,7 @@
                           <span>{{ game.owner }}</span>
                     </div>
 
-                    <div class="form-group game-players" ng-repeat="player in game.gameplayers" >
+                    <div class="form-group game-players" ng-repeat="player in game.gameplayers" ng-if="player.username != game.owner">
                         <i class="flaticon-tshirt19"></i>
                             <span>{{ player.username }}</span>
                     </div>

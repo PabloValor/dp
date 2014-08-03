@@ -1,0 +1,38 @@
+<section class="page" ng-controller="FriendsSearchController">
+    <section class="panel panel-default">
+        <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> Buscar Amigos</strong></div>
+        <div class="panel-body">
+            <form role="form" ng-submit="search()" name="form_search" novalidate>
+                <div class="form-group col-sm-7">
+                  <input type="text" class="form-control col-sm-10" name="username" ng-model="username" placeholder="Buscar Amigos" required>
+                </div>
+                <button type="submit" class="btn btn-primary" data-ng-disabled="!form_search.$valid">Buscar</button>
+            </form>              
+
+            <div class="callout callout-info" ng-show="intro">
+                <p>Busca nuevos amigos para jugar Torneos</p>
+            </div>
+
+            <div class="callout callout-danger" ng-show="not_found">
+              <p>No se encontraron jugadores con el apodo: <strong>{{ not_found }} </strong></p>
+            </div>
+
+            <table class="table players-list" ng-show="players">
+                <thead>
+                    <tr>
+                        <th>Apodo</th>
+                        <th>Estado</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="player in players" >
+                        <td class="col-sm-7"> {{ player.username }} </td>
+                        <td class="col-sm-3"></td>
+                        <td class="col-sm-2"> <button class="btn btn-info"><span class="flaticon-sports35 ask-friendship"></span>Solicitar Amistad</button> </td>
+                    </tr>
+                </tbody>
+            </table>
+      </div>
+    </section>
+</section>

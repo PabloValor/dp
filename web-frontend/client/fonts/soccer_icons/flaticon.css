@@ -224,3 +224,11 @@
 .flaticon-winners:before {
 	content: "\e045";
 }
+
+.flaticon-medium:before {
+    font-size: 30px;
+}
+
+.flaticon-big:before {
+    font-size: 35px;
+}

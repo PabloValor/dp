@@ -1,4 +1,4 @@
-<header class="clearfix" >
+<header class="clearfix" ng-controller="HeaderController">
     <a href="#/" data-toggle-min-nav class="toggle-min" ><i class="fa fa-bars"></i></a>
 
     <!-- Logo -->
@@ -195,7 +195,7 @@
                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                     <img src="images/g1.jpg" alt="" class="img-circle img30_30">
                     <span class="hidden-xs">
-                      <span data-i18n="{{ username }}"></span>
+                      <span data-i18n="{{ username() }}"></span>
                     </span>
                 </a>
                 <ul class="dropdown-menu with-arrow pull-right">

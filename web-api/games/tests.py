@@ -980,3 +980,86 @@ class PlayerAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+
+class PlayerSearchAPITest(APITestCase):
+    def test_get_all__401_UNAUTHORIZED(self): 
+        player = PlayerFactory()
+
+        url = reverse('playerListSearch', kwargs={'username': ''})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_filter_current_user_200_OK(self): 
+        player = PlayerFactory()
+
+        # Player authentication
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerListSearch', kwargs={'username': player.username})
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.data), 0)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_all_returns_nothing_200_OK(self): 
+        player = PlayerFactory()
+        player_2 = PlayerFactory()
+
+        # Player authentication
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerListSearch', kwargs={'username': ''})
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.data), 0)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_search_ignore_case_200_OK(self): 
+        player = PlayerFactory()
+        PlayerFactory(username = 'User 1')
+        PlayerFactory(username = 'UsEr 2')
+
+        # Player authentication
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerListSearch', kwargs={'username': 'user'})
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_search_ignore_whitespace_200_OK(self): 
+        player = PlayerFactory()
+        PlayerFactory(username = 'User 1')
+        PlayerFactory(username = 'UsEr 2')
+
+        # Player authentication
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerListSearch', kwargs={'username': ' user   '})
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_filter_200_OK(self): 
+        player = PlayerFactory()
+        PlayerFactory(username = 'User 1')
+        PlayerFactory(username = 'UsEr 2')
+        PlayerFactory(username = 'Name 2')
+        PlayerFactory(username = 'USERName 2')
+
+        # Player authentication
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerListSearch', kwargs={'username': ' uSeR   '})
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.data), 3)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

@@ -53,6 +53,18 @@ class PlayerUpdate(generics.UpdateAPIView):
     queryset = Player.objects.all()
     serializer_class = PlayerUpdateSerializer
 
+class PlayerListSearch(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = PlayerSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        username = self.kwargs['username'].strip()
+        if len(username) == 0:
+          return []
+
+        return Player.objects.exclude(id = user.id).filter(username__icontains=username)
+
 class FriendsList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, IsSameUser,)
     serializer_class = PlayerSerializer

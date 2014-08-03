@@ -3219,20 +3219,20 @@ select[multiple].input-lg,
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_buttons\.scss}line{font-family:\0000364}}
 .btn-success {
   color: white;
-  background-color: #23ae89;
-  border-color: #1f9978;
+  background-color: #1c7ebb;
+  border-color: #196fa5;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003508}}
 .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active {
   color: white;
-  background-color: #1c8c6e;
-  border-color: #146650;
+  background-color: #176698;
+  border-color: #114b70;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003513}}
 .open .btn-success.dropdown-toggle {
   color: white;
-  background-color: #1c8c6e;
-  border-color: #146650;
+  background-color: #176698;
+  border-color: #114b70;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003519}}
 .btn-success:active, .btn-success.active {
@@ -3244,12 +3244,12 @@ select[multiple].input-lg,
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003532}}
 .btn-success.disabled, .btn-success.disabled:hover, .btn-success.disabled:focus, .btn-success.disabled:active, .btn-success.disabled.active, .btn-success[disabled], .btn-success[disabled]:hover, .btn-success[disabled]:focus, .btn-success[disabled]:active, .btn-success[disabled].active, fieldset[disabled] .btn-success, fieldset[disabled] .btn-success:hover, fieldset[disabled] .btn-success:focus, fieldset[disabled] .btn-success:active, fieldset[disabled] .btn-success.active {
-  background-color: #23ae89;
-  border-color: #1f9978;
+  background-color: #1c7ebb;
+  border-color: #196fa5;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003538}}
 .btn-success .badge {
-  color: #23ae89;
+  color: #1c7ebb;
   background-color: white;
 }
 
@@ -5999,11 +5999,11 @@ input[type="button"].btn-block {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_labels\.scss}line{font-family:\0000350}}
 .label-success {
-  background-color: #23ae89;
+  background-color: #1c7ebb;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003583}}
 .label-success[href]:hover, .label-success[href]:focus {
-  background-color: #1a8468;
+  background-color: #15608f;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_labels\.scss}line{font-family:\0000354}}
@@ -6324,7 +6324,7 @@ a.thumbnail.active {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_progress-bars\.scss}line{font-family:\0000366}}
 .progress-bar-success {
-  background-color: #23ae89;
+  background-color: #1c7ebb;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/bootstrap-sass\/bootstrap\/_mixins\.scss}line{font-family:\00003626}}
 .progress-striped .progress-bar-success {
@@ -7903,7 +7903,7 @@ span.block {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_scaffolding\.scss}line{font-family:\0000336}}
 .bg-success {
-  background-color: #23ae89;
+  background-color: #1c7ebb;
   color: white;
 }
 
@@ -8040,7 +8040,7 @@ span.block {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_type\.scss}line{font-family:\0000330}}
 .color-success {
-  color: #23ae89;
+  color: #1c7ebb;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_type\.scss}line{font-family:\0000333}}
@@ -8426,8 +8426,8 @@ span.block {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\0000386}}
 .ui-checkbox input[type="checkbox"]:checked + span:before {
   /* CAMBIE */
-  background-color: #23ae89;
-  border: 1px solid #23ae89;
+  background-color: #1c7ebb;
+  border: 1px solid #1c7ebb;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\0000391}}
 .ui-checkbox input[type="checkbox"]:checked + span:after {
@@ -8555,11 +8555,11 @@ input.input-info:focus {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-input\.scss}line{font-family:\0000339}}
 input.input-success {
-  border-color: #23ae89;
+  border-color: #1c7ebb;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-input\.scss}line{font-family:\0000341}}
 input.input-success:focus {
-  border-color: #23ae89;
+  border-color: #1c7ebb;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-input\.scss}line{font-family:\0000345}}
@@ -8697,9 +8697,9 @@ input.input-danger:focus {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-switch\.scss}line{font-family:\0000330}}
 .switch.switch-success :checked + i {
-  -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #23ae89;
-  -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #23ae89;
-  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #23ae89;
+  -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #1c7ebb;
+  -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #1c7ebb;
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5), inset 0 0 50px #1c7ebb;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-switch\.scss}line{font-family:\0000334}}
@@ -8761,17 +8761,17 @@ input.input-danger:focus {
 .btn-line-success {
   color: #767676;
   background-color: transparent;
-  border-color: #1f9978;
+  border-color: #196fa5;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_buttons\.scss}line{font-family:\0000311}}
 .btn-line-success:hover, .btn-line-success:focus, .btn-line-success:active, .btn-line-success.active {
   color: white;
-  background-color: #23ae89;
+  background-color: #1c7ebb;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_buttons\.scss}line{font-family:\0000316}}
 .open .btn-line-success.dropdown-toggle {
   color: white;
-  background-color: #23ae89;
+  background-color: #1c7ebb;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_buttons\.scss}line{font-family:\0000338}}
@@ -9376,7 +9376,7 @@ html {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_badges\.scss}line{font-family:\000039}}
 .badge-success {
-  background-color: #23ae89;
+  background-color: #1c7ebb;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_badges\.scss}line{font-family:\0000313}}
@@ -9481,11 +9481,11 @@ html {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_callout\.scss}line{font-family:\0000316}}
 .callout-success {
   background-color: #f3faf3;
-  border-color: #23ae89;
+  border-color: #1c7ebb;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_callout\.scss}line{font-family:\0000320}}
 .callout-success h4 {
-  color: #23ae89;
+  color: #1c7ebb;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_callout\.scss}line{font-family:\0000325}}
@@ -10719,7 +10719,7 @@ button.toast-close-button {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/plugins\/_toastr\.scss}line{font-family:\00003149}}
 .toast-success {
-  background-color: #1c8c6e;
+  background-color: #176698;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/plugins\/_toastr\.scss}line{font-family:\00003152}}
@@ -11740,6 +11740,16 @@ button.toast-close-button {
   font-weight: bold;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\000031}}
+.friends-list {
+  cursor: pointer;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\000036}}
+.players-list .ask-friendship {
+  margin-right: 5px;
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_nav\.scss}line{font-family:\000037}}
 #nav-container {
   z-index: 11;
@@ -12285,7 +12295,7 @@ button.toast-close-button {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_form\.scss}line{font-family:\000036}}
 .form-validation .ng-valid.ng-dirty {
-  border-color: #23ae89;
+  border-color: #1c7ebb;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_form\.scss}line{font-family:\000039}}
 .form-validation .ng-invalid.ng-dirty {

@@ -59,7 +59,7 @@ angular.module('app.games')
                     console.log("creado con exito");
                     Data.currentGame = game;
                     Data.currentGame.new = true;
-                    $location.path('/torneo/' + game.id);
+                    $location.path('/torneos/detalle/' + game.id);
                 },
                 function() {
                     console.log("hubo un error");

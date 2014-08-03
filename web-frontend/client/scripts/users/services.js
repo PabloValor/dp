@@ -86,7 +86,7 @@ angular.module('app.users')
     }
 ])
 
-.factory('UserService', ['$http', 'SETTINGS', 'Session',  function($http, SETTINGS, Session) {
+.factory('UserService', ['$http', 'SETTINGS', 'Session', 'Data',  function($http, SETTINGS, Session, Data) {
     return {
         getUsername : function(){
           return Session.get('username');
@@ -124,8 +124,36 @@ angular.module('app.users')
                         f_error(response);
                     }
                 });
+        },
+        search: function(username, f_success, f_error) {
+            if(!!Data.search) {
+             if( !!Data.search[username]) {
+                f_success(Data.search[username]);
+                return;
+              }
+            } else {
+              Data.search = {};
             }
+
+            $http.get(SETTINGS.url.playerSearch(username))
+                .success(function(response) {
+                    console.log(response);
+
+                    Data.search[username] = response;
+
+                    if(!!f_success) {
+                        f_success(response);
+                    }
+                })
+                .error(function(response) {
+                    console.log(response);
+
+                    if(!!f_error) {
+                        f_error(response);
+                    }
+                });
         }
+    }
 }])
 
 .factory('Facebook',['$http',  '$window', '$rootScope', 'AuthenticationService', 'Session', 
