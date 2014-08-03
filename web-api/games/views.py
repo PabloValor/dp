@@ -1,8 +1,11 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from .models import Game, Player, GamePlayer
-from .serializers import GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer, GamePlayerReadOnlySerializer, PlayerSearchSerializer, PlayerFriendSerializer
-from .permissions import IsOwnerOrReadOnly, IsSameUser
+from .serializers import ( GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer, 
+                           GamePlayerReadOnlySerializer, PlayerSearchSerializer, PlayerFriendSerializer,
+                           PlayerFriendUpdateSerializer, )
+
+from .permissions import IsOwnerOrReadOnly, IsSameUser, IsFriend
 
 class GamePlayerList(generics.ListAPIView):
     ## HACER TESTS
@@ -65,7 +68,7 @@ class PlayerListSearch(generics.ListAPIView):
 
         return Player.objects.exclude(id = user.id).filter(username__icontains=username)
 
-class FriendsList(generics.ListAPIView):
+class PlayerFriendsList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = PlayerSearchSerializer
 
@@ -79,6 +82,14 @@ class PlayerFriendCreate(generics.CreateAPIView):
 
     def pre_save(self, obj):
         obj.player = self.request.user
+
+class PlayerFriendUpdate(generics.UpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated, IsFriend)
+    serializer_class = PlayerFriendUpdateSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return user.friend.filter(status = None)
 
 from rest_framework.decorators import api_view
 from social.apps.django_app.utils import strategy

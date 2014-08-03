@@ -12,6 +12,18 @@
               </table>
           </div>
         </section>
+        <section class="panel panel-default">
+            <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> Solicitudes Pendientes</strong></div>
+            <div class="panel-body">
+              <table class="table friends-list table-striped table-hover">
+                  <tbody>
+                      <tr ng-repeat="friend in friends" ng-if="friend.is_limbo_friend">
+                          <td ng-click="selectFriend(friend)"> {{ friend.username }} </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+        </section>
     </div>
     <div class="col-md-5">
         <section class="panel panel-default">

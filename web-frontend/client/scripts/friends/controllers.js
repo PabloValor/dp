@@ -44,7 +44,7 @@ angular.module('app.friends')
       $scope.makeFriend = function(player) {
         UserService.makeFriend(player.id, 
           function(response) {
-            player.is_friend = null;
+            player.is_limbo_friend = true;
           }, 
           function(response) {
             console.log("no funca el server");

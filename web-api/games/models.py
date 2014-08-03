@@ -27,8 +27,8 @@ class Player(AbstractUser):
         friends = [pf.friend for pf in self.friend_player.filter(status = True)]
         return players + friends
 
-    def get_limbo_friends(self):
-        # Friends that didn't answer the Friends Petition
+    def get_ignored_friends(self):
+        # Friends that ask you to be your friend but you didn't answer the Friends Petition
         friends = [pf.player for pf in self.friend.filter(status = None)]
         return friends
 

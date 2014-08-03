@@ -1,4 +1,4 @@
-<section class="page" ng-controller="FriendsSearchController">friends
+<section class="page" ng-controller="FriendsSearchController">
     <section class="panel panel-default">
         <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> Buscar Amigos</strong></div>
         <div class="panel-body">
@@ -29,7 +29,7 @@
                         <td class="col-sm-7"> {{ player.username }} </td>
 
                         <td class="col-sm-3" ng-hide="player.is_friend || player.is_limbo_friend"> 
-                          <button class="btn btn-info"><span class="flaticon-sports35 ask-friendship"></span>Solicitar Amistad</button> 
+                          <button class="btn btn-info" ng-click="makeFriend(player)"><span class="flaticon-sports35 ask-friendship"></span>Solicitar Amistad</button> 
                         </td>
 
                         <td class="col-sm-3" ng-show="player.is_limbo_friend"> 

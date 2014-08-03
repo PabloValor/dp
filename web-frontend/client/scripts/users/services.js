@@ -159,6 +159,23 @@ angular.module('app.users')
                         f_error(response);
                     }
                 });
+        },
+        makeFriend : function(player_id, f_success, f_error) {
+            $http.post(SETTINGS.url.playerMakeFriend(), { 'friend': player_id })
+                .success(function(response) {
+                    console.log(response);
+
+                    if(!!f_success) {
+                        f_success(response);
+                    }
+                })
+                .error(function(response) {
+                    console.log(response);
+
+                    if(!!f_error) {
+                        f_error(response);
+                    }
+                });
         }
     }
 }])

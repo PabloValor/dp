@@ -10,3 +10,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 class IsSameUser(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return request.method == 'PUT' and  obj == request.user
+
+class IsFriend(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return request.method == 'PUT' and  obj.friend == request.user
