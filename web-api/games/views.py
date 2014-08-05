@@ -1,9 +1,9 @@
 from rest_framework import generics, permissions, status
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .models import Game, Player, GamePlayer
+from .models import Game, Player, GamePlayer, PlayerFriend
 from .serializers import ( GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer, 
-                           GamePlayerReadOnlySerializer, PlayerSearchSerializer, PlayerFriendSerializer,
-                           PlayerFriendUpdateSerializer, )
+                           GamePlayerReadOnlySerializer, PlayerSearchSerializer, PlayerFriendSerializer, )
 
 from .permissions import IsOwnerOrReadOnly, IsSameUser, IsFriend
 
@@ -83,15 +83,25 @@ class PlayerFriendCreate(generics.CreateAPIView):
     def pre_save(self, obj):
         obj.player = self.request.user
 
-class PlayerFriendUpdate(generics.UpdateAPIView):
-    permission_classes = (permissions.IsAuthenticated, IsFriend)
-    serializer_class = PlayerFriendUpdateSerializer
+@api_view(['PUT'])
+@permission_classes((permissions.IsAuthenticated,))
+def player_friend_update(request, pk):
+    if not request.DATA.has_key('status'):
+      return Response(status = status.HTTP_400_BAD_REQUEST)
 
-    def get_queryset(self):
-        user = self.request.user
-        return user.friend.filter(status = None)
+    try:
+      user = request.user
+      pf = user.friend.get(player__pk = pk, status = None) 
+      pf.status = request.DATA['status']
+      pf.save()
 
-from rest_framework.decorators import api_view
+      return Response(status = status.HTTP_200_OK)
+
+    except PlayerFriend.DoesNotExist:
+      return Response(status = status.HTTP_400_BAD_REQUEST)
+          
+
+
 from social.apps.django_app.utils import strategy
 
 @strategy()

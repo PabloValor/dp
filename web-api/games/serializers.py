@@ -45,10 +45,13 @@ class IsFriendField(serializers.Field):
 class PlayerSearchSerializer(serializers.ModelSerializer):
     is_friend = IsFriendField(source = 'get_true_friends')
     is_limbo_friend = IsFriendField(source = 'get_ignored_friends')
+    is_waiting_for_you = IsFriendField(source = 'get_friends_that_ignored_us')
+    is_bad_friend = IsFriendField(source = 'get_friends_we_rejected')
+    you_are_bad_friend = IsFriendField(source = 'get_bad_friends')
 
     class Meta:
         model = Player
-        fields = ('id', 'username','is_friend', 'is_limbo_friend')
+        fields = ('id', 'username','is_friend', 'is_limbo_friend', 'is_waiting_for_you','is_bad_friend', 'you_are_bad_friend')
 
 class PlayerFriendSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,11 +69,6 @@ class PlayerFriendSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("They are already friends")
 
         return attrs
-
-class PlayerFriendUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PlayerFriend
-        fields = ('status',)
 
 class PlayerCreateSerializer(serializers.ModelSerializer):
     class Meta:

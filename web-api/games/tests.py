@@ -1079,10 +1079,12 @@ class PlayerFriendAPITest(APITestCase):
         self.assertEqual(len(player.get_true_friends()), 0)
         self.assertEqual(len(player.get_all_friends()), 1)
         self.assertEqual(len(player.get_ignored_friends()), 0)
+        self.assertEqual(len(player.get_friends_that_ignored_us()), 1)
 
         self.assertEqual(len(friend.get_true_friends()), 0)
         self.assertEqual(len(friend.get_all_friends()), 1)
         self.assertEqual(len(friend.get_ignored_friends()), 1)
+        self.assertEqual(len(friend.get_friends_that_ignored_us()), 0)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -1131,6 +1133,12 @@ class PlayerFriendAPITest(APITestCase):
         self.assertEqual(len(response.data), 2)
         self.assertEqual(response.data[0]['id'], pf_1.friend.id)
         self.assertEqual(response.data[1]['id'], pf_2.friend.id)
+
+        self.assertEqual(len(player.get_friends_that_ignored_us()), 2)
+        self.assertEqual(len(player.get_true_friends()), 0)
+        self.assertEqual(len(player.get_all_friends()), 2)
+        self.assertEqual(len(player.get_ignored_friends()), 0)
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_player_friends_B_200_OK(self): 
@@ -1218,17 +1226,20 @@ class PlayerFriendAPITest(APITestCase):
         self.assertEqual(len(player.get_true_friends()), 0)
         self.assertEqual(len(friend.get_true_friends()), 0)
         self.assertEqual(len(friend.get_ignored_friends()), 1)
+        self.assertEqual(len(player.get_friends_that_ignored_us()), 1)
 
-        url = reverse('playerFriendUpdate', kwargs={'pk': pf.id})
+        url = reverse('playerFriendUpdate', kwargs={'pk': player.id})
         response = self.client.put(url, {'status': True }, format='json')
 
         self.assertEqual(len(player.get_true_friends()), 1)
+        self.assertEqual(len(player.get_friends_that_ignored_us()), 0)
         self.assertEqual(len(friend.get_true_friends()), 1)
         self.assertEqual(len(friend.get_ignored_friends()), 0)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_update_player_rejects_invitation_200_OK(self): 
         player = PlayerFactory()
+        PlayerFactory()
         friend = PlayerFactory()
         pf = PlayerFriendFactory(player = player, friend = friend)
 
@@ -1237,19 +1248,23 @@ class PlayerFriendAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         self.assertEqual(len(player.get_true_friends()), 0)
+        self.assertEqual(len(player.get_bad_friends()), 0)
         self.assertEqual(len(friend.get_true_friends()), 0)
         self.assertEqual(len(friend.get_ignored_friends()), 1)
+        self.assertEqual(len(friend.get_friends_we_rejected()), 0)
 
-        url = reverse('playerFriendUpdate', kwargs={'pk': pf.id})
+        url = reverse('playerFriendUpdate', kwargs={'pk': player.id})
         response = self.client.put(url, {'status': False }, format='json')
 
         self.assertEqual(len(player.get_true_friends()), 0)
+        self.assertEqual(len(player.get_bad_friends()), 1)
         self.assertEqual(len(friend.get_true_friends()), 0)
         self.assertEqual(len(friend.get_ignored_friends()), 0)
+        self.assertEqual(len(friend.get_friends_we_rejected()), 1)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_update_player_tries_to_cheat_invitation_A_200_OK(self): 
+    def test_update_player_tries_to_cheat_invitation_A_400_BAD_REQUEST(self): 
         player = PlayerFactory()
         friend = PlayerFactory()
         pf = PlayerFriendFactory(player = player, friend = friend)
@@ -1258,7 +1273,7 @@ class PlayerFriendAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        url = reverse('playerFriendUpdate', kwargs={'pk': pf.id})
+        url = reverse('playerFriendUpdate', kwargs={'pk': player.id})
         response = self.client.put(url, {'status': False }, format='json')
 
         self.assertEqual(len(player.get_true_friends()), 0)
@@ -1266,7 +1281,15 @@ class PlayerFriendAPITest(APITestCase):
         self.assertEqual(len(friend.get_ignored_friends()), 1)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_update_player_tries_to_cheat_invitation_B_200_OK(self): 
+        url = reverse('playerFriendUpdate', kwargs={'pk': friend.id})
+        response = self.client.put(url, {'status': True }, format='json')
+
+        self.assertEqual(len(player.get_true_friends()), 0)
+        self.assertEqual(len(friend.get_true_friends()), 0)
+        self.assertEqual(len(friend.get_ignored_friends()), 1)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_update_player_tries_to_cheat_invitation_B_400_BAD_REQUEST(self): 
         # A completely different user tries to cheat it
         player = PlayerFactory()
         pf = PlayerFriendFactory()
@@ -1275,15 +1298,18 @@ class PlayerFriendAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        url = reverse('playerFriendUpdate', kwargs={'pk': pf.id})
-        response = self.client.put(url, {'status': False }, format='json')
+        url = reverse('playerFriendUpdate', kwargs={'pk': pf.player.id})
+        response = self.client.put(url, {'status': True }, format='json')
+
+        url = reverse('playerFriendUpdate', kwargs={'pk': pf.friend.id})
+        response = self.client.put(url, {'status': True }, format='json')
 
         self.assertEqual(len(pf.player.get_true_friends()), 0)
         self.assertEqual(len(pf.friend.get_true_friends()), 0)
         self.assertEqual(len(pf.friend.get_ignored_friends()), 1)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_update_player_tries_to_cheat_invitation_C_200_OK(self): 
+    def test_update_player_tries_to_cheat_invitation_C_400_BAD_REQUEST(self): 
         # A user with a relantionship tries to cheat other one
         player = PlayerFactory()
         friend = PlayerFactory()
@@ -1294,8 +1320,11 @@ class PlayerFriendAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        url = reverse('playerFriendUpdate', kwargs={'pk': pf.id})
-        response = self.client.put(url, {'status': False }, format='json')
+        url = reverse('playerFriendUpdate', kwargs={'pk': friend.id})
+        response = self.client.put(url, {'status': True }, format='json')
+
+        url = reverse('playerFriendUpdate', kwargs={'pk': player.id})
+        response = self.client.put(url, {'status': True }, format='json')
 
         self.assertEqual(len(pf.friend.get_true_friends()), 0)
         self.assertEqual(len(pf.friend.get_ignored_friends()), 2)

@@ -17,6 +17,8 @@ class Player(AbstractUser):
     def __unicode__(self):
         return self.username
 
+    # Think other way to do this
+    # < --
     def get_all_friends(self):
         players = [pf.player for pf in self.friend.filter()]
         friends = [pf.friend for pf in self.friend_player.filter()]
@@ -31,6 +33,19 @@ class Player(AbstractUser):
         # Friends that ask you to be your friend but you didn't answer the Friends Petition
         friends = [pf.player for pf in self.friend.filter(status = None)]
         return friends
+
+    def get_friends_that_ignored_us(self):
+        friends = [pf.friend for pf in self.friend_player.filter(status = None)]
+        return friends
+
+    def get_bad_friends(self):
+        friends = [pf.friend for pf in self.friend_player.filter(status = False)]
+        return friends
+
+    def get_friends_we_rejected(self):
+        friends = [pf.player for pf in self.friend.filter(status = False)]
+        return friends
+    # -- >
 
     def make_prediction(self, match_id, local_team_goals, visitor_team_goals):
         prediction = PlayerMatchPrediction.objects.filter(match_id = match_id, player_id = self.pk)

@@ -10,8 +10,8 @@ angular.module('app.games')
     }
 ])
 
-.controller('NewGameController', ['$scope', '$location', 'TournamentService', 'GameService', 'Facebook', 'UserService', 'Data',
-    function($scope, $location, TournamentService, GameService, Facebook, UserService, Data)  {
+.controller('NewGameController', ['$scope', '$location', 'TournamentService', 'GameService', 'Facebook', 'UserService', 'Data', 'FriendsService',
+    function($scope, $location, TournamentService, GameService, Facebook, UserService, Data, FriendsService)  {
         TournamentService.all(function(tournaments) {
             $scope.tournaments = tournaments;
         });
@@ -24,7 +24,7 @@ angular.module('app.games')
             console.log($scope.emailPlayers);
         };
         $scope.emailFilter = function(value) {
-            return !!value.email && value.is_friend;
+            return !!value.email;
         };
 
         $scope.removeEmailPlayer = function(player) {
@@ -40,7 +40,7 @@ angular.module('app.games')
                 });
         }
 
-        UserService.getFriends(
+        FriendsService.getFriends(
                 function(friends) {
                     $scope.friends = friends;
                 },

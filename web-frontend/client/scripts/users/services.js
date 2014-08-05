@@ -108,30 +108,6 @@ angular.module('app.users')
                     }
                 });
         }, 
-        getFriends: function(f_success, f_error) {
-            if(!!Data.friends) {
-                f_success(Data.friends);
-                return;
-            } 
-
-            $http.get(SETTINGS.url.playerFriends())
-                .success(function(response) {
-                    console.log(response);
-
-                    Data.friends = response;
-
-                    if(!!f_success) {
-                        f_success(response);
-                    }
-                })
-                .error(function(response) {
-                    console.log(response);
-
-                    if(!!f_error) {
-                        f_error(response);
-                    }
-                });
-        },
         search: function(username, f_success, f_error) {
             if(!!Data.search) {
              if( !!Data.search[username]) {
@@ -160,22 +136,8 @@ angular.module('app.users')
                     }
                 });
         },
-        makeFriend : function(player_id, f_success, f_error) {
-            $http.post(SETTINGS.url.playerMakeFriend(), { 'friend': player_id })
-                .success(function(response) {
-                    console.log(response);
-
-                    if(!!f_success) {
-                        f_success(response);
-                    }
-                })
-                .error(function(response) {
-                    console.log(response);
-
-                    if(!!f_error) {
-                        f_error(response);
-                    }
-                });
+        clearCache : function() {
+            delete Data.search;
         }
     }
 }])

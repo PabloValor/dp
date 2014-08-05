@@ -232,3 +232,11 @@
 .flaticon-big:before {
     font-size: 35px;
 }
+
+.icon-danger:before {
+    color: #E94B3B;
+}
+
+.icon-success:before {
+    color: #1C7EBB;
+}
