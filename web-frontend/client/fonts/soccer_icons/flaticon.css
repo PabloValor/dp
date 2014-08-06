@@ -237,6 +237,10 @@
     color: #E94B3B;
 }
 
-.icon-success:before {
+.icon-friend:before {
     color: #1C7EBB;
+}
+
+.icon-green:before {
+    color: #23AE89;
 }

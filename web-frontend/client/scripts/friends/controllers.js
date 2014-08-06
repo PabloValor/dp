@@ -73,6 +73,7 @@ angular.module('app.friends')
         FriendsService.makeFriend(player.id, 
           function(response) {
             player.is_limbo_friend = true;
+            player.you_are_bad_friend = false;
           }, 
           function(response) {
             console.log("no funca el server");

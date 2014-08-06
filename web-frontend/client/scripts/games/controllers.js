@@ -1,11 +1,17 @@
 'use strict';
 angular.module('app.games')
 
-.controller('GameController', ['$scope', 'GameService', 
-    function($scope, GameService)  {
-        GameService.all(function(playergames) {
-          $scope.playergames = playergames;
+.controller('GameController', ['$scope', '$location', 'GameService', 'Data',
+    function($scope, $location, GameService, Data)  {
+        GameService.all(function(games) {
+          $scope.games = games;
         });
+
+        $scope.gameDetail = function(game) {
+          Data.currentGame = game;
+          console.log(game);
+          $location.path('/torneos/detalle/' + game.id);
+        }
 
     }
 ])
@@ -68,16 +74,32 @@ angular.module('app.games')
     }
 ])
 
-.controller('DetailGameController', ['$scope', '$routeParams', 'GameService', 'Data',
-    function($scope, $routeParams, GameService, Data)  {
-        if(!!Data.currentGame && Data.currentGame.new) {
+.controller('DetailGameController', ['$scope', '$routeParams', 'GameService', 'Data', 'UserService',
+    function($scope, $routeParams, GameService, Data, UserService)  {
+        function setUserStatus(game) {
+          $scope.is_owner = game.owner == $scope.username;
+
+          if(!$scope.is_owner) {
+            $scope.user = game.gameplayers.filter(function(e) { e.username == $scope.username });
+            $scope.user.is_playing = !!$scope.user.status;
+            $scope.user.rejects = $scope.user.status == false;
+            $scope.user.has_to_decide = $scope.user.status == undefined;
+          }
+        }
+
+        $scope.username = UserService.getUsername();
+
+        if(!!Data.currentGame) {
           $scope.game = Data.currentGame;
-          $scope.show_message = true;
+          $scope.show_message = !!Data.currentGame.new;
           Data.currentGame.new = false;
+          setUserStatus($scope.game);
+
         } else {
           GameService.get($routeParams.gameId, 
             function(game) {
               $scope.game = game;
+              setUserStatus(game);
           });
         }
       

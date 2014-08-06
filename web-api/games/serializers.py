@@ -1,32 +1,25 @@
 from rest_framework import serializers
+from django.db.models import Q
 from .models import Game, Player, GamePlayer, PlayerFriend
 
 class GamePlayerSerializer(serializers.ModelSerializer):
     id = serializers.Field(source = 'player.id')
     username = serializers.Field(source = 'player.username')
+    status = serializers.Field(source = 'player_invitation_status')
 
     class Meta:
         model = GamePlayer
-        fields = ('player', 'username',)
+        fields = ('player', 'username', 'status')
 
 class GameSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source = 'owner.username')
     tournament_name = serializers.Field(source = 'tournament.name')
-
-    gameplayers =  GamePlayerSerializer(source="gameplayer_set", many = True)
+    gameplayers = GamePlayerSerializer(source="gameplayer_set", many = True)
 
     class Meta:
         model = Game
         fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 'gameplayers')
 
-class GamePlayerReadOnlySerializer(serializers.ModelSerializer):
-    username = serializers.Field(source = 'player.username')
-
-    class Meta:
-        model = GamePlayer
-        fields = ('player', 'username', 'game', 'player_invitation_status',)
-
-GamePlayerReadOnlySerializer.base_fields['game'] = GameSerializer()
 
 class PlayerSerializer(serializers.ModelSerializer):
 #    games = serializers.PrimaryKeyRelatedField(many = True)
@@ -59,13 +52,17 @@ class PlayerFriendSerializer(serializers.ModelSerializer):
         fields = ('friend',)
 
     def validate(self, attrs):
-        player = self.context['request'].user
+        friend_asking = self.context['request'].user
         friend = attrs['friend']
 
-        if player.friends.filter(id = friend.id).exists():
+        # If he had already asks we raise an error. It doesn't matter if they are friends or not. 
+        if friend_asking.friend_player.filter(friend__id = friend.id).exists():
             raise serializers.ValidationError("They are already friends")
 
-        if friend.friends.filter(id = player.id).exists():
+        # If he is already a friend or if he hasn't answer the request of his friend and wants to 
+        # create a new request we raise an error.
+        # If he has rejected his friend and wants to create a new request is OK.
+        if friend.friend_player.filter(Q(status = None) | Q(status = True), friend__id = friend_asking.id).exists():
             raise serializers.ValidationError("They are already friends")
 
         return attrs

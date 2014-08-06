@@ -28,28 +28,25 @@
                     <tr ng-repeat="player in players" >
                         <td class="col-sm-7"> {{ player.username }} </td>
 
-                        <td class="col-sm-3" ng-hide="player.is_friend || player.is_limbo_friend || player.is_bad_friend || player.you_are_bad_friend || player.is_waiting_for_you">  
-                          <button class="btn btn-info" ng-click="makeFriend(player)"><span class="flaticon-sports35 ask-friendship "></span>Solicitar Amistad</button> 
+                        <td class="col-sm-3" > 
+                          <span class="flaticon-sports35 ask-friendship" ng-show="player.is_limbo_friend"> Se hizo el pedido de amistad</span>
+                          <span class="flaticon-sports35 ask-friendship icon-friend" ng-show="player.is_friend"> Es tu amigo!</span>
+                          <span class="flaticon-sports35 ask-friendship" ng-show="player.is_waiting_for_you"> Esta esperando tu respuesta</span>
+                          <span class="flaticon-sports35 ask-friendship icon-danger" ng-show="player.is_bad_friend"> Rechazo tu pedido de amistad</span>
+                          <span class="flaticon-sports35 ask-friendship icon-danger" ng-show="player.you_are_bad_friend"> Rechazaste su pedido de amistad</span>
                         </td>
 
-                        <td class="col-sm-3" ng-show="player.is_limbo_friend"> 
-                          <span class="flaticon-sports35 ask-friendship"> Ya se hizo el pedido de amistad</span>
-                        </td>
 
-                        <td class="col-sm-3" ng-show="player.is_friend"> 
-                          <span class="flaticon-sports35 ask-friendship icon-success"> Ya es tu amigo!</span>
-                        </td>
-
-                        <td class="col-sm-3" ng-show="player.is_waiting_for_you"> 
-                          <span class="flaticon-sports35 ask-friendship"> Esta esperando tu respuesta</span>
-                        </td>
-
-                        <td class="col-sm-3" ng-show="player.is_bad_friend"> 
-                          <span class="flaticon-sports35 ask-friendship icon-danger"> Rechazo tu pedido de amistad</span>
-                        </td>
-
-                        <td class="col-sm-3" ng-show="player.you_are_bad_friend"> 
-                          <span class="flaticon-sports35 ask-friendship icon-danger"> Rechazaste su pedido de amistad</span>
+                        <td class="col-sm-2" > 
+                          <button class="btn btn-info" ng-click="makeFriend(player)" ng-show="player.you_are_bad_friend">
+                            <span class="flaticon-sports35 ask-friendship "></span>
+                            Solicitar Amistad
+                          </button> 
+                          <button class="btn btn-info" ng-click="makeFriend(player)" 
+                                 ng-hide="player.is_friend || player.is_limbo_friend || player.is_bad_friend || player.you_are_bad_friend || player.is_waiting_for_you" >
+                                 <span class="flaticon-sports35 ask-friendship "></span>
+                                 Solicitar Amistad
+                          </button> 
                         </td>
                     </tr>
                 </tbody>

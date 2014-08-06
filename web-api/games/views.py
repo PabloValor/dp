@@ -3,18 +3,18 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Game, Player, GamePlayer, PlayerFriend
 from .serializers import ( GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer, 
-                           GamePlayerReadOnlySerializer, PlayerSearchSerializer, PlayerFriendSerializer, )
+                           PlayerSearchSerializer, PlayerFriendSerializer, )
 
 from .permissions import IsOwnerOrReadOnly, IsSameUser, IsFriend
 
 class GamePlayerList(generics.ListAPIView):
     ## HACER TESTS
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
-    serializer_class = GamePlayerReadOnlySerializer
+    serializer_class = GameSerializer
 
     def get_queryset(self):
         user = self.request.user
-        return user.gameplayer_set.all()
+        return user.games.all()
 
 
 class GameList(generics.CreateAPIView):
@@ -82,6 +82,10 @@ class PlayerFriendCreate(generics.CreateAPIView):
 
     def pre_save(self, obj):
         obj.player = self.request.user
+
+        # If the player who rejected the last invitation creates a new one
+        # we delete the old one (maybe in the future we will like to save this info)
+        PlayerFriend.objects.filter(friend =  obj.player, player = obj.friend, status = False).delete()
 
 @api_view(['PUT'])
 @permission_classes((permissions.IsAuthenticated,))

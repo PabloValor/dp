@@ -11676,7 +11676,7 @@ button.toast-close-button {
 .game-details .game-players {
   margin-left: 20px;
   line-height: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000316}}
 .game-details .game-players i:before {

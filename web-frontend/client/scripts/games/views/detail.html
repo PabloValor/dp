@@ -24,20 +24,41 @@
                     </div>
 
                     <div class="form-group game-owner">
-                        <i class="flaticon-soccer18"></i>
+                        <i ng-class="{'icon-danger' : game.owner == username, 'flaticon-soccer18' : true}"></i>
                           <span>{{ game.owner }}</span>
+                          <span ng-if="game.owner == username"> (vos)</span>
                     </div>
 
-                    <div class="form-group game-players" ng-repeat="player in game.gameplayers" ng-if="player.username != game.owner">
-                        <i class="flaticon-tshirt19"></i>
-                            <span>{{ player.username }}</span>
+                    <div class="row" ng-repeat="player in game.gameplayers" ng-if="player.username != game.owner">
+                      <div class="form-group game-players col-sm-7">
+                          <i ng-class="{'icon-danger' : player.username == username, 'flaticon-tshirt19' : true}"></i>
+                          <span>{{ player.username }}</span>
+                          <span ng-if="player.username == username"> (vos)</span>
+                      </div>
+
+                      <div>
+                        <span class="label label-primary" ng-show="player.status">Jugando</span>
+                        <span class="label label-success" ng-show="player.status == undefined">No respondio</span>
+                        <span class="label label-danger" ng-show="player.status == false">Rechazo</span>
+                      </div>
                     </div>
 
-                    <accordion  class="ui-accordion reglas">
-                        <accordion-group heading="Reglas">
-                            This content is straight in the template.
-                        </accordion-group>
-                    </accordion>
+                    <div class="callout callout-info" ng-show="is_owner">
+                      <p>Sos el creador de este torneo!</p>
+                    </div>
+
+                    <div class="callout callout-primary" ng-show="user.is_playing">
+                      <p>Estas jugando este torneo!</p>
+                    </div>
+
+                    <div class="callout callout-danger" ng-show="user.rejects">
+                      <p>Rechazaste jugar este torneo!</p>
+                    </div>
+
+                    <div class="callout callout-info" ng-show="user.has_to_decide">
+                      <p>Tenes que decidir si jugar o no este torneo.</p>
+                    </div>
+
             </div>
         </section>
     </div>
