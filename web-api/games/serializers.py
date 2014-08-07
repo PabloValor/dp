@@ -2,29 +2,40 @@ from rest_framework import serializers
 from django.db.models import Q
 from .models import Game, Player, GamePlayer, PlayerFriend
 
+
 class GamePlayerSerializer(serializers.ModelSerializer):
-    id = serializers.Field(source = 'player.id')
+    player_id = serializers.Field(source = 'player.id')
     username = serializers.Field(source = 'player.username')
-    status = serializers.Field(source = 'player_invitation_status')
 
     class Meta:
         model = GamePlayer
         fields = ('player', 'username', 'status')
 
+class GamePlayerUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GamePlayer
+        fields = ('status',)
+
+class UserGamePlayerField(serializers.Field):
+    def to_native(self, gameplayers):
+        if self.context:
+          user = self.context['request'].user
+          gameplayer = gameplayers.filter(player = user)
+          return gameplayer.values('id', 'player__username', 'status')
+
 class GameSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source = 'owner.username')
     tournament_name = serializers.Field(source = 'tournament.name')
     gameplayers = GamePlayerSerializer(source="gameplayer_set", many = True)
+    you = UserGamePlayerField(source = 'gameplayer_set')
 
     class Meta:
         model = Game
-        fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 'gameplayers')
-
+        fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 'gameplayers', 'you')
 
 class PlayerSerializer(serializers.ModelSerializer):
 #    games = serializers.PrimaryKeyRelatedField(many = True)
 #    owner_games = serializers.PrimaryKeyRelatedField(many = True)
-#    GamePlayerSerializer.base_fields['player'] = PlayerSerializer()
 
     class Meta:
         model = Player

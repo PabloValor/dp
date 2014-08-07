@@ -3,9 +3,10 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .views import *
 
 urlpatterns = patterns('games.views',
-        url(r'^$', GameList.as_view(), name = 'gameList'),
-        url(r'^list/$', GamePlayerList.as_view(), name = 'gamePlayerList'),
+        url(r'^$', GameCreate.as_view(), name = 'gameCreate'),
+        url(r'^list/$', GameList.as_view(), name = 'gameList'),
         url(r'^(?P<pk>[0-9]+)/$', GameDetail.as_view(), name = 'gameDetail'),
+        url(r'^gameplayer/(?P<pk>[0-9]+)/$', GamePlayerUpdate.as_view(), name = 'gamePlayerUpdate'),
         url(r'^player/$', PlayerCreate.as_view(), name = 'playerCreate'),
         url(r'^player/friend$', PlayerFriendCreate.as_view(), name = 'playerFriendCreate'),
         url(r'^player/friend/(?P<pk>[0-9]+)/$', 'player_friend_update', name = 'playerFriendUpdate'),

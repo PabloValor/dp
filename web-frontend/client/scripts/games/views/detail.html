@@ -29,9 +29,23 @@
                           <span ng-if="game.owner == username"> (vos)</span>
                     </div>
 
-                    <div class="row" ng-repeat="player in game.gameplayers" ng-if="player.username != game.owner">
+                    <div class="row" ng-hide="is_owner">
                       <div class="form-group game-players col-sm-7">
-                          <i ng-class="{'icon-danger' : player.username == username, 'flaticon-tshirt19' : true}"></i>
+                          <i ng-class="{'icon-green' : user.status, 'icon-danger' : !user.status, 'icon-blue': user.status == undefined, 'flaticon-tshirt19' : true}"></i>
+                          <span>{{ user.player__username }}</span>
+                          <span>(vos)</span>
+                      </div>
+
+                      <div>
+                        <span class="label label-primary" ng-show="user.status">Jugando</span>
+                        <span class="label label-success" ng-show="user.status == undefined">No respondiste</span>
+                        <span class="label label-danger" ng-show="user.status == false">Rechazaste</span>
+                      </div>
+                    </div>
+
+                    <div class="row" ng-repeat="player in game.gameplayers" ng-if="player.username != game.owner && player.username != user.player__username">
+                      <div class="form-group game-players col-sm-7">
+                          <i class="flaticon-tshirt19"></i>
                           <span>{{ player.username }}</span>
                           <span ng-if="player.username == username"> (vos)</span>
                       </div>
@@ -47,16 +61,27 @@
                       <p>Sos el creador de este torneo!</p>
                     </div>
 
-                    <div class="callout callout-primary" ng-show="user.is_playing">
-                      <p>Estas jugando este torneo!</p>
-                    </div>
+                    <div ng-hide="is_owner">
+                      <div class="callout callout-primary" ng-show="user.status">
+                        <p>Estas jugando este torneo!</p>
+                      </div>
 
-                    <div class="callout callout-danger" ng-show="user.rejects">
-                      <p>Rechazaste jugar este torneo!</p>
-                    </div>
+                      <div class="callout callout-danger" ng-show="user.status == false">
+                        <p>Rechazaste jugar este torneo!</p>
+                      </div>
 
-                    <div class="callout callout-info" ng-show="user.has_to_decide">
-                      <p>Tenes que decidir si jugar o no este torneo.</p>
+                      <div class="callout callout-info" ng-show="user.status == undefined">
+                        <p>Tenes que decidir si jugas o no este torneo.</p>
+                        <div class="row"> 
+                            <div class="col-sm-2">
+                              <strong> ¿Jugas? </strong>
+                            </div>
+                            <div class="col-sm-5">
+                              <button type="button" ng-click="updateGamePlayerStatus(true)" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok"></span>&nbsp; Si </button>
+                              <button type="button" ng-click="updateGamePlayerStatus(false)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp; No </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
             </div>

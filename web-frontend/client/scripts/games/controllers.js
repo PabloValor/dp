@@ -13,6 +13,16 @@ angular.module('app.games')
           $location.path('/torneos/detalle/' + game.id);
         }
 
+        $scope.youGameStatus = "";
+        $scope.gameSelectFilter = function(value) {
+          var filter = $scope.youGameStatus;
+          var status = value.you[0].status;
+
+          return (filter == "playing" && status ) ||
+                 (filter == "waiting" && status == undefined) ||
+                 (filter == "rejected" && status == false) ||
+                 (filter == "");
+        };
     }
 ])
 
@@ -78,13 +88,7 @@ angular.module('app.games')
     function($scope, $routeParams, GameService, Data, UserService)  {
         function setUserStatus(game) {
           $scope.is_owner = game.owner == $scope.username;
-
-          if(!$scope.is_owner) {
-            $scope.user = game.gameplayers.filter(function(e) { e.username == $scope.username });
-            $scope.user.is_playing = !!$scope.user.status;
-            $scope.user.rejects = $scope.user.status == false;
-            $scope.user.has_to_decide = $scope.user.status == undefined;
-          }
+          $scope.user = game.you[0]
         }
 
         $scope.username = UserService.getUsername();
@@ -101,6 +105,13 @@ angular.module('app.games')
               $scope.game = game;
               setUserStatus(game);
           });
+        }
+
+        $scope.updateGamePlayerStatus = function(status) {
+            GameService.updateGamePlayerStatus($scope.game.you[0].id, status, 
+                function(response) {
+                  $scope.user.status = status;
+                });
         }
       
     }

@@ -53,7 +53,24 @@ angular.module('app.games')
                             f_error(response);
                         }
                     });
-        }
+        },
+        updateGamePlayerStatus : function(gameplayer_id, status, f_success, f_error) {
+            $http.put(SETTINGS.url.gamePlayerStatus(gameplayer_id), { 'status': status })
+                .success(function(response) {
+                    console.log(response);
+
+                    if(!!f_success) {
+                        f_success(response);
+                    }
+                })
+                .error(function(response) {
+                    console.log(response);
+
+                    if(!!f_error) {
+                        f_error(response);
+                    }
+                });
+        }, 
     }
 }])
 

@@ -2,24 +2,47 @@
     <div class="panel panel-default">
         <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> Mis Torneos</strong></div>
         <div class="panel-body">
+
+          <div style="float:right">
+            <label data-i18n="Estado:"></label>
+            <span class="ui-select ">
+                <select ng-model="youGameStatus">
+                    <option value="" data-i18n="-- Todos --"></option>
+                    <option value="playing" data-i18n="Jugando"></option>
+                    <option value="waiting" data-i18n="Sin Responder"></option>
+                    <option value="rejected" data-i18n="Rechazados"></option>
+                </select>
+            </span>
+          </div>
+
           <table class="table game-list">
               <thead>
                   <tr>
                       <th>Torneo</th>
                       <th>Liga</th>
                       <th>Creador</th>
-                      <th>Status</th>
-                      <th>Progress</th>
-                      <th></th>
+                      <th>Estado</th>
+                      <th>Progreso</th>
                   </tr>
               </thead>
               <tbody>
-                  <tr ng-repeat="game in games" >
+                  <tr ng-repeat="game in games | filter:gameSelectFilter | orderBy:name" >
                       <td> <a href="" ng-click="gameDetail(game)">{{ game.name }}</a> </td>
                       <td> {{ game.tournament_name }} </td>
                       <td> {{ game.owner }} </td>
-                      <td><span class="label label-info">Pending</span></td>
+                      <td>
+                        <span class="label label-primary" ng-show="game.you[0].status">Jugando</span>
+                        <span class="label label-success" ng-show="game.you[0].status == undefined">Sin responder</span>
+                        <span class="label label-danger" ng-show="game.you[0].status == false">Rechazaste</span>
+                      </td>
                       <td><progressbar class="progressbar-xs no-margin" value="55"></progressbar>
+                  </tr>
+                  <tr>
+                    <td colspan="5" ng-hide="games">
+                    <div class="callout callout-info">
+                      <p>No tienes torneos. Puedes crear uno e invitar a tus amigos <a href="#/torneos/nuevo">AQUI</a></p>
+                    </div>
+                    </td>
                   </tr>
               </tbody>
           </table>

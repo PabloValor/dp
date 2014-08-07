@@ -80,7 +80,8 @@
             playerUpdateFriendship: function(player_id) { return this.base + '/games/player/friend/' + player_id + '/'},
             newGame: function() { return this.base + '/games/' },
             games: function() { return this.base + '/games/list/' },
-            game: function(id) { return this.base + '/games/' + id + '/' } 
+            game: function(id) { return this.base + '/games/' + id + '/' },
+            gamePlayerStatus: function(gameplayer_id) { return this.base + '/games/gameplayer/' + gameplayer_id + '/'},
     }
 }) 
 

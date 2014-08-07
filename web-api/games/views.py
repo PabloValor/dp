@@ -3,13 +3,20 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Game, Player, GamePlayer, PlayerFriend
 from .serializers import ( GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer, 
-                           PlayerSearchSerializer, PlayerFriendSerializer, )
+                           PlayerSearchSerializer, PlayerFriendSerializer, GamePlayerUpdateSerializer)
 
 from .permissions import IsOwnerOrReadOnly, IsSameUser, IsFriend
 
-class GamePlayerList(generics.ListAPIView):
-    ## HACER TESTS
-    permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
+class GamePlayerUpdate(generics.UpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = GamePlayerUpdateSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return user.gameplayer_set
+
+class GameList(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = GameSerializer
 
     def get_queryset(self):
@@ -17,7 +24,7 @@ class GamePlayerList(generics.ListAPIView):
         return user.games.all()
 
 
-class GameList(generics.CreateAPIView):
+class GameCreate(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
     queryset = Game.objects.all()
     serializer_class = GameSerializer
@@ -27,7 +34,7 @@ class GameList(generics.CreateAPIView):
 
     def post_save(self, obj, created=False):
         if not obj.players.filter(id = obj.owner.id).exists():
-            game_player = GamePlayer.objects.create(player = obj.owner, game = obj, player_invitation_status = True)
+            game_player = GamePlayer.objects.create(player = obj.owner, game = obj, status = True)
             game_player.save()
 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):

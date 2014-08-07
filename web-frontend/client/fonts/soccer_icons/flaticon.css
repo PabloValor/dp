@@ -241,6 +241,10 @@
     color: #1C7EBB;
 }
 
+.icon-blue:before {
+    color: #1C7EBB;
+}
+
 .icon-green:before {
     color: #23AE89;
 }

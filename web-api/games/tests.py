@@ -597,7 +597,7 @@ class GameAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        url = reverse('gamePlayerList')
+        url = reverse('gameList')
         response = self.client.get(url)
         r_games = json.loads(response.content)
 
@@ -622,7 +622,7 @@ class GameAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        url = reverse('gameList')
+        url = reverse('gameCreate')
         data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers': [] }
         response = self.client.post(url, data, format='json')
 
@@ -632,7 +632,7 @@ class GameAPITest(APITestCase):
         player = PlayerFactory()
         tournament = TournamentFactory()
 
-        url = reverse('gameList')
+        url = reverse('gameCreate')
         data = { 'name' : 'Game 1', 'tournament': tournament.pk }
 
         response = self.client.post(url, data, format='json')
@@ -647,7 +647,7 @@ class GameAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Create two games
-        url = reverse('gameList')
+        url = reverse('gameCreate')
         data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers': [] }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -657,7 +657,7 @@ class GameAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # Get Games
-        url = reverse('gamePlayerList')
+        url = reverse('gameList')
         response = self.client.get(url)
         games = json.loads(response.content)
         self.assertEqual(len(games), 2)
@@ -742,13 +742,13 @@ class GameAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Create 
-        url = reverse('gameList')
+        url = reverse('gameCreate')
         data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers': [] }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # Get
-        url = reverse('gamePlayerList')
+        url = reverse('gameList')
         response = self.client.get(url)
         games = json.loads(response.content)
         self.assertEqual(len(games), 1)
@@ -804,13 +804,88 @@ class GameAPITest(APITestCase):
         tournament = TournamentFactory()
 
         # Create 
-        url = reverse('gameList')
+        url = reverse('gameCreate')
         data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id, 'username': player.username}] }
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(Game.objects.count(), 1)
         self.assertEqual(Game.objects.all()[0].players.count(), 2)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_player_accepts_to_play_200_OK(self):
+        # Player creates game
+        owner = PlayerFactory()
+        game = GameFactory(owner = owner)
+
+        # Player invites a guy
+        gp = GamePlayerFactory(game = game)
+        guy = gp.player
+
+        # Guy authenticates
+        token = Token.objects.get(user__username = guy.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Guy accepts to play
+        url = reverse('gamePlayerUpdate', kwargs = {'pk': gp.id })
+        data = { 'status' : True  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(GamePlayer.objects.get(pk = gp.pk).status)
+              
+    def test_player_rejects_to_play_200_OK(self):
+        # Player creates game
+        owner = PlayerFactory()
+        game = GameFactory(owner = owner)
+
+        # Player invites a guy
+        gp = GamePlayerFactory(game = game)
+        guy = gp.player
+
+        # Guy authenticates
+        token = Token.objects.get(user__username = guy.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Guy rejects to play
+        url = reverse('gamePlayerUpdate', kwargs = {'pk': gp.id })
+        data = { 'status' : False  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(GamePlayer.objects.get(pk = gp.pk).status)
+
+    def test_another_player_tries_to_update_the_game_player_for_him_400_BAD_REQUEST(self):
+        # Player creates game
+        owner = PlayerFactory()
+        game = GameFactory(owner = owner)
+
+        # Player invites a guy
+        gp = GamePlayerFactory(game = game)
+
+        # Player authenticates
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # The Owner tries to update the GamePlayer Status
+        url = reverse('gamePlayerUpdate', kwargs = {'pk': gp.id })
+        data = { 'status' : True  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertFalse(GamePlayer.objects.get(pk = gp.pk).status)
+
+    def test_some_guy_tries_to_update_the_game_player_for_him_401_UNAUTHORIZED(self):
+        # Player creates game
+        owner = PlayerFactory()
+        game = GameFactory(owner = owner)
+        gp = GamePlayerFactory(game = game)
+
+        # Some Guy tries to update the GamePlayer Status
+        url = reverse('gamePlayerUpdate', kwargs = {'pk': gp.id })
+        data = { 'status' : True  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 class PlayerAPITest(APITestCase):
     def test_create_200_OK(self): 

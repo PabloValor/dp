@@ -107,7 +107,7 @@ class Game(models.Model):
 class GamePlayer(models.Model):
     player = models.ForeignKey(settings.AUTH_USER_MODEL)
     game = models.ForeignKey(Game)
-    player_invitation_status = models.NullBooleanField()
+    status = models.NullBooleanField()
 
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
