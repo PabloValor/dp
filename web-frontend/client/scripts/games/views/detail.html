@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="form-group game-owner">
-                        <i ng-class="{'icon-danger' : game.owner == username, 'flaticon-soccer18' : true}"></i>
+                        <i ng-class="{'icon-green' : game.owner == username, 'flaticon-soccer18' : true}"></i>
                           <span>{{ game.owner }}</span>
                           <span ng-if="game.owner == username"> (vos)</span>
                     </div>
@@ -86,5 +86,11 @@
 
             </div>
         </section>
+        <section class="panel panel-default" ng-show="is_owner">
+            <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> <span data-i18n="Invitar Mas Amigos"></span></strong></div>
+               <div class="panel-body" ng-include="'scripts/games/views/_addGamePlayers.html'" ng-controller="AddGamePlayersController" >
+              </div>
+            </div>
+       </section>
     </div>
 </section>

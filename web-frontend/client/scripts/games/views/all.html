@@ -18,24 +18,24 @@
           <table class="table game-list">
               <thead>
                   <tr>
-                      <th>Torneo</th>
-                      <th>Liga</th>
-                      <th>Creador</th>
-                      <th>Estado</th>
-                      <th>Progreso</th>
+                      <th class="col-sm-4">Torneo</th>
+                      <th class="col-sm-2">Liga</th>
+                      <th class="col-sm-2">Creador</th>
+                      <th class="col-sm-2">Estado</th>
+                      <th class="col-sm-2">Progreso</th>
                   </tr>
               </thead>
               <tbody>
                   <tr ng-repeat="game in games | filter:gameSelectFilter | orderBy:name" >
-                      <td> <a href="" ng-click="gameDetail(game)">{{ game.name }}</a> </td>
-                      <td> {{ game.tournament_name }} </td>
-                      <td> {{ game.owner }} </td>
-                      <td>
+                      <td class="col-sm-4"> <a href="" ng-click="gameDetail(game)">{{ game.name }}</a> </td>
+                      <td class="col-sm-2"> {{ game.tournament_name }} </td>
+                      <td class="col-sm-2"> {{ game.owner }} </td>
+                      <td class="col-sm-2">
                         <span class="label label-primary" ng-show="game.you[0].status">Jugando</span>
                         <span class="label label-success" ng-show="game.you[0].status == undefined">Sin responder</span>
                         <span class="label label-danger" ng-show="game.you[0].status == false">Rechazaste</span>
                       </td>
-                      <td><progressbar class="progressbar-xs no-margin" value="55"></progressbar>
+                      <td class="col-sm-2"><progressbar class="progressbar-xs no-margin" value="55"></progressbar>
                   </tr>
                   <tr>
                     <td colspan="5" ng-hide="games">

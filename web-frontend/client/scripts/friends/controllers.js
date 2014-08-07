@@ -74,6 +74,7 @@ angular.module('app.friends')
           function(response) {
             player.is_limbo_friend = true;
             player.you_are_bad_friend = false;
+            FriendsService.clearCache();
           }, 
           function(response) {
             console.log("no funca el server");

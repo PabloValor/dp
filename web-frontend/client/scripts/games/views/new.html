@@ -23,51 +23,7 @@
             </section>
             <section class="panel panel-default">
                 <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> <span data-i18n="Jugadores"></span></strong></div>
-                <div class="panel-body">
-                    <div class="ui-tab-container">
-                        <tabset justified="true" class="ui-tab">
-                            <tab heading="Amigos">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" ng-model="friendsFilter" placeholder="Buscar">
-                                </div>
-                                <div class="form-group" ng-repeat="friend in friends | filter:friendsFilter" >
-                                    <label class="ui-checkbox" ng-if="friend.is_friend">
-                                        <input name="checkbox2" type="checkbox" value="{{ friend.id }}" ng-model="friend.checked"><span>{{ friend.username }}</span>
-                                    </label>
-                                </div>
-                            </tab>
-                            <tab heading="Facebook">
-                                <div class="callout callout-info">
-                                    <p>Invita a tus amigos a jugar con vos</p>
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control" ng-model="facebookFilter" placeholder="Buscar">
-                                </div>
-                                <div class="form-group" ng-repeat="facebookPlayer in facebookPlayers | filter:facebookFilter" >
-                                    <label class="ui-checkbox">
-                                        <input name="checkbox2" type="checkbox" value="{{ facebookPlayer.id }}" ng-model="facebookPlayer.checked"><span>{{ facebookPlayer.name }}</span>
-                                    </label>
-                                </div>
-                            </tab>
-                            <tab heading="Emails">
-                                <div class="form-group" ng-repeat="player in emailPlayers">
-                                    <div class="input-group">
-                                        <input type="email" class="form-control" ng-model="player.email" placeholder="email@email.com">
-                                        <span class="input-group-btn">
-                                            <button type="button" class="btn btn-danger btn" type="button" ng-click="removeEmailPlayer(player)" ng-disabled="emailPlayers.length == 1">
-                                                <span class="glyphicon glyphicon-minus"></span>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <button type="button" class="btn btn-primary btn-sm" ng-click="addEmailPlayer()">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </button>
-                            </tab>
-                        </tabset>
-                    </div>
+                <div class="panel-body" ng-include="'scripts/games/views/_addGamePlayers.html'" ng-controller="AddGamePlayersController" >
                 </div>
             </section>
         </div>
@@ -95,7 +51,7 @@
                               <span>{{ owner }}</span>
                         </div>
 
-                        <div class="form-group game-players" ng-repeat="friend in friends | filter: {checked: true}" >
+                        <div class="form-group game-players" ng-repeat="friend in data.gamePlayerFriends | filter: {checked: true}" >
                             <i class="flaticon-tshirt19"></i>
                               <span>{{ friend.username }}</span>
                         </div>
@@ -105,12 +61,12 @@
                             <span>Invitados</span>
                         </div>
 
-                        <div class="form-group email-players" ng-repeat="player in emailPlayers | filter: emailFilter ">
+                        <div class="form-group email-players" ng-repeat="player in data.emailPlayers | filter: emailFilter ">
                             <i class="glyphicon glyphicon-envelope"></i>
                             <span>{{ player.email }}</span>
                         </div>
 
-                        <div class="form-group facebook-players" ng-repeat="facebookPlayer in facebookPlayers | filter: {checked: true }" >
+                        <div class="form-group facebook-players" ng-repeat="facebookPlayer in data.facebookPlayers | filter: {checked: true }" >
                             <span  class="btn-icon-round btn-icon-round-sm bg-facebook"><i class="fa fa-facebook"></i></span>
                             <span>{{ facebookPlayer.name }}</span>
                         </div>

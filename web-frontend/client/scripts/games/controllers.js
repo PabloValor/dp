@@ -32,41 +32,12 @@ angular.module('app.games')
             $scope.tournaments = tournaments;
         });
 
+        delete Data.currentGame; // So the FriendsControllers show all the friends
+        $scope.data = Data;
         $scope.owner = UserService.getUsername();
-        $scope.emailPlayers = [{ email : '' }];
-
-        $scope.addEmailPlayer = function() {
-            $scope.emailPlayers.push({email:''});
-            console.log($scope.emailPlayers);
-        };
-        $scope.emailFilter = function(value) {
-            return !!value.email;
-        };
-
-        $scope.removeEmailPlayer = function(player) {
-            var index = $scope.emailPlayers.indexOf(player);
-            $scope.emailPlayers.splice(index, 1);
-        };
-
-        if(Facebook.isAuthenticated()) {
-            Facebook.getFriends(
-                function(response) {
-                    $scope.facebookPlayers = response.data;
-                    console.log(response);
-                });
-        }
-
-        FriendsService.getFriends(
-                function(friends) {
-                    $scope.friends = friends;
-                },
-                function(error) {
-                    console.log(error);
-                }
-        );
 
         $scope.newGame = function() {
-            var friends = $scope.friends.filter(function(item) { return item.checked });
+            var friends = $scope.data.gamePlayerFriends.filter(function(item) { return item.checked });
             var gameplayers = friends.map(function(item) { return { 'player': item.id, 'username': item.username } });
             var game = {'name' : $scope.game.name, 'tournament': $scope.game.tournament.id, 'gameplayers': gameplayers};
 
@@ -81,8 +52,59 @@ angular.module('app.games')
                     console.log("hubo un error");
                 });
         };
+
+        $scope.emailFilter = function(value) {
+            return !!value.email;
+        };
+
     }
 ])
+
+.controller('AddGamePlayersController', ['$scope', 'Facebook', 'Data', 'FriendsService',
+    function($scope, Facebook, Data, FriendsService)  {
+        $scope.emailPlayers = [{ email : '' }];
+        Data.emailPlayers = $scope.emailPlayers;
+
+        $scope.canInviteMorePlayers = Data.currentGame;
+
+        $scope.addEmailPlayer = function() {
+            $scope.emailPlayers.push({email:''});
+            console.log($scope.emailPlayers);
+        };
+
+        $scope.removeEmailPlayer = function(player) {
+            var index = $scope.emailPlayers.indexOf(player);
+            $scope.emailPlayers.splice(index, 1);
+        };
+
+        $scope.withOutFriendsMsg = "No tienes amigos... puedas buscarlos ingresando al";
+
+        if(Facebook.isAuthenticated()) {
+            Facebook.getFriends(
+                function(response) {
+                    $scope.facebookPlayers = response.data;
+                    data.facebookPlayers  = response.data;
+                });
+        }
+
+        FriendsService.getFriends(
+            function(friends) {
+                $scope.friends = friends;
+
+                if(!!Data.currentGame) {
+                  var gameplayers_ids = Data.currentGame.gameplayers.map(function(e) { return e.player });
+                  $scope.friends = friends.filter(function(e) { return gameplayers_ids.indexOf(e.id) < 0 })
+                  $scope.withOutFriendsMsg = "No tienes mas amigos para agregar al torneo. Puedes buscar nuevos en el";
+                }
+
+                $scope.hasTrueFriends = $scope.friends.filter(function(e) { return e.is_friend }).length > 0;
+                Data.gamePlayerFriends = $scope.friends;
+            },
+            function(error) {
+                console.log(error);
+            }
+        );
+}])
 
 .controller('DetailGameController', ['$scope', '$routeParams', 'GameService', 'Data', 'UserService',
     function($scope, $routeParams, GameService, Data, UserService)  {
@@ -100,9 +122,13 @@ angular.module('app.games')
           setUserStatus($scope.game);
 
         } else {
+
+          Data.currentGame = true; // Se other solution so the the controllers con talks between them
+
           GameService.get($routeParams.gameId, 
             function(game) {
               $scope.game = game;
+              Data.currentGame = game;
               setUserStatus(game);
           });
         }

@@ -11740,6 +11740,12 @@ button.toast-close-button {
   font-weight: bold;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000386}}
+.inviteMorePlayers {
+  float: right;
+  margin-top: 20px;
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\000031}}
 .friends-list {
   cursor: pointer;
