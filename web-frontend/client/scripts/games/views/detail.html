@@ -43,7 +43,7 @@
                       </div>
                     </div>
 
-                    <div class="row" ng-repeat="player in game.gameplayers" ng-if="player.username != game.owner && player.username != user.player__username">
+                    <div class="row" ng-repeat="player in game.gameplayers | orderBy: username" ng-if="player.username != game.owner && player.username != user.player__username">
                       <div class="form-group game-players col-sm-7">
                           <i class="flaticon-tshirt19"></i>
                           <span>{{ player.username }}</span>

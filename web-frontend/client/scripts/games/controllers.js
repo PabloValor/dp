@@ -60,8 +60,8 @@ angular.module('app.games')
     }
 ])
 
-.controller('AddGamePlayersController', ['$scope', 'Facebook', 'Data', 'FriendsService',
-    function($scope, Facebook, Data, FriendsService)  {
+.controller('AddGamePlayersController', ['$scope', 'Facebook', 'Data', 'FriendsService', 'GameService',
+    function($scope, Facebook, Data, FriendsService, GameService)  {
         $scope.emailPlayers = [{ email : '' }];
         Data.emailPlayers = $scope.emailPlayers;
 
@@ -104,6 +104,22 @@ angular.module('app.games')
                 console.log(error);
             }
         );
+
+        $scope.inviteFriends = function() {
+          var friends = $scope.friends.filter(function(f) {  return f.checked && f.is_friend; });
+          GameService.inviteFriends($scope.game, friends, 
+              function(response) {
+                $scope.friends = $scope.friends.filter(function(f) { return !f.checked && f.is_friend; });
+                $scope.hasTrueFriends = $scope.friends.length > 0;
+                $scope.withOutFriendsMsg = "No tienes mas amigos para agregar al torneo. Puedes buscar nuevos en el";
+
+                for(var i in friends) {
+                  var player = friends[i];
+                  Data.currentGame.gameplayers.push({ "player": player.id, "username": player.username, "status": null })
+                }
+              }
+          );
+        }
 }])
 
 .controller('DetailGameController', ['$scope', '$routeParams', 'GameService', 'Data', 'UserService',
