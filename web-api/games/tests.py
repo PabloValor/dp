@@ -794,7 +794,26 @@ class GameAPITest(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_create_with_two_players_200_OK(self):
+    def test_create_with_one_players_200_OK(self):
+        # The owner is a player
+        owner = PlayerFactory()
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        player = PlayerFactory()
+        PlayerFriendFactory(player = owner, friend = player, status = True)
+        tournament = TournamentFactory()
+
+        # Create 
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id, 'username': player.username}] }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(Game.objects.count(), 1)
+        self.assertEqual(Game.objects.all()[0].players.count(), 2)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_with_one_player_that_are_not_friends_400_BAD_REQUEST_A(self):
         # The owner is a player
         owner = PlayerFactory()
         token = Token.objects.get(user__username = owner.username)
@@ -808,9 +827,121 @@ class GameAPITest(APITestCase):
         data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id, 'username': player.username}] }
         response = self.client.post(url, data, format='json')
 
+        self.assertEqual(Game.objects.count(), 0)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_with_one_player_that_are_not_friends_400_BAD_REQUEST_B(self):
+        # The owner is a player
+        owner = PlayerFactory()
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        player = PlayerFactory()
+        PlayerFriendFactory(player = owner, friend = player, status = None)
+        tournament = TournamentFactory()
+
+        # Create 
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id, 'username': player.username}] }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(Game.objects.count(), 0)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_with_one_player_that_are_not_friends_400_BAD_REQUEST_C(self):
+        # The owner is a player
+        owner = PlayerFactory()
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        player = PlayerFactory()
+        PlayerFriendFactory(player = owner, friend = player, status = False)
+        tournament = TournamentFactory()
+
+        # Create 
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id, 'username': player.username}] }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(Game.objects.count(), 0)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_with_two_players_201_CREATED(self):
+        # The owner is a player
+        owner = PlayerFactory()
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        player = PlayerFactory()
+        PlayerFriendFactory(player = owner, friend = player, status = True)
+        player_2 = PlayerFactory()
+        PlayerFriendFactory(player = player_2, friend = owner, status = True)
+        tournament = TournamentFactory()
+
+        # Create 
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id, 'username': player.username}, {'player':player_2.id, 'username': player_2.username}] }
+        response = self.client.post(url, data, format='json')
+
         self.assertEqual(Game.objects.count(), 1)
-        self.assertEqual(Game.objects.all()[0].players.count(), 2)
+        self.assertEqual(Game.objects.all()[0].players.count(), 3)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_with_two_players_that_one_is_not_friend_400_BAD_REQUEST(self):
+        # The owner is a player
+        owner = PlayerFactory()
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        player = PlayerFactory()
+        PlayerFriendFactory(player = owner, friend = player, status = True)
+        player_2 = PlayerFactory()
+        tournament = TournamentFactory()
+
+        # Create 
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id, 'username': player.username}, {'player':player_2.id, 'username': player_2.username}] }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(Game.objects.count(), 0)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_with_two_players_with_a_non_existing_player_400_BAD_REQUEST(self):
+        # The owner is a player
+        owner = PlayerFactory()
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        player = PlayerFactory()
+        PlayerFriendFactory(player = owner, friend = player, status = True)
+        tournament = TournamentFactory()
+
+        # Create 
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id, 'username': player.username}, {'player': 99, 'username': player.username}] }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(Game.objects.count(), 0)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_with_two_players_with_a_duplicate_player_400_BAD_REQUEST(self):
+        # The owner is a player
+        owner = PlayerFactory()
+        token = Token.objects.get(user__username = owner.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        player = PlayerFactory()
+        PlayerFriendFactory(player = owner, friend = player, status = True)
+        tournament = TournamentFactory()
+
+        # Create 
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers' : [{'player':player.id, 'username': player.username}, {'player': player.id, 'username': player.username}] }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(Game.objects.count(), 0)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 
     def test_player_accepts_to_play_200_OK(self):
         # Player creates game
@@ -906,6 +1037,69 @@ class GameAPITest(APITestCase):
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(len(fede.games.all()), 1)
+
+    def test_nico_invites_fede_when_fede_is_already_playing_A(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Fede plays the game
+        fede = PlayerFactory()
+        PlayerFriendFactory(player = fede, friend = nico, status = True)
+        GamePlayerFactory(player = fede, game = game, status = True)
+        
+        url = reverse('gamePlayerCreate')
+        data = [{ 'player':fede.id, 'game': game.id }]
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(len(fede.games.all()), 1)
+
+    def test_nico_invites_fede_when_fede_is_thinking_is_he_plays(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Fede is thinking is he plays the game
+        fede = PlayerFactory()
+        PlayerFriendFactory(player = fede, friend = nico, status = True)
+        GamePlayerFactory(player = fede, game = game, status = None)
+        
+        url = reverse('gamePlayerCreate')
+        data = [{ 'player':fede.id, 'game': game.id }]
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(len(fede.games.all()), 1)
+
+    def test_nico_invites_fede_when_fede_rejected_to_play(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Fede rejects to play the game
+        fede = PlayerFactory()
+        PlayerFriendFactory(player = fede, friend = nico, status = True)
+        GamePlayerFactory(player = fede, game = game, status = False)
+        
+        url = reverse('gamePlayerCreate')
+        data = [{ 'player':fede.id, 'game': game.id }]
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(len(fede.games.all()), 1)
 
     def test_nico_invites_fede_after_game_creation_when_they_are_not_friends_A(self):

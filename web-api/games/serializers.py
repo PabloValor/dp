@@ -35,6 +35,8 @@ class GamePlayerCreateSerializer(serializers.ModelSerializer):
           raise serializers.ValidationError("It's the same user")
         elif game_owner != game.owner:
           raise serializers.ValidationError("It's the game owner")
+        elif player.games.filter(id = game.id).exists():
+          raise serializers.ValidationError("It's already playing")
         elif not game_owner.is_friend(player):
           raise serializers.ValidationError("They are not friends")
 
@@ -52,6 +54,26 @@ class GameSerializer(serializers.ModelSerializer):
     tournament_name = serializers.Field(source = 'tournament.name')
     gameplayers = GamePlayerSerializer(source="gameplayer_set", many = True)
     you = UserGamePlayerField(source = 'gameplayer_set')
+
+    def validate(self, attrs):
+        game_owner = self.context['request'].user
+        gameplayers = attrs['gameplayer_set']
+
+        if gameplayers:
+          players_ids = [gp.player.id for gp in gameplayers]
+
+          for gp in gameplayers:
+            if gp.player == game_owner:
+              continue
+
+            if players_ids.count(gp.player.id) > 1:
+              raise serializers.ValidationError("Duplicate users")
+
+            if not game_owner.is_friend(gp.player):
+              raise serializers.ValidationError("There is someone that is not a friend")
+
+        return attrs
+
 
     class Meta:
         model = Game
