@@ -3,7 +3,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Game, Player, GamePlayer, PlayerFriend
 from .serializers import ( GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer, 
-                           PlayerSearchSerializer, PlayerFriendSerializer, GamePlayerUpdateSerializer)
+                           PlayerSearchSerializer, PlayerFriendSerializer, GamePlayerUpdateSerializer,
+                           GamePlayerCreateSerializer,)
 
 from .permissions import IsOwnerOrReadOnly, IsSameUser, IsFriend
 
@@ -14,6 +15,10 @@ class GamePlayerUpdate(generics.UpdateAPIView):
     def get_queryset(self):
         user = self.request.user
         return user.gameplayer_set
+
+class GamePlayerCreate(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = GamePlayerCreateSerializer
 
 class GameList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)

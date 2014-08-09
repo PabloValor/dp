@@ -16,6 +16,28 @@ class GamePlayerUpdateSerializer(serializers.ModelSerializer):
         model = GamePlayer
         fields = ('status',)
 
+class GamePlayerCreateSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        kwargs.pop('many', True)
+        super(GamePlayerCreateSerializer, self).__init__(many=True, *args, **kwargs)
+
+    class Meta:
+        model = GamePlayer
+        fields = ('player','game')
+
+    def validate(self, attrs):
+        # Because of the Many = True this break up the validations and attrs only matches the first user
+        game_owner = self.context['request'].user
+        game = attrs['game']
+        player = attrs['player']
+
+        if player == game_owner:
+          raise serializers.ValidationError("It's the same user")
+        elif game_owner != game.owner:
+          raise serializers.ValidationError("It's the game owner")
+
+        return attrs
+
 class UserGamePlayerField(serializers.Field):
     def to_native(self, gameplayers):
         if self.context:
