@@ -4,7 +4,7 @@ angular.module('app.games')
 .controller('GameController', ['$scope', '$location', 'GameService', 'Data',
     function($scope, $location, GameService, Data)  {
         GameService.all(function(games) {
-          $scope.games = games.filter(function(game) { return !( !game.you[0].status && !game.you[0].another_chance) });
+          $scope.games = games.filter(function(game) { return !( game.you[0].status == false && game.you[0].another_chance == false) });
         });
 
         $scope.gameDetail = function(game) {
@@ -17,10 +17,12 @@ angular.module('app.games')
         $scope.gameSelectFilter = function(value) {
           var filter = $scope.youGameStatus;
           var status = value.you[0].status;
+          var another_chance = value.you[0].another_chance;
 
           return (filter == "playing" && status ) ||
                  (filter == "waiting" && status == undefined) ||
-                 (filter == "rejected" && status == false) ||
+                 (filter == "invitation" && status == false && another_chance) ||
+                 (filter == "rejected" && status == false && !another_chance) ||
                  (filter == "");
         };
     }

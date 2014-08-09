@@ -116,6 +116,9 @@ class GamePlayer(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
+    def __unicode__(self):
+      return '{0} | {1} | {2}'.format(self.player, self.status, self.another_chance)
+
 class PlayerMatchPrediction(models.Model):
     player = models.ForeignKey(settings.AUTH_USER_MODEL)
     match = models.ForeignKey(Match)
