@@ -943,6 +943,9 @@ class GameAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
+    """ 
+      The player who was invited decides if he is going to play the tournament or not 
+    """
     def test_player_accepts_to_play_200_OK(self):
         # Player creates game
         owner = PlayerFactory()
@@ -1017,6 +1020,250 @@ class GameAPITest(APITestCase):
         response = self.client.put(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    """ 
+        When the player rejects to play he can request another invitation.
+        If AnotherChance is None he can request another.
+        If AnotherChance is False the player doesn't have any interest in play in this tournament.
+        If AnotherChance is True the player he is requesting another chance to play.
+    """
+
+    def test_fede_who_rejected_to_play_ask_for_another_opportunity_200_OK(self):
+        # Player creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Fede rejects invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = False)
+
+        # Fede authenticates
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Fede asks for another opportunity
+        url = reverse('gamePlayerUpdateAnotherChance', kwargs = {'pk': gp.id })
+        data = { 'another_chance' : True  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(GamePlayer.objects.get(id = gp.id).another_chance)
+
+    def test_fede_who_rejected_to_play_sets_another_chance_to_false_200_OK(self):
+        # Player creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Fede rejects invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = False)
+
+        # Fede authenticates
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Fede asks for another opportunity
+        url = reverse('gamePlayerUpdateAnotherChance', kwargs = {'pk': gp.id })
+        data = { 'another_chance' : False  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(GamePlayer.objects.get(id = gp.id).another_chance)
+
+    def test_nico_wants_change_fede_game_player_another_chance_status_400_BAD_REQUEST(self):
+        # Player creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Fede rejects invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = False)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Nico wants to change Fede GamePlayer 
+        url = reverse('gamePlayerUpdateAnotherChance', kwargs = {'pk': gp.id })
+        data = { 'another_chance' : True  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertFalse(GamePlayer.objects.get(id = gp.id).another_chance)
+
+    def test_anon_wants_change_fede_game_player_another_chance_status_401_UNAUTHORIZED(self):
+        # Player creates a game
+        game = GameFactory()
+
+        # Fede rejects invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = False)
+
+        # Anon wants to change Fede GamePlayer 
+        url = reverse('gamePlayerUpdateAnotherChance', kwargs = {'pk': gp.id })
+        data = { 'another_chance' : True  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_fede_who_rejected_to_play_ask_for_another_opportunity_when_he_is_already_playing_400_BAD_REQUEST(self):
+        # Player creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Fede rejects invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = True)
+
+        # Fede authenticates
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Fede asks for another opportunity
+        url = reverse('gamePlayerUpdateAnotherChance', kwargs = {'pk': gp.id })
+        data = { 'another_chance' : True  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_fede_who_rejected_to_play_ask_for_another_opportunity_when_he_didnt_asnwer_the_request_400_BAD_REQUEST(self):
+        # Player creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Fede rejects invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = None)
+
+        # Fede authenticates
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Fede asks for another opportunity
+        url = reverse('gamePlayerUpdateAnotherChance', kwargs = {'pk': gp.id })
+        data = { 'another_chance' : True  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_nico_wants_to_fool_around_and_update_his_another_chance_status_400_BAD_REQUEST(self):
+        # Player creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+        gp = GamePlayerFactory(player = nico, game = game)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Fede asks for another opportunity
+        url = reverse('gamePlayerUpdateAnotherChance', kwargs = {'pk': gp.id })
+        data = { 'another_chance' : True  } 
+        response = self.client.put(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    """ 
+        Nico invites Fede again after he requested another chance 
+    """
+
+    def test_nico_invites_fede_again_after_his_request_200_OK(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Fede asks for another invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = False, another_chance = True)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Nico invites Fede again
+        url = reverse('gamePlayerUpdateInvitesAgain', kwargs = {'pk': gp.id })
+        response = self.client.put(url, None, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(GamePlayer.objects.get(id = gp.id).another_chance == None)
+        self.assertTrue(GamePlayer.objects.get(id = gp.id).status == None)
+
+    def test_nico_invites_fede_again_after_his_rejection_A_400_BAD_REQUEST(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Fede asks for another invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = False, another_chance = False)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Nico invites Fede again
+        url = reverse('gamePlayerUpdateInvitesAgain', kwargs = {'pk': gp.id })
+        response = self.client.put(url, None, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_nico_invites_fede_again_after_his_rejection_B_400_BAD_REQUEST(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Fede asks for another invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = False, another_chance = None)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Nico invites Fede again
+        url = reverse('gamePlayerUpdateInvitesAgain', kwargs = {'pk': gp.id })
+        response = self.client.put(url, None, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_fede_invites_fede_again_after_his_rejection_400_BAD_REQUEST(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Fede asks for another invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = False, another_chance = True)
+
+        # Fede authenticates
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Fede invites Fede again
+        url = reverse('gamePlayerUpdateInvitesAgain', kwargs = {'pk': gp.id })
+        response = self.client.put(url, None, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_anon_invites_fede_again_after_his_rejection_400_BAD_REQUEST(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Fede asks for another invitation
+        fede = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = fede, status = False, another_chance = True)
+
+        # Anon invites Fede again
+        url = reverse('gamePlayerUpdateInvitesAgain', kwargs = {'pk': gp.id })
+        response = self.client.put(url, None, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+    """ 
+        After creation of the game the Owner invites more players
+    """
 
     def test_nico_invites_fede_after_game_creation(self):
         # Nico creates a game
@@ -1311,17 +1558,6 @@ class GameAPITest(APITestCase):
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
-    def test_player_who_rejected_invitation_to_play_requests_another_oportunity(self):
-        # Player creates a game
-        owner = PlayerFactory()
-        game = GameFactory(owner = owner)
-        player = PlayerFactory()
-
-        # Player invites player
-        gp = GamePlayerFactory(game = game)
-
-
 
 class PlayerAPITest(APITestCase):
     def test_create_200_OK(self): 

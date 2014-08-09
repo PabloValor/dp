@@ -4,9 +4,29 @@ from rest_framework.response import Response
 from .models import Game, Player, GamePlayer, PlayerFriend
 from .serializers import ( GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer, 
                            PlayerSearchSerializer, PlayerFriendSerializer, GamePlayerUpdateSerializer,
-                           GamePlayerCreateSerializer,)
+                           GamePlayerCreateSerializer, GamePlayerUpdateAnotherChanceSerializer, GamePlayerUpdateInvitesAgainSerializer)
 
 from .permissions import IsOwnerOrReadOnly, IsSameUser, IsFriend
+
+class GamePlayerUpdateAnotherChance(generics.UpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = GamePlayerUpdateAnotherChanceSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return user.gameplayer_set.filter(status = False, another_chance = None)
+
+class GamePlayerUpdateInvitesAgain(generics.UpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = GamePlayerUpdateInvitesAgainSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return GamePlayer.objects.filter(status = False, another_chance = True, game__owner = user)
+
+    def pre_save(self, obj):
+        obj.status = None
+        obj.another_chance = None
 
 class GamePlayerUpdate(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)

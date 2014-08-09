@@ -4,7 +4,7 @@ angular.module('app.games')
 .controller('GameController', ['$scope', '$location', 'GameService', 'Data',
     function($scope, $location, GameService, Data)  {
         GameService.all(function(games) {
-          $scope.games = games;
+          $scope.games = games.filter(function(game) { return !( !game.you[0].status && !game.you[0].another_chance) });
         });
 
         $scope.gameDetail = function(game) {
@@ -129,23 +129,32 @@ angular.module('app.games')
           $scope.user = game.you[0]
         }
 
+        function setFriendsAnotherChance(game) {
+          $scope.friendsAnotherChance = game.gameplayers.filter(function(p) { return !p.status && p.another_chance; });
+          console.log("another chance");
+          console.log($scope.friendsAnotherChance);
+        }
+
         $scope.username = UserService.getUsername();
 
-        if(!!Data.currentGame) {
+        // We set the current game
+        if(!!Data.currentGame && ($routeParams.gameId == Data.currentGame.id)) {
           $scope.game = Data.currentGame;
           $scope.show_message = !!Data.currentGame.new;
           Data.currentGame.new = false;
           setUserStatus($scope.game);
+          setFriendsAnotherChance($scope.game);
 
         } else {
 
-          Data.currentGame = true; // Se other solution so the the controllers con talks between them
+          Data.currentGame = true; 
 
           GameService.get($routeParams.gameId, 
             function(game) {
               $scope.game = game;
               Data.currentGame = game;
               setUserStatus(game);
+              setFriendsAnotherChance($scope.game);
           });
         }
 
@@ -153,6 +162,22 @@ angular.module('app.games')
             GameService.updateGamePlayerStatus($scope.game.you[0].id, status, 
                 function(response) {
                   $scope.user.status = status;
+                });
+        }
+
+        $scope.updateGamePlayerAnotherChance = function(another_chance) {
+            GameService.updateGamePlayerAnotherChance($scope.game.you[0].id, another_chance, 
+                function(response) {
+                  $scope.user.another_chance = another_chance;
+                });
+        }
+
+        $scope.invitePlayerAgain = function(gameplayer) {
+            GameService.updateGamePlayerInvitePlayerAgain(gameplayer.id,  
+                function(response) {
+                  console.log("response");
+                  console.log(response)
+                  gameplayer.status = null;
                 });
         }
       

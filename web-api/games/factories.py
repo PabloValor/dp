@@ -13,6 +13,7 @@ class GamePlayerFactory(factory.Factory):
     player = factory.LazyAttribute(lambda a: PlayerFactory())
     game = factory.LazyAttribute(lambda a: GameFactory())
     status = None
+    another_chance = None
 
 class PlayerFactory(factory.Factory):
     username = factory.Sequence(lambda n: 'name_{0}'.format(n))

@@ -33,7 +33,8 @@
                       <td class="col-sm-2">
                         <span class="label label-primary" ng-show="game.you[0].status">Jugando</span>
                         <span class="label label-success" ng-show="game.you[0].status == undefined">Sin responder</span>
-                        <span class="label label-danger" ng-show="game.you[0].status == false">Rechazaste</span>
+                        <span class="label label-danger" ng-show="game.you[0].status == false && !game.you[0].another_chance">Rechazaste</span>
+                        <span class="label label-success" ng-show="game.you[0].status == false && game.you[0].another_chance">Solicitaste otra invitacion</span>
                       </td>
                       <td class="col-sm-2"><progressbar class="progressbar-xs no-margin" value="55"></progressbar>
                   </tr>

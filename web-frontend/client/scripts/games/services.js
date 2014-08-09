@@ -71,6 +71,40 @@ angular.module('app.games')
                     }
                 });
         }, 
+        updateGamePlayerAnotherChance : function(gameplayer_id, another_chance, f_success, f_error) {
+            $http.put(SETTINGS.url.gamePlayerAnotherChance(gameplayer_id), { 'another_chance': another_chance })
+                .success(function(response) {
+                    console.log(response);
+
+                    if(!!f_success) {
+                        f_success(response);
+                    }
+                })
+                .error(function(response) {
+                    console.log(response);
+
+                    if(!!f_error) {
+                        f_error(response);
+                    }
+                });
+        }, 
+        updateGamePlayerInvitePlayerAgain : function(gameplayer_id, f_success, f_error) {
+            $http.put(SETTINGS.url.gamePlayerInviteAgain(gameplayer_id))
+                .success(function(response) {
+                    console.log(response);
+
+                    if(!!f_success) {
+                        f_success(response);
+                    }
+                })
+                .error(function(response) {
+                    console.log(response);
+
+                    if(!!f_error) {
+                        f_error(response);
+                    }
+                });
+        }, 
         inviteFriends : function(game, friends, f_success, f_error) {
             var gamefriends = friends.map(function(f) { return {'player': f.id, 'game': game.id}; });
             console.log("invitando amigos");

@@ -9,12 +9,29 @@ class GamePlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GamePlayer
-        fields = ('player', 'username', 'status')
+        fields = ('player', 'username', 'status', 'another_chance', 'id')
 
 class GamePlayerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = GamePlayer
         fields = ('status',)
+
+class GamePlayerUpdateAnotherChanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GamePlayer
+        fields = ('another_chance',)
+
+class GamePlayerUpdateInvitesAgainSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GamePlayer
+        fields = ('another_chance', 'status')
+
+    def validate(self, attrs):
+        view =  self.context['view']
+        if view.object == None:
+          raise serializers.ValidationError("Empty list")
+
+        return attrs
 
 class GamePlayerCreateSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
@@ -47,7 +64,7 @@ class UserGamePlayerField(serializers.Field):
         if self.context:
           user = self.context['request'].user
           gameplayer = gameplayers.filter(player = user)
-          return gameplayer.values('id', 'player__username', 'status')
+          return gameplayer.values('id', 'player__username', 'status', 'another_chance')
 
 class GameSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source = 'owner.username')

@@ -82,7 +82,10 @@
             games: function() { return this.base + '/games/list/' },
             game: function(id) { return this.base + '/games/' + id + '/' },
             gamePlayerStatus: function(gameplayer_id) { return this.base + '/games/gameplayer/' + gameplayer_id + '/'},
+            gamePlayerInviteAgain : function(gameplayer_id) { return this.base + '/games/gameplayer/invites-again/' + gameplayer_id + '/'},
+            gamePlayerAnotherChance: function(gameplayer_id) { return this.base + '/games/gameplayer/another-chance/' + gameplayer_id + '/'},
             gamePlayerCreate: function() { return this.base + '/games/gameplayer/' },
+
     }
 }) 
 

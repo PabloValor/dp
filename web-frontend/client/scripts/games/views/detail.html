@@ -31,7 +31,7 @@
 
                     <div class="row" ng-hide="is_owner">
                       <div class="form-group game-players col-sm-7">
-                          <i ng-class="{'icon-green' : user.status, 'icon-danger' : !user.status, 'icon-blue': user.status == undefined, 'flaticon-tshirt19' : true}"></i>
+                          <i ng-class="{'icon-green' : user.status, 'icon-danger' : (!user.status && !!!user.another_chance), 'icon-blue': user.status == undefined || (!user.status && user.another_chance), 'flaticon-tshirt19' : true}"></i>
                           <span>{{ user.player__username }}</span>
                           <span>(vos)</span>
                       </div>
@@ -39,11 +39,12 @@
                       <div>
                         <span class="label label-primary" ng-show="user.status">Jugando</span>
                         <span class="label label-success" ng-show="user.status == undefined">No respondiste</span>
-                        <span class="label label-danger" ng-show="user.status == false">Rechazaste</span>
+                        <span class="label label-danger" ng-show="user.status == false && !user.another_chance">Rechazaste</span>
+                        <span class="label label-success" ng-show="user.status == false && user.another_chance">Solicitaste otra invitacion</span>
                       </div>
                     </div>
 
-                    <div class="row" ng-repeat="player in game.gameplayers | orderBy: username" ng-if="player.username != game.owner && player.username != user.player__username">
+                    <div class="row" ng-repeat="player in game.gameplayers" ng-if="player.username != game.owner && player.username != user.player__username">
                       <div class="form-group game-players col-sm-7">
                           <i class="flaticon-tshirt19"></i>
                           <span>{{ player.username }}</span>
@@ -52,8 +53,10 @@
 
                       <div>
                         <span class="label label-primary" ng-show="player.status">Jugando</span>
-                        <span class="label label-success" ng-show="player.status == undefined">No respondio</span>
-                        <span class="label label-danger" ng-show="player.status == false">Rechazo</span>
+                        <span class="label label-success" ng-show="player.status == undefined">Esperando respuesta</span>
+                        <span class="label label-danger"  ng-show="player.status == false  && !player.another_chance">Rechazo</span>
+                        <span class="label label-success" ng-show="player.status == false && player.another_chance">Solicita otra invitacion</span>
+                        <button type="button" ng-show="is_owner && player.status == false && player.another_chance" ng-click="invitePlayerAgain(player)" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok"></span>&nbsp; Invitar </button>
                       </div>
                     </div>
 
@@ -62,16 +65,37 @@
                     </div>
 
                     <div ng-hide="is_owner">
-                      <div class="callout callout-primary" ng-show="user.status">
+                      <div class="callout callout-info" ng-show="user.status">
                         <p>Estas jugando este torneo!</p>
                       </div>
 
-                      <div class="callout callout-danger" ng-show="user.status == false">
+                      <div class="callout callout-info" ng-show="user.status == false && user.another_chance">
+                        <p>Solicitaste que te inviten de vuelta.</p>
+                      </div>
+
+                      <div class="callout callout-danger" ng-show="user.status == false && !user.another_chance">
                         <p>Rechazaste jugar este torneo!</p>
                       </div>
 
+                      <div class="callout callout-info" ng-show="user.status == false && user.another_chance == null">
+                        <div class="row"> 
+                            <div class="col-sm-8">
+                              <strong> ¿Quieres solicitar que te inviten de vuelta? </strong>
+                            </div>
+                            <div class="col-sm-4">
+                              <button type="button" ng-click="updateGamePlayerAnotherChance(true)" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok"></span>&nbsp; Si </button>
+                              <button type="button" ng-click="updateGamePlayerAnotherChance(false)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp; No </button>
+                          </div>
+                        </div>
+                        <div class="row" style="margin-top:10px"> 
+                            <div class="col-sm-12">
+                              <p>* Si elegis <strong>No</strong> este Torneo va a desaparecer de tu listado.</p>
+                            </div>
+                        </div>
+                      </div>
+
                       <div class="callout callout-info" ng-show="user.status == undefined">
-                        <p>Tenes que decidir si jugas o no este torneo.</p>
+                        <p>Tenes que decidir si jugas este torneo.</p>
                         <div class="row"> 
                             <div class="col-sm-2">
                               <strong> ¿Jugas? </strong>
