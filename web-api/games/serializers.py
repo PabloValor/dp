@@ -30,11 +30,13 @@ class GamePlayerCreateSerializer(serializers.ModelSerializer):
         game_owner = self.context['request'].user
         game = attrs['game']
         player = attrs['player']
-
+        
         if player == game_owner:
           raise serializers.ValidationError("It's the same user")
         elif game_owner != game.owner:
           raise serializers.ValidationError("It's the game owner")
+        elif not game_owner.is_friend(player):
+          raise serializers.ValidationError("They are not friends")
 
         return attrs
 

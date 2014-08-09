@@ -47,6 +47,9 @@ class Player(AbstractUser):
         return friends
     # -- >
 
+    def is_friend(self, player):
+        return player in self.get_true_friends()
+
     def make_prediction(self, match_id, local_team_goals, visitor_team_goals):
         prediction = PlayerMatchPrediction.objects.filter(match_id = match_id, player_id = self.pk)
         if prediction:

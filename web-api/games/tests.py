@@ -898,6 +898,8 @@ class GameAPITest(APITestCase):
 
         # Nico invites Fede to play
         fede = PlayerFactory()
+        PlayerFriendFactory(player = fede, friend = nico, status = True)
+
         self.assertEqual(len(fede.games.all()), 0)
         url = reverse('gamePlayerCreate')
         data = [{ 'player':fede.id, 'game': game.id }]
@@ -905,6 +907,67 @@ class GameAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(len(fede.games.all()), 1)
+
+    def test_nico_invites_fede_after_game_creation_when_they_are_not_friends_A(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Nico invites Fede to play
+        fede = PlayerFactory()
+        self.assertEqual(len(fede.games.all()), 0)
+        url = reverse('gamePlayerCreate')
+        data = [{ 'player':fede.id, 'game': game.id }]
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(len(fede.games.all()), 0)
+
+    def test_nico_invites_fede_after_game_creation_when_they_are_not_friends_B(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Nico invites Fede to play
+        fede = PlayerFactory()
+        PlayerFriendFactory(player = fede, friend = nico, status = None)
+
+        self.assertEqual(len(fede.games.all()), 0)
+        url = reverse('gamePlayerCreate')
+        data = [{ 'player':fede.id, 'game': game.id }]
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(len(fede.games.all()), 0)
+
+    def test_nico_invites_fede_after_game_creation_when_they_are_not_friends_C(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Nico invites Fede to play
+        fede = PlayerFactory()
+        PlayerFriendFactory(player = fede, friend = nico, status = False)
+
+        self.assertEqual(len(fede.games.all()), 0)
+        url = reverse('gamePlayerCreate')
+        data = [{ 'player':fede.id, 'game': game.id }]
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(len(fede.games.all()), 0)
 
     def test_fede_tries_to_invite_himself_to_nico_game(self):
         # Nico creates a game
@@ -955,9 +1018,15 @@ class GameAPITest(APITestCase):
         token = Token.objects.get(user__username = nico.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        # Nico invites Fede and Tucu to play
+        # Nico and Fede are friends
         fede = PlayerFactory()
+        PlayerFriendFactory(player = nico, friend = fede, status = True)
+
+        # Tucu and Fede are friends
         tucu = PlayerFactory()
+        PlayerFriendFactory(player = tucu, friend = nico, status = True)
+
+        # Nico invites Fede and Tucu to play
         url = reverse('gamePlayerCreate')
         data = [{ 'player':fede.id, 'game': game.id }, { 'player':tucu.id, 'game': game.id }]
         response = self.client.post(url, data, format='json')
@@ -965,6 +1034,27 @@ class GameAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(len(fede.games.all()), 1)
         self.assertEqual(len(tucu.games.all()), 1)
+
+    def test_nico_tries_to_invite_tucu_fede_when_they_are_not_friends(self):
+        # Nico creates a game
+        nico = PlayerFactory()
+        game = GameFactory(owner = nico)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Nico invites Fede and Tucu to play
+        fede = PlayerFactory()
+        tucu = PlayerFactory()
+        url = reverse('gamePlayerCreate')
+        data = [{ 'player':fede.id, 'game': game.id }, { 'player':tucu.id, 'game': game.id }]
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(len(fede.games.all()), 0)
+        self.assertEqual(len(tucu.games.all()), 0)
+
 
     def test_fede_tries_to_invite_tucu_and_pela_to_nico_game(self):
         # Nico creates a game
