@@ -112,6 +112,7 @@ class GamePlayer(models.Model):
     game = models.ForeignKey(Game)
     status = models.NullBooleanField()
     another_chance = models.NullBooleanField()
+    initial_points = models.PositiveIntegerField(default = 0)
 
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)

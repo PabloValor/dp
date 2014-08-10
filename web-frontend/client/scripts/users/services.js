@@ -41,6 +41,7 @@ angular.module('app.users')
                                 console.log(response)
                                 Session.create('token', response.token);
                                 Session.create('username', response.username);
+                                Session.create('user_id', response.user_id);
                                 if(!!f_success) {
                                     f_success(response);
                                 }
@@ -63,6 +64,7 @@ angular.module('app.users')
                                         console.log(response);
                                         Session.create('token', response.token);
                                         Session.create('username', response.username);
+                                        Session.create('user_id', response.user_id);
 
                                         if(!!f_success) {
                                             f_success(response);
@@ -90,6 +92,9 @@ angular.module('app.users')
     return {
         getUsername : function(){
           return Session.get('username');
+        },
+        getUserID : function(){
+          return Session.get('user_id');
         },
         create: function(user, f_success, f_error) {
             $http.post(SETTINGS.url.player(), user)

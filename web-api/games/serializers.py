@@ -9,7 +9,7 @@ class GamePlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GamePlayer
-        fields = ('player', 'username', 'status', 'another_chance', 'id')
+        fields = ('player', 'username', 'status', 'another_chance', 'id', 'initial_points', )
 
 class GamePlayerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,7 +40,7 @@ class GamePlayerCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GamePlayer
-        fields = ('player','game')
+        fields = ('player','game', 'initial_points', )
 
     def validate(self, attrs):
         # Because of the Many = True this break up the validations and attrs only matches the first user
@@ -64,7 +64,7 @@ class UserGamePlayerField(serializers.Field):
         if self.context:
           user = self.context['request'].user
           gameplayer = gameplayers.filter(player = user)
-          return gameplayer.values('id', 'player__username', 'status', 'another_chance')
+          return gameplayer.values('id', 'player__username', 'status', 'another_chance', 'initial_points', )
 
 class GameSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source = 'owner.username')

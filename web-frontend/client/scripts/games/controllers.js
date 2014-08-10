@@ -37,10 +37,13 @@ angular.module('app.games')
         delete Data.currentGame; // So the FriendsControllers show all the friends
         $scope.data = Data;
         $scope.owner = UserService.getUsername();
+        $scope.owner_id = UserService.getUserID();
 
         $scope.newGame = function() {
             var friends = $scope.data.gamePlayerFriends.filter(function(item) { return item.checked });
             var gameplayers = friends.map(function(item) { return { 'player': item.id, 'username': item.username } });
+            gameplayers.push({ 'player': $scope.owner_id, 'username': $scope.owner });
+
             var game = {'name' : $scope.game.name, 'tournament': $scope.game.tournament.id, 'gameplayers': gameplayers};
 
             GameService.new(game,

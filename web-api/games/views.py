@@ -58,9 +58,9 @@ class GameCreate(generics.CreateAPIView):
         obj.owner = self.request.user
 
     def post_save(self, obj, created=False):
-        if not obj.players.filter(id = obj.owner.id).exists():
-            game_player = GamePlayer.objects.create(player = obj.owner, game = obj, status = True)
-            game_player.save()
+        game_player = GamePlayer.objects.get(player = obj.owner, game = obj, status = None)
+        game_player.status = True
+        game_player.save()
 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
