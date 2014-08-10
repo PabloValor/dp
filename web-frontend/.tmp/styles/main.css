@@ -11745,22 +11745,32 @@ button.toast-close-button {
   font-weight: bold;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000391}}
-.inviteMorePlayers {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000392}}
+.inviteMorePlayers .emailsWithCounter {
+  margin-bottom: 15px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000396}}
+.inviteMorePlayers .inviteMorePlayersHelp {
+  right: 15px;
+  top: 11px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003102}}
+.inviteMorePlayersButton {
   float: right;
   margin-top: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000397}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003108}}
 .game-configuration-advanced i.tshirt:before {
   font-size: 36px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003103}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003114}}
 .game-configuration-advanced .game-players i.tshirt:before {
   margin-left: 4px;
   font-size: 30px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003109}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003120}}
 .game-configuration-advanced .counter {
   margin-top: 15px;
 }

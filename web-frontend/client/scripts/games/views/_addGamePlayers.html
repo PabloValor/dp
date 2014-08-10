@@ -1,15 +1,22 @@
-<div class="ui-tab-container">
+<div class="ui-tab-container inviteMorePlayers">
     <tabset justified="true" class="ui-tab">
         <tab heading="Amigos">
             <div ng-show="hasTrueFriends">
               <div class="form-group">
                   <input type="text" class="form-control" ng-model="friendsFilter" placeholder="Buscar">
               </div>
-              <div class="form-group" ng-repeat="friend in friends | filter:friendsFilter" >
-                  <label class="ui-checkbox" ng-if="friend.is_friend">
-                      <input name="checkbox2" type="checkbox" value="{{ friend.id }}" ng-model="friend.checked"><span>{{ friend.username }}</span>
-                  </label>
+              <div ng-class="{'row' : true, 'emailsWithCounter' : canInviteMorePlayers }" ng-repeat="friend in friends | filter:friendsFilter" ng-if="friend.is_friend">
+                <div class="col-xs-7">
+                    <label class="ui-checkbox" >
+                        <input name="checkbox2" type="checkbox" value="{{ friend.id }}" ng-model="friend.checked"><span>{{ friend.username }}</span>
+                    </label>
+                </div>
+                <div class="col-xs-4" ng-show="canInviteMorePlayers">
+                    <counter player="friend" show-popup="true"></counter>
+                </div>
+                 <span ng-show="canInviteMorePlayers" class="glyphicon glyphicon-question-sign col-xs-1 inviteMorePlayersHelp"  popover-trigger="mouseenter" popover="Puntos Iniciales"></span>
               </div>
+
             </div>
 
               <div class="callout callout-info" ng-hide="hasTrueFriends">
@@ -50,6 +57,4 @@
         </tab>
     </tabset>
 </div>
-<div class="inviteMorePlayers">
-  <button type="button" class="btn btn-primary" data-i18n="Invitar" ng-show="canInviteMorePlayers" ng-click="inviteFriends()"></button>
-</div>
+<button type="button" class="btn btn-primary inviteMorePlayersButton" data-i18n="Invitar" ng-show="canInviteMorePlayers" ng-click="inviteFriends()"></button>

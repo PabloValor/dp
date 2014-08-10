@@ -113,6 +113,7 @@ angular.module('app.games')
 
         $scope.inviteFriends = function() {
           var friends = $scope.friends.filter(function(f) {  return f.checked && f.is_friend; });
+          console.log(friends);
           GameService.inviteFriends($scope.game, friends, 
               function(response) {
                 $scope.friends = $scope.friends.filter(function(f) { return !f.checked && f.is_friend; });

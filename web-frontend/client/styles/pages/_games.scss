@@ -89,6 +89,17 @@
 }
 
 .inviteMorePlayers {
+  .emailsWithCounter {
+    margin-bottom: 15px;
+  }
+
+  .inviteMorePlayersHelp {
+    right: 15px;
+    top: 11px;
+  }
+}
+
+.inviteMorePlayersButton {
   float: right;
   margin-top: 20px;
 }

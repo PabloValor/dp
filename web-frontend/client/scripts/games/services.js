@@ -106,7 +106,7 @@ angular.module('app.games')
                 });
         }, 
         inviteFriends : function(game, friends, f_success, f_error) {
-            var gamefriends = friends.map(function(f) { return {'player': f.id, 'game': game.id}; });
+            var gamefriends = friends.map(function(f) { return {'player': f.id, 'game': game.id, 'initial_points': f.initial_points }; });
             console.log("invitando amigos");
             console.log(gamefriends);
             $http.post(SETTINGS.url.gamePlayerCreate(),  gamefriends)
