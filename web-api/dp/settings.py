@@ -109,12 +109,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 )
 
-POINTS = {
-    'exact': 3,
-    'moral': 1,
-    'classic': 2,
-    'double': 2,
-}
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookAppOAuth2',

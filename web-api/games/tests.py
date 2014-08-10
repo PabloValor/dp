@@ -631,6 +631,59 @@ class GameAPITest(APITestCase):
         self.assertTrue(Game.objects.first().classic)
         self.assertTrue(player.gameplayer_set.first().status)
 
+        # Default points
+        self.assertEqual(Game.objects.first().points_exact, 3)
+        self.assertEqual(Game.objects.first().points_general, 1)
+        self.assertEqual(Game.objects.first().points_classic, 2)
+        self.assertEqual(Game.objects.first().points_double, 2)
+
+    def test_create_with_custom_points_201_CREATED(self):
+        player = PlayerFactory()
+        tournament = TournamentFactory()
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 
+                 'tournament': tournament.pk, 
+                 'points_exact': 5, 
+                 'points_general': 4, 
+                 'points_classic': 3, 
+                 'points_double': 1, 
+                 'gameplayers': [{'player': player.id, 'username': player.username}] }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Game.objects.first().owner, player)
+        self.assertTrue(Game.objects.first().classic)
+        self.assertTrue(player.gameplayer_set.first().status)
+
+        # Default points
+        self.assertEqual(Game.objects.first().points_exact, 5)
+        self.assertEqual(Game.objects.first().points_general, 4)
+        self.assertEqual(Game.objects.first().points_classic, 3)
+        self.assertEqual(Game.objects.first().points_double, 1)
+
+    def test_create_with_invalid_custom_points_400_BAD_REQUEST(self):
+        player = PlayerFactory()
+        tournament = TournamentFactory()
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 
+                 'tournament': tournament.pk, 
+                 'points_exact': 5, 
+                 'points_general': -4,  # Invalid
+                 'points_classic': 3, 
+                 'points_double': 1, 
+                 'gameplayers': [{'player': player.id, 'username': player.username}] }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_create_game_not_classic_201_CREATED(self):
         player = PlayerFactory()
         tournament = TournamentFactory()

@@ -6,9 +6,11 @@ angular.module('app.core')
       restrict: 'E',
       templateUrl: 'scripts/core/views/counter.html',
       replace: true,
-      scope: { player: '=' },
+      scope: { player: '=', initial_points: '=' },
       controller: function($scope) {
-        $scope.player.initial_points = 0;
+        if(!!!$scope.player.initial_points) {
+          $scope.player.initial_points = 0;
+        }
 
         $scope.up = function() {
           $scope.player.initial_points++;

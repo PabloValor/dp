@@ -1,18 +1,40 @@
 <div class="ui-tab-container game-configuration-advanced">
     <tabset  class="ui-tab">
         <tab heading="Modalidad">
-            <div class="callout callout-info" ng-show="!gameClassic">
+            <div class="callout callout-info" ng-show="!game.classic">
               <h4> Resultado Exacto</h4>  
               <p>Se extiende la modalidad <strong>Resultado General</strong> permitiendo asignar los numeros de goles por partido. Se asigan puntos adicionales por resultado exacto.</p>
             </div>
 
-            <div class="callout callout-info" ng-show="gameClassic">
+            <div class="callout callout-info" ng-show="game.classic">
               <h4> Resultado General</h4>  
                 <p>Los partidos se deciden por ganador, perdedor o empate.</p>
             </div>
 
             <p> Resultado General </p>
-            <label class="switch"><input type="checkbox" ng-change="changeGameClassic()" ng-model="gameClassic"><i></i></label>
+            <label class="switch"><input type="checkbox" ng-model="game.classic"><i></i></label>
+        </tab>
+        <tab heading="Puntos">
+            <div style="min-height: 250px">
+            <div class="callout callout-info">
+                <p>Puntos que se otorgan por pronostico acertado.</p>
+            </div>
+
+              <div ng-class="row" ng-repeat='gamePoint in gamePoints' style="width:100%" ng-if="!(gamePoint.classic != undefined && !(gamePoint.classic == game.classic))">
+                <div class="col-xs-4 points">
+                  <label>{{ gamePoint.label }} </label>
+                </div>
+                <div class="col-xs-8">
+                    <div class="col-xs-8">
+                      <counter player="gamePoint" show-popup="true"></counter>
+                    </div>
+                    <div class="col-xs-4">
+                      <span class="glyphicon glyphicon-question-sign gamePointHelp"  popover-trigger="mouseenter" popover="{{ gamePoint.help }}" ></span>
+                    </div>
+                </div>
+              </div>
+
+            </div>
         </tab>
         <tab heading="Puntos Iniciales">
             <div class="callout callout-info">

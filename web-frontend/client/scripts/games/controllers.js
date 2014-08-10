@@ -37,18 +37,30 @@ angular.module('app.games')
         delete Data.currentGame; // So the FriendsControllers show all the friends
         $scope.data = Data;
         $scope.owner = { 'username': UserService.getUsername(), 'id' : UserService.getUserID() };
-        $scope.gameClassic = true;
-        $scope.changeGameClassic = function() { $scope.gameClassic = !$scope.gameClassic; };
+        $scope.game = { 'classic': true, 'points_exact': 3,  'points_general':  1, 'points_double': 2, 'points_classic': 2 };
+
+        $scope.gamePoints = {'points_general' : { initial_points : 3, label: 'Resultado General', help : 'Por acertar ganador, perdedor o empate.' },
+                             'points_exact' : { initial_points : 1, label: 'Resultado Exacto', classic: false, help : 'Por acertar el resultado exacto.' },
+                             'points_double' : { initial_points : 2, label: 'Es Doble', help : 'Por cuanto se multiplica el partido marcado como doble.'  },
+                             'points_classic' : { initial_points : 2, label: 'Clasico de la fecha', help : 'Por cuanto se multiplica el clasico de la fecha.' }};
 
         $scope.newGame = function() {
             var friends = $scope.data.gamePlayerFriends.filter(function(item) { return item.checked });
             var gameplayers = friends.map(function(item) { return { 'player': item.id, 'username': item.username, 'initial_points': item.initial_points } });
             gameplayers.push({ 'player': $scope.owner.id, 'username': $scope.owner.username , 'initial_points': $scope.owner.initial_points});
 
-            var game = {'name' : $scope.game.name, 'tournament': $scope.game.tournament.id, 'gameplayers': gameplayers, 'classic': $scope.gameClassic };
-            console.log(game);
+            $scope.game.name  = $scope.game.name, 
+            $scope.game.tournament =  $scope.game.tournament.id;
+            $scope.game.gameplayers =  gameplayers;
 
-            GameService.new(game,
+            $scope.game.points_exact = $scope.gamePoints.points_exact.initial_points;
+            $scope.game.points_general = $scope.gamePoints.points_general.initial_points;
+            $scope.game.points_double = $scope.gamePoints.points_double.initial_points;
+            $scope.game.points_classic = $scope.gamePoints.points_classic.initial_points;
+
+            console.log($scope.game);
+
+            GameService.new($scope.game,
                 function(game) {
                     console.log("creado con exito");
                     Data.currentGame = game;

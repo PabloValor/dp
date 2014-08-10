@@ -50,13 +50,13 @@ class Player(AbstractUser):
     def is_friend(self, player):
         return player in self.get_true_friends()
 
-    def make_prediction(self, match_id, local_team_goals, visitor_team_goals):
-        prediction = PlayerMatchPrediction.objects.filter(match_id = match_id, player_id = self.pk)
+    def make_prediction(self, gameplayer_id, match_id, local_team_goals, visitor_team_goals):
+        prediction = PlayerMatchPrediction.objects.filter(match_id = match_id, gameplayer_id = gameplayer_id)
         if prediction:
             prediction.update(local_team_goals = local_team_goals,
                               visitor_team_goals = visitor_team_goals)
         else:
-            PlayerMatchPrediction.objects.create(player = self,
+            PlayerMatchPrediction.objects.create(gameplayer_id = gameplayer_id,
                                         match_id = match_id, 
                                         local_team_goals = local_team_goals, 
                                         visitor_team_goals = visitor_team_goals)
@@ -67,7 +67,7 @@ class Player(AbstractUser):
     def get_fixture_points(self, fixture, game):
         points = 0
         if fixture.is_finished:
-            points = sum([player_prediction.get_points(game) 
+            points = sum([player_prediction.get_points() 
                         for player_prediction in self.playermatchprediction_set.all() 
                         if not player_prediction.match.suspended and player_prediction.match.fixture.pk == fixture.pk])
     
@@ -98,6 +98,11 @@ class Game(models.Model):
     tournament = models.ForeignKey(Tournament)
     classic = models.BooleanField(default = True, verbose_name = "Modo Clasico")
 
+    points_exact = models.PositiveIntegerField(default = 3)
+    points_general = models.PositiveIntegerField(default = 1)
+    points_classic = models.PositiveIntegerField(default = 2)
+    points_double = models.PositiveIntegerField(default = 2)
+
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
@@ -121,7 +126,7 @@ class GamePlayer(models.Model):
       return '{0} | {1} | {2}'.format(self.player, self.status, self.another_chance)
 
 class PlayerMatchPrediction(models.Model):
-    player = models.ForeignKey(settings.AUTH_USER_MODEL)
+    gameplayer = models.ForeignKey(GamePlayer)
     match = models.ForeignKey(Match)
     local_team_goals = models.PositiveIntegerField()
     visitor_team_goals = models.PositiveIntegerField()
@@ -140,30 +145,30 @@ class PlayerMatchPrediction(models.Model):
         return self.match.local_team_goals == self.local_team_goals and  \
                self.match.visitor_team_goals == self.visitor_team_goals
 
-    def get_points(self, game):
-        if game.classic:
+    def get_points(self):
+        if self.gameplayer.game.classic:
             return self.get_points_classic()
         else:
             return self.get_points_dp()
 
     def get_points_classic(self):
         if self.is_a_moral_prediction():
-            return 1
+            return self.get_points_classic()
         else:
             return 0
 
     def get_points_dp(self):
         points = 0
         if self.is_a_exact_prediction():
-            points = settings.POINTS['exact']
+            points = self.gameplayer.game.points_exact
         elif self.is_a_moral_prediction():
-            points = settings.POINTS['moral']
+            points = self.gameplayer.game.points_general
 
         if self.match.is_classic:
-            points *= settings.POINTS['classic']
+            points *= self.gameplayer.game.points_classic
 
         if self.is_double:
-            points *= settings.POINTS['double']
+            points *= self.gameplayer.game.points_double
 
         return points
 
