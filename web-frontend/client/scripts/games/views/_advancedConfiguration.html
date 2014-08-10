@@ -1,0 +1,30 @@
+<div class="ui-tab-container game-configuration-advanced">
+    <tabset  class="ui-tab">
+        <tab heading="Puntos Iniciales">
+            <div class="callout callout-info">
+              <p>La configuracion de los <strong>puntos iniciales</strong> puede ayudarte a pasar tu torneo ya empezado al sitio.</p>
+            </div>
+            
+            <div class="row">
+              <div class="form-group game-owner col-xs-7">
+                  <i class="flaticon-soccer18 tshirt"></i>
+                    <span>{{ owner.username }}</span>
+              </div>
+              <div class="col-xs-4">
+                <counter player="owner"></counter>
+              </div>
+            </div>
+
+            <div class="row game-players " ng-repeat="friend in data.gamePlayerFriends | filter: {checked: true}">
+              <div class="form-group col-xs-7">
+                  <i class="flaticon-tshirt19 tshirt"></i>
+                    <span>{{ friend.username }}</span>
+              </div>
+
+              <div class="col-xs-4">
+                <counter player="friend"></counter>
+              </div>
+            </div>
+        </tab>
+    </tabset>
+</div>

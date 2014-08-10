@@ -26,6 +26,12 @@
                 <div class="panel-body" ng-include="'scripts/games/views/_addGamePlayers.html'" ng-controller="AddGamePlayersController" >
                 </div>
             </section>
+
+            <section class="panel panel-default">
+                <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> <span data-i18n="Configuracion Avanzada"></span></strong></div>
+                <div class="panel-body" ng-include="'scripts/games/views/_advancedConfiguration.html'" >
+                </div>
+            </section>
         </div>
         <div class="col-md-6">
             <section class="panel panel-default">
@@ -47,13 +53,18 @@
                         </div>
 
                         <div class="form-group game-owner">
-                            <i class="flaticon-soccer18"></i>
-                              <span>{{ owner }}</span>
+                            <i class="glyphicon glyphicon-chevron-up"></i>
+                            {{ owner.initial_points }}
+
+                            <i class="flaticon-soccer18 tshirt"></i>
+                              <span>{{ owner.username }}</span>
                         </div>
 
                         <div class="form-group game-players" ng-repeat="friend in data.gamePlayerFriends | filter: {checked: true}" >
-                            <i class="flaticon-tshirt19"></i>
-                              <span>{{ friend.username }}</span>
+                            <i class="glyphicon glyphicon-chevron-up"></i>
+                            {{ friend.initial_points }}
+                            <i class="flaticon-tshirt19 tshirt"></i>
+                            <span>{{ friend.username }}</span>
                         </div>
 
                         <div class="form-group game-header">

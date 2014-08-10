@@ -36,13 +36,12 @@ angular.module('app.games')
 
         delete Data.currentGame; // So the FriendsControllers show all the friends
         $scope.data = Data;
-        $scope.owner = UserService.getUsername();
-        $scope.owner_id = UserService.getUserID();
+        $scope.owner = { 'username': UserService.getUsername(), 'id' : UserService.getUserID() };
 
         $scope.newGame = function() {
             var friends = $scope.data.gamePlayerFriends.filter(function(item) { return item.checked });
-            var gameplayers = friends.map(function(item) { return { 'player': item.id, 'username': item.username } });
-            gameplayers.push({ 'player': $scope.owner_id, 'username': $scope.owner });
+            var gameplayers = friends.map(function(item) { return { 'player': item.id, 'username': item.username, 'initial_points': item.initial_points } });
+            gameplayers.push({ 'player': $scope.owner.id, 'username': $scope.owner.username , 'initial_points': $scope.owner.initial_points});
 
             var game = {'name' : $scope.game.name, 'tournament': $scope.game.tournament.id, 'gameplayers': gameplayers};
 
@@ -84,6 +83,7 @@ angular.module('app.games')
 
         $scope.withOutFriendsMsg = "No tienes amigos... puedas buscarlos ingresando al";
 
+        /*
         if(Facebook.isAuthenticated()) {
             Facebook.getFriends(
                 function(response) {
@@ -91,6 +91,7 @@ angular.module('app.games')
                     data.facebookPlayers  = response.data;
                 });
         }
+        */
 
         FriendsService.getFriends(
             function(friends) {

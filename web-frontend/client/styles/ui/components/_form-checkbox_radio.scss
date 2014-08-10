@@ -85,7 +85,7 @@
 
     input[type="checkbox"]:checked + span:before {
         /* CAMBIE */
-        background-color: $brand-success;
+        background-color: $brand-primary;
         border: 1px solid $brand-success;         
     }
     input[type="checkbox"]:checked + span:after {

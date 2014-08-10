@@ -8426,7 +8426,7 @@ span.block {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\0000386}}
 .ui-checkbox input[type="checkbox"]:checked + span:before {
   /* CAMBIE */
-  background-color: #1c7ebb;
+  background-color: #23ae89;
   border: 1px solid #1c7ebb;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/ui\/components\/_form-checkbox_radio\.scss}line{font-family:\0000391}}
@@ -11673,77 +11673,96 @@ button.toast-close-button {
   font-size: 40px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000311}}
+.game-details i.glyphicon-chevron-up:before {
+  font-size: 15px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000315}}
 .game-details .game-players {
-  margin-left: 20px;
+  margin-left: 9px;
   line-height: 10px;
   margin-bottom: 25px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000316}}
-.game-details .game-players i:before {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000320}}
+.game-details .game-players i.tshirt:before {
   font-size: 30px;
+  margin-left: 3px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000321}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000326}}
 .game-details .game-owner {
-  margin-left: 18px;
+  margin-left: 9px;
   margin-bottom: 20px;
   line-height: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000326}}
-.game-details .game-owner i:before {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000331}}
+.game-details .game-owner i.tshirt:before {
   font-size: 36px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000331}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000336}}
 .game-details .email-players {
   margin-left: 20px;
   line-height: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000335}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000340}}
 .game-details .email-players i:before {
   font-size: 15px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000339}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000344}}
 .game-details .email-players span {
   margin-left: 3px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000344}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000349}}
 .game-details .facebook-players {
   margin-left: 15px;
   line-height: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000348}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000353}}
 .game-details .facebook-players .bg-facebook {
   background-color: #767676;
   color: white;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000353}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000358}}
 .game-details .facebook-players .btn-icon-round-sm {
   height: 20px;
   line-height: 20px;
   width: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000359}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000364}}
 .game-details .facebook-players i:before {
   font-size: 14px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000368}}
 .game-details .facebook-players span {
   margin-left: 3px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000369}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000374}}
 .game-details .reglas .panel-group {
   margin-top: 40px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000378}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000383}}
 .game-list tbody tr a {
   color: #23ae89;
   font-weight: bold;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000386}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000391}}
 .inviteMorePlayers {
   float: right;
   margin-top: 20px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\0000397}}
+.game-configuration-advanced i.tshirt:before {
+  font-size: 36px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003103}}
+.game-configuration-advanced .game-players i.tshirt:before {
+  margin-left: 4px;
+  font-size: 30px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003109}}
+.game-configuration-advanced .counter {
+  margin-top: 15px;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\000031}}

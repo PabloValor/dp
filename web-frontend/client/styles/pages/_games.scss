@@ -8,22 +8,27 @@
         font-size: 40px;
     }
 
+    i.glyphicon-chevron-up:before {
+        font-size: 15px;
+    }
+
     .game-players {
-        margin-left: 20px;
+        margin-left: 9px;
         line-height: 10px;
         margin-bottom: 25px;
 
-        i:before {
+        i.tshirt:before {
             font-size: 30px;
+            margin-left: 3px;
         }
     }
 
     .game-owner {
-        margin-left: 18px;
+        margin-left: 9px;
         margin-bottom: 20px;
         line-height: 10px;
 
-        i:before {
+        i.tshirt:before {
             font-size: 36px;
         }
     }
@@ -87,5 +92,24 @@
   float: right;
   margin-top: 20px;
 }
+
+.game-configuration-advanced {
+    i.tshirt:before {
+        font-size: 36px;
+    }
+
+    .game-players {
+
+        i.tshirt:before {
+            margin-left: 4px;
+            font-size: 30px;
+        }
+    }
+
+    .counter {
+      margin-top: 15px;
+    }
+}
+
 
 

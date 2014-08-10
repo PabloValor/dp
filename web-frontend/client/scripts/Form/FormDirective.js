@@ -26,6 +26,7 @@
           ele.addClass('ui-spinner');
           return {
             post: function() {
+              console.log("hola");
               return ele.spinner();
             }
           };
