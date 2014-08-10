@@ -11,10 +11,10 @@
                             <input type="text" class="form-control" ng-model="game.name" placeholder="Nombre del Torneo" required>
                         </div>
                         <div class="form-group">
-                        <label data-i18n="Liga"></label><br>
+                        <label data-i18n="Competición"></label><br>
                             <span class="ui-select ">
-                                <select ng-model="game.tournament" ng-options="tournament.name for tournament in tournaments" required>
-                                    <option value="" data-i18n="-- Seleccione una Liga --"></option>
+                                <select ng-model="game.tournament" ng-options="tournament.name for tournament in tournaments" required style="width:233px">
+                                    <option value="" data-i18n="-- Seleccione una Competición --"></option>
                                 </select>
                             </span>
                         </div>
