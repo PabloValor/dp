@@ -628,7 +628,24 @@ class GameAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Game.objects.first().owner, player)
+        self.assertTrue(Game.objects.first().classic)
         self.assertTrue(player.gameplayer_set.first().status)
+
+    def test_create_game_not_classic_201_CREATED(self):
+        player = PlayerFactory()
+        tournament = TournamentFactory()
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers': [{'player': player.id, 'username': player.username}], 'classic': False }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Game.objects.first().owner, player)
+        self.assertTrue(player.gameplayer_set.first().status)
+        self.assertFalse(Game.objects.first().classic)
 
     def test_create_401_UNAUTHORIZED(self):
         player = PlayerFactory()

@@ -94,7 +94,7 @@ class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
-        fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 'gameplayers', 'you')
+        fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 'gameplayers', 'you', 'classic')
 
 class PlayerSerializer(serializers.ModelSerializer):
 #    games = serializers.PrimaryKeyRelatedField(many = True)

@@ -1,5 +1,19 @@
 <div class="ui-tab-container game-configuration-advanced">
     <tabset  class="ui-tab">
+        <tab heading="Modalidad">
+            <div class="callout callout-info" ng-show="!gameClassic">
+              <h4> Resultado Exacto</h4>  
+              <p>Se extiende la modalidad <strong>Resultado General</strong> permitiendo asignar los numeros de goles por partido. Se asigan puntos adicionales por resultado exacto.</p>
+            </div>
+
+            <div class="callout callout-info" ng-show="gameClassic">
+              <h4> Resultado General</h4>  
+                <p>Los partidos se deciden por ganador, perdedor o empate.</p>
+            </div>
+
+            <p> Resultado General </p>
+            <label class="switch"><input type="checkbox" ng-change="changeGameClassic()" ng-model="gameClassic"><i></i></label>
+        </tab>
         <tab heading="Puntos Iniciales">
             <div class="callout callout-info">
               <p>La configuracion de los <strong>puntos iniciales</strong> puede ayudarte a pasar tu torneo ya empezado al sitio.</p>
