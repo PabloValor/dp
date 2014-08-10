@@ -1603,6 +1603,61 @@ class GameAPITest(APITestCase):
         self.assertEqual(tucu.gameplayer_set.first().initial_points, 5)
         self.assertEqual(fede.gameplayer_set.first().initial_points, 10)
 
+    def test_nico_creates_a_game_without_initial_points_201_CREATED(self):
+        tournament = TournamentFactory()
+        # Players
+        nico = PlayerFactory()
+        fede = PlayerFactory()
+        tucu = PlayerFactory()
+
+        # Nico is Roberto Carlos
+        PlayerFriendFactory(player = nico, friend = fede, status = True)
+        PlayerFriendFactory(player = nico, friend = tucu, status = True)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Nico creates a game
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 
+                 'gameplayers' : [{'player':fede.id, 'username': fede.username }, 
+                                  {'player':nico.id, 'username': nico.username }, 
+                                  {'player':tucu.id, 'username': tucu.username } ]}
+
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(nico.gameplayer_set.first().initial_points, 0)
+        self.assertEqual(tucu.gameplayer_set.first().initial_points, 0)
+        self.assertEqual(fede.gameplayer_set.first().initial_points, 0)
+
+    def test_nico_creates_a_game_with_invalid_initial_points_400_BAD_REQUEST(self):
+        tournament = TournamentFactory()
+        # Players
+        nico = PlayerFactory()
+        fede = PlayerFactory()
+        tucu = PlayerFactory()
+
+        # Nico is Roberto Carlos
+        PlayerFriendFactory(player = nico, friend = fede, status = True)
+        PlayerFriendFactory(player = nico, friend = tucu, status = True)
+
+        # Nico authenticates
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Nico creates a game
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 
+                 'gameplayers' : [{'player':fede.id, 'username': fede.username, 'initial_points': -10}, 
+                                  {'player':nico.id, 'username': nico.username, 'initial_points': 0}, 
+                                  {'player':tucu.id, 'username': tucu.username, 'initial_points': 5} ]}
+
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 class PlayerAPITest(APITestCase):
     def test_create_200_OK(self): 
         data = { 'username': 'nico',
