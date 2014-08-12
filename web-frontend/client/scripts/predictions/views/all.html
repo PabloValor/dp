@@ -1,0 +1,43 @@
+<div class="page" ng-controller="PredictionsController">
+  <div class="panel panel-default" ng-show="!hasGames">
+      <div class="panel-heading"><strong><span class="flaticon-football7"></span> Mis Pronosticos</strong></div>
+    <div class="panel-body">
+      <div class="callout callout-success">
+        <h4> No estas jugando ningun Torneo </h4>  
+        <p>Crea un <a href="#/torneos/nuevo">nuevo Torneo</a> e invita a tus amigos</p>
+      </div>
+    </div>
+  </div>
+
+    <div class="row" ng-show="hasGames">
+        <div class="col-sm-3">
+            <section class="panel panel-default mail-categories">
+                <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> <span data-i18n="Torneos"></span></strong></div>
+                <ul class="list-group">
+                    <li ng-repeat="game in games" class="list-group-item" ng-class='{active: selectedGame == game}'>
+                        <a href="javascript:;" ng-click="selectGame(game)">
+                          {{ game.name }}
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+        </div>
+        <div class="col-sm-9">
+            <section class="panel panel-default mail-container">
+                <div class="panel-heading"><strong><span class="flaticon-football7"></span> Partidos</strong></div>
+                <table class="table table-hover">
+
+                    <tr>
+                        <td><label class="ui-checkbox"><input name="checkbox1" type="checkbox" value="option1" ><span></span></label></td>
+                        <td>John Smith </td>
+                        <td>Lorem ipsum dolor sit amet</td>
+                        <td> </td>
+                        <td>2/15/14 5:00 AM</td>
+                        <td><i class="fa fa-star active"></i></td>
+                    </tr>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>

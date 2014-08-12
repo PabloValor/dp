@@ -11784,13 +11784,24 @@ button.toast-close-button {
   margin-top: 15px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\000031}}
-.friends-list {
-  cursor: pointer;
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\000035}}
+.friends .mail-categories .list-group .list-group-item {
+  padding: 0;
 }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\000036}}
-.players-list .ask-friendship {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\000038}}
+.friends .mail-categories .list-group .list-group-item.active > a {
+  border-left: 3px solid #1c7ebb;
+  color: #1c7ebb;
+  background-color: #fafafa;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\0000315}}
+.friends .mail-categories .list-group .list-group-item > a:hover {
+  border-left: 3px solid #1c7ebb;
+  color: #1c7ebb;
+  background-color: #fafafa;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\0000326}}
+.friends .players-list .ask-friendship {
   margin-right: 5px;
 }
 
