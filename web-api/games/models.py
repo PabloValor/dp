@@ -7,7 +7,6 @@ from tournaments.models import Tournament, Team, Fixture, Match
 class Player(AbstractUser):
     REQUIRED_FIELDS = ["email", ]
 
-    initial_points = models.IntegerField(verbose_name = 'Puntos iniciales', default = 0)
     friends = models.ManyToManyField('self', through = 'PlayerFriend', symmetrical = False)
 
     class Meta:
@@ -62,20 +61,28 @@ class Player(AbstractUser):
                                         visitor_team_goals = visitor_team_goals)
 
     def get_total_points(self, game):
-        return FixturePlayerPoints.get_player_points(game.id, self.id) + self.initial_points
+        gameplayer = self.get_gameplayer(game)
+        return FixturePlayerPoints.get_player_points(gameplayer) + gameplayer.initial_points
+
+    def get_gameplayer(self, game):
+        return self.gameplayer_set.get(game = game, status = True)
 
     def get_fixture_points(self, fixture, game):
+        gameplayer = self.get_gameplayer(game)
+
         points = 0
         if fixture.is_finished:
             points = sum([player_prediction.get_points() 
-                        for player_prediction in self.playermatchprediction_set.all() 
+                        for player_prediction in gameplayer.playermatchprediction_set.all() 
                         if not player_prediction.match.suspended and player_prediction.match.fixture.pk == fixture.pk])
     
-        return points + self.initial_points
+        return points + gameplayer.initial_points
 
-    def get_fixture_predictions(self, fixture):
+    def get_fixture_predictions(self, fixture, game):
+        gameplayer = self.get_gameplayer(game)
+
         match_ids = [x.pk for x in fixture.match_set.all()]
-        predictions = self.playermatchprediction_set.filter(match_id__in = match_ids)
+        predictions = gameplayer.playermatchprediction_set.filter(match_id__in = match_ids)
 
         return predictions
 
@@ -153,7 +160,7 @@ class PlayerMatchPrediction(models.Model):
 
     def get_points_classic(self):
         if self.is_a_moral_prediction():
-            return self.get_points_classic()
+            return self.gameplayer.game.points_general
         else:
             return 0
 
@@ -179,16 +186,15 @@ class PlayerMatchPrediction(models.Model):
 
 class FixturePlayerPoints(models.Model):
     fixture = models.ForeignKey(Fixture)
-    player = models.ForeignKey(settings.AUTH_USER_MODEL)
-    game = models.ForeignKey(Game) # For simplest queries 
+    gameplayer = models.ForeignKey(GamePlayer)
     points = models.IntegerField(verbose_name = 'Puntos')
 
     def __unicode__(self):
-        return "{0} - {1} = {2} puntos".format(self.player, self.fixture, self.points)
+        return "{0} - {1} = {2} puntos".format(self.gameplayer.player, self.fixture, self.points)
 
     @classmethod
-    def get_player_points(cls, game_id, player_id):
-        fixtures_points = [x.points for x in cls.objects.filter(game_id = game_id, player_id = player_id)]
+    def get_player_points(cls, gameplayer):
+        fixtures_points = [x.points for x in cls.objects.filter(gameplayer = gameplayer)]
         return sum(fixtures_points)
 
     class Meta:

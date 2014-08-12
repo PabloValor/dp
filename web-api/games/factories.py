@@ -25,7 +25,7 @@ class PlayerFriendFactory(factory.Factory):
     status = None
 
 class PlayerMatchPredictionFactory(factory.Factory):
-    player = factory.LazyAttribute(lambda a: PlayerFactory())
+    gameplayer = factory.LazyAttribute(lambda a: GamePlayerFactory())
     match = factory.LazyAttribute(lambda a: MatchFactory())
     local_team_goals = randrange(0, 5)
     visitor_team_goals = randrange(0, 5)
@@ -33,8 +33,7 @@ class PlayerMatchPredictionFactory(factory.Factory):
 
 class FixturePlayerPointsFactory(factory.Factory):
     fixture = factory.LazyAttribute(lambda a: FixtureFactory())
-    player = factory.LazyAttribute(lambda a: PlayerFactory())
-    game = factory.LazyAttribute(lambda a: GameFactory())
+    gameplayer = factory.LazyAttribute(lambda a: GamePlayerFactory())
     points = randrange(0, 5)
 
 

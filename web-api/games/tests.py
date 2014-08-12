@@ -11,12 +11,14 @@ class TournamentTest(TestCase):
         tournament = TournamentFactory()
         match = MatchFactory()
 
-        # Player
-        player = PlayerFactory()
-        player.make_prediction(match.pk, 0, 0)
+        # Player is playing a game
+        gp = GamePlayerFactory(status = True)
+        player = gp.player
 
-        self.assertEqual(len(player.playermatchprediction_set.all()), 1)
-        self.assertEqual(1, 1)
+        # Player makes a predictions
+        player.make_prediction(gp.id, match.pk, 0, 0)
+
+        self.assertEqual(PlayerMatchPrediction.objects.count(), 1)
 
 class ExactPredictionTest(TestCase):
     def test_prediction_ok(self):
@@ -120,11 +122,14 @@ class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_one_correct_exact_prediction(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+
         fixture = FixtureFactory(is_finished = True)
+
         match = MatchFactory(fixture = fixture)
         match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = match.visitor_team_goals,
                                            local_team_goals = match.local_team_goals)
 
@@ -135,18 +140,19 @@ class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_some_exact_prediction_and_some_not(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
         fixture = FixtureFactory(is_finished = True)
         # Match 1
         match = MatchFactory(fixture = fixture, visitor_team_goals = 2, local_team_goals = 0)
         match_prediction_true = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = match.visitor_team_goals,
                                            local_team_goals = match.local_team_goals)
 
         match_prediction_false = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 0,
                                            local_team_goals = 2)
 
@@ -154,7 +160,7 @@ class DPGamePlayerPointsTest(TestCase):
         match_2 = MatchFactory(fixture = fixture, visitor_team_goals = 0, local_team_goals = 2)
         match_prediction_2_false = \
                 PlayerMatchPredictionFactory(match = match_2,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 2,
                                            local_team_goals = 0)
 
@@ -169,11 +175,12 @@ class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_one_moral_prediction(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture)
         match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = match.visitor_team_goals + 1,
                                            local_team_goals = match.local_team_goals + 1)
 
@@ -184,18 +191,19 @@ class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_some_moral_prediction_and_some_not(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
         fixture = FixtureFactory(is_finished = True)
         # Match 1
         match = MatchFactory(fixture = fixture, visitor_team_goals = 2, local_team_goals = 0)
         match_prediction_true = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 3,
                                            local_team_goals = 0)
 
         match_prediction_false = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 0,
                                            local_team_goals = 2)
 
@@ -203,13 +211,13 @@ class DPGamePlayerPointsTest(TestCase):
         match_2 = MatchFactory(fixture = fixture, visitor_team_goals = 0, local_team_goals = 2)
         match_prediction_2_false = \
                 PlayerMatchPredictionFactory(match = match_2,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 1,
                                            local_team_goals = 0)
 
         match_prediction_2_true = \
                 PlayerMatchPredictionFactory(match = match_2,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 0,
                                            local_team_goals = 4)
 
@@ -225,25 +233,26 @@ class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_moral_and_exact_predictions(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
         fixture = FixtureFactory(is_finished = True)
 
         # Match 1
         match = MatchFactory(fixture = fixture, visitor_team_goals = 2, local_team_goals = 0)
         match_exact_prediction_true = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 2,
                                            local_team_goals = 0) # points = 3
 
         match_exact_prediction_false = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 0,
                                            local_team_goals = 2) # points = 0
 
         match_exact_prediction_false_moral_prediction_true = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 4,
                                            local_team_goals = 3) # points = 1
 
@@ -251,7 +260,7 @@ class DPGamePlayerPointsTest(TestCase):
         match_2 = MatchFactory(fixture = fixture, visitor_team_goals = 0, local_team_goals = 2)
         match_2_exact_prediction_false_moral_prediction_true = \
                 PlayerMatchPredictionFactory(match = match_2,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 0,
                                            local_team_goals = 4) # points = 1
 
@@ -259,7 +268,7 @@ class DPGamePlayerPointsTest(TestCase):
         match_3 = MatchFactory(fixture = fixture )
         match_3_exact_prediction_true = \
                 PlayerMatchPredictionFactory(match = match_3,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = match_3.visitor_team_goals,
                                            local_team_goals = match_3.local_team_goals) # points = 3
 
@@ -269,11 +278,12 @@ class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_one_correct_exact_prediction_of_a_classic_match(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture, is_classic = True)
         match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = match.visitor_team_goals,
                                            local_team_goals = match.local_team_goals)
 
@@ -284,11 +294,12 @@ class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_one_correct_moral_prediction_of_a_classic_match(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture, is_classic = True)
         match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = (match.visitor_team_goals + 1),
                                            local_team_goals = (match.local_team_goals + 1))
 
@@ -299,12 +310,13 @@ class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_one_correct_exact_prediction_with_double(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture)
         match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
                                            is_double = True,
-                                           player = player, 
                                            visitor_team_goals = match.visitor_team_goals,
                                            local_team_goals = match.local_team_goals)
 
@@ -315,12 +327,13 @@ class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_one_correct_moral_prediction_with_double(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture)
         match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
                                            is_double = True,
-                                           player = player, 
                                            visitor_team_goals = (match.visitor_team_goals + 1),
                                            local_team_goals = (match.local_team_goals + 1))
 
@@ -331,12 +344,13 @@ class DPGamePlayerPointsTest(TestCase):
     def test_get_player_points_from_one_correct_exact_prediction_with_double_of_a_classic_match(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture, is_classic = True)
         match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
                                            is_double = True,
-                                           player = player, 
                                            visitor_team_goals = match.visitor_team_goals,
                                            local_team_goals = match.local_team_goals)
 
@@ -347,12 +361,13 @@ class DPGamePlayerPointsTest(TestCase):
     def test_player_points_from_one_correct_moral_prediction_with_double_of_a_classic_match(self):
         player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture, is_classic = True)
         match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
                                            is_double = True,
-                                           player = player, 
                                            visitor_team_goals = (match.visitor_team_goals + 1),
                                            local_team_goals = (match.local_team_goals + 1))
 
@@ -361,13 +376,14 @@ class DPGamePlayerPointsTest(TestCase):
         self.assertEqual(4, fixture_points)
 
     def test_player_points_with_initial_points(self):
-        player = PlayerFactory(initial_points = 2)
+        player = PlayerFactory()
         game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True, initial_points = 2)
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture)
         match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = match.visitor_team_goals,
                                            local_team_goals = match.local_team_goals)
 
@@ -380,13 +396,16 @@ class ClassicGamePlayerPointsTest(TestCase):
         fixture = FixtureFactory(is_finished = True)
         player = PlayerFactory()
         game = GameFactory(classic = True, owner = player)
+
+        gameplayer = GamePlayerFactory(player = player, game = game, status = True)
+
         match = MatchFactory(fixture = fixture,
                              is_classic = True, 
                              visitor_team_goals = 0,
                              local_team_goals = 1) 
         player_prediction = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 0,
                                            local_team_goals = 0)
 
@@ -398,13 +417,14 @@ class ClassicGamePlayerPointsTest(TestCase):
         fixture = FixtureFactory(is_finished = True)
         player = PlayerFactory()
         game = GameFactory(classic = True, owner = player)
+        gameplayer = GamePlayerFactory(player = player, game = game, status = True)
         match = MatchFactory(fixture = fixture,
                              is_classic = True, 
                              visitor_team_goals = 0,
                              local_team_goals = 0) 
         player_prediction = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 0,
                                            local_team_goals = 0)
 
@@ -416,13 +436,14 @@ class ClassicGamePlayerPointsTest(TestCase):
         fixture = FixtureFactory(is_finished = True)
         player = PlayerFactory()
         game = GameFactory(classic = True, owner = player)
+        gameplayer = GamePlayerFactory(player = player, game = game, status = True)
         match = MatchFactory(fixture = fixture,
                              is_classic = True, 
                              visitor_team_goals = 2,
                              local_team_goals = 0) 
         player_prediction = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 3,
                                            local_team_goals = 0)
 
@@ -434,6 +455,7 @@ class ClassicGamePlayerPointsTest(TestCase):
         fixture = FixtureFactory(is_finished = True)
         player = PlayerFactory()
         game = GameFactory(classic = True, owner = player)
+        gameplayer = GamePlayerFactory(player = player, game = game, status = True)
         # Prediction ok
         match = MatchFactory(fixture = fixture,
                              is_classic = True, 
@@ -441,7 +463,7 @@ class ClassicGamePlayerPointsTest(TestCase):
                              local_team_goals = 0) 
         player_prediction = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 3,
                                            local_team_goals = 0)
 
@@ -451,7 +473,7 @@ class ClassicGamePlayerPointsTest(TestCase):
                              local_team_goals = 0) 
         player_prediction_1 = \
                 PlayerMatchPredictionFactory(match = match_1,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 0,
                                            local_team_goals = 0)
 
@@ -462,7 +484,7 @@ class ClassicGamePlayerPointsTest(TestCase):
                              local_team_goals = 0) 
         player_prediction_2 = \
                 PlayerMatchPredictionFactory(match = match_2,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 2,
                                            local_team_goals = 2)
 
@@ -476,6 +498,7 @@ class ClassicGamePlayerPointsTest(TestCase):
         game = GameFactory(classic = True)
         player = PlayerFactory()
         game = GameFactory(classic = True, owner = player)
+        gameplayer = GamePlayerFactory(player = player, game = game, status = True)
         fixture = FixtureFactory(is_finished = True)
         fixture_2 = FixtureFactory(tournament = fixture.tournament, is_finished = True)
         # Prediction ok
@@ -485,7 +508,7 @@ class ClassicGamePlayerPointsTest(TestCase):
                              local_team_goals = 0) 
         player_prediction = \
                 PlayerMatchPredictionFactory(match = match,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 3,
                                            local_team_goals = 0)
 
@@ -496,7 +519,7 @@ class ClassicGamePlayerPointsTest(TestCase):
                              local_team_goals = 0) 
         player_prediction_1 = \
                 PlayerMatchPredictionFactory(match = match_1,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 2,
                                            local_team_goals = 0)
 
@@ -507,7 +530,7 @@ class ClassicGamePlayerPointsTest(TestCase):
                              local_team_goals = 0) 
         player_prediction_2 = \
                 PlayerMatchPredictionFactory(match = match_2,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 2,
                                            local_team_goals = 2)
 
@@ -520,7 +543,7 @@ class ClassicGamePlayerPointsTest(TestCase):
 
         player_prediction_3 = \
                 PlayerMatchPredictionFactory(match = match_3,
-                                           player = player, 
+                                           gameplayer = gameplayer,
                                            visitor_team_goals = 0,
                                            local_team_goals = 0)
 
@@ -531,14 +554,13 @@ class ClassicGamePlayerPointsTest(TestCase):
         self.assertEqual(1, fixture2_points)
 
         fixture_points = FixturePlayerPointsFactory(fixture = fixture, 
-                                                    game = game,
-                                                    player = player,
+                                                    gameplayer = gameplayer,
                                                     points = fixture_points)
 
         fixture_points = FixturePlayerPointsFactory(fixture = fixture_2, 
-                                                    game = game,
-                                                    player = player,
+                                                    gameplayer = gameplayer,
                                                     points = fixture2_points)
+
         self.assertEqual(3, player.get_total_points(game))
 
 
@@ -564,7 +586,9 @@ class TournamentFixtureTest(TestCase):
 
 class FixturePredictionsTest(TestCase):
     def test_get_fixture_predictions(self):
-        player = PlayerFactory()
+        gp = GamePlayerFactory(status = True)
+        player = gp.player
+
         fixture_1 = FixtureFactory()
         match_1 = MatchFactory(fixture = fixture_1)
         match_2 = MatchFactory(fixture = fixture_1)
@@ -573,12 +597,12 @@ class FixturePredictionsTest(TestCase):
         match_3 = MatchFactory(fixture = fixture_2)
 
         PlayerMatchPredictionFactory(match = match_1, 
-                                     player = player)
+                                     gameplayer = gp)
         PlayerMatchPredictionFactory(match = match_2, 
-                                     player = player)
+                                     gameplayer = gp)
 
-        self.assertEqual(2, len(player.get_fixture_predictions(fixture_1)))
-        self.assertFalse(player.get_fixture_predictions(fixture_2))
+        self.assertEqual(2, len(player.get_fixture_predictions(fixture_1, gp.game)))
+        self.assertFalse(player.get_fixture_predictions(fixture_2, gp.game))
 
 # REST API
 import json
