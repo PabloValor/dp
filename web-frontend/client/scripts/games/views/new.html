@@ -13,7 +13,7 @@
                         <div class="form-group">
                         <label data-i18n="Competición"></label><br>
                             <span class="ui-select ">
-                                <select ng-model="game.tournament" ng-options="tournament.name for tournament in tournaments" required style="width:233px">
+                                <select ng-model="tournament" ng-options="tournament.name for tournament in tournaments" required style="width:233px">
                                     <option value="" data-i18n="-- Seleccione una Competición --"></option>
                                 </select>
                             </span>
@@ -44,7 +44,7 @@
 
                         <div class="form-group game-header">
                             <i class="flaticon-soccer64"></i>
-                            <span>{{ game.tournament.name }}</span>
+                            <span>{{ tournament.name }}</span>
                         </div>
 
                         <div class="form-group game-header">
@@ -84,7 +84,21 @@
 
                         <accordion  class="ui-accordion reglas">
                             <accordion-group heading="Reglas">
-                                This content is straight in the template.
+                                <game-mode classic="game.classic" ></game-mode>
+
+                                <div class="callout callout-info">
+                                  <h4> Puntos </h4>  
+                                  <p>Por cada pronostico acertado se suman:</p>
+                                  <ul class="points">
+                                    <li>Por resultado general: <strong> {{ gamePoints.points_general.initial_points }} puntos</strong></li>
+                                    <li ng-show="!game.classic">Por resultado exacto: <strong> {{ game.points_exact }} puntos</strong></li>
+                                  </ul>
+                                  <p>Y se multiplica los puntos ganados del pronostico acertado por:</p>
+                                  <ul class="points">
+                                    <li>Si es doble: <strong> {{ gamePoints.points_double.initial_points }} puntos</strong></li>
+                                    <li>Si es clasico de la fecha: <strong> {{ gamePoints.points_classic.initial_points }} puntos</strong></li>
+                                  </ul>
+                                </div>
                             </accordion-group>
                         </accordion>
 

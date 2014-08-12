@@ -9,7 +9,6 @@ angular.module('app.games')
 
         $scope.gameDetail = function(game) {
           Data.currentGame = game;
-          console.log(game);
           $location.path('/torneos/detalle/' + game.id);
         }
 
@@ -46,12 +45,17 @@ angular.module('app.games')
 
         $scope.newGame = function() {
             var friends = $scope.data.gamePlayerFriends.filter(function(item) { return item.checked });
-            var gameplayers = friends.map(function(item) { return { 'player': item.id, 'username': item.username, 'initial_points': item.initial_points } });
+            var gameplayers = [];
+
+            if(friends.length > 0) {
+              gameplayers = friends.map(function(item) { return { 'player': item.id, 'username': item.username, 'initial_points': item.initial_points } });
+            }
+
             gameplayers.push({ 'player': $scope.owner.id, 'username': $scope.owner.username , 'initial_points': $scope.owner.initial_points});
 
-            $scope.game.name  = $scope.game.name, 
-            $scope.game.tournament =  $scope.game.tournament.id;
+            $scope.game.name  = $scope.game.name; 
             $scope.game.gameplayers =  gameplayers;
+            $scope.game.tournament = $scope.tournament.id;
 
             $scope.game.points_exact = $scope.gamePoints.points_exact.initial_points;
             $scope.game.points_general = $scope.gamePoints.points_general.initial_points;
@@ -62,7 +66,6 @@ angular.module('app.games')
 
             GameService.new($scope.game,
                 function(game) {
-                    console.log("creado con exito");
                     Data.currentGame = game;
                     Data.currentGame.new = true;
                     $location.path('/torneos/detalle/' + game.id);
@@ -88,7 +91,6 @@ angular.module('app.games')
 
         $scope.addEmailPlayer = function() {
             $scope.emailPlayers.push({email:''});
-            console.log($scope.emailPlayers);
         };
 
         $scope.removeEmailPlayer = function(player) {
@@ -113,6 +115,8 @@ angular.module('app.games')
                 $scope.friends = friends;
 
                 if(!!Data.currentGame) {
+                  console.log("friends current game");
+                  console.log(Data.currentGame);
                   var gameplayers_ids = Data.currentGame.gameplayers.map(function(e) { return e.player });
                   $scope.friends = friends.filter(function(e) { return gameplayers_ids.indexOf(e.id) < 0 })
                   $scope.withOutFriendsMsg = "No tienes mas amigos para agregar al torneo. Puedes buscar nuevos en el";
@@ -128,7 +132,6 @@ angular.module('app.games')
 
         $scope.inviteFriends = function() {
           var friends = $scope.friends.filter(function(f) {  return f.checked && f.is_friend; });
-          console.log(friends);
           GameService.inviteFriends($scope.game, friends, 
               function(response) {
                 $scope.friends = $scope.friends.filter(function(f) { return !f.checked && f.is_friend; });
@@ -137,7 +140,7 @@ angular.module('app.games')
 
                 for(var i in friends) {
                   var player = friends[i];
-                  Data.currentGame.gameplayers.push({ "player": player.id, "username": player.username, "status": null })
+                  Data.currentGame.gameplayers.push({ "player": player.id, "username": player.username, "status": null, 'initial_points': player.initial_points })
                 }
               }
           );
@@ -148,13 +151,12 @@ angular.module('app.games')
     function($scope, $routeParams, GameService, Data, UserService)  {
         function setUserStatus(game) {
           $scope.is_owner = game.owner == $scope.username;
+          $scope.owner = game.gameplayers.filter(function(p) { return p.username == game.owner })[0];
           $scope.user = game.you[0]
         }
 
         function setFriendsAnotherChance(game) {
           $scope.friendsAnotherChance = game.gameplayers.filter(function(p) { return !p.status && p.another_chance; });
-          console.log("another chance");
-          console.log($scope.friendsAnotherChance);
         }
 
         $scope.username = UserService.getUsername();
@@ -197,8 +199,6 @@ angular.module('app.games')
         $scope.invitePlayerAgain = function(gameplayer) {
             GameService.updateGamePlayerInvitePlayerAgain(gameplayer.id,  
                 function(response) {
-                  console.log("response");
-                  console.log(response)
                   gameplayer.status = null;
                 });
         }

@@ -6,7 +6,7 @@ angular.module('app.core')
       restrict: 'E',
       templateUrl: 'scripts/core/views/counter.html',
       replace: true,
-      scope: { player: '=', initial_points: '=' },
+      scope: { player: '=' },
       controller: function($scope) {
         if(!!!$scope.player.initial_points) {
           $scope.player.initial_points = 0;

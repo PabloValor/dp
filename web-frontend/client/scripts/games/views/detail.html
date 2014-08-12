@@ -24,13 +24,18 @@
                     </div>
 
                     <div class="form-group game-owner">
-                        <i ng-class="{'icon-green' : game.owner == username, 'flaticon-soccer18' : true}"></i>
-                          <span>{{ game.owner }}</span>
-                          <span ng-if="game.owner == username"> (vos)</span>
+                        <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
+                        <span>{{ owner.initial_points }}</span>
+
+                        <i ng-class="{'icon-green' : owner.username == username, 'flaticon-soccer18' : true}"></i>
+                        <span>{{ owner.username }}</span>
+                        <span ng-if="owner.username == username"> (vos)</span>
                     </div>
 
                     <div class="row" ng-hide="is_owner">
                       <div class="form-group game-players col-sm-7">
+                          <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
+                          <span>{{ user.initial_points }}</span>
                           <i ng-class="{'icon-green' : user.status, 'icon-danger' : (!user.status && !!!user.another_chance), 'icon-blue': user.status == undefined, 'icon-info': (!user.status && user.another_chance), 'flaticon-tshirt19' : true}"></i>
                           <span>{{ user.player__username }}</span>
                           <span>(vos)</span>
@@ -44,8 +49,10 @@
                       </div>
                     </div>
 
-                    <div class="row" ng-repeat="player in game.gameplayers" ng-if="player.username != game.owner && player.username != user.player__username">
+                    <div class="row" ng-repeat="player in game.gameplayers" ng-if="player.username != owner.username && player.username != user.player__username">
                       <div class="form-group game-players col-sm-7">
+                          <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
+                          <span>{{ player.initial_points }}</span>
                           <i class="flaticon-tshirt19"></i>
                           <span>{{ player.username }}</span>
                           <span ng-if="player.username == username"> (vos)</span>
@@ -98,7 +105,7 @@
                       </div>
 
                       <div class="callout callout-info" ng-show="user.status == undefined">
-                        <p><strong>{{ game.owner }}</strong> te invito a jugar este torneo </p>
+                        <p><strong>{{ owner.username }}</strong> te invito a jugar este torneo </p>
                         <div class="row"> 
                             <div class="col-sm-2">
                               <strong> ¿Jugas? </strong>
@@ -110,6 +117,26 @@
                         </div>
                       </div>
                     </div>
+
+                    <accordion  class="ui-accordion reglas">
+                        <accordion-group heading="Reglas">
+                            <game-mode classic="game.classic" ></game-mode>
+
+                            <div class="callout callout-info">
+                              <h4> Puntos </h4>  
+                              <p>Por cada pronostico acertado se suman:</p>
+                              <ul class="points">
+                                <li>Por resultado general: <strong> {{ game.points_general }} puntos</strong></li>
+                                <li ng-show="!game.classic">Por resultado exacto: <strong> {{ game.points_exact }} puntos</strong></li>
+                              </ul>
+                              <p>Y se multiplica los puntos ganados del pronostico acertado por:</p>
+                              <ul class="points">
+                                <li>Si es doble: <strong> {{ game.points_double }} puntos</strong></li>
+                                <li>Si es clasico de la fecha: <strong> {{ game.points_classic }} puntos</strong></li>
+                              </ul>
+                            </div>
+                        </accordion-group>
+                    </accordion>
 
             </div>
         </section>

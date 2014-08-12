@@ -3,7 +3,7 @@
         <section class="panel panel-default">
             <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> Mis Amigos</strong></div>
             <div class="panel-body">
-              <table class="table friends-list table-striped table-hover" ng-show="friends">
+              <table class="table friends-list table-hover" ng-show="friends">
                   <tbody>
                       <tr ng-repeat="friend in friends" ng-if="friend.is_friend">
                           <td ng-click="selectFriend(friend)"> {{ friend.username }} </td>
@@ -20,7 +20,7 @@
         <section class="panel panel-default" ng-show="friends_waiting_for_you" >
             <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> Amigos que esperan tu respuesta</strong></div>
             <div class="panel-body">
-              <table class="table friends-list table-striped table-hover" ng-hide="no_more_friends_waiting">
+              <table class="table friends-list table-hover" ng-hide="no_more_friends_waiting">
                   <tbody>
                       <tr ng-repeat="friend in friends_waiting_for_you">
                           <td class="col-sm-8" ng-click="selectFriend(friend)"> {{ friend.username }} </td>
@@ -40,7 +40,7 @@
         <section class="panel panel-default" ng-show="friends_limbo">
             <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> Amigos que no contestaron</strong></div>
             <div class="panel-body">
-              <table class="table friends-list table-striped table-hover">
+              <table class="table friends-list table-hover">
                   <tbody>
                       <tr ng-repeat="friend in friends_limbo">
                           <td ng-click="selectFriend(friend)"> {{ friend.username }} </td>
