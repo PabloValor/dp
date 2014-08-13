@@ -5,6 +5,7 @@ angular.module('app.games', [])
       return $routeProvider
             .when('/games', { templateUrl: 'scripts/games/views/all.html' })
             .when('/torneos', { templateUrl: 'scripts/games/views/all.html' })
+            .when('/torneosNuevo', { templateUrl: 'scripts/games/views/my_games.html' })
 
             .when('/game/detail/:gameId', { templateUrl: 'scripts/games/views/detail.html' })
             .when('/torneos/detalle/:gameId', { templateUrl: 'scripts/games/views/detail.html' })

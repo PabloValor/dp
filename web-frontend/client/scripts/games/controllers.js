@@ -204,4 +204,51 @@ angular.module('app.games')
         }
       
     }
+])
+
+.controller('MyGamesController', ['$scope', '$routeParams', 'GameService', 'Data', 'UserService',
+    function($scope, $routeParams, GameService, Data, UserService)  {
+        GameService.all(function(games) {
+          $scope.games = games.filter(function(game) { return  game.you[0].status == true  });
+          $scope.hasGames = $scope.games.length > 0;
+
+          if($scope.games.length > 0) {
+            $scope.selectGame($scope.games[0]);
+          }
+        });
+
+        $scope.selectGame = function(game) {
+          $scope.selectedGame = game;
+          $scope.is_owner = game.owner == $scope.username;
+          $scope.owner = game.gameplayers.filter(function(p) { return p.username == game.owner })[0];
+          $scope.user = game.you[0];
+          $scope.friendsAnotherChance = game.gameplayers.filter(function(p) { return !p.status && p.another_chance; });
+
+          Data.currentGame = game;
+        }
+
+        $scope.username = UserService.getUsername();
+
+        $scope.updateGamePlayerStatus = function(status) {
+            GameService.updateGamePlayerStatus($scope.game.you[0].id, status, 
+                function(response) {
+                  $scope.user.status = status;
+                });
+        }
+
+        $scope.updateGamePlayerAnotherChance = function(another_chance) {
+            GameService.updateGamePlayerAnotherChance($scope.game.you[0].id, another_chance, 
+                function(response) {
+                  $scope.user.another_chance = another_chance;
+                });
+        }
+
+        $scope.invitePlayerAgain = function(gameplayer) {
+            GameService.updateGamePlayerInvitePlayerAgain(gameplayer.id,  
+                function(response) {
+                  gameplayer.status = null;
+                });
+        }
+      
+    }
 ]);
