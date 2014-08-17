@@ -6,12 +6,12 @@
     &:last-child {
       margin-right: 0px;
     }
-    
+
     padding: 14px 15px;
     margin: 7px 15px 7px 0;
 
     border-radius: 2px;
-    width: 243px;
+    width: 22.56%;
     height: 64px;
 
     color: #767676;
@@ -24,7 +24,13 @@
     .number {
       margin-right: 2px;
       font-size: 19px;
+    }
 
+    &.optional {
+      font-size: 22px;
+      line-height: 32px;
+      padding: 15px;
+      width: auto;
     }
 
     &.active {
@@ -73,8 +79,85 @@
     }
 
     .friends-list {
-      background-color: #EEE;
+      width: 40%;
+      padding: 20px;
+      background-color: #FFF;
+      border-radius: 2px;
+    }
 
+    .new-game-detail {
+      padding: 20px;
+      border-radius: 2px;
+      background-color: #FFF;
+      font-size: 18px;
+      margin-top: 20px;
+
+      i:before {
+          font-size: 40px;
+      }
+
+      .game-owner {
+        margin-left: 10px;
+      }
+
+      .game-players {
+        margin-left: 10px;
+      }
+
+    }
+
+    .rules {
+      padding: 20px;
+      background-color: #FFF;
+      border-radius: 2px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    .optional-step {
+      background-color: #FFF;
+      border-radius: 2px;
+
+      .tab-content {
+        padding: 0px;
+
+        .tab-pane {
+          padding: 20px;
+
+          input.form-control {
+            margin-top: 0px;
+            width: 100%;
+            height: auto;
+            font-size: 14px;
+          }
+
+          .col-xs-8 {
+              width: 80%;
+
+              .col-xs-8 {
+                  width: 25%;
+              }
+
+              .col-xs-4 {
+                  width: 16.333%;
+              }
+          }
+
+          .col-xs-4 {
+              width: 20%;
+          }
+
+          .col-xs-7 {
+            width: 27%;
+          }
+        }
+
+      }
+
+      .callout {
+        width: 100%;
+        margin-top: 0px;
+      }
     }
   }
 

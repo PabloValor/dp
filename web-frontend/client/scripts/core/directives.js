@@ -28,7 +28,7 @@ angular.module('app.core')
       restrict: 'E',
       templateUrl: 'scripts/core/views/wizard_form.html',
       transclude: true,
-      scope: { steps: '=', currentStep : '=' },
+      scope: { steps: '=', currentStep : '=', optionalStep: '=', action: '=', tournament: '='},
       link: function($scope, element, attrs, wizardFormContent) {
         $scope.lastStep = $scope.steps[$scope.steps.length - 1];
         $scope.nextStep = function() {
@@ -40,6 +40,14 @@ angular.module('app.core')
           var index = $scope.steps.indexOf($scope.currentStep);
           $scope.currentStep = $scope.steps[index - 1];
         };
+
+        $scope.setlastStep = function() {
+          $scope.currentStep = $scope.lastStep;
+        };
+
+        $scope.finish = function() {
+          $scope.action();
+        }
       }
     };
 })

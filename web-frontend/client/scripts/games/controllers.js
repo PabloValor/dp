@@ -37,6 +37,7 @@ angular.module('app.games')
         $scope.data = Data;
         $scope.owner = { 'username': UserService.getUsername(), 'id' : UserService.getUserID() };
         $scope.game = { 'classic': true, 'points_exact': 3,  'points_general':  1, 'points_double': 2, 'points_classic': 2 };
+        $scope.selectedTournament = {}
 
         $scope.gamePoints = {'points_general' : { initial_points : 3, label: 'Resultado General', help : 'Por acertar ganador, perdedor o empate.' },
                              'points_exact' : { initial_points : 1, label: 'Resultado Exacto', classic: false, help : 'Por acertar el resultado exacto.' },
@@ -55,7 +56,7 @@ angular.module('app.games')
 
             $scope.game.name  = $scope.game.name; 
             $scope.game.gameplayers =  gameplayers;
-            $scope.game.tournament = $scope.tournament.id;
+            $scope.game.tournament = $scope.selectedTournament.tournament.id;
 
             $scope.game.points_exact = $scope.gamePoints.points_exact.initial_points;
             $scope.game.points_general = $scope.gamePoints.points_general.initial_points;
@@ -83,10 +84,15 @@ angular.module('app.games')
           {'number': 1, 'label': 'Nombre'  },
           {'number': 2, 'label': 'Competicion'  },
           {'number': 3, 'label': 'Jugadores'  },
-          {'number': 4, 'label': 'Terminaste!' },
+          {'number': 4, 'label': 'Crear Torneo' }
         ];
 
         $scope.currentStep = $scope.steps[0];
+        $scope.optionalStep = {'label' : '?'};
+
+        $scope.setOptionalStep = function() {
+          $scope.currentStep = $scope.optionalStep;
+        }
     }
 ])
 

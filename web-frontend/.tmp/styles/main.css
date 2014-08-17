@@ -12366,7 +12366,7 @@ button.toast-close-button {
   padding: 14px 15px;
   margin: 7px 15px 7px 0;
   border-radius: 2px;
-  width: 243px;
+  width: 22.56%;
   height: 64px;
   color: #767676;
   background-color: #EEE;
@@ -12384,19 +12384,26 @@ button.toast-close-button {
   margin-right: 2px;
   font-size: 19px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000329}}
+.wizard-steps .step.optional {
+  font-size: 22px;
+  line-height: 32px;
+  padding: 15px;
+  width: auto;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000336}}
 .wizard-steps .step.active {
   background-color: #23ae89;
   color: white;
   border-color: #23ae89;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000337}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000343}}
 .wizard-steps .content {
   background-color: #cccccc;
   margin-top: 10px;
   padding: 1px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000342}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000348}}
 .wizard-steps .content h4 {
   letter-spacing: 1px;
   font-size: 23px;
@@ -12404,14 +12411,14 @@ button.toast-close-button {
   margin-bottom: 10px;
   margin-top: 0px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000350}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000356}}
 .wizard-steps .content input.form-control {
   font-size: 18px;
   height: 40px;
   width: 40%;
   margin-top: 16px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000363}}
 .wizard-steps .content select {
   font-size: 14px;
   letter-spacing: 1px;
@@ -12419,21 +12426,97 @@ button.toast-close-button {
   margin-top: 5px;
   margin-bottom: 0px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000365}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000371}}
 .wizard-steps .content .callout-info {
   width: 40%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000369}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000375}}
 .wizard-steps .content .step-content {
   min-height: 300px;
   background-color: #EEE;
   padding: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000375}}
-.wizard-steps .content .friends-list {
-  background-color: #EEE;
-}
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000381}}
+.wizard-steps .content .friends-list {
+  width: 40%;
+  padding: 20px;
+  background-color: #FFF;
+  border-radius: 2px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000388}}
+.wizard-steps .content .new-game-detail {
+  padding: 20px;
+  border-radius: 2px;
+  background-color: #FFF;
+  font-size: 18px;
+  margin-top: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000395}}
+.wizard-steps .content .new-game-detail i:before {
+  font-size: 40px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\0000399}}
+.wizard-steps .content .new-game-detail .game-owner {
+  margin-left: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003103}}
+.wizard-steps .content .new-game-detail .game-players {
+  margin-left: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003109}}
+.wizard-steps .content .rules {
+  padding: 20px;
+  background-color: #FFF;
+  border-radius: 2px;
+  font-size: 16px;
+  margin-top: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003117}}
+.wizard-steps .content .optional-step {
+  background-color: #FFF;
+  border-radius: 2px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003121}}
+.wizard-steps .content .optional-step .tab-content {
+  padding: 0px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003124}}
+.wizard-steps .content .optional-step .tab-content .tab-pane {
+  padding: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003127}}
+.wizard-steps .content .optional-step .tab-content .tab-pane input.form-control {
+  margin-top: 0px;
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003134}}
+.wizard-steps .content .optional-step .tab-content .tab-pane .col-xs-8 {
+  width: 80%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003137}}
+.wizard-steps .content .optional-step .tab-content .tab-pane .col-xs-8 .col-xs-8 {
+  width: 25%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003141}}
+.wizard-steps .content .optional-step .tab-content .tab-pane .col-xs-8 .col-xs-4 {
+  width: 16.333%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003146}}
+.wizard-steps .content .optional-step .tab-content .tab-pane .col-xs-4 {
+  width: 20%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003150}}
+.wizard-steps .content .optional-step .tab-content .tab-pane .col-xs-7 {
+  width: 27%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003157}}
+.wizard-steps .content .optional-step .callout {
+  width: 100%;
+  margin-top: 0px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003164}}
 .wizard-steps .menu {
   margin-top: 20px;
 }

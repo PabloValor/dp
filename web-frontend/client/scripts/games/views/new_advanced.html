@@ -13,7 +13,7 @@
                         <div class="form-group">
                         <label data-i18n="Competición"></label><br>
                             <span class="ui-select ">
-                                <select ng-model="tournament" ng-options="tournament.name for tournament in tournaments" required style="width:233px">
+                                <select ng-model="selectedTournament.tournament" ng-options="tournament.name for tournament in tournaments" required style="width:233px">
                                     <option value="" data-i18n="-- Seleccione una Competición --"></option>
                                 </select>
                             </span>
@@ -44,7 +44,7 @@
 
                         <div class="form-group game-header">
                             <i class="flaticon-soccer64"></i>
-                            <span>{{ tournament.name }}</span>
+                            <span>{{ selectedTournament.tournament.name }}</span>
                         </div>
 
                         <div class="form-group game-header">
