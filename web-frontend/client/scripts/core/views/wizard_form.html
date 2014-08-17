@@ -1,0 +1,15 @@
+<div class="wizard-steps">
+  <div class="clearfix">
+   <div ng-repeat="step in steps" class="step" ng-class="{'active': (currentStep == step)}"><span class="number">{{ step.number }}.</span>{{ step.label }}</div>
+  </div>
+
+  <div class="content clearfix" ng-transclude>
+  </div>
+
+  <div class="menu pull-right clearfix" >
+    <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentStep.number == 1" ng-click="previousStep()">Anterior</button>
+    <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-hide="currentStep == lastStep"  ng-click="nextStep()">Siguiente</button>
+    <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-show="currentStep == lastStep" ng-click="finish()">Crear</button>
+  </div>
+</div>
+

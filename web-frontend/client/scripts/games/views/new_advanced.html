@@ -1,0 +1,111 @@
+<section class="page" ng-controller="NewGameController">
+
+<div class="row">
+    <form role="form" novalidate data-ng-submit="newGame()" name="form_game">
+        <div class="col-md-6">
+            <section class="panel panel-default">
+                <div class="panel-heading"><strong><span class="flaticon-planning1"></span> <span data-i18n="Configuracion"></span></strong></div>
+                <div class="panel-body">
+                        <div class="form-group">
+                            <label data-i18n="Nombre"></label>
+                            <input type="text" class="form-control" ng-model="game.name" placeholder="Nombre del Torneo" required>
+                        </div>
+                        <div class="form-group">
+                        <label data-i18n="Competición"></label><br>
+                            <span class="ui-select ">
+                                <select ng-model="tournament" ng-options="tournament.name for tournament in tournaments" required style="width:233px">
+                                    <option value="" data-i18n="-- Seleccione una Competición --"></option>
+                                </select>
+                            </span>
+                        </div>
+
+                </div>
+            </section>
+            <section class="panel panel-default">
+                <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> <span data-i18n="Jugadores"></span></strong></div>
+                <div class="panel-body" ng-include="'scripts/games/views/_addGamePlayers.html'" ng-controller="AddGamePlayersController" >
+                </div>
+            </section>
+
+            <section class="panel panel-default">
+                <div class="panel-heading"><strong><span class="flaticon-soccer67"></span> <span data-i18n="Configuracion Avanzada"></span></strong></div>
+                <div class="panel-body" ng-include="'scripts/games/views/_advancedConfiguration.html'" >
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6">
+            <section class="panel panel-default">
+                <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> <span data-i18n="Nuevo Torneo"></span></strong></div>
+                <div class="panel-body game-details">
+                        <div class="form-group game-header">
+                            <i class="flaticon-big55"></i>
+                            <span>{{ game.name }}</span>
+                        </div>
+
+                        <div class="form-group game-header">
+                            <i class="flaticon-soccer64"></i>
+                            <span>{{ tournament.name }}</span>
+                        </div>
+
+                        <div class="form-group game-header">
+                            <i class="flaticon-soccer51"></i>
+                            <span>Jugadores</span>
+                        </div>
+
+                        <div class="form-group game-owner">
+                            <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
+                            {{ owner.initial_points }}
+
+                            <i class="flaticon-soccer18 tshirt"></i>
+                              <span>{{ owner.username }}</span>
+                        </div>
+
+                        <div class="form-group game-players" ng-repeat="friend in data.gamePlayerFriends | filter: {checked: true}" >
+                            <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
+                            {{ friend.initial_points }}
+                            <i class="flaticon-tshirt19 tshirt"></i>
+                            <span>{{ friend.username }}</span>
+                        </div>
+
+                        <div class="form-group game-header">
+                            <i class="flaticon-football112"></i>
+                            <span>Invitados</span>
+                        </div>
+
+                        <div class="form-group email-players" ng-repeat="player in data.emailPlayers | filter: emailFilter ">
+                            <i class="glyphicon glyphicon-envelope"></i>
+                            <span>{{ player.email }}</span>
+                        </div>
+
+                        <div class="form-group facebook-players" ng-repeat="facebookPlayer in data.facebookPlayers | filter: {checked: true }" >
+                            <span  class="btn-icon-round btn-icon-round-sm bg-facebook"><i class="fa fa-facebook"></i></span>
+                            <span>{{ facebookPlayer.name }}</span>
+                        </div>
+
+                        <accordion  class="ui-accordion reglas">
+                            <accordion-group heading="Reglas">
+                                <game-mode classic="game.classic" ></game-mode>
+
+                                <div class="callout callout-info">
+                                  <h4> Puntos </h4>  
+                                  <p>Por cada pronostico acertado se suman:</p>
+                                  <ul class="points">
+                                    <li>Por resultado general: <strong> {{ gamePoints.points_general.initial_points }} puntos</strong></li>
+                                    <li ng-show="!game.classic">Por resultado exacto: <strong> {{ game.points_exact }} puntos</strong></li>
+                                  </ul>
+                                  <p>Y se multiplica los puntos ganados del pronostico acertado por:</p>
+                                  <ul class="points">
+                                    <li>Si es doble: <strong> {{ gamePoints.points_double.initial_points }} puntos</strong></li>
+                                    <li>Si es clasico de la fecha: <strong> {{ gamePoints.points_classic.initial_points }} puntos</strong></li>
+                                  </ul>
+                                </div>
+                            </accordion-group>
+                        </accordion>
+
+                        <button type="submit" class="btn btn-primary" data-i18n="Crear" data-ng-disabled="!form_game.$valid"></button>
+                </div>
+            </section>
+        </div>
+    </form>      
+</div>
+</section>

@@ -79,6 +79,14 @@ angular.module('app.games')
             return !!value.email;
         };
 
+        $scope.steps = [
+          {'number': 1, 'label': 'Nombre'  },
+          {'number': 2, 'label': 'Competicion'  },
+          {'number': 3, 'label': 'Jugadores'  },
+          {'number': 4, 'label': 'Terminaste!' },
+        ];
+
+        $scope.currentStep = $scope.steps[0];
     }
 ])
 

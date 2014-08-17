@@ -21,4 +21,27 @@ angular.module('app.core')
         }
       }
     };
-});
+})
+
+.directive('wizardForm', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/core/views/wizard_form.html',
+      transclude: true,
+      scope: { steps: '=', currentStep : '=' },
+      link: function($scope, element, attrs, wizardFormContent) {
+        $scope.lastStep = $scope.steps[$scope.steps.length - 1];
+        $scope.nextStep = function() {
+          var index = $scope.steps.indexOf($scope.currentStep);
+          $scope.currentStep = $scope.steps[index + 1];
+        };
+
+        $scope.previousStep = function() {
+          var index = $scope.steps.indexOf($scope.currentStep);
+          $scope.currentStep = $scope.steps[index - 1];
+        };
+      }
+    };
+})
+
+;
