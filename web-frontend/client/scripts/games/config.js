@@ -12,4 +12,5 @@ angular.module('app.games', [])
 
             .when('/games/create', { templateUrl: 'scripts/games/views/all.html' })
             .when('/torneos/nuevo', { templateUrl: 'scripts/games/views/new.html' })
+            .when('/torneos/nuevo/avanzado', { templateUrl: 'scripts/games/views/new_advanced.html' })
 }])

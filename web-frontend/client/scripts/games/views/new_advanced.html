@@ -1,5 +1,10 @@
 <section class="page" ng-controller="NewGameController">
 
+<div class="alert alert-info alert-dismissible" role="alert" ng-show="showAlert">
+  <button type="button" class="close" data-dismiss="alert" ng-click="hideAlert()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <p>Regresar a la creacion de <strong><a href="/#/torneos/nuevo">Torneo por pasos</a></strong></p>
+</div>
+
 <div class="row">
     <form role="form" novalidate data-ng-submit="newGame()" name="form_game">
         <div class="col-md-6">

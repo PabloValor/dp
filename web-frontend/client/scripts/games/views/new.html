@@ -1,9 +1,11 @@
 <section class="page" ng-controller="NewGameController">
 
     <section class="panel panel-default">
-        <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> Nuevo Torneo</strong></div>
+      <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> Nuevo Torneo</strong> 
+                                 <a href="/#/torneos/nuevo/avanzado" style="text-transform: none;"><i popover-trigger="mouseenter" popover="Cambiar de vista" class="icon-advanced-configuration glyphicon glyphicon-cog pull-right"  popover-placement="left"></i></a>
+      </div>
         <div class="panel-body">
-          <wizard-form steps="steps" current-step="currentStep" optional-step="optionalStep" action="newGame">
+          <wizard-form steps="steps" current-step="currentStep" optional-step="optionalStep" action="newGame" game="game" selected-tournament="selectedTournament">
                 <div ng-show="currentStep == steps[0]" class="step-content">
                     <div class="form-group">
                         <h4 data-i18n="1. Nombre"></h4>
@@ -76,20 +78,20 @@
                             </div>
 
                             <div class="game-owner">
-                                <span ng-show="false">
-                                  <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
-                                  {{ owner.initial_points }}
-                                </span>
+                              <span class="initial_points">
+                                <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
+                                {{ owner.initial_points }}
+                              </span>
 
                                 <i class="flaticon-soccer18 tshirt"></i>
-                                  <span>{{ owner.username }}</span>
+                                <span>{{ owner.username }}</span>
                             </div>
 
                             <div class="game-players" ng-repeat="friend in data.gamePlayerFriends | filter: {checked: true}" >
-                                <span ng-show="false">
-                                  <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
-                                  {{ friend.initial_points }}
-                                </span>
+                              <span class="initial_points">
+                                <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
+                                {{ friend.initial_points }}
+                              </span>
 
                                 <i class="flaticon-tshirt19 tshirt"></i>
                                 <span>{{ friend.username }}</span>

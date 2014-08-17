@@ -96,6 +96,15 @@
           font-size: 40px;
       }
 
+      .initial_points {
+        i.glyphicon-chevron-up:before {
+            font-size: 15px;
+        }
+
+        font-size: 15px;
+        cursor: pointer;
+      }
+
       .game-owner {
         margin-left: 10px;
       }
@@ -165,3 +174,4 @@
     margin-top: 20px;
   }
 }
+

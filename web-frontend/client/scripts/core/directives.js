@@ -28,8 +28,8 @@ angular.module('app.core')
       restrict: 'E',
       templateUrl: 'scripts/core/views/wizard_form.html',
       transclude: true,
-      scope: { steps: '=', currentStep : '=', optionalStep: '=', action: '=', tournament: '='},
-      link: function($scope, element, attrs, wizardFormContent) {
+      scope: { steps: '=', currentStep : '=', optionalStep: '=', action: '=', game: '=', selectedTournament: '='},
+      link: function($scope, element, attrs) {
         $scope.lastStep = $scope.steps[$scope.steps.length - 1];
         $scope.nextStep = function() {
           var index = $scope.steps.indexOf($scope.currentStep);
@@ -47,6 +47,14 @@ angular.module('app.core')
 
         $scope.finish = function() {
           $scope.action();
+        }
+
+        $scope.validate = function() {
+          if($scope.currentStep.validate) {
+            return $scope.currentStep.validate($scope);
+          } else {
+            return true;
+          }
         }
       }
     };
