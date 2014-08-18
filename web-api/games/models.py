@@ -81,7 +81,7 @@ class Player(AbstractUser):
     def get_fixture_predictions(self, fixture, game):
         gameplayer = self.get_gameplayer(game)
 
-        match_ids = [x.pk for x in fixture.match_set.all()]
+        match_ids = [x.pk for x in fixture.matches.all()]
         predictions = gameplayer.playermatchprediction_set.filter(match_id__in = match_ids)
 
         return predictions

@@ -16,7 +16,7 @@ class FixtureFactory(factory.Factory):
     open_until = datetime.now()
 
 class MatchFactory(factory.Factory):
-    date = datetime.now()
+    date = datetime.now().date()
     local_team = factory.LazyAttribute(lambda a: TeamFactory())
     visitor_team = factory.LazyAttribute(lambda a: TeamFactory())
     fixture = factory.LazyAttribute(lambda a: FixtureFactory())

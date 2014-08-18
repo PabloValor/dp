@@ -564,26 +564,6 @@ class ClassicGamePlayerPointsTest(TestCase):
         self.assertEqual(3, player.get_total_points(game))
 
 
-class TournamentFixtureTest(TestCase):
-    def test_get_current_fixture(self):
-        tournament = TournamentFactory()
-        fixture_1 = FixtureFactory(tournament = tournament, is_finished = True)
-        fixture_2 = FixtureFactory(tournament = tournament, is_finished = True)
-        fixture_3 = FixtureFactory(tournament = tournament, is_finished = False)
-        fixture_4 = FixtureFactory(tournament = tournament, is_finished = False)
-
-        self.assertEqual(fixture_3.number, tournament.get_current_fixture().number)
-
-    def test_tournament_without_fixtures(self):
-        tournament = TournamentFactory()
-        self.assertFalse(tournament.get_current_fixture())
-
-    def test_if_there_is_not_current_fixtures_get_the_last_one(self):
-        tournament = TournamentFactory()
-        fixture_1 = FixtureFactory(tournament = tournament, is_finished = True)
-        fixture_2 = FixtureFactory(tournament = tournament, is_finished = True)
-        self.assertTrue(tournament.get_current_fixture())
-
 class FixturePredictionsTest(TestCase):
     def test_get_fixture_predictions(self):
         gp = GamePlayerFactory(status = True)

@@ -5,17 +5,22 @@ class Tournament(models.Model):
     name = models.CharField(max_length = 100)
 
     def get_current_fixture(self):
-        fixtures = self.fixture_set.filter(is_finished = False)
-        if len(fixtures) > 0:
-            current_fixture = fixtures[0]
+        fixtures = self.fixtures.filter(is_finished = False).order_by('number')
+        if fixtures.count() > 0:
+           return fixtures.first()
         else:
-            fixtures = self.fixture_set.all().order_by('-pk')
-            if len(fixtures) > 0:
-                current_fixture = fixtures[0]
-            else:
-                current_fixture = None
+           return None 
 
-        return current_fixture
+    def get_past_fixtures(self):
+      fixtures = self.fixtures.filter(is_finished = True).order_by('number')
+      return fixtures
+
+    def get_future_fixtures(self):
+      fixtures = self.fixtures.filter(is_finished = False).order_by('number')
+      return fixtures
+
+    def is_finished(self):
+        return self.get_current_fixture() == None
 
     def __unicode__(self):
         return self.name
@@ -46,7 +51,7 @@ class Team(models.Model):
 class Fixture(models.Model):
     number = models.PositiveIntegerField(verbose_name = "Fecha numero")
     is_finished = models.BooleanField(default = False, verbose_name = "Termino")
-    tournament = models.ForeignKey(Tournament, verbose_name = "Torneo")
+    tournament = models.ForeignKey(Tournament, verbose_name = "Torneo", related_name = 'fixtures')
     open_until = models.DateTimeField(verbose_name = "Abierta hasta")
 
     def __unicode__(self):
@@ -84,7 +89,7 @@ class Match(models.Model):
     local_team_goals = models.PositiveIntegerField(verbose_name = "Equipo Local Goles", default = 0)
     visitor_team = models.ForeignKey(Team, related_name = "visitor_team", verbose_name = "Equipo Visitante")
     visitor_team_goals = models.PositiveIntegerField(verbose_name = "Equipo Visitante Goles", default = 0)
-    fixture = models.ForeignKey(Fixture)
+    fixture = models.ForeignKey(Fixture, related_name = 'matches')
     suspended = models.BooleanField(verbose_name = "Suspendido", default = False)
     is_classic = models.BooleanField(verbose_name = "Clasico", default = False)
 

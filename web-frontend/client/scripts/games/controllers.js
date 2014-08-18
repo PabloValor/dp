@@ -96,10 +96,8 @@ angular.module('app.games')
 
         $scope.showAlert = true;
         $scope.hideAlert = function() {
-          console.log("hola");
           $scope.showAlert = false;
         };
-
     }
 ])
 

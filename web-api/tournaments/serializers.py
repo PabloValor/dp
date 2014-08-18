@@ -1,12 +1,37 @@
 from rest_framework import serializers
-from .models import Team, Tournament
+from .models import Team, Tournament, Fixture, Match
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = ('id', 'name', 'crest')
 
+class MatchSerializer(serializers.ModelSerializer):
+    visitor_team = TeamSerializer(source = 'visitor_team')
+    local_team = TeamSerializer(source = 'local_team')
+
+    class Meta:
+        model = Match
+        #date, local_team, local_team_goals, visitor_team, visitor_team_goals fixture, suspended, is_classic,
+
+class FixtureSerializer(serializers.ModelSerializer):
+    matches = MatchSerializer(source = 'matches', many=True)
+
+    class Meta:
+        model = Fixture
+        fields = ('number', 'is_finished', 'matches',)
+
 class TournamentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tournament
         fields = ('id', 'name')
+
+class TournamentFixtureSerializer(serializers.ModelSerializer):
+    fixtures = FixtureSerializer(source="fixtures", many = True)
+    current_fixture = FixtureSerializer(source = "get_current_fixture")
+    is_finished = serializers.Field(source = 'is_finished')
+
+    class Meta:
+        model = Tournament
+        fields = ('id', 'fixtures', 'current_fixture', 'is_finished')
+
