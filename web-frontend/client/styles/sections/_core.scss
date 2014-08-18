@@ -56,20 +56,15 @@
     input.form-control {
       font-size: 18px;
       height: 40px;
-      width: 40%;
       margin-top: 16px;
     }
 
     select {
       font-size: 14px;
       letter-spacing: 1px;
-      width: 40%;
+      width: 100%;
       margin-top: 5px;
       margin-bottom: 0px;
-    }
-
-    .callout-info {
-      width: 40%;
     }
 
     .step-content {
@@ -79,7 +74,6 @@
     }
 
     .friends-list {
-      width: 40%;
       padding: 20px;
       background-color: #FFF;
       border-radius: 2px;

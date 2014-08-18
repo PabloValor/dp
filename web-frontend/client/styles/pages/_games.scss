@@ -149,4 +149,24 @@
       font-weight: 600;
     }
   }
+
+  .crests {
+    background-color: #FFF;
+    border-radius: 2px;
+    padding: 10px;
+    text-align: center;
+    margin: 0 auto;
+
+    width: 70%;
+    .crest {
+      display: inline;
+
+      img {
+        height: 50px;
+        margin: 5px;
+      }
+
+      cursor: pointer;
+    }
+  }
 }

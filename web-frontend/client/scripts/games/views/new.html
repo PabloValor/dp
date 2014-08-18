@@ -1,4 +1,4 @@
-<section class="page" ng-controller="NewGameController">
+<section class="page newGame" ng-controller="NewGameController">
 
     <section class="panel panel-default">
       <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> Nuevo Torneo</strong> 
@@ -7,7 +7,7 @@
         <div class="panel-body">
           <wizard-form steps="steps" current-step="currentStep" optional-step="optionalStep" action="newGame" game="game" selected-tournament="selectedTournament">
                 <div ng-show="currentStep == steps[0]" class="step-content">
-                    <div class="form-group">
+                    <div class="col-md-5">
                         <h4 data-i18n="1. Nombre"></h4>
                         <input type="text" class="form-control" ng-model="game.name" placeholder="Nombre de tu Torneo" required>
 
@@ -18,7 +18,7 @@
                 </div>
 
                 <div ng-show="currentStep == steps[1]" class="step-content">
-                    <div class="form-group">
+                    <div class="col-md-5">
                         <h4 data-i18n="2. Competición"></h4>
                         <span class="ui-select ">
                             <select ng-model="selectedTournament.tournament" ng-options="tournament.name for tournament in tournaments" required>
@@ -30,10 +30,19 @@
                             <p>Por ejemplo: 'Torneo Transicion 2014.'</p>
                         </div>
                     </div>
+                    <div class="col-md-7">
+                        <div ng-repeat="tournament in tournaments" ng-show="selectedTournament.tournament == tournament">
+                          <div class="crests">
+                            <div class="crest" ng-repeat="team in tournament.teams | orderBy:'name'">
+                              <img src="http://localhost:8000{{ team.crest }}" popover-trigger="mouseenter" popover="{{ team.name }}"/>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div ng-show="currentStep == steps[2]" class="step-content">
-                  <div ng-controller="AddGamePlayersController" >
+                  <div ng-controller="AddGamePlayersController" class="col-md-5">
                       <h4 data-i18n="3. Jugadores"></h4>
                       <div ng-show="hasTrueFriends">
                         <div class="callout callout-info">
