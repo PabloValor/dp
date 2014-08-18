@@ -32,6 +32,26 @@ class TournamentAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_get_tournament_with_teams_200_OK(self):
+        # Tournament
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament)
+        team_1 = TeamFactory()
+        team_2 = TeamFactory()
+        match = MatchFactory(local_team = team_1, visitor_team = team_2, fixture = fixture)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player asks for the tournament
+        url = reverse('tournamentList')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data[0]['teams']), 2)
+
 class TournamentFixtureAPITest(APITestCase):
     def test_get_tournament_fixtures_200_OK(self):
         # Tournament
@@ -415,3 +435,15 @@ class FixtureTest(TestCase):
         fixture_3 = FixtureFactory(tournament = tournament, number = 2, is_finished = True)
 
         self.assertEqual(tournament.get_future_fixtures().count(), 0)
+
+class TournamentTest(TestCase):
+    def test_get_tournament_teams(self):
+        # Tournament
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament)
+        team_1 = TeamFactory()
+        team_2 = TeamFactory()
+        match = MatchFactory(local_team = team_1, visitor_team = team_2, fixture = fixture)
+
+        teams = tournament.get_teams()
+        self.assertEqual(len(teams), 2)

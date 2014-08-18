@@ -22,6 +22,16 @@ class Tournament(models.Model):
     def is_finished(self):
         return self.get_current_fixture() == None
 
+    def get_teams(self):
+      fixture = self.fixtures.first()
+      teams = []
+      if fixture:
+        for match in fixture.matches.all():
+          teams.append(match.visitor_team)
+          teams.append(match.local_team)
+
+      return teams
+
     def __unicode__(self):
         return self.name
 
