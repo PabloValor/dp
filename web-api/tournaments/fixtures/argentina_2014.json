@@ -10,119 +10,136 @@
     "model": "tournaments.team",
     "pk": 1,
     "fields": {
-      "name": "Arsenal"
+      "name": "Arsenal",
+      "crest": "/media/crests/arsenal.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 2,
     "fields": {
-      "name": "Atlético de Rafaela"
+      "name": "Atlético de Rafaela",
+      "crest": "/media/crests/rafaela.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 3,
     "fields": {
-      "name": "Banfield"
+      "name": "Banfield",
+      "crest": "/media/crests/banfield.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 4,
     "fields": {
-      "name": "Belgrano"
+      "name": "Belgrano",
+      "crest": "/media/crests/belgrano.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 5,
     "fields": {
-      "name": "Boca Juniors"
+      "name": "Boca Juniors",
+      "crest": "/media/crests/boca.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 6,
     "fields": {
-      "name": "Defensa y Justicia"
+      "name": "Defensa y Justicia",
+      "crest": "/media/crests/defensa.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 7,
     "fields": {
-      "name": "Estudiantes"
+      "name": "Estudiantes",
+      "crest": "/media/crests/estudiantes.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 8,
     "fields": {
-      "name": "Gimnasia y Esgrima"
+      "name": "Gimnasia y Esgrima",
+      "crest": "/media/crests/gimnasia_lp.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 9,
     "fields": {
-      "name": "Godoy Cruz"
+      "name": "Godoy Cruz",
+      "crest": "/media/crests/godoy_cruz.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 10,
     "fields": {
-      "name": "Independiente"
+      "name": "Independiente",
+      "crest": "/media/crests/independiente.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 11,
     "fields": {
-      "name": "Lanús"
+      "name": "Lanús",
+      "crest": "/media/crests/lanus.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 12,
     "fields": {
-      "name": "Newell's Old Boys"
+      "name": "Newell's Old Boys",
+      "crest": "/media/crests/newells.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 13,
     "fields": {
-      "name": "Olimpo"
+      "name": "Olimpo",
+      "crest": "/media/crests/olimpo.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 14,
     "fields": {
-      "name": "Quilmes"
+      "name": "Quilmes",
+      "crest": "/media/crests/quilmes.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 15,
     "fields": {
-      "name": "Racing"
+      "name": "Racing",
+      "crest": "/media/crests/racing.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 16,
     "fields": {
-      "name": "River Plate"
+      "name": "River Plate",
+      "crest": "/media/crests/river.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 17,
     "fields": {
-      "name": "Rosario Central"
+      "name": "Rosario Central",
+      "crest": "/media/crests/rosario.png"
     }
   },
   
@@ -130,21 +147,24 @@
     "model": "tournaments.team",
     "pk": 18,
     "fields": {
-      "name": "San Lorenzo"
+      "name": "San Lorenzo",
+      "crest": "/media/crests/sanlorenzo.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 19,
     "fields": {
-      "name": "Tigre"
+      "name": "Tigre",
+      "crest": "/media/crests/tigre.png"
     }
   },
   {
     "model": "tournaments.team",
     "pk": 20,
     "fields": {
-      "name": "Vélez Sarsfield"
+      "name": "Vélez Sarsfield",
+      "crest": "/media/crests/velez.png"
     }
   },
   { 
