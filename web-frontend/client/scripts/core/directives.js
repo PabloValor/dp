@@ -45,6 +45,10 @@ angular.module('app.core')
           $scope.currentStep = $scope.lastStep;
         };
 
+        $scope.setOptionalStep = function() {
+          $scope.currentStep = $scope.optionalStep;
+        };
+
         $scope.finish = function() {
           $scope.action();
         }

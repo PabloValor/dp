@@ -136,3 +136,17 @@
   top: 8px;
   font-size: 15p;
 }
+
+.newGame {
+  .change-view {
+    span {
+      a {
+        &:hover {
+          text-decoration: underline;
+          color: green;
+        }
+      }
+      font-weight: 600;
+    }
+  }
+}

@@ -11790,6 +11790,16 @@ button.toast-close-button {
   font-size: 15p;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003142}}
+.newGame .change-view span {
+  font-weight: 600;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003144}}
+.newGame .change-view span a:hover {
+  text-decoration: underline;
+  color: green;
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\000035}}
 .friends .mail-categories .list-group .list-group-item {
   padding: 0;
@@ -12372,7 +12382,7 @@ button.toast-close-button {
   padding: 14px 15px;
   margin: 7px 15px 7px 0;
   border-radius: 2px;
-  width: 22.56%;
+  width: 22%;
   height: 64px;
   color: #767676;
   background-color: #EEE;

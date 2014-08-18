@@ -31,6 +31,8 @@ angular.module('app.games')
     function($scope, $location, TournamentService, GameService, Facebook, UserService, Data, FriendsService)  {
         TournamentService.all(function(tournaments) {
             $scope.tournaments = tournaments;
+            console.log("torneos");
+            console.log($scope.tournaments);
         });
 
         delete Data.currentGame; // So the FriendsControllers show all the friends
