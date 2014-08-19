@@ -1,4 +1,4 @@
-<div class="page" ng-controller="PredictionsController">
+<div class="page predictions" ng-controller="PredictionsController">
   <div class="panel panel-default" ng-show="!hasGames">
       <div class="panel-heading"><strong><span class="flaticon-football7"></span> Mis Pronosticos</strong></div>
     <div class="panel-body">
@@ -29,19 +29,85 @@
                 <div ng-class="{'panel-body': games.length == 1 }">
 
                 <div class="callout callout-info" ng-show="games.length == 1">
-                  <h4> {{ games[0].name }} </h4>  
+                  <h4> {{ selectedGame.name }} </h4>  
+                  <p>{{ selectedGame.tournament_name }} </p>
                 </div>
 
-                <table class="table table-hover">
-
-                    <tr>
-                        <td><label class="ui-checkbox"><input name="checkbox1" type="checkbox" value="option1" ><span></span></label></td>
-                        <td>John Smith </td>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td> </td>
-                        <td>2/15/14 5:00 AM</td>
-                        <td><i class="fa fa-star active"></i></td>
-                    </tr>
+                <div class="menu">
+                  <div class="pull-right">
+                    <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentFixtureNumber == 1" ng-click="previousFixture()">Anterior</button>
+                    <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentFixtureNumber == lastFixtureNumber" ng-click="nextFixture()" ng-disabled="">Siguiente</button>
+                  </div>
+                </div>
+                <table class="table table-hover" style="font-size:15px;">
+                    <thead>
+                      <tr>
+                        <th style="text-align:right"> Equipo Local </th>
+                        <th style="text-align:center" colspan="3"> Pronostico</th>
+                        <th style="text-align:left" > Equipo Visitante </th>
+                        <th style="text-align:center"> Fecha </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="match in fixtures[currentFixtureNumber - 1].matches" align="center" ng-show="fixtures[currentFixtureNumber - 1].number == currentFixtureNumber">
+                          <td align="right" style="width:25%">
+                            {{ match.local_team.name }} 
+                            <img src="http://localhost:8000{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />
+                          </td>
+                          <td ng-show="selectedGame.classic" style="width: 82px">
+                            <label class="ui-radio">
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="local" >
+                              <span>L</span>
+                            </label>
+                          </td>
+                          <td ng-show="selectedGame.classic" style="width: 82px">
+                            <label class="ui-radio">
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="draw" >
+                              <span>E</span>
+                            </label>
+                          </td>
+                          <td ng-show="selectedGame.classic" style="width: 82px">
+                            <label class="ui-radio">
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="visitor" >
+                              <span>V</span>
+                            </label>
+                          </td>
+                          <td ng-hide="selectedGame.classic">
+                                <select style="width: 50px;">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                </select>
+                          </td>
+                          <td  ng-hide="selectedGame.classic" style="color:green">vs</td>
+                          <td  ng-hide="selectedGame.classic">
+                                <select style="width: 50px;">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                </select>
+                          </td>
+                          <td align="left"  style="width:25%">
+                            <img src="http://localhost:8000{{ match.visitor_team.crest }}" style="height: 20px;margin-right:5px;" />
+                            {{ match.visitor_team.name }}  
+                          </td>
+                          <td>2/15/14 5:00 AM</td>
+                      </tr>
+                    </tbody>
                 </table>
               </div>
             </section>

@@ -11840,6 +11840,12 @@ button.toast-close-button {
   margin-right: 5px;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\000033}}
+.predictions .menu {
+  padding: 10px;
+  margin-right: 10px;
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_nav\.scss}line{font-family:\000037}}
 #nav-container {
   z-index: 11;
