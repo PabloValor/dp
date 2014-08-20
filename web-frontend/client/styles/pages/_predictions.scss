@@ -32,6 +32,17 @@
       }
     }
 
+    .fixture-status {
+      margin-bottom: 14px;
+      background-color: rgb(236, 236, 236);
+
+      .fixture-terminado {
+        margin-left: 257px;
+        font-size: 19px;
+        color: rgb(206, 13, 13);
+      }
+    }
+
     &.one-game {
     .fixture-header {
         .fixtureNumber {

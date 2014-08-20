@@ -44,14 +44,17 @@
                 </div>
                 <div class="fixture-header">
                   <div class="fixtureNumber">
-                      Fecha: {{ currentFixtureNumber  }}
+                      Fecha: {{ currentFixture.number  }}
                   </div>
                   <div class="menu">
                     <div class="pull-right">
-                      <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentFixtureNumber == 1" ng-click="previousFixture()"><i class="fa fa-long-arrow-left"></i></button>
-                      <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentFixtureNumber == lastFixtureNumber" ng-click="nextFixture()" ng-disabled=""><i class="fa fa-long-arrow-right"></i></button>
+                      <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentFixture.number == 1" ng-click="previousFixture()"><i class="fa fa-long-arrow-left"></i></button>
+                      <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentFixture.number == lastFixtureNumber" ng-click="nextFixture()" ng-disabled=""><i class="fa fa-long-arrow-right"></i></button>
                     </div>
                   </div>
+                </div>
+                <div class="fixture-status" ng-show="currentFixture.is_finished">
+                  <span class="fixture-terminado">Fecha Terminada</span>
                 </div>
                 <table class="table table-hover" style="font-size:15px;">
                     <thead>
@@ -63,7 +66,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="match in fixtures[currentFixtureNumber - 1].matches" align="center" ng-show="fixtures[currentFixtureNumber - 1].number == currentFixtureNumber" class="match">
+                      <tr ng-repeat="match in currentFixture.matches" align="center" class="match">
                           <td align="right" style="width:25%">
                             {{ match.local_team.name }} 
                             <img src="http://localhost:8000{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />
