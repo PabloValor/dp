@@ -26,7 +26,7 @@
         <div class="col-sm-9" ng-class="{'col-sm-12': games.length == 1, 'col-sm-9': games.length > 1 }">
             <section class="panel panel-default mail-container ">
                 <div class="panel-heading"><strong><span class="flaticon-football7"></span> Partidos</strong></div>
-                <div ng-class="{'panel-body': games.length == 1, 'loading' : loading }" class="fixture-container">
+                <div ng-class="{'panel-body': games.length == 1, 'loading' : loading, 'one-game': games.length == 1 }" class="fixture-container">
 
                 <div class="loading" ng-show="loading"> Cargando 
                       <div id="circleG">
@@ -42,18 +42,22 @@
                   <h4> {{ selectedGame.name }} </h4>  
                   <p>{{ selectedGame.tournament_name }} </p>
                 </div>
-
-                <div class="menu">
-                  <div class="pull-right">
-                    <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentFixtureNumber == 1" ng-click="previousFixture()">Anterior</button>
-                    <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentFixtureNumber == lastFixtureNumber" ng-click="nextFixture()" ng-disabled="">Siguiente</button>
+                <div class="fixture-header">
+                  <div class="fixtureNumber">
+                      Fecha: {{ currentFixtureNumber  }}
+                  </div>
+                  <div class="menu">
+                    <div class="pull-right">
+                      <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentFixtureNumber == 1" ng-click="previousFixture()"><i class="fa fa-long-arrow-left"></i></button>
+                      <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-disabled="currentFixtureNumber == lastFixtureNumber" ng-click="nextFixture()" ng-disabled=""><i class="fa fa-long-arrow-right"></i></button>
+                    </div>
                   </div>
                 </div>
                 <table class="table table-hover" style="font-size:15px;">
                     <thead>
                       <tr>
                         <th style="text-align:right"> Equipo Local </th>
-                        <th style="text-align:center" colspan="3"> Pronostico</th>
+                        <th style="text-align:center;width: 31%;" colspan="3"> Pronostico</th>
                         <th style="text-align:left" > Equipo Visitante </th>
                         <th style="text-align:center"> Fecha </th>
                       </tr>
@@ -67,19 +71,19 @@
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
                               <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="local" >
-                              <span>L</span>
+                              <span popover-trigger="mouseenter" popover="Gana {{ match.local_team.name }}" >L</span>
                             </label>
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
                               <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="draw" >
-                              <span>E</span>
+                              <span popover-trigger="mouseenter" popover="Empatan">E</span>
                             </label>
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
                               <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="visitor" >
-                              <span>V</span>
+                              <span popover-trigger="mouseenter" popover="Gana {{ match.visitor_team.name }}" >V</span>
                             </label>
                           </td>
                           <td ng-hide="selectedGame.classic">

@@ -1,13 +1,45 @@
 .predictions {
 
-  .menu {
-    padding: 10px;
-    margin-right: 10px;
-  }
-
   .fixture-container {
     min-height: 600px;
     position: relative;
+
+    .fixture-header {
+      position: relative;
+      margin: 10px 0 45px;
+
+      .fixtureNumber {
+          font-size: 30px;
+          left: 33%;
+          position: absolute;
+          text-align: center;
+          top: 5px;
+      }
+
+      .menu {
+        padding: 10px;
+        margin-right: 10px;
+        
+        button {
+          padding: 2px 4px;
+          min-width: 0;
+          margin-top: 3px;
+
+          i:before {
+            font-size: 25px;
+          }
+        }
+      }
+    }
+
+    &.one-game {
+    .fixture-header {
+        .fixtureNumber {
+            left: 35%;
+            top: 4px;
+        }
+      }
+    }
 
     &.loading {
       table {
@@ -49,11 +81,14 @@
 
         .ui-radio {
             margin-bottom: 0px;
+            cursor: pointer;
         }
       }
+    }
 
-
-
+    .popover {
+      width: 200px;
+      text-align: center;
     }
 
   }
