@@ -24,10 +24,20 @@
 
         </div>
         <div class="col-sm-9" ng-class="{'col-sm-12': games.length == 1, 'col-sm-9': games.length > 1 }">
-            <section class="panel panel-default mail-container">
+            <section class="panel panel-default mail-container ">
                 <div class="panel-heading"><strong><span class="flaticon-football7"></span> Partidos</strong></div>
-                <div ng-class="{'panel-body': games.length == 1 }">
+                <div ng-class="{'panel-body': games.length == 1, 'loading' : loading }" class="fixture-container">
 
+                <div class="loading" ng-show="loading"> Cargando 
+                      <div id="circleG">
+                        <div id="circleG_1" class="circleG">
+                        </div>
+                        <div id="circleG_2" class="circleG">
+                        </div>
+                        <div id="circleG_3" class="circleG">
+                        </div>
+                      </div>
+                </div>
                 <div class="callout callout-info" ng-show="games.length == 1">
                   <h4> {{ selectedGame.name }} </h4>  
                   <p>{{ selectedGame.tournament_name }} </p>
@@ -49,7 +59,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="match in fixtures[currentFixtureNumber - 1].matches" align="center" ng-show="fixtures[currentFixtureNumber - 1].number == currentFixtureNumber">
+                      <tr ng-repeat="match in fixtures[currentFixtureNumber - 1].matches" align="center" ng-show="fixtures[currentFixtureNumber - 1].number == currentFixtureNumber" class="match">
                           <td align="right" style="width:25%">
                             {{ match.local_team.name }} 
                             <img src="http://localhost:8000{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />

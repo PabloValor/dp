@@ -4,6 +4,7 @@ angular.module('app.predictions')
 .controller('PredictionsController', ['$scope', '$location', 'GameService', 'PredictionService', 'Data',
     function($scope, $location, GameService, PredictionService, Data)  {
         function setTournamentFixture(tournament, currentFixtureNumber) {
+            $scope.loading = true;
             PredictionService.getTournamentFixture($scope.selectedGame.tournament,
               function(tournamentGame) {
                 $scope.fixtures = tournamentGame.fixtures;
@@ -14,6 +15,7 @@ angular.module('app.predictions')
                 }
 
                 $scope.lastFixtureNumber = tournamentGame.fixtures.length;
+                $scope.loading = false;
             });
         }
 
@@ -28,6 +30,8 @@ angular.module('app.predictions')
           }
 
         });
+
+        $scope.loading = true;
 
         var lastFixturePositions = {};
         $scope.selectGame = function(game) {

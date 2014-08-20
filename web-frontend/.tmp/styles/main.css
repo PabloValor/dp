@@ -11845,6 +11845,51 @@ button.toast-close-button {
   padding: 10px;
   margin-right: 10px;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\000038}}
+.predictions .fixture-container {
+  min-height: 600px;
+  position: relative;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000314}}
+.predictions .fixture-container.loading table:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.81);
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000327}}
+.predictions .fixture-container .loading {
+  font-size: 60px;
+  font-weight: 600;
+  left: 32%;
+  margin: 0 auto;
+  position: absolute;
+  top: 25%;
+  z-index: 20;
+  letter-spacing: 2px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000337}}
+.predictions .fixture-container .loading #circleG {
+  position: absolute;
+  right: -122px;
+  top: 53%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000344}}
+.predictions .fixture-container .match {
+  height: 60px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000347}}
+.predictions .fixture-container .match td {
+  vertical-align: middle;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000350}}
+.predictions .fixture-container .match td .ui-radio {
+  margin-bottom: 0px;
+}
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_nav\.scss}line{font-family:\000037}}
 #nav-container {
@@ -12563,4 +12608,105 @@ button.toast-close-button {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003167}}
 .wizard-steps .menu {
   margin-top: 20px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003173}}
+#circleG {
+  width: 121.33333333333333px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003177}}
+.circleG {
+  background-color: #FFFFFF;
+  float: left;
+  height: 20px;
+  margin-left: 14px;
+  width: 20px;
+  -moz-animation-name: bounce_circleG;
+  -moz-animation-duration: 1.9500000000000002s;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-direction: linear;
+  -moz-border-radius: 17px;
+  -webkit-animation-name: bounce_circleG;
+  -webkit-animation-duration: 1.9500000000000002s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: linear;
+  -webkit-border-radius: 17px;
+  -ms-animation-name: bounce_circleG;
+  -ms-animation-duration: 1.9500000000000002s;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-direction: linear;
+  -ms-border-radius: 17px;
+  -o-animation-name: bounce_circleG;
+  -o-animation-duration: 1.9500000000000002s;
+  -o-animation-iteration-count: infinite;
+  -o-animation-direction: linear;
+  -o-border-radius: 17px;
+  animation-name: bounce_circleG;
+  animation-duration: 1.9500000000000002s;
+  animation-iteration-count: infinite;
+  animation-direction: linear;
+  border-radius: 17px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003210}}
+#circleG_1 {
+  -moz-animation-delay: 0.39s;
+  -webkit-animation-delay: 0.39s;
+  -ms-animation-delay: 0.39s;
+  -o-animation-delay: 0.39s;
+  animation-delay: 0.39s;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003218}}
+#circleG_2 {
+  -moz-animation-delay: 0.9099999999999999s;
+  -webkit-animation-delay: 0.9099999999999999s;
+  -ms-animation-delay: 0.9099999999999999s;
+  -o-animation-delay: 0.9099999999999999s;
+  animation-delay: 0.9099999999999999s;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003226}}
+#circleG_3 {
+  -moz-animation-delay: 1.1700000000000002s;
+  -webkit-animation-delay: 1.1700000000000002s;
+  -ms-animation-delay: 1.1700000000000002s;
+  -o-animation-delay: 1.1700000000000002s;
+  animation-delay: 1.1700000000000002s;
+}
+
+@-moz-keyframes bounce_circleG {
+  /* line 238, ../../client/styles/sections/_core.scss */
+  50% {
+    background-color: #000000;
+  }
+}
+
+@-webkit-keyframes bounce_circleG {
+  /* line 250, ../../client/styles/sections/_core.scss */
+  50% {
+    background-color: #000000;
+  }
+}
+
+@-ms-keyframes bounce_circleG {
+  /* line 262, ../../client/styles/sections/_core.scss */
+  50% {
+    background-color: #000000;
+  }
+}
+
+@-o-keyframes bounce_circleG {
+  /* line 274, ../../client/styles/sections/_core.scss */
+  50% {
+    background-color: #000000;
+  }
+}
+
+@keyframes bounce_circleG {
+  /* line 286, ../../client/styles/sections/_core.scss */
+  50% {
+    background-color: #000000;
+  }
 }
