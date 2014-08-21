@@ -56,13 +56,13 @@
                 <div class="fixture-status" ng-show="currentFixture.is_finished">
                   <span class="fixture-terminado">Fecha Terminada</span>
                 </div>
-                <table class="table table-hover" style="font-size:15px;">
+                <table class="table table-hover" style="font-size:15px;" ng-class="{'fixture-finished': currentFixture.is_finished }">
                     <thead>
                       <tr>
                         <th style="text-align:right"> Equipo Local </th>
                         <th style="text-align:center;width: 31%;" colspan="3"> Pronostico</th>
                         <th style="text-align:left" > Equipo Visitante </th>
-                        <th style="text-align:center"> Fecha </th>
+                        <th style="text-align:center"> Resultado </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -73,24 +73,24 @@
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
-                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="local" >
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="local" ng-disabled="currentFixture.is_finished">
                               <span popover-trigger="mouseenter" popover="Gana {{ match.local_team.name }}" >L</span>
                             </label>
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
-                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="draw" >
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="draw" ng-disabled="currentFixture.is_finished">
                               <span popover-trigger="mouseenter" popover="Empatan">E</span>
                             </label>
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
-                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="visitor" >
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="visitor" ng-disabled="currentFixture.is_finished">
                               <span popover-trigger="mouseenter" popover="Gana {{ match.visitor_team.name }}" >V</span>
                             </label>
                           </td>
                           <td ng-hide="selectedGame.classic">
-                                <select style="width: 50px;">
+                                <select style="width: 50px;" ng-disabled="currentFixture.is_finished">
                                     <option>0</option>
                                     <option>1</option>
                                     <option>2</option>
@@ -105,7 +105,7 @@
                           </td>
                           <td  ng-hide="selectedGame.classic" style="color:green">vs</td>
                           <td  ng-hide="selectedGame.classic">
-                                <select style="width: 50px;">
+                                <select style="width: 50px;"  ng-disabled="currentFixture.is_finished">
                                     <option>0</option>
                                     <option>1</option>
                                     <option>2</option>
@@ -122,7 +122,7 @@
                             <img src="http://localhost:8000{{ match.visitor_team.crest }}" style="height: 20px;margin-right:5px;" />
                             {{ match.visitor_team.name }}  
                           </td>
-                          <td>2/15/14 5:00 AM</td>
+                          <td><span ng-show="match">0 : 0</span></td>
                       </tr>
                     </tbody>
                 </table>
