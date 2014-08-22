@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.db.models import Q
-from .models import Game, Player, GamePlayer, PlayerFriend
+from .models import Game, Player, GamePlayer, PlayerFriend, PlayerMatchPrediction
+from tournaments.models import Match
 
 
 class GamePlayerSerializer(serializers.ModelSerializer):
@@ -97,6 +98,27 @@ class GameSerializer(serializers.ModelSerializer):
         fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 
                     'gameplayers', 'you', 'classic', 'points_exact', 
                     'points_general',  'points_classic',  'points_double', )
+
+class PlayerMatchPredictionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlayerMatchPrediction
+
+    def validate(self, attrs):
+        player = self.context['request'].user
+        gameplayer = attrs['gameplayer']
+        if player != gameplayer.player:
+          raise serializers.ValidationError("You are trying to update another's prediction")
+
+
+        match = attrs['match']
+        if match.is_finished:
+          raise serializers.ValidationError('Match has already finished.')
+
+        if match.fixture.is_finished:
+          raise serializers.ValidationError('Fixture has already finished.')
+
+        return attrs
+
 
 class PlayerSerializer(serializers.ModelSerializer):
 #    games = serializers.PrimaryKeyRelatedField(many = True)

@@ -320,7 +320,7 @@ class TournamentFixtureAPITest(APITestCase):
         url = reverse('tournamentFixtureList', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
-        # Asset
+        # Assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['fixtures'][0]['matches']), 3)
 
@@ -335,6 +335,28 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data['fixtures'][0]['matches'][2]['date'], match_3.date)
         self.assertEqual(response.data['fixtures'][0]['matches'][2]['local_team']['name'], match_3.local_team.name)
         self.assertEqual(response.data['fixtures'][0]['matches'][2]['visitor_team']['name'], match_3.visitor_team.name)
+
+    def test_get_fixture_with_finished_matches(self):
+        # Tournament
+        tournament = TournamentFactory()
+
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_finished = True)
+        match_1 = MatchFactory(fixture = fixture_1, is_finished = True)
+        match_2 = MatchFactory(fixture = fixture_1)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets Tournament Fixture
+        url = reverse('tournamentFixtureList', kwargs = {'pk': tournament.id })
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data['fixtures'][0]['matches'][0]['is_finished'])
+        self.assertFalse(response.data['fixtures'][0]['matches'][1]['is_finished'])
 
 class FixtureTest(TestCase):
     def test_get_active_fixture_A(self):

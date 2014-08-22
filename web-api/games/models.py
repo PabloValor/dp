@@ -73,7 +73,7 @@ class Player(AbstractUser):
         points = 0
         if fixture.is_finished:
             points = sum([player_prediction.get_points() 
-                        for player_prediction in gameplayer.playermatchprediction_set.all() 
+                        for player_prediction in gameplayer.match_predictions.all() 
                         if not player_prediction.match.suspended and player_prediction.match.fixture.pk == fixture.pk])
     
         return points + gameplayer.initial_points
@@ -82,7 +82,7 @@ class Player(AbstractUser):
         gameplayer = self.get_gameplayer(game)
 
         match_ids = [x.pk for x in fixture.matches.all()]
-        predictions = gameplayer.playermatchprediction_set.filter(match_id__in = match_ids)
+        predictions = gameplayer.match_predictions.filter(match_id__in = match_ids)
 
         return predictions
 
@@ -133,7 +133,7 @@ class GamePlayer(models.Model):
       return '{0} | {1} | {2}'.format(self.player, self.status, self.another_chance)
 
 class PlayerMatchPrediction(models.Model):
-    gameplayer = models.ForeignKey(GamePlayer)
+    gameplayer = models.ForeignKey(GamePlayer, related_name = 'match_predictions')
     match = models.ForeignKey(Match)
     local_team_goals = models.PositiveIntegerField()
     visitor_team_goals = models.PositiveIntegerField()

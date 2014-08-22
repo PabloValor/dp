@@ -102,6 +102,16 @@ class Match(models.Model):
     fixture = models.ForeignKey(Fixture, related_name = 'matches')
     suspended = models.BooleanField(verbose_name = "Suspendido", default = False)
     is_classic = models.BooleanField(verbose_name = "Clasico", default = False)
+    is_finished = models.BooleanField(verbose_name = "Termino", default = False)
+
+    def get_winner(self):
+      if self.local_wins():
+        return self.local_team.name
+      elif self.visitor_wins():
+        return self.visitor_team.name
+      else:
+        return None
+
 
     def local_wins(self):
         return self.local_team_goals > self.visitor_team_goals

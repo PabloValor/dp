@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from .models import Game, Player, GamePlayer, PlayerFriend
 from .serializers import ( GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer, 
                            PlayerSearchSerializer, PlayerFriendSerializer, GamePlayerUpdateSerializer,
-                           GamePlayerCreateSerializer, GamePlayerUpdateAnotherChanceSerializer, GamePlayerUpdateInvitesAgainSerializer)
+                           GamePlayerCreateSerializer, GamePlayerUpdateAnotherChanceSerializer, GamePlayerUpdateInvitesAgainSerializer,
+                           PlayerMatchPredictionSerializer)
 
 from .permissions import IsOwnerOrReadOnly, IsSameUser, IsFriend
 
@@ -69,6 +70,10 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def pre_save(self, obj):
         obj.owner = self.request.user
+
+class PlayerMatchPrediction(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = PlayerMatchPredictionSerializer
 
 class PlayerList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)

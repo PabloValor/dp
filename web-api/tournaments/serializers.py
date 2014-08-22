@@ -9,6 +9,7 @@ class TeamSerializer(serializers.ModelSerializer):
 class MatchSerializer(serializers.ModelSerializer):
     visitor_team = TeamSerializer(source = 'visitor_team')
     local_team = TeamSerializer(source = 'local_team')
+    winner = serializers.Field(source = 'get_winner')
 
     class Meta:
         model = Match
