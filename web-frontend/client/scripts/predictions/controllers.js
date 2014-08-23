@@ -115,10 +115,14 @@ angular.module('app.predictions')
 
         $scope.nextFixture = function() {
           $scope.currentFixture = $scope.fixtures[$scope.currentFixture.number];
+          var gameplayer = $scope.selectedGame.you[0];
+          mapFixturePredictions($scope.currentFixture, $scope.predictions[gameplayer.id], $scope.selectedGame.classic);
         }
 
         $scope.previousFixture = function() {
           $scope.currentFixture = $scope.fixtures[$scope.currentFixture.number - 2];
+          var gameplayer = $scope.selectedGame.you[0];
+          mapFixturePredictions($scope.currentFixture, $scope.predictions[gameplayer.id], $scope.selectedGame.classic);
         }
 
         $scope.doGeneralPrediction = function(match, winner_is_local) {
