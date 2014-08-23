@@ -86,6 +86,8 @@
             gamePlayerAnotherChance: function(gameplayer_id) { return this.base + '/games/gameplayer/another-chance/' + gameplayer_id + '/'},
             gamePlayerCreate: function() { return this.base + '/games/gameplayer/' },
             tournamentFixture: function(tournament_id) { return this.base + '/tournaments/' + tournament_id + '/fixture' },
+            doPrediction: function() { return this.base + '/games/prediction/'},
+            getPredictions: function(gameplayer_id) { return this.base + '/games/predictions/' + gameplayer_id + '/'}
 
     }
 }) 

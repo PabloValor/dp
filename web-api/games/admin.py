@@ -19,9 +19,13 @@ class GameInline(admin.StackedInline):
 class PlayerAdmin(admin.ModelAdmin):
     inlines = (GameInline,)
 
+class PlayerMatchPredictionAdmin(admin.ModelAdmin):
+    inlines = (GameInline,)
+    list_display = ['game', 'match', 'local_team_goals', 'visitor_team_goals']
+    list_display_links = ['game']
 
 admin.site.register(Game, GameAdmin)
-admin.site.register(PlayerMatchPrediction)
+admin.site.register(PlayerMatchPrediction, PlayerMatchPredictionAdmin)
 admin.site.register(FixturePlayerPoints)
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(PlayerFriend)

@@ -73,52 +73,58 @@
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
-                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="local" ng-disabled="currentFixture.is_finished">
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="local" ng-disabled="currentFixture.is_finished"  ng-click="doGeneralPrediction(match, true)" ng-model="match.generalPrediction">
                               <span popover-trigger="mouseenter" popover="Gana {{ match.local_team.name }}" ng-if="!match.is_finished">L</span>
                               <span ng-if="match.is_finished">L</span>
                             </label>
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
-                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="draw" ng-disabled="currentFixture.is_finished">
-                              <span popover-trigger="mouseenter" popover="Empatan" ng-if="!match.is_finished">E</span>
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="draw" ng-disabled="currentFixture.is_finished" ng-model="match.generalPrediction">
+                              <span popover-trigger="mouseenter" popover="Empatan" ng-if="!match.is_finished" ng-click="doGeneralPrediction(match)">E</span>
                               <span ng-if="match.is_finished">E</span>
                             </label>
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
-                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="visitor" ng-disabled="currentFixture.is_finished">
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="visitor" ng-disabled="currentFixture.is_finished" ng-click="doGeneralPrediction(match, false)" ng-model="match.generalPrediction">
                               <span popover-trigger="mouseenter" popover="Gana {{ match.visitor_team.name }}" ng-if="!match.is_finished">V</span>
                               <span ng-if="match.is_finished">V</span>
                             </label>
                           </td>
                           <td ng-hide="selectedGame.classic">
-                                <select style="width: 50px;" ng-disabled="currentFixture.is_finished">
-                                    <option>0</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
+                            <select style="width: 50px;" ng-disabled="currentFixture.is_finished" 
+                                    ng-change="doExactPrediction(match)"
+                                    ng-model="match.predictionLocalGoals">
+                                    <option value=""></option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
                                 </select>
                           </td>
                           <td  ng-hide="selectedGame.classic" style="color:green">vs</td>
                           <td  ng-hide="selectedGame.classic">
-                                <select style="width: 50px;"  ng-disabled="currentFixture.is_finished">
-                                    <option>0</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
+                                <select style="width: 50px;"  ng-disabled="currentFixture.is_finished"
+                                    ng-change="doExactPrediction(match)"
+                                    ng-model="match.predictionVisitorGoals">
+                                    <option value=""> </option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
                                 </select>
                           </td>
                           <td align="left"  style="width:25%">

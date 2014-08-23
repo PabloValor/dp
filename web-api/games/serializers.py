@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.db.models import Q
 from .models import Game, Player, GamePlayer, PlayerFriend, PlayerMatchPrediction
 from tournaments.models import Match
+from tournaments.serializers import MatchSerializer
 
 
 class GamePlayerSerializer(serializers.ModelSerializer):
@@ -109,6 +110,8 @@ class PlayerMatchPredictionSerializer(serializers.ModelSerializer):
         if player != gameplayer.player:
           raise serializers.ValidationError("You are trying to update another's prediction")
 
+        if not gameplayer.status:
+          raise serializers.ValidationError("You are not playing this game")
 
         match = attrs['match']
         if match.is_finished:
@@ -119,6 +122,11 @@ class PlayerMatchPredictionSerializer(serializers.ModelSerializer):
 
         return attrs
 
+class PlayerMatchPredictionListSerializer(serializers.ModelSerializer):
+    match = MatchSerializer(source="match")
+
+    class Meta:
+        model = PlayerMatchPrediction
 
 class PlayerSerializer(serializers.ModelSerializer):
 #    games = serializers.PrimaryKeyRelatedField(many = True)

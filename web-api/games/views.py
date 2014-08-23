@@ -1,11 +1,11 @@
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .models import Game, Player, GamePlayer, PlayerFriend
+from .models import Game, Player, GamePlayer, PlayerFriend, PlayerMatchPrediction
 from .serializers import ( GameSerializer, PlayerSerializer, PlayerCreateSerializer, PlayerUpdateSerializer, 
                            PlayerSearchSerializer, PlayerFriendSerializer, GamePlayerUpdateSerializer,
                            GamePlayerCreateSerializer, GamePlayerUpdateAnotherChanceSerializer, GamePlayerUpdateInvitesAgainSerializer,
-                           PlayerMatchPredictionSerializer)
+                           PlayerMatchPredictionSerializer, PlayerMatchPredictionListSerializer,)
 
 from .permissions import IsOwnerOrReadOnly, IsSameUser, IsFriend
 
@@ -71,9 +71,22 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     def pre_save(self, obj):
         obj.owner = self.request.user
 
-class PlayerMatchPrediction(generics.CreateAPIView):
+class PlayerMatchPredictionCreate(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = PlayerMatchPredictionSerializer
+
+    def pre_save(self, obj):
+      PlayerMatchPrediction.objects.filter(match = obj.match, gameplayer = obj.gameplayer).delete()
+
+class PlayerMatchPredictionList(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = PlayerMatchPredictionListSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        gameplayer_id = self.kwargs['gp']
+
+        return PlayerMatchPrediction.objects.filter(gameplayer__id = gameplayer_id).order_by('match__fixture__number')
 
 class PlayerList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)

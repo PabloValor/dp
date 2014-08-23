@@ -142,6 +142,9 @@ class PlayerMatchPrediction(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
+    def game(self):
+      return self.gameplayer.game
+
     def is_a_moral_prediction(self):
         prediction_local_team_had_won = self.__class__.has_local_team_won(self.local_team_goals, self.visitor_team_goals)
         match_local_team_had_won = self.__class__.has_local_team_won(self.match.local_team_goals, self.match.visitor_team_goals)
