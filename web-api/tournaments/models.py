@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime
+from django.utils import timezone
 
 class Tournament(models.Model):
     name = models.CharField(max_length = 100)
@@ -77,6 +77,9 @@ class Fixture(models.Model):
 
         return predictions
 
+    def is_playing(self):
+      return self.open_until < timezone.now()
+
     def save(self, *args, **kwargs):  
         if self.is_finished:
             #FixturePlayerPoints.objects.filter(fixture = self).delete()
@@ -94,7 +97,7 @@ class Fixture(models.Model):
         verbose_name = "Fecha"
 
 class Match(models.Model):
-    date = models.DateField(verbose_name = "Fecha", default = datetime.now().date())
+    date = models.DateField(verbose_name = "Fecha", default = timezone.now().date())
     local_team = models.ForeignKey(Team, related_name = "local_team", verbose_name = "Equipo Local")
     local_team_goals = models.PositiveIntegerField(verbose_name = "Equipo Local Goles", default = 0)
     visitor_team = models.ForeignKey(Team, related_name = "visitor_team", verbose_name = "Equipo Visitante")

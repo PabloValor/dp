@@ -34,6 +34,8 @@ angular.module('app.predictions')
             PredictionService.getPredictions(gameplayer.id,
               function(predictions) {
 
+                console.info("Predictions");
+                console.info(predictions);
                 $scope.predictions[gameplayer.id] = predictions;
                 deferred.resolve();
 
@@ -47,12 +49,14 @@ angular.module('app.predictions')
         function mapFixturePredictions(fixture, predictions, isClassic) {
           var match;
           var prediction;
+          fixture.points = 0;
           for(var i in fixture.matches) {
             match = fixture.matches[i];
 
             prediction = predictions[match.id];
             if(!prediction) {
               match.hasPrediction = false;
+              match.points = 0;
               continue;
             }
 
@@ -69,7 +73,9 @@ angular.module('app.predictions')
                 match.predictionVisitorGoals = prediction.visitor_team_goals;
             }
 
-            match.hasPrediction = prediction.local_team_goals;
+            match.hasPrediction = true;
+            match.points = prediction.points;
+            fixture.points += prediction.points;
           }
         }
 
@@ -136,13 +142,19 @@ angular.module('app.predictions')
             visitor_goals = 1;
           }
 
-          PredictionService.doPrediction(gameplayer.id, match.id, local_goals, visitor_goals);
+          PredictionService.doPrediction(gameplayer.id, match.id, local_goals, visitor_goals, 
+              function(response) {
+                match.hasPrediction = true;
+              });
         }
         
         $scope.doExactPrediction = function(match) {
           var gameplayer = $scope.selectedGame.you[0];
           if(!!match.predictionLocalGoals && !!match.predictionVisitorGoals) {
-            PredictionService.doPrediction(gameplayer.id, match.id, match.predictionLocalGoals, match.predictionVisitorGoals);
+            PredictionService.doPrediction(gameplayer.id, match.id, match.predictionLocalGoals, match.predictionVisitorGoals, 
+                function(response) {
+                  match.hasPrediction = true;
+                });
           }
         }
     }

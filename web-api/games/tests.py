@@ -637,7 +637,7 @@ class GameAPITest(APITestCase):
 
         # Default points
         self.assertEqual(Game.objects.first().points_exact, 3)
-        self.assertEqual(Game.objects.first().points_general, 1)
+        self.assertEqual(Game.objects.first().points_general, 3)
         self.assertEqual(Game.objects.first().points_classic, 2)
         self.assertEqual(Game.objects.first().points_double, 2)
 
@@ -2461,7 +2461,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
 
         # Anon makes request
         url = reverse('playerMatchPredictionCreate')
-        response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id + 1, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
+        response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(gp.match_predictions.count(), 0)
@@ -2485,7 +2485,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         url = reverse('playerMatchPredictionCreate')
-        response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id + 1, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
+        response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(gp.match_predictions.count(), 0)
@@ -2555,7 +2555,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         url = reverse('playerMatchPredictionCreate')
-        response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id + 1, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
+        response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(gp.match_predictions.count(), 0)
@@ -2576,7 +2576,28 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         url = reverse('playerMatchPredictionCreate')
-        response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id + 1, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
+        response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(gp.match_predictions.count(), 0)
+
+    def test_nico_does_a_prediction_of_a_fixture_already_closed_400_BAD_REQUEST(self):
+        # Tournament
+        fixture = FixtureFactory(open_until = datetime.now())
+        match = MatchFactory(fixture = fixture)
+
+        # Nico
+        game = GameFactory(tournament = fixture.tournament)
+        nico = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        self.assertEqual(gp.match_predictions.count(), 0)
+
+        # Player authentication
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionCreate')
+        response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(gp.match_predictions.count(), 0)
@@ -2802,7 +2823,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.assertEqual(response.data[1]['match']['id'] , match_5.id)
         self.assertEqual(response.data[2]['match']['id'] , match_1.id)
 
-    def test_nico_gets_his_prediction_with_match_detailed_200_OK_A(self):
+    def test_nico_gets_his_prediction_with_match_detailed_200_OK(self):
         # Tournament
         fixture = FixtureFactory()
         match = MatchFactory(fixture = fixture)
@@ -2823,6 +2844,72 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['match']['fixture'] , fixture.id)
+
+    def test_nico_gets_his_prediction_with_points_classic_game_200_OK_A(self):
+        # Tournament
+        fixture = FixtureFactory()
+        match = MatchFactory(fixture = fixture, visitor_team_goals = 1, local_team_goals = 1, is_finished = True)
+
+        # Nico
+        game = GameFactory(tournament = fixture.tournament, classic = True)
+        nico = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match, visitor_team_goals = 1, local_team_goals = 1)
+
+        # Nico authentication
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['points'], 3)
+
+    def test_nico_gets_his_prediction_with_points_classic_game_200_OK_B(self):
+        # Tournament
+        fixture = FixtureFactory()
+        match = MatchFactory(fixture = fixture, visitor_team_goals = 1, local_team_goals = 1, is_finished = True)
+
+        # Nico
+        game = GameFactory(tournament = fixture.tournament)
+        nico = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match, visitor_team_goals = 0, local_team_goals = 1)
+
+        # Nico authentication
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['points'], 0)
+
+    def test_nico_gets_his_prediction_with_points_classic_game_200_OK_C(self):
+        # Tournament
+        fixture = FixtureFactory()
+        match = MatchFactory(fixture = fixture, visitor_team_goals = 1, local_team_goals = 1, is_finished = False)
+
+        # Nico
+        game = GameFactory(tournament = fixture.tournament)
+        nico = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match, visitor_team_goals = 0, local_team_goals = 1)
+
+        # Nico authentication
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['points'], None)
 
     def test_anon_tries_to_get_nicos_predictions_401_UNAUTHORIZED(self):
         # Tournament

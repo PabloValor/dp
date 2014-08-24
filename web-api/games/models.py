@@ -106,7 +106,7 @@ class Game(models.Model):
     classic = models.BooleanField(default = True, verbose_name = "Modo Clasico")
 
     points_exact = models.PositiveIntegerField(default = 3)
-    points_general = models.PositiveIntegerField(default = 1)
+    points_general = models.PositiveIntegerField(default = 3)
     points_classic = models.PositiveIntegerField(default = 2)
     points_double = models.PositiveIntegerField(default = 2)
 
@@ -156,10 +156,13 @@ class PlayerMatchPrediction(models.Model):
                self.match.visitor_team_goals == self.visitor_team_goals
 
     def get_points(self):
-        if self.gameplayer.game.classic:
-            return self.get_points_classic()
-        else:
-            return self.get_points_dp()
+      if not self.match.is_finished:
+        return None
+
+      if self.gameplayer.game.classic:
+          return self.get_points_classic()
+      else:
+          return self.get_points_dp()
 
     def get_points_classic(self):
         if self.is_a_moral_prediction():
@@ -170,9 +173,10 @@ class PlayerMatchPrediction(models.Model):
     def get_points_dp(self):
         points = 0
         if self.is_a_exact_prediction():
-            points = self.gameplayer.game.points_exact
-        elif self.is_a_moral_prediction():
-            points = self.gameplayer.game.points_general
+            points += self.gameplayer.game.points_exact
+
+        if self.is_a_moral_prediction():
+            points += self.gameplayer.game.points_general
 
         if self.match.is_classic:
             points *= self.gameplayer.game.points_classic

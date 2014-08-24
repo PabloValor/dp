@@ -11,9 +11,10 @@ class FixtureInline(admin.StackedInline):
 
 class FixtureAdmin(admin.ModelAdmin):
     inlines = (MatchInline,)
-    list_display = ['tournament', '__unicode__', 'is_finished']
+    list_display = ['tournament', '__unicode__', 'open_until', 'is_finished']
     list_display_links = ['__unicode__']
     list_filter = ['tournament']
+    list_editable = ['open_until']
 
 class TournamentAdmin(admin.ModelAdmin):
     inlines = (FixtureInline,)

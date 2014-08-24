@@ -120,10 +120,14 @@ class PlayerMatchPredictionSerializer(serializers.ModelSerializer):
         if match.fixture.is_finished:
           raise serializers.ValidationError('Fixture has already finished.')
 
+        if match.fixture.is_playing():
+          raise serializers.ValidationError('Fixture is already being played')
+
         return attrs
 
 class PlayerMatchPredictionListSerializer(serializers.ModelSerializer):
     match = MatchSerializer(source="match")
+    points = serializers.Field(source = "get_points")
 
     class Meta:
         model = PlayerMatchPrediction

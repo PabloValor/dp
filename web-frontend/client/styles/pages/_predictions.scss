@@ -31,7 +31,7 @@
       }
     }
 
-    .fixture-finished {
+    .fixture-disabled {
 
       .match {
         &:hover {
@@ -64,10 +64,16 @@
       margin-bottom: 14px;
       background-color: rgb(236, 236, 236);
 
-      .fixture-terminado {
-        margin-left: 257px;
+      .fixture-finished-title {
+        margin-left: 31%;
         font-size: 19px;
         color: rgb(206, 13, 13);
+      }
+
+      .fixture-playing-title {
+        margin-left: 31%;
+        font-size: 19px;
+        color: green;
       }
     }
 
@@ -80,8 +86,8 @@
       }
 
       .fixture-status {
-        .fixture-terminado {
-          margin-left: 355px;
+        .fixture-finished-title, .fixture-playing-title {
+          margin-left: 33%;
         }
       }
     }
@@ -132,6 +138,16 @@
 
       .match-outcome {
         font-size: 14px;
+      }
+
+      .no-prediction:before {
+        font-size: 12px;
+        color: rgb(206, 43, 43);
+      }
+
+      .classic:before {
+        font-size: 12px;
+        color: green;
       }
     }
 

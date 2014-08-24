@@ -13,7 +13,7 @@ class FixtureFactory(factory.Factory):
     is_finished = False
     number = randrange(0, 20)
     tournament = factory.LazyAttribute(lambda a: TournamentFactory())
-    open_until = datetime.now()
+    open_until = datetime.now() + timedelta(days = 1)
 
 class MatchFactory(factory.Factory):
     date = datetime.now().date()

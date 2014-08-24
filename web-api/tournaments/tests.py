@@ -1,4 +1,5 @@
 import json
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from rest_framework import status
@@ -357,6 +358,42 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(response.data['fixtures'][0]['matches'][0]['is_finished'])
         self.assertFalse(response.data['fixtures'][0]['matches'][1]['is_finished'])
+
+    def test_get_fixture_with_is_playing_info_A(self):
+        # Tournament
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament, open_until = timezone.now())
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets Tournament Fixture
+        url = reverse('tournamentFixtureList', kwargs = {'pk': tournament.id })
+        response = self.client.get(url)
+
+        # Asset
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data['fixtures'][0]['is_playing'])
+
+    def test_get_fixture_with_is_playing_info_B(self):
+        # Tournament
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets Tournament Fixture
+        url = reverse('tournamentFixtureList', kwargs = {'pk': tournament.id })
+        response = self.client.get(url)
+
+        # Asset
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertFalse(response.data['fixtures'][0]['is_playing'])
 
 class FixtureTest(TestCase):
     def test_get_active_fixture_A(self):
