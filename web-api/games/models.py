@@ -104,6 +104,7 @@ class Game(models.Model):
     name = models.CharField(max_length = 100)
     tournament = models.ForeignKey(Tournament)
     classic = models.BooleanField(default = True, verbose_name = "Modo Clasico")
+    open_predictions = models.BooleanField(default = True, verbose_name = "Pronosticos Abiertos")
 
     points_exact = models.PositiveIntegerField(default = 3)
     points_general = models.PositiveIntegerField(default = 3)

@@ -112,8 +112,6 @@ angular.module('app.predictions')
 
           lastFixturePositions[$scope.selectedGame.name] = $scope.currentFixture.number;
           $scope.selectedGame = game;
-          console.info("Game");
-          console.info($scope.selectedGame);
           $scope.selectedGameplayer = $scope.selectedGame.you[0];
           $scope.userGameplayer = $scope.selectedGame.you[0];
 

@@ -2912,6 +2912,9 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.assertEqual(response.data[0]['points'], None)
 
     def test_anon_tries_to_get_nicos_predictions_401_UNAUTHORIZED(self):
+        """
+          Anon tries to get Nico's predictions
+        """
         # Tournament
         fixture = FixtureFactory()
         match = MatchFactory(fixture = fixture)
@@ -2927,3 +2930,140 @@ class PlayerMatchPredictionAPITest(APITestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_fede_get_nico_gets_predictions_200_OK(self):
+        """
+          Fede gets Nico's predictions 
+        """
+        # Tournament
+        fixture = FixtureFactory()
+        match = MatchFactory(fixture = fixture, visitor_team_goals = 1, local_team_goals = 1, is_finished = False)
+        game = GameFactory(tournament = fixture.tournament)
+
+        # Nico
+        nico = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match, visitor_team_goals = 0, local_team_goals = 1)
+
+        # Fede
+        fede = PlayerFactory()
+        GamePlayerFactory(game = game, player = fede, status = True)
+
+        # Fede authentication
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
+    def test_fede_get_nico_gets_predictions_403_FORBIDDEN_A(self):
+        """
+          Fede tries to get Nico's predictions but Fede doesn't play this game
+        """
+        # Tournament
+        fixture = FixtureFactory()
+        match = MatchFactory(fixture = fixture, visitor_team_goals = 1, local_team_goals = 1, is_finished = False)
+
+        # Nico
+        nico = PlayerFactory()
+        game = GameFactory(tournament = fixture.tournament)
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match, visitor_team_goals = 0, local_team_goals = 1)
+
+        # Fede
+        fede = PlayerFactory()
+        game_2 = GameFactory(tournament = fixture.tournament)
+        GamePlayerFactory(game = game_2, player = fede, status = True)
+
+        # Fede authentication
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_fede_get_nico_gets_predictions_403_FORBIDDEN_B(self):
+        """
+          Fede tries to get Nico's predictions but Fede didn't answer the Game Request
+        """
+        # Tournament
+        fixture = FixtureFactory()
+        match = MatchFactory(fixture = fixture, visitor_team_goals = 1, local_team_goals = 1, is_finished = False)
+
+        # Nico
+        nico = PlayerFactory()
+        game = GameFactory(tournament = fixture.tournament)
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match, visitor_team_goals = 0, local_team_goals = 1)
+
+        # Fede
+        fede = PlayerFactory()
+        GamePlayerFactory(game = game, player = fede, status = None)
+
+        # Fede authentication
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_fede_get_nico_gets_predictions_403_FORBIDDEN_C(self):
+        """
+          Fede tries to get Nico's predictions but Fede rejected playing the game
+        """
+        # Tournament
+        fixture = FixtureFactory()
+        match = MatchFactory(fixture = fixture, visitor_team_goals = 1, local_team_goals = 1, is_finished = False)
+
+        # Nico
+        nico = PlayerFactory()
+        game = GameFactory(tournament = fixture.tournament)
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match, visitor_team_goals = 0, local_team_goals = 1)
+
+        # Fede
+        fede = PlayerFactory()
+        GamePlayerFactory(game = game, player = fede, status = False)
+
+        # Fede authentication
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_fede_get_nico_gets_predictions_403_FORBIDDEN_D(self):
+        """
+          Fede tries to get Nico's predictions but the Game doesn't allow that
+        """
+        # Tournament
+        fixture = FixtureFactory()
+        match = MatchFactory(fixture = fixture, visitor_team_goals = 1, local_team_goals = 1, is_finished = False)
+
+        # Nico
+        nico = PlayerFactory()
+        game = GameFactory(tournament = fixture.tournament, open_predictions = False)
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match, visitor_team_goals = 0, local_team_goals = 1)
+
+        # Fede
+        fede = PlayerFactory()
+        GamePlayerFactory(game = game, player = fede, status = True)
+
+        # Fede authentication
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

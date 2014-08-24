@@ -8,6 +8,7 @@ class GameFactory(factory.Factory):
     tournament = factory.LazyAttribute(lambda a: TournamentFactory())
     classic = False
     owner = factory.LazyAttribute(lambda a: PlayerFactory())
+    open_predictions = True
 
 class GamePlayerFactory(factory.Factory):
     player = factory.LazyAttribute(lambda a: PlayerFactory())

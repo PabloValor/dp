@@ -7,7 +7,7 @@ from .serializers import ( GameSerializer, PlayerSerializer, PlayerCreateSeriali
                            GamePlayerCreateSerializer, GamePlayerUpdateAnotherChanceSerializer, GamePlayerUpdateInvitesAgainSerializer,
                            PlayerMatchPredictionSerializer, PlayerMatchPredictionListSerializer,)
 
-from .permissions import IsOwnerOrReadOnly, IsSameUser, IsFriend
+from .permissions import *
 
 class GamePlayerUpdateAnotherChance(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -72,14 +72,14 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
         obj.owner = self.request.user
 
 class PlayerMatchPredictionCreate(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, )
     serializer_class = PlayerMatchPredictionSerializer
 
     def pre_save(self, obj):
       PlayerMatchPrediction.objects.filter(match = obj.match, gameplayer = obj.gameplayer).delete()
 
 class PlayerMatchPredictionList(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, SameGamePlaying, OpenGame)
     serializer_class = PlayerMatchPredictionListSerializer
 
     def get_queryset(self):
