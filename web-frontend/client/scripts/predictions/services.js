@@ -4,6 +4,7 @@ angular.module('app.predictions')
 .factory('PredictionService', ['$http', 'SETTINGS','Data', 
     function($http, SETTINGS, Data) {
       var tournaments = {};
+      var predictions = {};
 
       return {
           getTournamentFixture: 
@@ -71,6 +72,7 @@ angular.module('app.predictions')
                       }
                   })
                   .error(function(response) {
+                      console.log("ERROR");
                       console.error(response);
 
                       if(!!f_error) {

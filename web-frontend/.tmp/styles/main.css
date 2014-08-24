@@ -11853,7 +11853,7 @@ button.toast-close-button {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000310}}
 .predictions .fixture-container .fixture-header .fixtureNumber {
   font-size: 30px;
-  left: 33%;
+  left: 36%;
   position: absolute;
   text-align: center;
   top: 5px;
@@ -11907,13 +11907,13 @@ button.toast-close-button {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000367}}
 .predictions .fixture-container .fixture-status .fixture-finished-title {
-  margin-left: 31%;
+  margin-left: 34%;
   font-size: 19px;
   color: #ce0d0d;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000373}}
 .predictions .fixture-container .fixture-status .fixture-playing-title {
-  margin-left: 31%;
+  margin-left: 34%;
   font-size: 19px;
   color: green;
 }

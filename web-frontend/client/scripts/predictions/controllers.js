@@ -55,6 +55,9 @@ angular.module('app.predictions')
 
             prediction = predictions[match.id];
             if(!prediction) {
+              delete match.generalPrediction;
+              delete match.predictionLocalGoals;
+              delete match.predictionVisitorGoals;
               match.hasPrediction = false;
               match.points = 0;
               continue;
@@ -85,6 +88,9 @@ angular.module('app.predictions')
 
           if($scope.games.length > 0) {
             $scope.selectedGame = $scope.games[0];
+            $scope.selectedGameplayer = $scope.selectedGame.you[0];
+            $scope.userGameplayer =$scope.selectedGame.you[0];
+
             setTournamentFixture($scope.selectedGame.tournament)
               .then(function() {
                 setFixturePredictions($scope.selectedGame.you[0])
@@ -106,6 +112,10 @@ angular.module('app.predictions')
 
           lastFixturePositions[$scope.selectedGame.name] = $scope.currentFixture.number;
           $scope.selectedGame = game;
+          console.info("Game");
+          console.info($scope.selectedGame);
+          $scope.selectedGameplayer = $scope.selectedGame.you[0];
+          $scope.userGameplayer = $scope.selectedGame.you[0];
 
           var lastFixturePosition = lastFixturePositions[game.name];
           setTournamentFixture($scope.selectedGame.tournament, lastFixturePosition)
@@ -119,16 +129,25 @@ angular.module('app.predictions')
               });
         }
 
+        $scope.selectGameplayer = function(gameplayer) {
+          $scope.loading = true;
+          $scope.selectedGameplayer = gameplayer;
+
+          setFixturePredictions(gameplayer)
+            .then(function() {
+              mapFixturePredictions($scope.currentFixture, $scope.predictions[gameplayer.id], $scope.selectedGame.classic);
+              $scope.loading = false;
+            });
+        }
+
         $scope.nextFixture = function() {
           $scope.currentFixture = $scope.fixtures[$scope.currentFixture.number];
-          var gameplayer = $scope.selectedGame.you[0];
-          mapFixturePredictions($scope.currentFixture, $scope.predictions[gameplayer.id], $scope.selectedGame.classic);
+          mapFixturePredictions($scope.currentFixture, $scope.predictions[$scope.selectedGameplayer.id], $scope.selectedGame.classic);
         }
 
         $scope.previousFixture = function() {
           $scope.currentFixture = $scope.fixtures[$scope.currentFixture.number - 2];
-          var gameplayer = $scope.selectedGame.you[0];
-          mapFixturePredictions($scope.currentFixture, $scope.predictions[gameplayer.id], $scope.selectedGame.classic);
+          mapFixturePredictions($scope.currentFixture, $scope.predictions[$scope.selectedGameplayer.id], $scope.selectedGame.classic);
         }
 
         $scope.doGeneralPrediction = function(match, winner_is_local) {
