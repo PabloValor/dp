@@ -23,45 +23,4 @@ angular.module('app.core')
     };
 })
 
-.directive('wizardForm', function() {
-    return {
-      restrict: 'E',
-      templateUrl: 'scripts/core/views/wizard_form.html',
-      transclude: true,
-      scope: { steps: '=', currentStep : '=', optionalStep: '=', action: '=', game: '=', selectedTournament: '='},
-      link: function($scope, element, attrs) {
-        $scope.lastStep = $scope.steps[$scope.steps.length - 1];
-        $scope.nextStep = function() {
-          var index = $scope.steps.indexOf($scope.currentStep);
-          $scope.currentStep = $scope.steps[index + 1];
-        };
-
-        $scope.previousStep = function() {
-          var index = $scope.steps.indexOf($scope.currentStep);
-          $scope.currentStep = $scope.steps[index - 1];
-        };
-
-        $scope.setlastStep = function() {
-          $scope.currentStep = $scope.lastStep;
-        };
-
-        $scope.setOptionalStep = function() {
-          $scope.currentStep = $scope.optionalStep;
-        };
-
-        $scope.finish = function() {
-          $scope.action();
-        }
-
-        $scope.validate = function() {
-          if($scope.currentStep.validate) {
-            return $scope.currentStep.validate($scope);
-          } else {
-            return true;
-          }
-        }
-      }
-    };
-})
-
 ;

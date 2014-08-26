@@ -22,23 +22,28 @@
                 </ul>
             </section>
 
-            <section class="panel panel-default mail-categories">
+            <section class="panel panel-default mail-categories game-players">
                 <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> <span data-i18n="Jugadores"></span></strong></div>
                 <ul class="list-group">
                     <li class="list-group-item" 
-                        ng-class='{active: selectedGameplayer.id == userGameplayer.id}'>
-                        <a href="javascript:;" ng-click="selectGameplayer(userGameplayer)">
+                        ng-class="{'active': selectedGameplayer.id == userGameplayer.id, 'player-prediction-closed': !selectedGame.open_predictions}">
+                        <a href="javascript:;" ng-click="!selectedGame.open_predictions || selectGameplayer(userGameplayer)">
                           {{ userGameplayer.player__username }}
                         </a>
                     </li>
                     <li class="list-group-item" 
+                        ng-class="{'player-prediction-closed': !selectedGame.open_predictions, 'active': selectedGameplayer.id == gameplayer.id }"
                         ng-repeat="gameplayer in selectedGame.gameplayers" 
-                        ng-class='{active: selectedGameplayer.id == gameplayer.id}' ng-if="gameplayer.status && gameplayer.id != userGameplayer.id">
-                        <a href="javascript:;" ng-click="selectGameplayer(gameplayer)">
+                        ng-if="gameplayer.status && gameplayer.id != userGameplayer.id">
+                        <a href="javascript:;" ng-click="!selectedGame.open_predictions || selectGameplayer(gameplayer)">
                           {{ gameplayer.username }}
                         </a>
                     </li>
                 </ul>
+
+                <div class="callout callout-warning" ng-show="!selectedGame.open_predictions && selectedGame.gameplayers.length > 1">
+                    <p>Pronosticos Cerrados</p>
+                </div>
             </section>
 
         </div>
@@ -98,7 +103,7 @@
                                      'danger': match.is_finished && match.hasPrediction && match.points == 0,
                                      'success': match.is_finished && match.hasPrediction && match.points > 0 }" >
 
-                          <td style="width:5%">
+                          <td>
                             <i class="flaticon-football7 classic" 
                                popover-trigger="mouseenter" 
                                popover="Clasico"

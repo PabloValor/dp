@@ -120,21 +120,11 @@
 
                     <accordion  class="ui-accordion reglas">
                         <accordion-group heading="Reglas">
-                            <game-mode classic="game.classic" ></game-mode>
 
-                            <div class="callout callout-info">
-                              <h4> Puntos </h4>  
-                              <p>Por cada pronostico acertado se suman:</p>
-                              <ul class="points">
-                                <li>Por resultado general: <strong> {{ game.points_general }} puntos</strong></li>
-                                <li ng-show="!game.classic">Por resultado exacto: <strong> {{ game.points_exact }} puntos</strong></li>
-                              </ul>
-                              <p>Y se multiplica los puntos ganados del pronostico acertado por:</p>
-                              <ul class="points">
-                                <li>Si es doble: <strong> {{ game.points_double }} puntos</strong></li>
-                                <li>Si es clasico de la fecha: <strong> {{ game.points_classic }} puntos</strong></li>
-                              </ul>
-                            </div>
+                            <game-mode classic="game.classic" ></game-mode>
+                            <game-points game="game"> </game-points>
+                            <game-open open="game.open_predictions" ></game-open>
+
                         </accordion-group>
                     </accordion>
 

@@ -97,7 +97,7 @@ class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
         fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 
-                    'gameplayers', 'you', 'classic', 'points_exact', 
+                    'gameplayers', 'you', 'classic', 'points_exact', 'open_predictions',
                     'points_general',  'points_classic',  'points_double', )
 
 class PlayerMatchPredictionSerializer(serializers.ModelSerializer):

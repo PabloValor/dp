@@ -36,8 +36,9 @@ angular.module('app.games')
         delete Data.currentGame; // So the FriendsControllers show all the friends
         $scope.data = Data;
         $scope.owner = { 'username': UserService.getUsername(), 'id' : UserService.getUserID() };
-        $scope.game = { 'classic': true, 'points_exact': 3,  'points_general':  1, 'points_double': 2, 'points_classic': 2 };
+        $scope.game = { 'classic': true, 'points_exact': 3,  'points_general':  1, 'points_double': 2, 'points_classic': 2, 'open_predictions': true };
         $scope.selectedTournament = {}
+        $scope.showOptional = false;
 
         $scope.gamePoints = {'points_general' : { initial_points : 3, label: 'Resultado General', help : 'Por acertar ganador, perdedor o empate.' },
                              'points_exact' : { initial_points : 1, label: 'Resultado Exacto', classic: false, help : 'Por acertar el resultado exacto.' },
@@ -187,7 +188,6 @@ angular.module('app.games')
           Data.currentGame.new = false;
           setUserStatus($scope.game);
           setFriendsAnotherChance($scope.game);
-
         } else {
 
           Data.currentGame = true; 

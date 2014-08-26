@@ -157,4 +157,33 @@
     }
 
   }
+
+  .game-players {
+    .list-group {
+        .list-group-item {
+            &.player-prediction-closed {
+
+             &.active {
+              a {
+                &:hover {
+                  border-left: 3px solid $brand-primary;
+                  color: $brand-primary;
+                  background-color: #fafafa;                    
+                }
+              }
+             }
+
+             a {
+              &:hover {
+                background-color: white;
+                border-left: none;
+                color: black;
+                cursor: default;
+
+              }
+            }
+          }
+        }
+      }
+  }
 }

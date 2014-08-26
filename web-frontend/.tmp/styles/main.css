@@ -11986,6 +11986,19 @@ button.toast-close-button {
   width: 200px;
   text-align: center;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003168}}
+.predictions .game-players .list-group .list-group-item.player-prediction-closed.active a:hover {
+  border-left: 3px solid #23ae89;
+  color: #23ae89;
+  background-color: #fafafa;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003177}}
+.predictions .game-players .list-group .list-group-item.player-prediction-closed a:hover {
+  background-color: white;
+  border-left: none;
+  color: black;
+  cursor: default;
+}
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_nav\.scss}line{font-family:\000037}}
 #nav-container {
@@ -12548,7 +12561,7 @@ button.toast-close-button {
   padding: 14px 15px;
   margin: 7px 15px 7px 0;
   border-radius: 2px;
-  width: 22%;
+  width: 23.7%;
   height: 64px;
   color: #767676;
   background-color: #EEE;

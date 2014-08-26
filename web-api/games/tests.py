@@ -607,6 +607,7 @@ class GameAPITest(APITestCase):
 
         self.assertEqual(r_games[0]['name'], game_1.game.name)
         self.assertEqual(r_games[1]['name'], game_2.game.name)
+        self.assertTrue(r_games[1]['open_predictions'])
         self.assertEqual(len(r_games), 2)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -1020,6 +1021,33 @@ class GameAPITest(APITestCase):
         self.assertEqual(Game.objects.count(), 0)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_nico_creates_a_game_with_open_predictions_201_CREATED(self):
+        nico = PlayerFactory()
+        tournament = TournamentFactory()
+
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers': [{'player': nico.id, 'username': nico.username}]}
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(Game.objects.first().open_predictions)
+
+    def test_nico_creates_a_game_with_closed_predictions_201_CREATED(self):
+        nico = PlayerFactory()
+        tournament = TournamentFactory()
+
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameCreate')
+        data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers': [{'player': nico.id, 'username': nico.username}], 'open_predictions': False}
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertFalse(Game.objects.first().open_predictions)
 
     """ 
       PLAYER ACCEPTS OR REJECTS GAME INVITATION
@@ -3067,3 +3095,24 @@ class PlayerMatchPredictionAPITest(APITestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_nico_gets_his_prediction_in_a_closed_prediction_game_200_OK(self):
+        # Tournament
+        fixture = FixtureFactory()
+        match = MatchFactory(fixture = fixture)
+
+        # Nico
+        game = GameFactory(tournament = fixture.tournament, open_predictions = False)
+        nico = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match, visitor_team_goals = 0, local_team_goals = 1)
+
+        # Nico authentication
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)

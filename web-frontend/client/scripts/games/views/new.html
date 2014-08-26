@@ -5,7 +5,12 @@
                                  <a href="/#/torneos/nuevo/avanzado" style="text-transform: none;"><i popover-trigger="mouseenter" popover="Cambiar de vista" class="icon-advanced-configuration glyphicon glyphicon-cog pull-right"  popover-placement="left"></i></a>
       </div>
         <div class="panel-body">
-          <wizard-form steps="steps" current-step="currentStep" optional-step="optionalStep" action="newGame" game="game" selected-tournament="selectedTournament">
+          <new-game-wizard steps="steps" 
+                           current-step="currentStep" 
+                           optional-step="optionalStep" 
+                           show-optional="showOptional"
+                           action="newGame" game="game" 
+                           selected-tournament="selectedTournament">
                 <div ng-show="currentStep == steps[0]" class="step-content">
                     <div class="col-md-5">
                         <h4 data-i18n="1. Nombre"></h4>
@@ -42,12 +47,20 @@
                 </div>
 
                 <div ng-show="currentStep == steps[2]" class="step-content">
-                  <div ng-controller="AddGamePlayersController" class="col-md-5">
-                      <h4 data-i18n="3. Jugadores"></h4>
-                      <div ng-show="hasTrueFriends">
-                        <div class="callout callout-info">
-                            <p>Selecciona que amigos queres que jueguen este Torneo.</p>
+                  <div class="row" ng-controller="AddGamePlayersController" >
+                    <div class="col-md-5">
+                        <h4 data-i18n="3. Jugadores"></h4>
+                        <div ng-show="hasTrueFriends">
+                          <div class="callout callout-info">
+                              <p>Selecciona que amigos queres que jueguen este Torneo.</p>
+                          </div>
                         </div>
+
+                          <div class="callout callout-info" ng-hide="hasTrueFriends" style="width:100%;">
+                            <p>{{ withOutFriendsMsg }} <a href="#/amigos/buscar/">buscador!</a></p>
+                          </div>
+                    </div>
+                    <div class="col-md-5" ng-show="hasTrueFriends">
                         <div class="friends-list">
                           <div ng-repeat="friend in friends" ng-if="friend.is_friend" >
                             <div>
@@ -57,16 +70,11 @@
                             </div>
                           </div>
                         </div>
-
-                      </div>
-
-                        <div class="callout callout-info" ng-hide="hasTrueFriends" style="width:100%;">
-                          <p>{{ withOutFriendsMsg }} <a href="#/amigos/buscar/">buscador!</a></p>
-                        </div>
+                    </div>
                   </div>
                 </div>
 
-                <div ng-show="currentStep == steps[3]" class="step-content">
+                <div ng-show="currentStep == steps[3] && !showOptional" class="step-content">
                   <div class="row">
                     <div class="col-md-5">
                       <h4 data-i18n="4. Detalle del Torneo"></h4>
@@ -125,11 +133,11 @@
                     </div>
                 </div>
 
-                <div ng-show="currentStep == optionalStep" class="step-content">
+                <div ng-show="showOptional" class="step-content">
                   <div ng-include="'scripts/games/views/_advancedConfiguration.html'" class="optional-step" >
                   </div>
                 </div>
-              </wizard-form>
+              </new-game-wizard>
 
         </div>
     </section>

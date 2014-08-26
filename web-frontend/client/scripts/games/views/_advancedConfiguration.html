@@ -1,11 +1,32 @@
 <div class="ui-tab-container game-configuration-advanced">
     <tabset  class="ui-tab">
         <tab heading="Modalidad">
+          <div style="min-height: 250px;">
+              <span class="ui-select ">
+                  <select ng-model="game.classic">
+                      <option value="true" data-i18n="Resultado General"></option>
+                      <option value="" data-i18n="Resultado Exacto"></option>
+                  </select>
+              </span>
 
-            <game-mode classic="game.classic" ></game-mode>
+              <div style="margin-bottom:30px;"></div>
 
-            <p> Resultado General </p>
-            <label class="switch"><input type="checkbox" ng-model="game.classic"><i></i></label>
+              <game-mode classic="game.classic" ></game-mode>
+          </div>
+        </tab>
+        <tab heading="Pronosticos">
+          <div style="min-height: 250px;">
+              <span class="ui-select ">
+                  <select ng-model="game.open_predictions">
+                      <option value="true" data-i18n="Pronosticos Abiertos"></option>
+                      <option value="" data-i18n="Pronosticos Cerrados"></option>
+                  </select>
+              </span>
+
+              <div style="margin-bottom:30px;"></div>
+
+              <game-open open="game.open_predictions" ></game-open>
+          </div>
         </tab>
         <tab heading="Puntos">
             <div style="min-height: 250px">
