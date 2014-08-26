@@ -74,7 +74,7 @@ class Player(AbstractUser):
         if fixture.is_finished:
             points = sum([player_prediction.get_points() 
                         for player_prediction in gameplayer.match_predictions.all() 
-                        if not player_prediction.match.suspended and player_prediction.match.fixture.pk == fixture.pk])
+                        if not player_prediction.match.suspended and player_prediction.match.fixture.pk == fixture.pk and player_prediction.match.is_finished])
     
         return points + gameplayer.initial_points
 
@@ -146,7 +146,7 @@ class PlayerMatchPrediction(models.Model):
     def game(self):
       return self.gameplayer.game
 
-    def is_a_moral_prediction(self):
+    def is_general_prediction(self):
         prediction_local_team_had_won = self.__class__.has_local_team_won(self.local_team_goals, self.visitor_team_goals)
         match_local_team_had_won = self.__class__.has_local_team_won(self.match.local_team_goals, self.match.visitor_team_goals)
 
@@ -157,35 +157,31 @@ class PlayerMatchPrediction(models.Model):
                self.match.visitor_team_goals == self.visitor_team_goals
 
     def get_points(self):
-      if not self.match.is_finished:
-        return None
+        if not self.match.is_finished:
+          return None
 
-      if self.gameplayer.game.classic:
-          return self.get_points_classic()
-      else:
-          return self.get_points_dp()
-
-    def get_points_classic(self):
-        if self.is_a_moral_prediction():
-            return self.gameplayer.game.points_general
-        else:
-            return 0
-
-    def get_points_dp(self):
         points = 0
-        if self.is_a_exact_prediction():
-            points += self.gameplayer.game.points_exact
 
-        if self.is_a_moral_prediction():
+        # General Prediction: Who won or if they draw 
+        if self.is_general_prediction():
             points += self.gameplayer.game.points_general
 
-        if self.match.is_classic:
-            points *= self.gameplayer.game.points_classic
+        # Exact Prediction: The exact score of the match
+        if (not self.gameplayer.game.classic) and self.is_a_exact_prediction():
+            points += self.gameplayer.game.points_exact
 
-        if self.is_double:
-            points *= self.gameplayer.game.points_double
+        # If the match is classic
+        # Only sums if the player predicted correctly a General or Exact Prediction
+        if self.match.is_classic and points > 0:
+            points += self.gameplayer.game.points_classic
+
+        # If the match is double
+        # Only multiplies if the player predicted correctly a General or Exact Prediction
+        if self.is_double and points > 0:
+              points *= self.gameplayer.game.points_double
 
         return points
+
 
     @classmethod
     def has_local_team_won(cls, local_team_goals, visitor_team_goals):

@@ -24,3 +24,4 @@ class MatchFactory(factory.Factory):
     local_team_goals = randrange(0, 5)
     visitor_team_goals = randrange(0, 5)
     is_classic = False
+    is_finished = False
