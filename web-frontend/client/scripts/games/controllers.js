@@ -1,11 +1,13 @@
 'use strict';
 angular.module('app.games')
 
-.controller('GameController', ['$scope', '$location', 'GameService', 'Data', 'UserService',
-    function($scope, $location, GameService, Data, UserService)  {
+.controller('GameController', ['$scope', '$location', 'GameService', 'Data', 'UserService', '$rootScope',
+    function($scope, $location, GameService, Data, UserService, $rootScope)  {
+        $rootScope.loadingInit = true;
         GameService.all(function(games) {
           $scope.games = games.filter(function(game) { return !( game.you[0].status == false && game.you[0].another_chance == false) });
 
+          $rootScope.loadingInit = false;
           if($scope.games.length == 1) {
             $scope.gameDetail($scope.games[0]);
           }

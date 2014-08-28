@@ -12837,8 +12837,12 @@ button.toast-close-button {
   z-index: 10;
   background-color: rgba(255, 255, 255, 0.94);
 }
-
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003310}}
+.loading-cloak.page:after {
+  width: 98%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003316}}
 .loading {
   background-repeat: no-repeat;
   background-image: url("../images/logo-wb.png");
@@ -12855,7 +12859,7 @@ button.toast-close-button {
   z-index: 20;
   letter-spacing: 2px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003328}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003334}}
 .loading #circleG {
   position: absolute;
   right: -122px;

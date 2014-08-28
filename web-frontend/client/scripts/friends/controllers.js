@@ -1,8 +1,9 @@
 'use strict';
 angular.module('app.friends')
 
-.controller('FriendsController', ['$scope', 'UserService', 'FriendsService',
-    function($scope, UserService, FriendsService)  {
+.controller('FriendsController', ['$scope', 'UserService', 'FriendsService', '$rootScope',
+    function($scope, UserService, FriendsService, $rootScope)  {
+        $rootScope.loadingInit = true;
         FriendsService.getFriends(
           function(players) {
 
@@ -10,7 +11,7 @@ angular.module('app.friends')
               $scope.friends_limbo = players.filter(function(p) { return p.is_limbo_friend });
               $scope.friends_waiting_for_you = players.filter(function(p) { return p.is_waiting_for_you });
 
-              console.log(players);
+              $rootScope.loadingInit = false;
           },
           function(error) {
               console.log(error);

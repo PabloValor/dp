@@ -1,11 +1,10 @@
 'use strict';
 angular.module('app.predictions')
 
-.controller('PredictionsController', ['$scope', '$q', '$location', 'GameService', 'PredictionService', 'Data',
-    function($scope, $q, $location, GameService, PredictionService, Data)  {
+.controller('PredictionsController', ['$scope', '$q', '$location', 'GameService', 'PredictionService', 'Data', '$rootScope',
+    function($scope, $q, $location, GameService, PredictionService, Data, $rootScope)  {
         function setTournamentFixture(tournament, currentFixtureNumber) {
             var deferred = $q.defer();
-            $scope.loading = true;
             PredictionService.getTournamentFixture($scope.selectedGame.tournament,
               function(tournamentGame) {
                 $scope.fixtures = tournamentGame.fixtures;
@@ -30,7 +29,6 @@ angular.module('app.predictions')
         function setFixturePredictions(gameplayer) {
             var deferred = $q.defer();
 
-            $scope.loading = true;
             PredictionService.getPredictions(gameplayer.id,
               function(predictions) {
 
@@ -100,14 +98,15 @@ angular.module('app.predictions')
                   .then(function() {
                     var gameplayer = $scope.selectedGame.you[0];
                     mapFixturePredictions($scope.currentFixture, $scope.predictions[gameplayer.id], $scope.selectedGame.classic);
-                    $scope.loading = false;
+                    $rootScope.loadingInit = false;
                   });
               })
           }
 
         });
 
-        $scope.loading = true;
+        $rootScope.loadingInit = true;
+        $scope.loadingFixture = false;
         $scope.predictions = {};
 
         var lastFixturePositions = {};
@@ -118,6 +117,8 @@ angular.module('app.predictions')
           $scope.selectedGameplayer = $scope.selectedGame.you[0];
           $scope.userGameplayer = $scope.selectedGame.you[0];
 
+
+          $scope.loadingFixture = true;
           var lastFixturePosition = lastFixturePositions[game.name];
           setTournamentFixture($scope.selectedGame.tournament, lastFixturePosition)
               .then(function() {
@@ -125,19 +126,19 @@ angular.module('app.predictions')
                   .then(function() {
                     var gameplayer = $scope.selectedGame.you[0];
                     mapFixturePredictions($scope.currentFixture, $scope.predictions[gameplayer.id], $scope.selectedGame.classic);
-                    $scope.loading = false;
+                    $scope.loadingFixture = false;
                   });
               });
         }
 
         $scope.selectGameplayer = function(gameplayer) {
-          $scope.loading = true;
+          $scope.loadingFixture = true;
           $scope.selectedGameplayer = gameplayer;
 
           setFixturePredictions(gameplayer)
             .then(function() {
               mapFixturePredictions($scope.currentFixture, $scope.predictions[gameplayer.id], $scope.selectedGame.classic);
-              $scope.loading = false;
+              $scope.loadingFixture = false;
             });
         }
 

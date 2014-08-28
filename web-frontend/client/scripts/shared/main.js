@@ -2,7 +2,9 @@
 (function() {
   'use strict';
   angular.module('app.controllers', []).controller('AppCtrl', [
-    '$scope', '$location', function($scope, $location) {
+    '$scope', '$location', '$rootScope', function($scope, $location, $rootScope) {
+      $rootScope.loadingInit = false;
+
       $scope.isSpecificPage = function() {
         var path;
         path = $location.path();

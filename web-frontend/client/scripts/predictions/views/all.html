@@ -1,6 +1,7 @@
-<div class="page predictions" ng-controller="PredictionsController">
-    <div class="panel panel-default" ng-show="!hasGames && showPage">
-        <div class="panel-heading"><strong><span class="flaticon-football7"></span> Mis Pronosticos</strong></div>
+<cloak loading="loadingInit"></cloak>
+<div class="page predictions" ng-controller="PredictionsController" >
+  <div class="panel panel-default" ng-show="!hasGames">
+      <div class="panel-heading"><strong><span class="flaticon-football7"></span> Mis Pronosticos</strong></div>
       <div class="panel-body">
         <div class="callout callout-success">
           <h4> No estas jugando ningun Torneo </h4>  
@@ -51,9 +52,9 @@
         <div class="col-sm-9" ng-class="{'col-sm-12': games.length == 1, 'col-sm-9': games.length > 1 }">
             <section class="panel panel-default mail-container ">
                 <div class="panel-heading"><strong><span class="flaticon-football7"></span> Partidos</strong></div>
-                <div ng-class="{'panel-body': games.length == 1, 'one-game': games.length == 1, 'loading-cloak': loading }" class="fixture-container ">
+                <div ng-class="{'panel-body': games.length == 1, 'one-game': games.length == 1, 'loading-cloak': loadingFixture }" class="fixture-container ">
 
-                <cloak loading="loading"></cloak>
+                <cloak loading="loadingFixture"></cloak>
 
                 <div class="callout callout-info" ng-show="games.length == 1">
                   <h4> {{ selectedGame.name }} </h4>  
