@@ -1,16 +1,22 @@
 'use strict';
 angular.module('app.games')
 
-.controller('GameController', ['$scope', '$location', 'GameService', 'Data',
-    function($scope, $location, GameService, Data)  {
+.controller('GameController', ['$scope', '$location', 'GameService', 'Data', 'UserService',
+    function($scope, $location, GameService, Data, UserService)  {
         GameService.all(function(games) {
           $scope.games = games.filter(function(game) { return !( game.you[0].status == false && game.you[0].another_chance == false) });
+
+          if($scope.games.length == 1) {
+            $scope.gameDetail($scope.games[0]);
+          }
         });
 
         $scope.gameDetail = function(game) {
           Data.currentGame = game;
           $location.path('/torneos/detalle/' + game.id);
         }
+
+        $scope.username = UserService.getUsername();
 
         $scope.youGameStatus = "";
         $scope.gameSelectFilter = function(value) {

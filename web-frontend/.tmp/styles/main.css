@@ -11819,6 +11819,32 @@ button.toast-close-button {
   margin: 5px;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003176}}
+.my-games .panel-game .panel-body {
+  font-size: 19px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003178}}
+.my-games .panel-game .panel-body div {
+  margin-bottom: 15px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003181}}
+.my-games .panel-game .panel-body div.game-tournament {
+  font-size: 18px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003184}}
+.my-games .panel-game .panel-body div.game-tournament i:before {
+  font-size: 28px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003190}}
+.my-games .panel-game .panel-body div.game-owner i:before {
+  font-size: 30px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_games\.scss}line{font-family:\00003197}}
+.my-games .panel-game .panel-body button {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_friends\.scss}line{font-family:\000035}}
 .friends .mail-categories .list-group .list-group-item {
   padding: 0;
@@ -12004,7 +12030,7 @@ button.toast-close-button {
 #nav-container {
   z-index: 11;
   position: absolute;
-  top: 50px;
+  top: 62px;
   bottom: 0;
   left: -220px;
   width: 220px;
@@ -12256,7 +12282,7 @@ button.toast-close-button {
   top: 0;
   left: 0;
   right: 0;
-  height: 100px;
+  height: 124px;
   background-color: white;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -12265,7 +12291,7 @@ button.toast-close-button {
 @media (min-width: 768px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\000031}}
   .top-header {
-    height: 50px;
+    height: 62px;
     background-color: #222533;
   }
 }
@@ -12290,7 +12316,7 @@ button.toast-close-button {
   position: absolute;
   left: 180px;
   top: 10px;
-  line-height: 30px;
+  line-height: 48px;
   font-size: 18px;
   color: #ccc;
 }
@@ -12301,48 +12327,52 @@ button.toast-close-button {
   }
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000345}}
-.top-header .logo {
+.top-header .logo a {
   position: absolute;
   width: 100%;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
+  height: 62px;
+  line-height: 62px;
   background-color: #222533;
+  background-repeat: no-repeat;
+  background-image: url("../images/logo.png");
+  background-size: 44px 55px;
+  background-position: 15px 0;
 }
 @media (min-width: 768px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000345}}
-  .top-header .logo {
+  .top-header .logo a {
     display: inline-block;
-    width: 220px;
+    width: 170px;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000357}}
-.top-header .logo > a {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000360}}
+.top-header .logo a span {
   font-size: 24px;
+  margin-left: 70px;
   vertical-align: middle;
   color: #fafafa;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000362}}
-.top-header .logo > a .logo-icon {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000366}}
+.top-header .logo a span .logo-icon {
   color: #fafafa;
   margin-right: 12px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000370}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000374}}
 .top-header .menu-button {
   display: block;
   position: absolute;
-  top: 8px;
+  top: 14px;
   right: 20px;
   width: 46px;
   padding: 10px 12px;
   border-radius: 4px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000378}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000382}}
 .top-header .menu-button:hover {
   cursor: pointer;
   background-color: #181a24;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000383}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000387}}
 .top-header .menu-button .icon-bar {
   display: block;
   width: 22px;
@@ -12350,84 +12380,84 @@ button.toast-close-button {
   border-radius: 1px;
   background-color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000394}}
 .top-header .menu-button .icon-bar + .icon-bar {
   margin-top: 4px;
 }
 @media (min-width: 768px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000370}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\0000374}}
   .top-header .menu-button {
     display: none;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003100}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003104}}
 .top-header .dropdown-menu.panel {
   padding: 0;
   white-space: nowrap;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003105}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003109}}
 .top-header .dropdown-menu.panel .panel-heading,
 .top-header .dropdown-menu.panel .panel-footer {
   padding: 10px 15px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003109}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003113}}
 .top-header .dropdown-menu.panel .list-group-item {
   padding: 10px 15px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003111}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003115}}
 .top-header .dropdown-menu.panel .list-group-item > a {
   display: block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003117}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003121}}
 .top-header .dropdown-menu.panel .media .media-body {
   padding-right: 75px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003125}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003129}}
 .top-header .top-nav {
   width: 100%;
   padding: 60px 0 0;
 }
 @media (min-width: 768px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003125}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003129}}
   .top-header .top-nav {
     padding: 10px 0 0 220px;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003134}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003138}}
 .top-header .top-nav .nav-left,
 .top-header .top-nav .nav-right {
   font-size: 16px;
-  line-height: 22px;
+  line-height: 33px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003138}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003142}}
 .top-header .top-nav .nav-left > li,
 .top-header .top-nav .nav-right > li {
   float: left;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003141}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003145}}
 .top-header .top-nav .nav-left > li.nav-profile > a,
 .top-header .top-nav .nav-right > li.nav-profile > a {
   padding: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003144}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003148}}
 .top-header .top-nav .nav-left > li.nav-profile .hidden-xs,
 .top-header .top-nav .nav-right > li.nav-profile .hidden-xs {
   padding-right: 8px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003147}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003151}}
 .top-header .top-nav .nav-left > li.nav-profile i,
 .top-header .top-nav .nav-right > li.nav-profile i {
   width: 18px;
   font-size: 16px;
   margin-right: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003157}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003161}}
 .top-header .top-nav .nav-left > li a:hover, .top-header .top-nav .nav-left > li a:focus,
 .top-header .top-nav .nav-right > li a:hover,
 .top-header .top-nav .nav-right > li a:focus {
   text-decoration: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003163}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003167}}
 .top-header .top-nav .nav-left > li > .btn-group > a,
 .top-header .top-nav .nav-left > li > a,
 .top-header .top-nav .nav-right > li > .btn-group > a,
@@ -12439,7 +12469,7 @@ button.toast-close-button {
   border-radius: 22px;
 }
 @media (min-width: 768px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003163}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003167}}
   .top-header .top-nav .nav-left > li > .btn-group > a,
   .top-header .top-nav .nav-left > li > a,
   .top-header .top-nav .nav-right > li > .btn-group > a,
@@ -12448,49 +12478,49 @@ button.toast-close-button {
     color: #fafafa;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003174}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003178}}
 .top-header .top-nav .nav-left > li > .btn-group > a .badge,
 .top-header .top-nav .nav-left > li > a .badge,
 .top-header .top-nav .nav-right > li > .btn-group > a .badge,
 .top-header .top-nav .nav-right > li > a .badge {
   position: absolute;
-  top: -5px;
+  top: -2px;
   right: -10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003184}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003188}}
 .top-header .top-nav .nav-left > li ul.dropdown-menu a:hover,
 .top-header .top-nav .nav-right > li ul.dropdown-menu a:hover {
   background-color: #23ae89;
   color: #fff;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003189}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003193}}
 .top-header .top-nav .nav-left > li ul.dropdown-menu .glyphicon,
 .top-header .top-nav .nav-right > li ul.dropdown-menu .glyphicon {
   margin-right: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003217}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003221}}
 .top-header .top-nav .nav-left {
   float: left;
   padding: 0 12px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003220}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003224}}
 .top-header .top-nav .nav-left > li {
   margin-right: 15px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003228}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003232}}
 .top-header .top-nav .nav-right {
   padding: 0 12px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003230}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003234}}
 .top-header .top-nav .nav-right > li {
   margin-left: 15px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003239}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003243}}
 .top-header .langs .list-langs a {
   position: relative;
   padding: 8px 20px 8px 57px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003243}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_header\.scss}line{font-family:\00003247}}
 .top-header .langs .list-langs a .flag {
   position: absolute;
   top: 7px;
@@ -12505,7 +12535,7 @@ button.toast-close-button {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_content\.scss}line{font-family:\000036}}
 #content {
   position: absolute;
-  top: 100px;
+  top: 124px;
   right: 0;
   bottom: 0;
   width: 100%;
@@ -12521,7 +12551,7 @@ button.toast-close-button {
 @media (min-width: 768px) {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_content\.scss}line{font-family:\000036}}
   #content {
-    top: 50px;
+    top: 62px;
     width: auto;
     left: 220px;
   }

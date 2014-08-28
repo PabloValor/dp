@@ -4,7 +4,8 @@
     <div class="panel-body">
       <div class="callout callout-success">
         <h4> No estas jugando ningun Torneo </h4>  
-        <p>Crea un <a href="#/torneos/nuevo">nuevo Torneo</a> e invita a tus amigos</p>
+        <p>Crea un nuevo Torneo invita a tus amigos</p>
+        <div style="margin-top:20px"><a href="#/torneos/nuevo" class="btn btn-primary btn-md">Crear Torneo</a> </div>
       </div>
     </div>
   </div>
@@ -42,7 +43,7 @@
                 </ul>
 
                 <div class="callout callout-warning" ng-show="!selectedGame.open_predictions && selectedGame.gameplayers.length > 1">
-                    <p>Pronosticos Cerrados</p>
+                    <p>Pronosticos Privados</p>
                 </div>
             </section>
 

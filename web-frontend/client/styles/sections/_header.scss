@@ -32,7 +32,7 @@
         position: absolute;
         left: 180px;
         top: 10px;
-        line-height: 30px;
+        line-height: 48px;
         font-size: 18px;
         color: #ccc;
         @media (min-width:$screen-sm) {
@@ -42,20 +42,24 @@
     }
 
     //
-    .logo {
+    .logo a {
         position: absolute;
         width: 100%;
         height: $header_height;
         line-height: $header_height;
-        text-align: center;
         background-color: $color-field;
+        background-repeat: no-repeat;
+        background-image: url("../images/logo.png");
+        background-size: 44px 55px;
+        background-position: 15px 0;
         @media (min-width: $screen-sm) {
             display: inline-block;
-            width: 220px;
+            width: 170px;
         }
 
-        > a {
+        span {
             font-size: 24px;
+            margin-left: 70px;
             vertical-align: middle;
             color: $bright;
 
@@ -133,7 +137,7 @@
         .nav-left,
         .nav-right {
             font-size: 16px;
-            line-height: 22px;
+            line-height: 33px;
 
             > li {
                 float: left;
@@ -173,7 +177,7 @@
 
                     .badge {
                         position: absolute;
-                        top: -5px;
+                        top: -2px;
                         right: -10px;
                     }
                 }

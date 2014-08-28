@@ -170,3 +170,34 @@
     }
   }
 }
+
+.my-games {
+  .panel-game {
+    .panel-body {
+      font-size: 19px;
+      div {
+        margin-bottom: 15px;
+
+        &.game-tournament {
+          font-size: 18px;
+
+          i:before {
+              font-size: 28px;
+          }
+        }
+
+        &.game-owner {
+          i:before {
+              font-size: 30px;
+          }
+        }
+
+      }
+
+      button {
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+    }
+  }
+}

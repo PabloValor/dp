@@ -1,172 +1,65 @@
-<div class="page" ng-controller="MyGamesController">
+<div class="page my-games" ng-controller="GameController">
 
-  <div class="panel panel-default" ng-show="!hasGames">
-      <div class="panel-heading"><strong><span class="flaticon-football7"></span> Mis Pronosticos</strong></div>
-    <div class="panel-body">
-      <div class="callout callout-success">
-        <h4> No estas jugando ningun Torneo </h4>  
-        <p>Crea un <a href="#/torneos/nuevo">nuevo Torneo</a> e invita a tus amigos</p>
-      </div>
-    </div>
-  </div>
+    <section class="panel panel-default">
+        <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> Mis Torneos</strong></div>
 
-    <div class="row" ng-show="hasGames">
-        <div class="col-md-3" ng-show="games.length > 1">
-            <section class="panel panel-default mail-categories">
-                <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> <span data-i18n="Mis Torneos"></span></strong></div>
-                <ul class="list-group">
-                    <li ng-repeat="game in games" class="list-group-item" ng-class='{active: selectedGame == game}'>
-                        <a href="javascript:;" ng-click="selectGame(game)">
-                          {{ game.name }}
-                        </a>
-                    </li>
-                </ul>
-            </section>
+        <div class="panel-body">
+
+          <div class="row" style="margin-bottom:20px" ng-show="games && games.length > 3">
+            <div class="pull-right" style="margin-right: 16px">
+              <span class="ui-select ">
+                  <select ng-model="youGameStatus">
+                      <option value="" data-i18n="-- Todos --"></option>
+                      <option value="playing" data-i18n="Jugando"></option>
+                      <option value="invitation" data-i18n="Solicite invitacion"></option>
+                      <option value="waiting" data-i18n="Sin Responder"></option>
+                      <option value="rejected" data-i18n="Rechazados"></option>
+                  </select>
+              </span>
+            </div>
+          </div>
+
+          <div class="row" ng-hide="games">
+            <div class="col-md-12">
+              <div class="callout callout-info">
+                <p>No tienes torneos. Puedes crear uno e invitar a tus amigos <a href="#/torneos/nuevo" class="btn btn-primary btn-xs ">AQUI</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4" ng-repeat="game in games | filter:gameSelectFilter | orderBy:name">
+              <div class="panel panel-default panel-game" >
+                  <div class="panel-heading">
+                      <h3 class="panel-title">{{ game.name }}</h3>
+                  </div>
+                  <div class="panel-body">
+
+                    <div class='game-tournament'>
+                        <i class="flaticon-soccer64"></i>
+                        <span>{{ game.tournament_name }}</span>
+                    </div>
+
+                    <div class='game-owner'>
+                        <i ng-class="{'icon-green' : game.owner == username, 'flaticon-soccer18' : true}"></i>
+                        <span>{{ game.owner }}</span>
+                        <span ng-if="game.owner == username"> (vos)</span>
+                    </div>
+
+                    <div class="gameplayer-status">
+                        <span class="label label-primary" ng-show="game.you[0].status">Jugando</span>
+                        <span class="label label-success" ng-show="game.you[0].status == undefined">Sin responder</span>
+                        <span class="label label-danger" ng-show="game.you[0].status == false && !game.you[0].another_chance">Rechazaste</span>
+                        <span class="label label-info" ng-show="game.you[0].status == false && game.you[0].another_chance">Solicitaste otra invitacion</span>
+                    </div>
+
+                    <button ng-click="gameDetail(game)" type="button" class="btn btn-w-md btn-gap-v btn-default pull-right">Ver</button>
+                  </div>
+              </div>
+            </div>
+          </div>
 
         </div>
-        <div class="col-md-6">
-            <section class="panel panel-default">
-                <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> <span data-i18n="Torneo"></span></strong></div>
-                <div class="panel-body game-details">
-                        <div class="form-group game-header">
-                            <i class="flaticon-big55"></i>
-                            <span>{{ selectedGame.name }}</span>
-                        </div>
-
-                        <div class="form-group game-header">
-                            <i class="flaticon-soccer64"></i>
-                            <span>{{ selectedGame.tournament_name }}</span>
-                        </div>
-
-                        <div class="form-group game-header">
-                            <i class="flaticon-soccer51"></i>
-                            <span>Jugadores</span>
-                        </div>
-
-                        <div class="form-group game-owner">
-                            <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
-                            <span>{{ owner.initial_points }}</span>
-
-                            <i ng-class="{'icon-green' : owner.username == username, 'flaticon-soccer18' : true}"></i>
-                            <span>{{ owner.username }}</span>
-                            <span ng-if="owner.username == username"> (vos)</span>
-                        </div>
-
-                        <div class="row" ng-hide="is_owner">
-                          <div class="form-group game-players col-sm-7">
-                              <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
-                              <span>{{ user.initial_points }}</span>
-                              <i ng-class="{'icon-green' : user.status, 'icon-danger' : (!user.status && !!!user.another_chance), 'icon-blue': user.status == undefined, 'icon-info': (!user.status && user.another_chance), 'flaticon-tshirt19' : true}"></i>
-                              <span>{{ user.player__username }}</span>
-                              <span>(vos)</span>
-                          </div>
-
-                          <div>
-                            <span class="label label-primary" ng-show="user.status">Jugando</span>
-                            <span class="label label-success" ng-show="user.status == undefined">No respondiste</span>
-                            <span class="label label-danger" ng-show="user.status == false && !user.another_chance">Rechazaste</span>
-                            <span class="label label-info" ng-show="user.status == false && user.another_chance">Solicitaste otra invitacion</span>
-                          </div>
-                        </div>
-
-                        <div class="row" ng-repeat="player in selectedGame.gameplayers" ng-if="player.username != owner.username && player.username != user.player__username">
-                          <div class="form-group game-players col-sm-7">
-                              <i class="glyphicon glyphicon-chevron-up" popover-trigger="mouseenter" popover="Puntos Iniciales"></i>
-                              <span>{{ player.initial_points }}</span>
-                              <i class="flaticon-tshirt19"></i>
-                              <span>{{ player.username }}</span>
-                              <span ng-if="player.username == username"> (vos)</span>
-                          </div>
-
-                          <div>
-                            <span class="label label-primary" ng-show="player.status">Jugando</span>
-                            <span class="label label-success" ng-show="player.status == undefined">Esperando respuesta</span>
-                            <span class="label label-danger"  ng-show="player.status == false  && !player.another_chance">Rechazo</span>
-                            <span class="glyphicon glyphicon-question-sign"  ng-show="player.status == false  && player.another_chance == undefined" popover-trigger="mouseenter" popover="{{ player.username }} tiene que solicitar una invitacion para invitarlo de vuelta." ></span>
-                            <span class="glyphicon glyphicon-question-sign"  ng-show="player.status == false  && player.another_chance == false" popover-trigger="mouseenter" popover="{{ player.username }} no tiene interes en jugar en este Torneo." ></span>
-
-                            <span class="label label-info" ng-show="player.status == false && player.another_chance">Solicita otra invitacion</span>
-                            <button type="button" ng-show="is_owner && player.status == false && player.another_chance" ng-click="invitePlayerAgain(player)" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok"></span>&nbsp; Invitar </button>
-                          </div>
-                        </div>
-
-                        <div class="callout callout-info" ng-show="is_owner">
-                          <p>Sos el creador de este torneo!</p>
-                        </div>
-
-                        <div ng-hide="is_owner">
-                          <div class="callout callout-info" ng-show="user.status">
-                            <p>Estas jugando este torneo!</p>
-                          </div>
-
-                          <div class="callout callout-info" ng-show="user.status == false && user.another_chance">
-                            <p>Solicitaste que te inviten de vuelta.</p>
-                          </div>
-
-                          <div class="callout callout-danger" ng-show="user.status == false && !user.another_chance">
-                            <p>Rechazaste jugar este torneo!</p>
-                          </div>
-
-                          <div class="callout callout-info" ng-show="user.status == false && user.another_chance == null">
-                            <div class="row"> 
-                                <div class="col-sm-8">
-                                  <strong> ¿Quieres solicitar que te inviten de vuelta? </strong>
-                                </div>
-                                <div class="col-sm-4">
-                                  <button type="button" ng-click="updateGamePlayerAnotherChance(true)" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok"></span>&nbsp; Si </button>
-                                  <button type="button" ng-click="updateGamePlayerAnotherChance(false)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp; No </button>
-                              </div>
-                            </div>
-                            <div class="row" style="margin-top:10px"> 
-                                <div class="col-sm-12">
-                                  <p>* Si elegis <strong>No</strong> este Torneo va a desaparecer de tu listado.</p>
-                                </div>
-                            </div>
-                          </div>
-
-                          <div class="callout callout-info" ng-show="user.status == undefined">
-                            <p><strong>{{ owner.username }}</strong> te invito a jugar este torneo </p>
-                            <div class="row"> 
-                                <div class="col-sm-2">
-                                  <strong> ¿Jugas? </strong>
-                                </div>
-                                <div class="col-sm-5">
-                                  <button type="button" ng-click="updateGamePlayerStatus(true)" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok"></span>&nbsp; Si </button>
-                                  <button type="button" ng-click="updateGamePlayerStatus(false)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp; No </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <accordion  class="ui-accordion reglas">
-                            <accordion-group heading="Reglas">
-                                <game-mode classic="selectedGame.classic" ></game-mode>
-
-                                <div class="callout callout-info">
-                                  <h4> Puntos </h4>  
-                                  <p>Por cada pronostico acertado se suman:</p>
-                                  <ul class="points">
-                                    <li>Por resultado general: <strong> {{ selectedGame.points_general }} puntos</strong></li>
-                                    <li ng-show="!selectedGame.classic">Por resultado exacto: <strong> {{ selectedGame.points_exact }} puntos</strong></li>
-                                  </ul>
-                                  <p>Y se multiplica los puntos ganados del pronostico acertado por:</p>
-                                  <ul class="points">
-                                    <li>Si es doble: <strong> {{ selectedGame.points_double }} puntos</strong></li>
-                                    <li>Si es clasico de la fecha: <strong> {{ selectedGame.points_classic }} puntos</strong></li>
-                                  </ul>
-                                </div>
-                            </accordion-group>
-                        </accordion>
-                        <accordion  class="ui-accordion" ng-show="is_owner">
-                            <accordion-group heading="Invitar Mas Amigos">
-                                <div  ng-include="'scripts/games/views/_addGamePlayers.html'" ng-controller="AddGamePlayersController" >
-                                </div>
-                            </accordion-group>
-                        </accordion>
-
-                </div>
-            </section>
-        </div>
-
-    </div>
+    </section>
 </div>
+
