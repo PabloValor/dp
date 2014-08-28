@@ -104,27 +104,6 @@ class PlayerMatchPredictionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayerMatchPrediction
 
-    def validate(self, attrs):
-        player = self.context['request'].user
-        gameplayer = attrs['gameplayer']
-        if player != gameplayer.player:
-          raise serializers.ValidationError("You are trying to update another's prediction")
-
-        if not gameplayer.status:
-          raise serializers.ValidationError("You are not playing this game")
-
-        match = attrs['match']
-        if match.is_finished:
-          raise serializers.ValidationError('Match has already finished.')
-
-        if match.fixture.is_finished:
-          raise serializers.ValidationError('Fixture has already finished.')
-
-        if match.fixture.is_playing():
-          raise serializers.ValidationError('Fixture is already being played')
-
-        return attrs
-
 class PlayerMatchPredictionListSerializer(serializers.ModelSerializer):
     match = MatchSerializer(source="match")
     points = serializers.Field(source = "get_points")

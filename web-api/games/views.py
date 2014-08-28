@@ -72,7 +72,7 @@ class GameDetail(generics.RetrieveUpdateDestroyAPIView):
         obj.owner = self.request.user
 
 class PlayerMatchPredictionCreate(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticated, PlayerMatchPredictionPermission)
     serializer_class = PlayerMatchPredictionSerializer
 
     def pre_save(self, obj):

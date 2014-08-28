@@ -1,5 +1,7 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import permissions
 from .models import GamePlayer
+from tournaments.models import Match
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -57,3 +59,39 @@ class OpenGame(permissions.BasePermission):
 
         except (GamePlayer.DoesNotExist) as e:
           return False
+
+class PlayerMatchPredictionPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        """
+          We validate if the player can create new match predictions
+        """
+        player = request.user
+        gameplayer_id = request.DATA['gameplayer']
+        gameplayer = get_object_or_404(GamePlayer, pk = gameplayer_id)
+
+        # If the user is trying to update another's prediction
+        if player != gameplayer.player:
+          return False
+
+        # If the user is not playing this game
+        if not gameplayer.status:
+          return False
+
+        match_id = request.DATA['match']
+        match = get_object_or_404(Match, pk = match_id)
+
+        # If the match has already finished.
+        if match.is_finished:
+          return False
+
+        # If the fixture has already finished.
+        if match.fixture.is_finished:
+          return False
+
+        # If the fixture is being played
+        if match.fixture.is_playing():
+          return False
+
+        return True
+
+

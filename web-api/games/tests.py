@@ -22,14 +22,14 @@ class TournamentTest(TestCase):
 
 class ExactPredictionTest(TestCase):
     def test_prediction_ok(self):
-        match_1 = MatchFactory()
+        match_1 = MatchFactory(is_finished = True)
 
         player_prediction = \
                 PlayerMatchPredictionFactory(visitor_team_goals = match_1.visitor_team_goals, 
                                             local_team_goals = match_1.local_team_goals, 
                                             match = match_1)
 
-        self.assertTrue(player_prediction.is_a_exact_prediction())
+        self.assertTrue(player_prediction.is_exact_prediction())
 
     def test_prediction_not_ok(self):
         match_2 = MatchFactory()
@@ -38,11 +38,11 @@ class ExactPredictionTest(TestCase):
                                             local_team_goals = match_2.local_team_goals, 
                                             match = match_2)
 
-        self.assertFalse(player_prediction.is_a_exact_prediction())
+        self.assertFalse(player_prediction.is_exact_prediction())
 
 class MoralPredictionTest(TestCase):
     def test_same_goals_prediction_true(self):
-        match = MatchFactory()
+        match = MatchFactory(is_finished = True)
 
         player_prediction = \
             PlayerMatchPredictionFactory(visitor_team_goals = match.visitor_team_goals, 
@@ -53,7 +53,7 @@ class MoralPredictionTest(TestCase):
         self.assertTrue(player_prediction.is_general_prediction())
 
     def test_visitor_team_wins_prediction_true(self):
-        match = MatchFactory(visitor_team_goals = 2, 
+        match = MatchFactory(visitor_team_goals = 2, is_finished = True,
                              local_team_goals = 0)
 
         player_prediction = \
@@ -65,6 +65,7 @@ class MoralPredictionTest(TestCase):
 
     def test_draw_prediction_true(self):
         match = MatchFactory(visitor_team_goals = 0, 
+                             is_finished = True,
                              local_team_goals = 0)
 
         player_prediction = \
@@ -76,6 +77,7 @@ class MoralPredictionTest(TestCase):
 
     def test_draw_prediction_with_differents_goals_true(self):
         match = MatchFactory(visitor_team_goals = 0, 
+                             is_finished = True,
                              local_team_goals = 0)
 
         player_prediction = \
@@ -125,6 +127,8 @@ class ExactGamePlayerPointsTest(TestCase):
           Predictions: 1
           Predictions with points: 1
           Points: 6 (3 x Exact Score, 3 x General Score)
+
+          Wins local team
         """
         player = PlayerFactory()
         game = GameFactory(owner = player)
@@ -132,18 +136,287 @@ class ExactGamePlayerPointsTest(TestCase):
 
         fixture = FixtureFactory(is_finished = True)
 
-        match = MatchFactory(fixture = fixture, is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 1)
         match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
                                            gameplayer = gameplayer,
                                            visitor_team_goals = match.visitor_team_goals,
                                            local_team_goals = match.local_team_goals)
 
-        self.assertTrue(match_prediction.is_a_exact_prediction())
+        self.assertTrue(match_prediction.is_exact_prediction())
         fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(6, fixture_points)
 
     def test_player_exact_prediction_points_B(self):
+        """ 
+          Matches: 1
+          Predictions: 1
+          Predictions with points: 1
+          Points: 6 (3 x Exact Score, 3 x General Score)
+
+          Wins visitor team
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+
+        fixture = FixtureFactory(is_finished = True)
+
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 1, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals,
+                                           local_team_goals = match.local_team_goals)
+
+        self.assertTrue(match_prediction.is_exact_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(6, fixture_points)
+
+    def test_player_exact_prediction_points_C(self):
+        """ 
+          Matches: 1
+          Predictions: 1
+          Predictions with points: 1
+          Points: 6 (3 x Exact Score, 3 x General Score)
+
+          Draw 
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+
+        fixture = FixtureFactory(is_finished = True)
+
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals,
+                                           local_team_goals = match.local_team_goals)
+
+        self.assertTrue(match_prediction.is_exact_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(6, fixture_points)
+
+
+    def test_player_general_prediction_points_A(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 3 (3 x General Score)
+
+          Wins local
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 1)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals + 1,
+                                           local_team_goals = match.local_team_goals + 1)
+
+        self.assertTrue(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(3, fixture_points)
+
+    def test_player_general_prediction_points_B(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 3 (3 x General Score)
+
+          Wins Visitor
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 1, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals + 1,
+                                           local_team_goals = match.local_team_goals + 1)
+
+        self.assertTrue(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(3, fixture_points)
+
+    def test_player_general_prediction_points_C(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 3 (3 x General Score)
+
+          Draw 
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals + 1,
+                                           local_team_goals = match.local_team_goals + 1)
+
+        self.assertTrue(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(3, fixture_points)
+
+    def test_player_bad_prediction_points_A(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Bad prediction
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 1, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = 0,
+                                           local_team_goals = 1)
+
+        self.assertFalse(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(0, fixture_points)
+
+    def test_player_bad_prediction_points_B(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Bad prediction
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 1)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = 1,
+                                           local_team_goals = 0)
+
+        self.assertFalse(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(0, fixture_points)
+
+    def test_player_bad_prediction_points_C(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Bad prediction
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = 1,
+                                           local_team_goals = 0)
+
+        self.assertFalse(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(0, fixture_points)
+
+    def test_player_bad_prediction_points_D(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Bad prediction
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = 0,
+                                           local_team_goals = 1)
+
+        self.assertFalse(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(0, fixture_points)
+
+    def test_player_match_not_finished_points_A(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Match is not finished: general prediction
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = False, visitor_team_goals = 0, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = 1,
+                                           local_team_goals = 1)
+
+        self.assertFalse(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(0, fixture_points)
+
+    def test_player_match_not_finished_points_B(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Match is not finished: exact prediction
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = False, visitor_team_goals = 1, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = 1,
+                                           local_team_goals = 0)
+
+        self.assertFalse(match_prediction.is_exact_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(0, fixture_points)
+
+    def test_player_exact_prediction_points_multiples_match_A(self):
         """ 
           Match: 2
           Predictions: 3 
@@ -177,36 +450,14 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
 
-        self.assertTrue(match_prediction_true.is_a_exact_prediction())
-        self.assertFalse(match_prediction_false.is_a_exact_prediction())
-        self.assertFalse(match_prediction_2_false.is_a_exact_prediction())
+        self.assertTrue(match_prediction_true.is_exact_prediction())
+        self.assertFalse(match_prediction_false.is_exact_prediction())
+        self.assertFalse(match_prediction_2_false.is_exact_prediction())
 
         fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(6, fixture_points)
 
-    def test_player_exact_prediction_points_C(self):
-        """ 
-          Match: 1
-          Predictions: 1 
-          Predictions with points: 1
-          Points: 3 (3 x General Score)
-        """
-        player = PlayerFactory()
-        game = GameFactory(owner = player)
-        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
-        fixture = FixtureFactory(is_finished = True)
-        match = MatchFactory(fixture = fixture, is_finished = True)
-        match_prediction = \
-                PlayerMatchPredictionFactory(match = match,
-                                           gameplayer = gameplayer,
-                                           visitor_team_goals = match.visitor_team_goals + 1,
-                                           local_team_goals = match.local_team_goals + 1)
-
-        self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
-        self.assertEqual(3, fixture_points)
-
-    def test_player_exact_prediction_points_D(self):
+    def test_player_exact_prediction_points_multiples_match_B(self):
         """ 
           Match: 2
           Predictions: 4 
@@ -254,7 +505,7 @@ class ExactGamePlayerPointsTest(TestCase):
         fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(6, fixture_points)
 
-    def test_player_exact_prediction_points_E(self):
+    def test_player_exact_prediction_points_multiples_match_C(self):
         """ 
           Match: 3
           Predictions: 4 
@@ -327,7 +578,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                     visitor_team_goals = match.visitor_team_goals,
                                     local_team_goals = match.local_team_goals)
 
-        self.assertTrue(match_prediction.is_a_exact_prediction())
+        self.assertTrue(match_prediction.is_exact_prediction())
         fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(8, fixture_points)
 
@@ -397,7 +648,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            visitor_team_goals = match.visitor_team_goals,
                                            local_team_goals = match.local_team_goals)
 
-        self.assertTrue(match_prediction.is_a_exact_prediction())
+        self.assertTrue(match_prediction.is_exact_prediction())
         fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(12, fixture_points)
 
@@ -443,7 +694,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            visitor_team_goals = match.visitor_team_goals,
                                            local_team_goals = match.local_team_goals)
 
-        self.assertTrue(match_prediction.is_a_exact_prediction())
+        self.assertTrue(match_prediction.is_exact_prediction())
         fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(16, fixture_points)
 
@@ -492,65 +743,302 @@ class ExactGamePlayerPointsTest(TestCase):
         fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(8, fixture_points)
 
-class ClassicGamePlayerPointsTest(TestCase):
-    def test_draw_prediction_false(self):
-        fixture = FixtureFactory(is_finished = True)
+class GeneralGamePlayerPointsTest(TestCase):
+    def test_player_exact_prediction_points_A(self):
+        """ 
+          Matches: 1
+          Predictions: 1
+          Predictions with points: 1
+          Points: 3 (3 x General Score)
+
+          Wins local team
+        """
         player = PlayerFactory()
-        game = GameFactory(classic = True, owner = player)
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
 
-        gameplayer = GamePlayerFactory(player = player, game = game, status = True)
+        fixture = FixtureFactory(is_finished = True)
 
-        match = MatchFactory(fixture = fixture,
-                             is_classic = True, 
-                             visitor_team_goals = 0,
-                             local_team_goals = 1) 
-        player_prediction = \
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 1)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals,
+                                           local_team_goals = match.local_team_goals)
+
+        self.assertTrue(match_prediction.is_exact_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(3, fixture_points)
+
+    def test_player_exact_prediction_points_B(self):
+        """ 
+          Matches: 1
+          Predictions: 1
+          Predictions with points: 1
+          Points: 3 (3 x General Score)
+
+          Wins visitor team
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+
+        fixture = FixtureFactory(is_finished = True)
+
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 1, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals,
+                                           local_team_goals = match.local_team_goals)
+
+        self.assertTrue(match_prediction.is_exact_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(3, fixture_points)
+
+    def test_player_exact_prediction_points_C(self):
+        """ 
+          Matches: 1
+          Predictions: 1
+          Predictions with points: 1
+          Points: 3 (3 x General Score)
+
+          Draw 
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+
+        fixture = FixtureFactory(is_finished = True)
+
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals,
+                                           local_team_goals = match.local_team_goals)
+
+        self.assertTrue(match_prediction.is_exact_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(3, fixture_points)
+
+
+    def test_player_general_prediction_points_A(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 3 (3 x General Score)
+
+          Wins local
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 1)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals + 1,
+                                           local_team_goals = match.local_team_goals + 1)
+
+        self.assertTrue(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(3, fixture_points)
+
+    def test_player_general_prediction_points_B(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 3 (3 x General Score)
+
+          Wins Visitor
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 1, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals + 1,
+                                           local_team_goals = match.local_team_goals + 1)
+
+        self.assertTrue(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(3, fixture_points)
+
+    def test_player_general_prediction_points_C(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 3 (3 x General Score)
+
+          Draw 
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = match.visitor_team_goals + 1,
+                                           local_team_goals = match.local_team_goals + 1)
+
+        self.assertTrue(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(3, fixture_points)
+
+    def test_player_bad_prediction_points_A(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Bad prediction
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 1, local_team_goals = 0)
+        match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
                                            gameplayer = gameplayer,
                                            visitor_team_goals = 0,
-                                           local_team_goals = 0)
+                                           local_team_goals = 1)
 
-        self.assertFalse(player_prediction.is_general_prediction())
+        self.assertFalse(match_prediction.is_general_prediction())
         fixture_points = player.get_fixture_points(match.fixture, game)
         self.assertEqual(0, fixture_points)
 
-    def test_draw_prediction_true(self):
-        fixture = FixtureFactory(is_finished = True)
+    def test_player_bad_prediction_points_B(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Bad prediction
+        """
         player = PlayerFactory()
-        game = GameFactory(classic = True, owner = player)
-        gameplayer = GamePlayerFactory(player = player, game = game, status = True)
-        match = MatchFactory(fixture = fixture,
-                             is_classic = True, 
-                             visitor_team_goals = 0,
-                             local_team_goals = 0) 
-        player_prediction = \
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 1)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = 1,
+                                           local_team_goals = 0)
+
+        self.assertFalse(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(0, fixture_points)
+
+    def test_player_bad_prediction_points_C(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Bad prediction
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = 1,
+                                           local_team_goals = 0)
+
+        self.assertFalse(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(0, fixture_points)
+
+    def test_player_bad_prediction_points_D(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Bad prediction
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 0)
+        match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
                                            gameplayer = gameplayer,
                                            visitor_team_goals = 0,
-                                           local_team_goals = 0)
+                                           local_team_goals = 1)
 
-        self.assertTrue(player_prediction.is_general_prediction())
+        self.assertFalse(match_prediction.is_general_prediction())
         fixture_points = player.get_fixture_points(match.fixture, game)
-        self.assertEqual(1, fixture_points)
+        self.assertEqual(0, fixture_points)
 
-    def test_win_prediction_true(self):
-        fixture = FixtureFactory(is_finished = True)
+    def test_player_match_not_finished_points_A(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Match is not finished: general prediction
+        """
         player = PlayerFactory()
-        game = GameFactory(classic = True, owner = player)
-        gameplayer = GamePlayerFactory(player = player, game = game, status = True)
-        match = MatchFactory(fixture = fixture,
-                             is_classic = True, 
-                             visitor_team_goals = 2,
-                             local_team_goals = 0) 
-        player_prediction = \
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = False, visitor_team_goals = 0, local_team_goals = 0)
+        match_prediction = \
                 PlayerMatchPredictionFactory(match = match,
                                            gameplayer = gameplayer,
-                                           visitor_team_goals = 3,
+                                           visitor_team_goals = 1,
+                                           local_team_goals = 1)
+
+        self.assertFalse(match_prediction.is_general_prediction())
+        fixture_points = player.get_fixture_points(match.fixture, game)
+        self.assertEqual(0, fixture_points)
+
+    def test_player_match_not_finished_points_B(self):
+        """ 
+          Match: 1
+          Predictions: 1 
+          Predictions with points: 1
+          Points: 0 (0 x General Score)
+
+          Match is not finished: exact prediction
+        """
+        player = PlayerFactory()
+        game = GameFactory(owner = player, classic = True)
+        gameplayer = GamePlayerFactory(game = game, player = player, status = True)
+        fixture = FixtureFactory(is_finished = True)
+        match = MatchFactory(fixture = fixture, is_finished = False, visitor_team_goals = 1, local_team_goals = 0)
+        match_prediction = \
+                PlayerMatchPredictionFactory(match = match,
+                                           gameplayer = gameplayer,
+                                           visitor_team_goals = 1,
                                            local_team_goals = 0)
 
-        self.assertTrue(player_prediction.is_general_prediction())
+        self.assertFalse(match_prediction.is_exact_prediction())
         fixture_points = player.get_fixture_points(match.fixture, game)
-        self.assertEqual(1, fixture_points)
+        self.assertEqual(0, fixture_points)
+
 
     def test_multiples_predictions(self):
         fixture = FixtureFactory(is_finished = True)
@@ -560,6 +1048,7 @@ class ClassicGamePlayerPointsTest(TestCase):
         # Prediction ok
         match = MatchFactory(fixture = fixture,
                              is_classic = True, 
+                             is_finished = True,
                              visitor_team_goals = 2,
                              local_team_goals = 0) 
         player_prediction = \
@@ -571,6 +1060,7 @@ class ClassicGamePlayerPointsTest(TestCase):
         # Prediction not ok
         match_1 = MatchFactory(is_classic = True, 
                              visitor_team_goals = 2,
+                             is_finished = True,
                              local_team_goals = 0) 
         player_prediction_1 = \
                 PlayerMatchPredictionFactory(match = match_1,
@@ -582,6 +1072,7 @@ class ClassicGamePlayerPointsTest(TestCase):
         match_2 = MatchFactory(fixture = fixture,
                              is_classic = True, 
                              visitor_team_goals = 0,
+                             is_finished = True,
                              local_team_goals = 0) 
         player_prediction_2 = \
                 PlayerMatchPredictionFactory(match = match_2,
@@ -593,7 +1084,7 @@ class ClassicGamePlayerPointsTest(TestCase):
         self.assertFalse(player_prediction_1.is_general_prediction())
         self.assertTrue(player_prediction_2.is_general_prediction())
         fixture_points = player.get_fixture_points(match.fixture, game)
-        self.assertEqual(2, fixture_points)
+        self.assertEqual(10, fixture_points)
 
     def test_fixture_points(self):
         game = GameFactory(classic = True)
@@ -602,10 +1093,15 @@ class ClassicGamePlayerPointsTest(TestCase):
         gameplayer = GamePlayerFactory(player = player, game = game, status = True)
         fixture = FixtureFactory(is_finished = True)
         fixture_2 = FixtureFactory(tournament = fixture.tournament, is_finished = True)
-        # Prediction ok
+
+
+
+        # Prediction ok: 2 classic, 3 prediction: 5 points
+        # Fixture 1
         match = MatchFactory(is_classic = True, 
                              fixture = fixture,
                              visitor_team_goals = 2,
+                             is_finished = True,
                              local_team_goals = 0) 
         player_prediction = \
                 PlayerMatchPredictionFactory(match = match,
@@ -613,9 +1109,10 @@ class ClassicGamePlayerPointsTest(TestCase):
                                            visitor_team_goals = 3,
                                            local_team_goals = 0)
 
-        # Prediction ok
+        # Prediction ok: 2 classic, 3 prediction: 5 points
         match_1 = MatchFactory(is_classic = True, 
                              fixture = fixture,
+                             is_finished = True,
                              visitor_team_goals = 2,
                              local_team_goals = 0) 
         player_prediction_1 = \
@@ -624,9 +1121,10 @@ class ClassicGamePlayerPointsTest(TestCase):
                                            visitor_team_goals = 2,
                                            local_team_goals = 0)
 
-        # Prediction ok
+        # Prediction ok: 2 classic, 3 prediction: 5 points
         match_2 = MatchFactory(fixture = fixture_2,
                              is_classic = True, 
+                             is_finished = True,
                              visitor_team_goals = 0,
                              local_team_goals = 0) 
         player_prediction_2 = \
@@ -635,10 +1133,11 @@ class ClassicGamePlayerPointsTest(TestCase):
                                            visitor_team_goals = 2,
                                            local_team_goals = 2)
 
+        # Fixture 2
         # Match suspended
         match_3 = MatchFactory(fixture = fixture_2,
                              is_classic = True, 
-                             suspended = True,
+                             is_finished = False,
                              visitor_team_goals = 0,
                              local_team_goals = 0) 
 
@@ -649,21 +1148,10 @@ class ClassicGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
         fixture_points = player.get_fixture_points(fixture, game)
-        self.assertEqual(2, fixture_points)
+        self.assertEqual(10, fixture_points)
 
         fixture2_points = player.get_fixture_points(fixture_2, game)
-        self.assertEqual(1, fixture2_points)
-
-        fixture_points = FixturePlayerPointsFactory(fixture = fixture, 
-                                                    gameplayer = gameplayer,
-                                                    points = fixture_points)
-
-        fixture_points = FixturePlayerPointsFactory(fixture = fixture_2, 
-                                                    gameplayer = gameplayer,
-                                                    points = fixture2_points)
-
-        self.assertEqual(3, player.get_total_points(game))
-
+        self.assertEqual(5, fixture2_points)
 
 class FixturePredictionsTest(TestCase):
     def test_get_fixture_predictions(self):
@@ -2514,7 +3002,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.assertEqual(gp.match_predictions.first().visitor_team_goals, 1)
         self.assertEqual(gp.match_predictions.first().local_team_goals, 2)
 
-    def test_nico_does_a_prediction_of_a_finished_match_400_BAD_REQUEST(self):
+    def test_nico_does_a_prediction_of_a_finished_match_403_FORBIDDEN(self):
         # Tournament
         fixture = FixtureFactory()
         match = MatchFactory(fixture = fixture, is_finished = True)
@@ -2532,10 +3020,10 @@ class PlayerMatchPredictionAPITest(APITestCase):
         url = reverse('playerMatchPredictionCreate')
         response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(gp.match_predictions.count(), 0)
 
-    def test_nico_does_a_prediction_of_a_finished_fixture_400_BAD_REQUEST(self):
+    def test_nico_does_a_prediction_of_a_finished_fixture_403_FORBIDDEN(self):
         # Tournament
         fixture = FixtureFactory(is_finished = True)
         match = MatchFactory(fixture = fixture)
@@ -2553,10 +3041,10 @@ class PlayerMatchPredictionAPITest(APITestCase):
         url = reverse('playerMatchPredictionCreate')
         response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(gp.match_predictions.count(), 0)
 
-    def test_nico_does_a_prediction_of_an_unexisting_match_400_BAD_REQUEST(self):
+    def test_nico_does_a_prediction_of_an_unexisting_match_404_NOT_FOUND(self):
         # Tournament
         fixture = FixtureFactory()
         match = MatchFactory(fixture = fixture)
@@ -2574,7 +3062,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         url = reverse('playerMatchPredictionCreate')
         response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id + 1, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(gp.match_predictions.count(), 0)
 
     def test_anon_try_to_do_a_prediction_401_UNAUTHORIZED(self):
@@ -2595,7 +3083,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(gp.match_predictions.count(), 0)
 
-    def test_fede_tries_to_do_a_prediction_as_nico_HTTP_400_BAD_REQUEST(self):
+    def test_fede_tries_to_do_a_prediction_as_nico_403_FORBIDDEN(self):
         # Tournament
         fixture = FixtureFactory()
         match = MatchFactory(fixture = fixture)
@@ -2616,7 +3104,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         url = reverse('playerMatchPredictionCreate')
         response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(gp.match_predictions.count(), 0)
 
     def test_nico_does_two_predictions_for_the_same_match_the_first_one_is_deleed_201_CREATED(self):
@@ -2668,7 +3156,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.assertEqual(gp.match_predictions.count(), 1)
         self.assertEqual(gp_2.match_predictions.count(), 1)
 
-    def test_nico_does_a_prediction_of_a_game_that_he_isnt_playing_400_BAD_REQUEST_A(self):
+    def test_nico_does_a_prediction_of_a_game_that_he_isnt_playing_403_FORBIDDEN_A(self):
         # Tournament
         fixture = FixtureFactory()
         match = MatchFactory(fixture = fixture)
@@ -2686,10 +3174,10 @@ class PlayerMatchPredictionAPITest(APITestCase):
         url = reverse('playerMatchPredictionCreate')
         response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(gp.match_predictions.count(), 0)
 
-    def test_nico_does_a_prediction_of_a_game_that_he_isnt_playing_400_BAD_REQUEST_B(self):
+    def test_nico_does_a_prediction_of_a_game_that_he_isnt_playing_403_FORBIDDEN_B(self):
         # Tournament
         fixture = FixtureFactory()
         match = MatchFactory(fixture = fixture)
@@ -2707,10 +3195,10 @@ class PlayerMatchPredictionAPITest(APITestCase):
         url = reverse('playerMatchPredictionCreate')
         response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(gp.match_predictions.count(), 0)
 
-    def test_nico_does_a_prediction_of_a_fixture_already_closed_400_BAD_REQUEST(self):
+    def test_nico_does_a_prediction_of_a_fixture_already_closed_403_FORBIDDEN(self):
         # Tournament
         fixture = FixtureFactory(open_until = datetime.now())
         match = MatchFactory(fixture = fixture)
@@ -2728,7 +3216,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         url = reverse('playerMatchPredictionCreate')
         response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(gp.match_predictions.count(), 0)
 
     def test_nico_gets_his_prediction_of_a_game_200_OK_A(self):

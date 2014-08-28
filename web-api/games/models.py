@@ -147,12 +147,18 @@ class PlayerMatchPrediction(models.Model):
       return self.gameplayer.game
 
     def is_general_prediction(self):
+        if not self.match.is_finished:
+            return False
+
         prediction_local_team_had_won = self.__class__.has_local_team_won(self.local_team_goals, self.visitor_team_goals)
         match_local_team_had_won = self.__class__.has_local_team_won(self.match.local_team_goals, self.match.visitor_team_goals)
 
         return prediction_local_team_had_won == match_local_team_had_won
 
-    def is_a_exact_prediction(self):
+    def is_exact_prediction(self):
+        if not self.match.is_finished:
+            return False
+
         return self.match.local_team_goals == self.local_team_goals and  \
                self.match.visitor_team_goals == self.visitor_team_goals
 
@@ -167,7 +173,7 @@ class PlayerMatchPrediction(models.Model):
             points += self.gameplayer.game.points_general
 
         # Exact Prediction: The exact score of the match
-        if (not self.gameplayer.game.classic) and self.is_a_exact_prediction():
+        if (not self.gameplayer.game.classic) and self.is_exact_prediction():
             points += self.gameplayer.game.points_exact
 
         # If the match is classic
