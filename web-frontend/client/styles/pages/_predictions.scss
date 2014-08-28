@@ -92,38 +92,6 @@
       }
     }
 
-    &.loading {
-      table {
-        &:after {
-          content: "";
-          display: block;
-          position: absolute;
-          top: 0;
-          height: 100%;
-          width: 100%;
-          z-index: 10;
-          background-color: rgba(255, 255, 255, 0.81);
-        }
-      }
-    }
-
-    .loading {
-        font-size: 60px;
-        font-weight: 600;
-        left: 32%;
-        margin: 0 auto;
-        position: absolute;
-        top: 25%;
-        z-index: 20;
-        letter-spacing: 2px;
-
-        #circleG {
-          position: absolute;
-          right: -122px;
-          top: 53%;
-        }
-    }
-
     .match {
       height: 60px;
 

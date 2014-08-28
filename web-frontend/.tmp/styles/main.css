@@ -11952,73 +11952,45 @@ button.toast-close-button {
 .predictions .fixture-container.one-game .fixture-status .fixture-finished-title, .predictions .fixture-container.one-game .fixture-status .fixture-playing-title {
   margin-left: 33%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000397}}
-.predictions .fixture-container.loading table:after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 10;
-  background-color: rgba(255, 255, 255, 0.81);
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003110}}
-.predictions .fixture-container .loading {
-  font-size: 60px;
-  font-weight: 600;
-  left: 32%;
-  margin: 0 auto;
-  position: absolute;
-  top: 25%;
-  z-index: 20;
-  letter-spacing: 2px;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003120}}
-.predictions .fixture-container .loading #circleG {
-  position: absolute;
-  right: -122px;
-  top: 53%;
-}
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003127}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000395}}
 .predictions .fixture-container .match {
   height: 60px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003130}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\0000398}}
 .predictions .fixture-container .match td {
   vertical-align: middle;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003133}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003101}}
 .predictions .fixture-container .match td .ui-radio {
   margin-bottom: 0px;
   cursor: pointer;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003139}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003107}}
 .predictions .fixture-container .match .match-outcome {
   font-size: 14px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003143}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003111}}
 .predictions .fixture-container .match .no-prediction:before {
   font-size: 12px;
   color: #ce2b2b;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003148}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003116}}
 .predictions .fixture-container .match .classic:before {
   font-size: 12px;
   color: green;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003154}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003122}}
 .predictions .fixture-container .popover {
   width: 200px;
   text-align: center;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003168}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003136}}
 .predictions .game-players .list-group .list-group-item.player-prediction-closed.active a:hover {
   border-left: 3px solid #23ae89;
   color: #23ae89;
   background-color: #fafafa;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003177}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/pages\/_predictions\.scss}line{font-family:\00003145}}
 .predictions .game-players .list-group .list-group-item.player-prediction-closed a:hover {
   background-color: white;
   border-left: none;
@@ -12758,9 +12730,9 @@ button.toast-close-button {
 .circleG {
   background-color: #FFFFFF;
   float: left;
-  height: 20px;
+  height: 10px;
   margin-left: 14px;
-  width: 20px;
+  width: 10px;
   -moz-animation-name: bounce_circleG;
   -moz-animation-duration: 1.9500000000000002s;
   -moz-animation-iteration-count: infinite;
@@ -12848,4 +12820,44 @@ button.toast-close-button {
   50% {
     background-color: #000000;
   }
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003294}}
+.loading-cloak {
+  position: relative;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003297}}
+.loading-cloak:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.94);
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003310}}
+.loading {
+  background-repeat: no-repeat;
+  background-image: url("../images/logo-wb.png");
+  background-size: 75px 100px;
+  background-position: 0px 0;
+  padding-left: 90px;
+  padding-top: 30px;
+  font-size: 50px;
+  font-weight: 600;
+  left: 25%;
+  margin: 0 auto;
+  position: absolute;
+  top: 200px;
+  z-index: 20;
+  letter-spacing: 2px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/rustico\/code\/personal\/dp\/web-frontend\/client\/styles\/sections\/_core\.scss}line{font-family:\00003328}}
+.loading #circleG {
+  position: absolute;
+  right: -122px;
+  top: 74px;
 }

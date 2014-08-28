@@ -82,10 +82,13 @@ angular.module('app.predictions')
           }
         }
 
+        $scope.showPage = false;
+
         GameService.all(function(games) {
           $scope.games = games.filter(function(game) { return  game.you[0].status == true  });
           $scope.hasGames = $scope.games.length > 0;
 
+          $scope.showPage = true;
           if($scope.games.length > 0) {
             $scope.selectedGame = $scope.games[0];
             $scope.selectedGameplayer = $scope.selectedGame.you[0];

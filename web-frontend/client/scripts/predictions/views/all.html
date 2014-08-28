@@ -1,14 +1,14 @@
 <div class="page predictions" ng-controller="PredictionsController">
-  <div class="panel panel-default" ng-show="!hasGames">
-      <div class="panel-heading"><strong><span class="flaticon-football7"></span> Mis Pronosticos</strong></div>
-    <div class="panel-body">
-      <div class="callout callout-success">
-        <h4> No estas jugando ningun Torneo </h4>  
-        <p>Crea un nuevo Torneo invita a tus amigos</p>
-        <div style="margin-top:20px"><a href="#/torneos/nuevo" class="btn btn-primary btn-md">Crear Torneo</a> </div>
+    <div class="panel panel-default" ng-show="!hasGames && showPage">
+        <div class="panel-heading"><strong><span class="flaticon-football7"></span> Mis Pronosticos</strong></div>
+      <div class="panel-body">
+        <div class="callout callout-success">
+          <h4> No estas jugando ningun Torneo </h4>  
+          <p>Crea un nuevo Torneo invita a tus amigos</p>
+          <div style="margin-top:20px"><a href="#/torneos/nuevo" class="btn btn-primary btn-md">Crear Torneo</a> </div>
+        </div>
       </div>
     </div>
-  </div>
 
     <div class="row" ng-show="hasGames">
         <div class="col-sm-3" ng-show="games.length > 1">
@@ -51,18 +51,10 @@
         <div class="col-sm-9" ng-class="{'col-sm-12': games.length == 1, 'col-sm-9': games.length > 1 }">
             <section class="panel panel-default mail-container ">
                 <div class="panel-heading"><strong><span class="flaticon-football7"></span> Partidos</strong></div>
-                <div ng-class="{'panel-body': games.length == 1, 'loading' : loading, 'one-game': games.length == 1 }" class="fixture-container">
+                <div ng-class="{'panel-body': games.length == 1, 'one-game': games.length == 1, 'loading-cloak': loading }" class="fixture-container ">
 
-                <div class="loading" ng-show="loading"> Cargando 
-                      <div id="circleG">
-                        <div id="circleG_1" class="circleG">
-                        </div>
-                        <div id="circleG_2" class="circleG">
-                        </div>
-                        <div id="circleG_3" class="circleG">
-                        </div>
-                      </div>
-                </div>
+                <cloak loading="loading"></cloak>
+
                 <div class="callout callout-info" ng-show="games.length == 1">
                   <h4> {{ selectedGame.name }} </h4>  
                   <p>{{ selectedGame.tournament_name }} </p>

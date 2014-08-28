@@ -42,14 +42,14 @@ angular.module('app.games')
         delete Data.currentGame; // So the FriendsControllers show all the friends
         $scope.data = Data;
         $scope.owner = { 'username': UserService.getUsername(), 'id' : UserService.getUserID() };
-        $scope.game = { 'classic': true, 'points_exact': 3,  'points_general':  1, 'points_double': 2, 'points_classic': 2, 'open_predictions': true };
+        $scope.game = { 'classic': true, 'points_exact': 3,  'points_general':  3, 'points_double': 2, 'points_classic': 2, 'open_predictions': true };
         $scope.selectedTournament = {}
         $scope.showOptional = false;
 
         $scope.gamePoints = {'points_general' : { initial_points : 3, label: 'Resultado General', help : 'Por acertar ganador, perdedor o empate.' },
-                             'points_exact' : { initial_points : 1, label: 'Resultado Exacto', classic: false, help : 'Por acertar el resultado exacto.' },
+                             'points_exact' : { initial_points : 3, label: 'Resultado Exacto', classic: false, help : 'Por acertar el resultado exacto.' },
                              'points_double' : { initial_points : 2, label: 'Es Doble', help : 'Por cuanto se multiplica el partido marcado como doble.'  },
-                             'points_classic' : { initial_points : 2, label: 'Clasico de la fecha', help : 'Por cuanto se multiplica el clasico de la fecha.' }};
+                             'points_classic' : { initial_points : 2, label: 'Clasico de la fecha', help : 'Cuantos puntos extras se suman por haber acertado el clasico.' }};
 
         $scope.newGame = function() {
             var friends = $scope.data.gamePlayerFriends.filter(function(item) { return item.checked });

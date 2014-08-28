@@ -23,4 +23,17 @@ angular.module('app.core')
     };
 })
 
+.directive('cloak', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/core/views/loadingCloak.html',
+      replace: true,
+      scope: { loading: '=' },
+      controller: function($scope) {
+        console.log($scope.loading);
+      }
+    };
+})
+
+
 ;

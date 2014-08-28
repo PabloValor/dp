@@ -1,9 +1,7 @@
 <section class="page newGame" ng-controller="NewGameController">
 
     <section class="panel panel-default">
-      <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> Nuevo Torneo</strong> 
-                                 <a href="/#/torneos/nuevo/avanzado" style="text-transform: none;"><i popover-trigger="mouseenter" popover="Cambiar de vista" class="icon-advanced-configuration glyphicon glyphicon-cog pull-right"  popover-placement="left"></i></a>
-      </div>
+      <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> Nuevo Torneo</strong></div>
         <div class="panel-body">
           <new-game-wizard steps="steps" 
                            current-step="currentStep" 
@@ -122,11 +120,11 @@
                           <ul class="points">
                             <li>Por resultado general: <strong> {{ gamePoints.points_general.initial_points }} puntos</strong></li>
                             <li ng-show="!game.classic">Por resultado exacto: <strong> {{ gamePoints.points_exact.initial_points }} puntos</strong></li>
+                            <li>Si es clasico de la fecha: <strong> {{ gamePoints.points_classic.initial_points }} puntos</strong></li>
                           </ul>
                           <p>Y se multiplica los puntos ganados del pronostico acertado por:</p>
                           <ul class="points">
-                            <li>Si es doble: <strong> {{ gamePoints.points_double.initial_points }} puntos</strong></li>
-                            <li>Si es clasico de la fecha: <strong> {{ gamePoints.points_classic.initial_points }} puntos</strong></li>
+                            <li>Si es doble: <strong> por {{ gamePoints.points_double.initial_points }} </strong></li>
                           </ul>
                       </div>
                     </div>
