@@ -1866,7 +1866,7 @@ class GameAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     """ 
-        PLAYER REQUEST FOR ANOTHER INVITATION AFTER HE REJECTED THE FIRST ONE
+        PLAYER REQUESTS FOR ANOTHER INVITATION AFTER HE REJECTED THE FIRST ONE
 
         When the player rejects to play he can request another invitation.
         If AnotherChance is None he can request another.
@@ -2565,6 +2565,70 @@ class GameAPITest(APITestCase):
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    """ 
+        GAME WITH FIXTURE POINTS 
+
+        We get the game with a list of the fixture points of the players
+    """
+    def test_get_game_with_fixture_points_200_OK(self):
+        # Game Player
+        gp = GamePlayerFactory(status = True) # The game is an Exact Game
+
+        # Fixture Player Points
+        FixturePlayerPointsFactory(gameplayer = gp)
+
+        # Player authenticates
+        token = Token.objects.get(user__username = gp.player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameList')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data[0]['gameplayers'][0].has_key('fixture_points'))
+
+    def test_get_game_with_multiple_fixture_points_200_OK(self):
+        # Game Player
+        gp = GamePlayerFactory(status = True) # The game is an Exact Game
+
+        # Fixture Player Points
+        FixturePlayerPointsFactory(gameplayer = gp)
+        FixturePlayerPointsFactory(gameplayer = gp)
+
+        # Player authenticates
+        token = Token.objects.get(user__username = gp.player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameList')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data[0]['gameplayers'][0].has_key('fixture_points'))
+        self.assertEqual(len(response.data[0]['gameplayers'][0]['fixture_points']), 2)
+
+    def test_get_game_with_multiple_fixture_points_and_multiples_players_200_OK(self):
+        # Game Player
+        gp_1 = GamePlayerFactory(status = True) # The game is an Exact Game
+        gp_2 = GamePlayerFactory(status = True, game = gp_1.game)
+
+        # Fixture Player 1 Points
+        FixturePlayerPointsFactory(gameplayer = gp_1)
+        FixturePlayerPointsFactory(gameplayer = gp_1)
+
+        # Fixture Player 2 Points
+        FixturePlayerPointsFactory(gameplayer = gp_2)
+
+        # Player authenticates
+        token = Token.objects.get(user__username = gp_1.player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameList')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data[0]['gameplayers'][0]['fixture_points']), 2)
+        self.assertEqual(len(response.data[0]['gameplayers'][1]['fixture_points']), 1)
 
 class PlayerAPITest(APITestCase):
     def test_create_200_OK(self): 

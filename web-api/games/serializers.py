@@ -1,17 +1,25 @@
 from rest_framework import serializers
 from django.db.models import Q
-from .models import Game, Player, GamePlayer, PlayerFriend, PlayerMatchPrediction
+from .models import Game, Player, GamePlayer, PlayerFriend, PlayerMatchPrediction, FixturePlayerPoints
 from tournaments.models import Match
 from tournaments.serializers import MatchSerializer
 
 
+class FixturePlayerPointsSerializer(serializers.ModelSerializer):
+    fixture_number = serializers.Field(source = 'fixture.number')
+
+    class Meta:
+        model = FixturePlayerPoints
+        fields = ('fixture_number', 'points')
+
 class GamePlayerSerializer(serializers.ModelSerializer):
     player_id = serializers.Field(source = 'player.id')
     username = serializers.Field(source = 'player.username')
+    fixture_points = FixturePlayerPointsSerializer(source="fixtureplayerpoints_set", many = True, read_only = True)
 
     class Meta:
         model = GamePlayer
-        fields = ('player', 'username', 'status', 'another_chance', 'id', 'initial_points', )
+        fields = ('player', 'username', 'status', 'another_chance', 'id', 'initial_points', 'fixture_points')
 
 class GamePlayerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -98,7 +106,7 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 
                     'gameplayers', 'you', 'classic', 'points_exact', 'open_predictions',
-                    'points_general',  'points_classic',  'points_double', )
+                    'points_general',  'points_classic',  'points_double')
 
 class PlayerMatchPredictionSerializer(serializers.ModelSerializer):
     class Meta:
