@@ -80,18 +80,6 @@ class Fixture(models.Model):
     def is_playing(self):
       return self.open_until < timezone.now()
 
-    def save(self, *args, **kwargs):  
-        if self.is_finished:
-            #FixturePlayerPoints.objects.filter(fixture = self).delete()
-            self.fixtureplayerpoints = []
-            for game in self.tournament.game_set.all():
-                for gameplayer in game.gameplayer_set.filter(status = True):
-                    points = gameplayer.player.get_fixture_points(self, game)
-                    self.fixtureplayerpoints_set.create(fixture = self, gameplayer = gameplayer, points = points)
-                    #FixturePlayerPoints.objects.create(fixture = self, player = player, points = points, game = game)
-
-        super(Fixture, self).save(*args, **kwargs)
-
     class Meta:
         ordering = ['number']
         verbose_name = "Fecha"

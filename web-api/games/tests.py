@@ -2,23 +2,8 @@ import unittest
 from datetime import datetime, timedelta
 from django.test import TestCase
 from tournaments.models import Team, Fixture, Match
-from .models import Player
+from .models import Player, FixturePlayerPoints
 from .factories import *
-
-class TournamentTest(TestCase):
-    def test_the_player_setting_fixtures_results(self):
-        # Matchs
-        tournament = TournamentFactory()
-        match = MatchFactory()
-
-        # Player is playing a game
-        gp = GamePlayerFactory(status = True)
-        player = gp.player
-
-        # Player makes a predictions
-        player.make_prediction(gp.id, match.pk, 0, 0)
-
-        self.assertEqual(PlayerMatchPrediction.objects.count(), 1)
 
 class ExactPredictionTest(TestCase):
     def test_prediction_ok(self):
@@ -40,7 +25,7 @@ class ExactPredictionTest(TestCase):
 
         self.assertFalse(player_prediction.is_exact_prediction())
 
-class MoralPredictionTest(TestCase):
+class GeneralPredictionTest(TestCase):
     def test_same_goals_prediction_true(self):
         match = MatchFactory(is_finished = True)
 
@@ -144,7 +129,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(6, fixture_points)
 
     def test_player_exact_prediction_points_B(self):
@@ -170,7 +155,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(6, fixture_points)
 
     def test_player_exact_prediction_points_C(self):
@@ -196,7 +181,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(6, fixture_points)
 
 
@@ -221,7 +206,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals + 1)
 
         self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(3, fixture_points)
 
     def test_player_general_prediction_points_B(self):
@@ -245,7 +230,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals + 1)
 
         self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(3, fixture_points)
 
     def test_player_general_prediction_points_C(self):
@@ -269,7 +254,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals + 1)
 
         self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(3, fixture_points)
 
     def test_player_bad_prediction_points_A(self):
@@ -293,7 +278,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = 1)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_bad_prediction_points_B(self):
@@ -317,7 +302,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_bad_prediction_points_C(self):
@@ -341,7 +326,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_bad_prediction_points_D(self):
@@ -365,7 +350,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = 1)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_match_not_finished_points_A(self):
@@ -389,7 +374,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = 1)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_match_not_finished_points_B(self):
@@ -413,7 +398,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
         self.assertFalse(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_exact_prediction_points_multiples_match_A(self):
@@ -454,7 +439,7 @@ class ExactGamePlayerPointsTest(TestCase):
         self.assertFalse(match_prediction_false.is_exact_prediction())
         self.assertFalse(match_prediction_2_false.is_exact_prediction())
 
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(6, fixture_points)
 
     def test_player_exact_prediction_points_multiples_match_B(self):
@@ -502,7 +487,7 @@ class ExactGamePlayerPointsTest(TestCase):
         self.assertFalse(match_prediction_2_false.is_general_prediction())
         self.assertTrue(match_prediction_2_true.is_general_prediction())
 
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(6, fixture_points)
 
     def test_player_exact_prediction_points_multiples_match_C(self):
@@ -556,7 +541,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                     visitor_team_goals = match_3.visitor_team_goals,
                                     local_team_goals = match_3.local_team_goals) # points = 3
 
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(12, fixture_points)
 
     def test_player_exact_prediction_points_in_classic_match_A(self):
@@ -579,7 +564,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                     local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(8, fixture_points)
 
     def test_player_exact_prediction_points_in_classic_match_B(self):
@@ -602,7 +587,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                     local_team_goals = (match.local_team_goals + 1))
 
         self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(5, fixture_points)
 
     def test_player_exact_prediction_points_in_classic_match_C(self):
@@ -626,7 +611,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                     local_team_goals = 2)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_exact_prediction_points_with_double_A(self):
@@ -649,7 +634,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(12, fixture_points)
 
     def test_player_exact_prediction_points_with_double_B(self):
@@ -672,7 +657,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = (match.local_team_goals + 1))
 
         self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(6, fixture_points)
 
     def test_player_exact_prediction_points_with_double_and_classic_A(self):
@@ -695,7 +680,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(16, fixture_points)
 
     def test_player_exact_prediction_points_with_double_and_classic_B(self):
@@ -718,7 +703,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = (match.local_team_goals + 1))
 
         self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(10, fixture_points)
 
     def test_player_points_with_initial_points(self):
@@ -740,7 +725,7 @@ class ExactGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(8, fixture_points)
 
 class GeneralGamePlayerPointsTest(TestCase):
@@ -767,7 +752,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(3, fixture_points)
 
     def test_player_exact_prediction_points_B(self):
@@ -793,7 +778,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(3, fixture_points)
 
     def test_player_exact_prediction_points_C(self):
@@ -819,7 +804,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals)
 
         self.assertTrue(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(3, fixture_points)
 
 
@@ -844,7 +829,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals + 1)
 
         self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(3, fixture_points)
 
     def test_player_general_prediction_points_B(self):
@@ -868,7 +853,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals + 1)
 
         self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(3, fixture_points)
 
     def test_player_general_prediction_points_C(self):
@@ -892,7 +877,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = match.local_team_goals + 1)
 
         self.assertTrue(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(3, fixture_points)
 
     def test_player_bad_prediction_points_A(self):
@@ -916,7 +901,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = 1)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_bad_prediction_points_B(self):
@@ -940,7 +925,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_bad_prediction_points_C(self):
@@ -964,7 +949,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_bad_prediction_points_D(self):
@@ -988,7 +973,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = 1)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_match_not_finished_points_A(self):
@@ -1012,7 +997,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = 1)
 
         self.assertFalse(match_prediction.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
     def test_player_match_not_finished_points_B(self):
@@ -1036,7 +1021,7 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            local_team_goals = 0)
 
         self.assertFalse(match_prediction.is_exact_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(0, fixture_points)
 
 
@@ -1083,7 +1068,7 @@ class GeneralGamePlayerPointsTest(TestCase):
         self.assertTrue(player_prediction.is_general_prediction())
         self.assertFalse(player_prediction_1.is_general_prediction())
         self.assertTrue(player_prediction_2.is_general_prediction())
-        fixture_points = player.get_fixture_points(match.fixture, game)
+        fixture_points = gameplayer.get_fixture_points(match.fixture)
         self.assertEqual(10, fixture_points)
 
     def test_fixture_points(self):
@@ -1147,10 +1132,10 @@ class GeneralGamePlayerPointsTest(TestCase):
                                            visitor_team_goals = 0,
                                            local_team_goals = 0)
 
-        fixture_points = player.get_fixture_points(fixture, game)
+        fixture_points = gameplayer.get_fixture_points(fixture)
         self.assertEqual(10, fixture_points)
 
-        fixture2_points = player.get_fixture_points(fixture_2, game)
+        fixture2_points = gameplayer.get_fixture_points(fixture_2)
         self.assertEqual(5, fixture2_points)
 
 class FixturePredictionsTest(TestCase):
@@ -1170,8 +1155,170 @@ class FixturePredictionsTest(TestCase):
         PlayerMatchPredictionFactory(match = match_2, 
                                      gameplayer = gp)
 
-        self.assertEqual(2, len(player.get_fixture_predictions(fixture_1, gp.game)))
-        self.assertFalse(player.get_fixture_predictions(fixture_2, gp.game))
+        self.assertEqual(2, len(gp.get_fixture_predictions(fixture_1)))
+        self.assertFalse(gp.get_fixture_predictions(fixture_2))
+
+class FixturePointsTest(TestCase):
+    def test_calculate_fixture_points_A(self):
+        """
+          We test if when a Fixture is finished the points are calculated correctly
+
+          The player gets 6 points from an Exact Prediction
+        """
+        gp = GamePlayerFactory(status = True) # The game is an Exact Game
+
+        fixture = FixtureFactory(tournament = gp.game.tournament)
+
+        # Match is finished so we can count the points
+        match = MatchFactory(fixture = fixture, is_finished = True) 
+
+        PlayerMatchPredictionFactory(match = match, 
+                                    gameplayer = gp,
+                                    visitor_team_goals = match.visitor_team_goals,
+                                    local_team_goals = match.local_team_goals)
+
+        fixture.is_finished = True
+        fixture.save()
+
+        self.assertTrue(FixturePlayerPoints.objects.first())
+        self.assertEqual(FixturePlayerPoints.objects.first().points, 6)
+
+    def test_calculate_fixture_points_B(self):
+        """
+          We test if when a Fixture is finished the points are calculated correctly
+
+          The player gets 3 points from a General Prediction
+        """
+        gp = GamePlayerFactory(status = True) # The game is an Exact Game
+
+        fixture = FixtureFactory(tournament = gp.game.tournament)
+
+        # Match is finished so we can count the points
+        match = MatchFactory(fixture = fixture, is_finished = True) 
+
+        PlayerMatchPredictionFactory(match = match, 
+                                    gameplayer = gp,
+                                    visitor_team_goals = match.visitor_team_goals + 1,
+                                    local_team_goals = match.local_team_goals + 1)
+
+        fixture.is_finished = True
+        fixture.save()
+
+        self.assertTrue(FixturePlayerPoints.objects.first())
+        self.assertEqual(FixturePlayerPoints.objects.first().points, 3)
+
+
+    def test_calculate_fixture_points_C(self):
+        """
+          We test if when a Fixture is finished the points are calculated correctly
+
+          The player gets 0 points from a Bad Prediction
+        """
+        gp = GamePlayerFactory(status = True) # The game is an Exact Game
+
+        fixture = FixtureFactory(tournament = gp.game.tournament)
+
+        # Match is finished so we can count the points
+        match = MatchFactory(fixture = fixture, is_finished = True,
+                            visitor_team_goals = 0, local_team_goals = 0) 
+
+        PlayerMatchPredictionFactory(match = match, 
+                                    gameplayer = gp,
+                                    visitor_team_goals = 1,
+                                    local_team_goals = 0)
+
+        fixture.is_finished = True
+        fixture.save()
+
+        self.assertTrue(FixturePlayerPoints.objects.first())
+        self.assertEqual(FixturePlayerPoints.objects.first().points, 0)
+
+    def test_calculate_fixture_points_D(self):
+        """
+          We test if when a Fixture is finished the points are calculated correctly
+
+          The player gets 0 points from an Unfinished Match
+        """
+        gp = GamePlayerFactory(status = True) # The game is an Exact Game
+
+        fixture = FixtureFactory(tournament = gp.game.tournament)
+
+        # Match is finished so we can count the points
+        match = MatchFactory(fixture = fixture) 
+
+        PlayerMatchPredictionFactory(match = match, 
+                                    gameplayer = gp,
+                                    visitor_team_goals = match.visitor_team_goals,
+                                    local_team_goals = match.local_team_goals)
+
+        fixture.is_finished = True
+        fixture.save()
+
+        self.assertTrue(FixturePlayerPoints.objects.first())
+        self.assertEqual(FixturePlayerPoints.objects.first().points, 0)
+
+    def test_calculate_fixture_points_with_three_matches(self):
+        """
+          We test if when a Fixture is finished the points are calculated correctly
+
+          The player gets 0 points from an Match 1
+          The player gets 3 points from an Match 2
+          The player gets 6 points from an Match 3
+        """
+        gp = GamePlayerFactory(status = True) # The game is an Exact Game
+
+        fixture = FixtureFactory(tournament = gp.game.tournament)
+
+        # Match is finished so we can count the points
+        match_1 = MatchFactory(fixture = fixture, is_finished = True, visitor_team_goals = 0, local_team_goals = 0) 
+        match_2 = MatchFactory(fixture = fixture, is_finished = True) 
+        match_3 = MatchFactory(fixture = fixture, is_finished = True) 
+
+
+        # 0 Points
+        PlayerMatchPredictionFactory(match = match_1, 
+                                    gameplayer = gp,
+                                    visitor_team_goals = 1,
+                                    local_team_goals = 0)
+
+        # 3 Points
+        PlayerMatchPredictionFactory(match = match_2, 
+                                    gameplayer = gp,
+                                    visitor_team_goals = match_2.visitor_team_goals + 1,
+                                    local_team_goals = match_2.local_team_goals + 1)
+
+        # 6 Points
+        PlayerMatchPredictionFactory(match = match_3, 
+                                    gameplayer = gp,
+                                    visitor_team_goals = match_3.visitor_team_goals,
+                                    local_team_goals = match_3.local_team_goals)
+
+        fixture.is_finished = True
+        fixture.save()
+
+        self.assertEqual(FixturePlayerPoints.objects.first().points, 9)
+      
+    def test_calculate_fixture_is_saved_twice(self):
+        """
+          We test if when a Fixture is saves twice we only has a FixturePlayerPoints
+        """
+        gp = GamePlayerFactory(status = True) # The game is an Exact Game
+
+        fixture = FixtureFactory(tournament = gp.game.tournament)
+
+        # Match is finished so we can count the points
+        match = MatchFactory(fixture = fixture, is_finished = True) 
+
+        PlayerMatchPredictionFactory(match = match, 
+                                    gameplayer = gp,
+                                    visitor_team_goals = match.visitor_team_goals,
+                                    local_team_goals = match.local_team_goals)
+
+        fixture.is_finished = True
+        fixture.save()
+        fixture.save()
+
+        self.assertEqual(FixturePlayerPoints.objects.all().count(), 1)
 
 # REST API
 import json
@@ -2423,7 +2570,7 @@ class PlayerAPITest(APITestCase):
     def test_create_200_OK(self): 
         data = { 'username': 'nico',
                  'email': 'nmbases@gmail.com',
-                 'password': 'nico' }
+                 'password': 'nicolas1' }
 
         url = reverse('playerCreate')
         response = self.client.post(url, data)
@@ -2472,7 +2619,7 @@ class PlayerAPITest(APITestCase):
         player = PlayerFactory()
         data = { 'username': player.username,
                  'email': 'nmbases@gmail.com',
-                 'password': 'nico' }
+                 'password': 'nicolas1' }
 
         url = reverse('playerCreate')
         response = self.client.post(url, data)
@@ -3107,7 +3254,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(gp.match_predictions.count(), 0)
 
-    def test_nico_does_two_predictions_for_the_same_match_the_first_one_is_deleed_201_CREATED(self):
+    def test_nico_does_two_predictions_for_the_same_match_the_first_one_is_deleted_201_CREATED(self):
         # Tournament
         fixture = FixtureFactory()
         match = MatchFactory(fixture = fixture)

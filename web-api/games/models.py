@@ -5,8 +5,6 @@ from django.contrib.auth.models import AbstractUser
 from tournaments.models import Tournament, Team, Fixture, Match
 
 class Player(AbstractUser):
-    REQUIRED_FIELDS = ["email", ]
-
     friends = models.ManyToManyField('self', through = 'PlayerFriend', symmetrical = False)
 
     class Meta:
@@ -48,43 +46,6 @@ class Player(AbstractUser):
 
     def is_friend(self, player):
         return player in self.get_true_friends()
-
-    def make_prediction(self, gameplayer_id, match_id, local_team_goals, visitor_team_goals):
-        prediction = PlayerMatchPrediction.objects.filter(match_id = match_id, gameplayer_id = gameplayer_id)
-        if prediction:
-            prediction.update(local_team_goals = local_team_goals,
-                              visitor_team_goals = visitor_team_goals)
-        else:
-            PlayerMatchPrediction.objects.create(gameplayer_id = gameplayer_id,
-                                        match_id = match_id, 
-                                        local_team_goals = local_team_goals, 
-                                        visitor_team_goals = visitor_team_goals)
-
-    def get_total_points(self, game):
-        gameplayer = self.get_gameplayer(game)
-        return FixturePlayerPoints.get_player_points(gameplayer) + gameplayer.initial_points
-
-    def get_gameplayer(self, game):
-        return self.gameplayer_set.get(game = game, status = True)
-
-    def get_fixture_points(self, fixture, game):
-        gameplayer = self.get_gameplayer(game)
-
-        points = 0
-        if fixture.is_finished:
-            points = sum([player_prediction.get_points() 
-                        for player_prediction in gameplayer.match_predictions.all() 
-                        if not player_prediction.match.suspended and player_prediction.match.fixture.pk == fixture.pk and player_prediction.match.is_finished])
-    
-        return points + gameplayer.initial_points
-
-    def get_fixture_predictions(self, fixture, game):
-        gameplayer = self.get_gameplayer(game)
-
-        match_ids = [x.pk for x in fixture.matches.all()]
-        predictions = gameplayer.match_predictions.filter(match_id__in = match_ids)
-
-        return predictions
 
 class PlayerFriend(models.Model):
     player = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = 'friend_player')
@@ -130,6 +91,24 @@ class GamePlayer(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
+    def get_total_points(self):
+        return FixturePlayerPoints.get_player_points(self) + self.initial_points
+
+    def get_fixture_points(self, fixture):
+        points = 0
+        if fixture.is_finished:
+            points = sum([player_prediction.get_points() 
+                        for player_prediction in self.match_predictions.all() 
+                        if not player_prediction.match.suspended and player_prediction.match.fixture.pk == fixture.pk and player_prediction.match.is_finished])
+    
+        return points + self.initial_points
+
+    def get_fixture_predictions(self, fixture):
+        match_ids = [x.pk for x in fixture.matches.all()]
+        predictions = self.match_predictions.filter(match_id__in = match_ids)
+
+        return predictions
+
     def __unicode__(self):
       return '{0} | {1} | {2}'.format(self.player, self.status, self.another_chance)
 
@@ -142,9 +121,6 @@ class PlayerMatchPrediction(models.Model):
 
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-
-    def game(self):
-      return self.gameplayer.game
 
     def is_general_prediction(self):
         if not self.match.is_finished:

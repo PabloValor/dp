@@ -14,7 +14,7 @@ class FixtureAdmin(admin.ModelAdmin):
     list_display = ['tournament', '__unicode__', 'open_until', 'is_finished']
     list_display_links = ['__unicode__']
     list_filter = ['tournament']
-    list_editable = ['open_until']
+    list_editable = ['open_until', 'is_finished']
 
 class TournamentAdmin(admin.ModelAdmin):
     inlines = (FixtureInline,)
