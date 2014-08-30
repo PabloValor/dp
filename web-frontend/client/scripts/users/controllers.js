@@ -1,8 +1,8 @@
 'use strict';
 angular.module('app.users')
 
-.controller('LoginController', ['$scope', '$location', '$http', 'AuthenticationService', 'Facebook', 'SETTINGS',
-    function($scope, $location, $http, AuthenticationService, Facebook, SETTINGS)  {
+.controller('LoginController', ['$scope', '$location', '$http', 'AuthenticationService', 'Facebook', 'SETTINGS', '$rootScope',
+    function($scope, $location, $http, AuthenticationService, Facebook, SETTINGS, $rootScope)  {
         if(AuthenticationService.isAuthenticated()) {
             $location.path('/');
         }
@@ -13,19 +13,31 @@ angular.module('app.users')
         };
 
         $scope.login = function() {
+            //$rootScope.loadingInit = true;
+            $scope.error = '';
             AuthenticationService.login($scope.credentials,
                 function(response) {
+                    $rootScope.loadingInit = false;
                     $location.path('/');
+
+                }, function(response) {
+                    $rootScope.loadingInit = false;
+                    $scope.error = response.non_field_errors[0];
                 });
         };
 
         $scope.login_fb = function() {
-            console.log("login fb");
+            //$rootScope.loadingInit = true;
+            $scope.error = '';
             Facebook.login(
                 function(response) { 
+                    $rootScope.loadingInit = false;
                     $location.path('/');
                 }, 
-                function(response) { console.log(response); });
+                function(response) { 
+                    $rootScope.loadingInit = false;
+                    $scope.error = response.non_field_errors[0];
+                });
         };
 
         $scope.logout = function() {
@@ -56,14 +68,14 @@ angular.module('app.users')
         };
 
         $scope.signup = function(user) {
-            $scope.signupFailed = {};
+            delete $scope.errors;
             UserService.create(user, 
                 function(response) {
                     $location.path('/signin');
                 },
                 function(errors) {
-                    // See different kinds of errors
-                    $scope.signupFailed = { errors : errors };
+                  $scope.errors = errors;
+                  console.error(errors);
                 });
         };
     }

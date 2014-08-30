@@ -3,18 +3,26 @@
 
     // 
     .signin-header {
-        padding: 25px 0;
-        background-color: #dfe0e6;
+    }
+
+    .error {
+      color: red;
     }
 
     .logo {
+        background-repeat: no-repeat;
+        background-image: url("../images/logo.png");
+        background-size: 95px 120px;
+        background-position: 350px 15px;
         font-size: 46px;
         font-weight: bold;
-        a {
-            &:hover {
-                text-decoration: none;
-            }
-        }
+        padding-top: 65px;
+        padding-bottom: 20px;
+
+
+        font-size: 46px;
+        font-weight: bold;
+        color: black;
     }
 
     // 
@@ -22,6 +30,10 @@
     .signup-body {
         border-top: 1px solid lighten($body-bg, 2%);
         padding: 20px 10px;
+    }
+
+    .signin-social {
+      margin-bottom: 20px;
     }
 
     .form-container {

@@ -28,9 +28,8 @@ angular.module('app.core')
       restrict: 'E',
       templateUrl: 'scripts/core/views/loadingCloak.html',
       replace: true,
-      scope: { loading: '=' },
+      scope: { loading: '=', left: '=' },
       controller: function($scope) {
-        console.log($scope.loading);
       }
     };
 })

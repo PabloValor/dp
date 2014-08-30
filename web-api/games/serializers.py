@@ -165,10 +165,16 @@ class PlayerCreateSerializer(serializers.ModelSerializer):
     def validate_email(self, attrs, source):
         if not attrs['email']:
             raise serializers.ValidationError('The email field is required.')
-        else:
-            if Player.objects.filter(email = attrs[source]).exists():
+        elif Player.objects.filter(email = attrs[source]).exists():
                 raise serializers.ValidationError('There is a user with the same email.')
 
+        return attrs
+
+    def validate_password(self, attrs, source):
+        if not attrs['password']:
+            raise serializers.ValidationError('The password field is required.')
+        elif len(attrs['password']) < 8:
+            raise serializers.ValidationError('The password has to have 8 characters.')
         return attrs
 
     def restore_object(self, attrs, instance = None):
