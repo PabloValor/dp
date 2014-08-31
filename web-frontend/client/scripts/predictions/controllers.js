@@ -87,7 +87,7 @@ angular.module('app.predictions')
           $scope.hasGames = $scope.games.length > 0;
 
           $scope.showPage = true;
-          if($scope.games.length > 0) {
+          if($scope.hasGames) {
             $scope.selectedGame = $scope.games[0];
             $scope.selectedGameplayer = $scope.selectedGame.you[0];
             $scope.userGameplayer =$scope.selectedGame.you[0];
@@ -101,8 +101,13 @@ angular.module('app.predictions')
                     $rootScope.loadingInit = false;
                   });
               })
+          } else {
+            $rootScope.loadingInit = false;
           }
 
+        }, function(response) {
+          console.error(response);
+          $rootScope.loadingInit = false;
         });
 
         $rootScope.loadingInit = true;

@@ -1,6 +1,6 @@
 <section class="page" ng-controller="GameController">
     <div class="panel panel-default">
-        <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> Mis Torneos</strong></div>
+        <div class="panel-heading"><span class="flaticon-trophy33"></span> <strong>Mis Torneos</strong></div>
         <div class="panel-body">
 
           <div style="float:right">
@@ -41,8 +41,10 @@
                   </tr>
                   <tr>
                     <td colspan="5" ng-hide="games">
-                    <div class="callout callout-info">
-                      <p>No tienes torneos. Puedes crear uno e invitar a tus amigos <a href="#/torneos/nuevo">AQUI</a></p>
+                    <div class="callout callout-success">
+                      <h4> No estas jugando ningun Torneo </h4>  
+                      <p>Crea un nuevo Torneo invita a tus amigos</p>
+                      <div style="margin-top:20px"><a href="#/torneos/nuevo" class="btn btn-primary btn-md">Crear Torneo</a> </div>
                     </div>
                     </td>
                   </tr>

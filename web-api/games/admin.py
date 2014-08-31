@@ -21,8 +21,7 @@ class PlayerAdmin(admin.ModelAdmin):
 
 class PlayerMatchPredictionAdmin(admin.ModelAdmin):
     inlines = (GameInline,)
-    list_display = ['game', 'match', 'local_team_goals', 'visitor_team_goals']
-    list_display_links = ['game']
+    list_display = ['gameplayer', 'match', 'local_team_goals', 'visitor_team_goals']
 
 admin.site.register(Game, GameAdmin)
 admin.site.register(PlayerMatchPrediction, PlayerMatchPredictionAdmin)

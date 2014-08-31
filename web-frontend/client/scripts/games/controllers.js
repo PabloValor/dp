@@ -11,6 +11,9 @@ angular.module('app.games')
           if($scope.games.length == 1) {
             $scope.gameDetail($scope.games[0]);
           }
+        }, function(response) {
+          console.error(response);
+          $rootScope.loadingInit = false;
         });
 
         $scope.gameDetail = function(game) {
@@ -143,8 +146,6 @@ angular.module('app.games')
                 $scope.friends = friends;
 
                 if(!!Data.currentGame) {
-                  console.log("friends current game");
-                  console.log(Data.currentGame);
                   var gameplayers_ids = Data.currentGame.gameplayers.map(function(e) { return e.player });
                   $scope.friends = friends.filter(function(e) { return gameplayers_ids.indexOf(e.id) < 0 })
                   $scope.withOutFriendsMsg = "No tienes mas amigos para agregar al torneo. Puedes buscar nuevos en el";

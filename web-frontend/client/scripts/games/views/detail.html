@@ -5,7 +5,7 @@
 
     <div class="col-md-7">
         <section class="panel panel-default">
-            <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> <span data-i18n="Torneo"></span></strong></div>
+            <div class="panel-heading"><span class="flaticon-trophy33"></span> <strong><span data-i18n="Torneo"></span></strong></div>
             <div class="panel-body game-details">
                     <div class="form-group game-header">
                         <i class="flaticon-big55"></i>
@@ -130,10 +130,12 @@
             </div>
         </section>
         <section class="panel panel-default" ng-show="is_owner">
-            <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> <span data-i18n="Invitar Mas Amigos"></span></strong></div>
-               <div class="panel-body" ng-include="'scripts/games/views/_addGamePlayers.html'" ng-controller="AddGamePlayersController" >
-              </div>
+            <div class="panel-heading"><span class="flaticon-soccer51"></span> <strong><span data-i18n="Invitar Mas Amigos"></span></strong></div>
+            <div class="panel-body" ng-include="'scripts/games/views/_addGamePlayers.html'" ng-controller="AddGamePlayersController" >
             </div>
        </section>
+    </div>
+    <div class="col-md-5">
+      <game-table game="game" ng-if="game" username="username"> </game-table>
     </div>
 </section>

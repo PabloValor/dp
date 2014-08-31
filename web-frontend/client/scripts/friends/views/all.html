@@ -2,7 +2,7 @@
 <section class="page friends" ng-controller="FriendsController">
     <div class="col-md-7">
         <section class="panel panel-default">
-            <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> Mis Amigos</strong></div>
+            <div class="panel-heading"><span class="flaticon-soccer51"></span> <strong>Mis Amigos</strong></div>
             <div class="panel-body mail-categories">
                 <ul class="list-group " ng-show="friends">
                     <li ng-repeat="friend in friends" class="list-group-item" ng-class='{active: selectedFriend == friend}' ng-if="friend.is_friend">
@@ -19,7 +19,7 @@
           </div>
         </section>
         <section class="panel panel-default" ng-show="friends_waiting_for_you" >
-            <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> Amigos que esperan tu respuesta</strong></div>
+            <div class="panel-heading"><span class="flaticon-soccer51"></span><strong> Amigos que esperan tu respuesta</strong></div>
             <div class="panel-body mail-categories">
                 <ul class="list-group " ng-show="friends" ng-hide="no_more_friends_waiting">
                     <li ng-repeat="friend in friends_waiting_for_you" class="list-group-item" ng-class='{active: selectedFriend == friend}'>
@@ -39,7 +39,7 @@
           </div>
         </section>
         <section class="panel panel-default" ng-show="friends_limbo">
-            <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> Amigos que no contestaron</strong></div>
+            <div class="panel-heading"><span class="flaticon-soccer51"></span> <strong>Amigos que no contestaron</strong></div>
             <div class="panel-body mail-categories">
                 <ul class="list-group " ng-show="friends">
                     <li ng-repeat="friend in friends_limbo" class="list-group-item" ng-class='{active: selectedFriend == friend}'>
@@ -53,7 +53,7 @@
     </div>
     <div class="col-md-5">
         <section class="panel panel-default">
-            <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> Ficha </strong></div>
+            <div class="panel-heading"><span class="flaticon-soccer51"></span> <strong>Ficha </strong></div>
             <div class="panel-body">
 
               <div class="callout callout-success" ng-hide="selectedFriend">

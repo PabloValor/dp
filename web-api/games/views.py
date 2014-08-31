@@ -1,3 +1,4 @@
+from django.http import Http404
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -47,7 +48,11 @@ class GameList(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return user.games.all()
+        games = user.games.all()
+        if not games.exists():
+            raise Http404
+
+        return games
 
 
 class GameCreate(generics.CreateAPIView):

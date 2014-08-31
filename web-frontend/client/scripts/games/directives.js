@@ -78,4 +78,34 @@ angular.module('app.games')
       }
     };
 })
+
+.directive('gameTable', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/games/views/_gameTable.html',
+      replace: true,
+      scope: { game: '=', username: '=' },
+      controller: function($scope) {
+
+
+        // Player Total Points
+        var gp, fp, gp_points;
+        var gameplayers_points = [];
+
+        for(var i in $scope.game.gameplayers) {
+          gp = $scope.game.gameplayers[i];
+          gp_points = 0;
+
+          for(var j in gp.fixture_points) {
+            fp = gp.fixture_points[j];
+            gp_points += fp.points;
+          }
+
+          gameplayers_points.push({ 'username': gp.username, 'points': gp_points });
+        }
+
+        $scope.gameplayer_points = gameplayers_points;
+      }
+    };
+})
 ;

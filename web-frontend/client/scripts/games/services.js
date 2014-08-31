@@ -16,7 +16,7 @@ angular.module('app.games')
                         console.log(response);
 
                         if(!!f_error) {
-                            f_success(response);
+                            f_error(response);
                         }
                     });
             },

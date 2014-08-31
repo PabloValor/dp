@@ -1,7 +1,7 @@
 <cloak loading="loadingInit"></cloak>
 <div class="page predictions" ng-controller="PredictionsController" >
   <div class="panel panel-default" ng-show="!hasGames">
-      <div class="panel-heading"><strong><span class="flaticon-football7"></span> Mis Pronosticos</strong></div>
+      <div class="panel-heading"><span class="flaticon-football7"></span> <strong>Mis Pronosticos</strong></div>
       <div class="panel-body">
         <div class="callout callout-success">
           <h4> No estas jugando ningun Torneo </h4>  
@@ -12,9 +12,9 @@
     </div>
 
     <div class="row" ng-show="hasGames">
-        <div class="col-sm-3" ng-show="games.length > 1">
+        <div class="col-sm-3">
             <section class="panel panel-default mail-categories">
-                <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> <span data-i18n="Torneos"></span></strong></div>
+                <div class="panel-heading"><span class="flaticon-trophy33"></span> <strong><span data-i18n="Torneos"></span></strong></div>
                 <ul class="list-group">
                     <li ng-repeat="game in games" class="list-group-item" ng-class='{active: selectedGame == game}'>
                         <a href="javascript:;" ng-click="selectGame(game)">
@@ -25,7 +25,7 @@
             </section>
 
             <section class="panel panel-default mail-categories game-players">
-                <div class="panel-heading"><strong><span class="flaticon-soccer51"></span> <span data-i18n="Jugadores"></span></strong></div>
+                <div class="panel-heading"><span class="flaticon-soccer51"></span> <strong><span data-i18n="Jugadores"></span></strong></div>
                 <ul class="list-group">
                     <li class="list-group-item" 
                         ng-class="{'active': selectedGameplayer.id == userGameplayer.id, 'player-prediction-closed': !selectedGame.open_predictions}">
@@ -49,17 +49,13 @@
             </section>
 
         </div>
-        <div class="col-sm-9" ng-class="{'col-sm-12': games.length == 1, 'col-sm-9': games.length > 1 }">
+        <div class="col-sm-9">
             <section class="panel panel-default mail-container ">
-                <div class="panel-heading"><strong><span class="flaticon-football7"></span> Partidos</strong></div>
-                <div ng-class="{'panel-body': games.length == 1, 'one-game': games.length == 1, 'loading-cloak': loadingFixture }" class="fixture-container ">
+                <div class="panel-heading"><span class="flaticon-football7"></span><strong> Partidos</strong></div>
+                <div ng-class="{'loading-cloak': loadingFixture }" class="fixture-container ">
 
                 <cloak loading="loadingFixture"></cloak>
 
-                <div class="callout callout-info" ng-show="games.length == 1">
-                  <h4> {{ selectedGame.name }} </h4>  
-                  <p>{{ selectedGame.tournament_name }} </p>
-                </div>
                 <div class="fixture-header">
                   <div class="fixtureNumber">
                       Fecha: {{ currentFixture.number  }}
@@ -109,12 +105,12 @@
                                ng-show="!match.hasPrediction" ></i>
                           </td>
                           <td align="right" style="width:25%">
-                            {{ match.local_team.name }} 
+                              {{ match.local_team.name }} 
                             <img src="http://localhost:8000{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
-                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="local" 
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}}" type="radio" value="local" 
                                      ng-disabled="currentFixture.is_finished || currentFixture.is_playing || selectedGameplayer.id != userGameplayer.id" 
                                      ng-click="doGeneralPrediction(match, true)" 
                                      ng-model="match.generalPrediction">
@@ -124,7 +120,7 @@
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
-                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="draw" 
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}}" type="radio" value="draw" 
                                      ng-disabled="currentFixture.is_finished || currentFixture.is_playing || selectedGameplayer.id != userGameplayer.id" 
                                      ng-model="match.generalPrediction">
                               <span popover-trigger="mouseenter" popover="Empatan" ng-if="!match.is_finished" ng-click="doGeneralPrediction(match)">E</span>
@@ -133,7 +129,7 @@
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
-                              <input name="{{ match.local_team }}_{{ match.visitor_team}} " type="radio" value="visitor" 
+                              <input name="{{ match.local_team }}_{{ match.visitor_team}}" type="radio" value="visitor" 
                                      ng-disabled="currentFixture.is_finished || currentFixture.is_playing || selectedGameplayer.id != userGameplayer.id" 
                                      ng-click="doGeneralPrediction(match, false)" 
                                      ng-model="match.generalPrediction">
