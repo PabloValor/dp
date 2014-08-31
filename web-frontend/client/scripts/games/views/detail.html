@@ -70,7 +70,9 @@
                     </div>
 
                     <div class="callout callout-info" ng-show="is_owner">
-                      <p>Sos el creador de este torneo!</p>
+                      <h4>Sos el creador de este torneo! </h4>  
+                      <p>Podes invitar mas amigos a jugar.</p>
+                      <button class="btn btn-success" ng-click="openAddFriendsModal()">Invitar mas amigos</button>
                     </div>
 
                     <div ng-hide="is_owner">
@@ -129,11 +131,6 @@
 
             </div>
         </section>
-        <section class="panel panel-default" ng-show="is_owner">
-            <div class="panel-heading"><span class="flaticon-soccer51"></span> <strong><span data-i18n="Invitar Mas Amigos"></span></strong></div>
-            <div class="panel-body" ng-include="'scripts/games/views/_addGamePlayers.html'" ng-controller="AddGamePlayersController" >
-            </div>
-       </section>
     </div>
     <div class="col-md-5">
       <game-table game="game" ng-if="game" username="username"> </game-table>

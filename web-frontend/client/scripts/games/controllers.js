@@ -113,8 +113,21 @@ angular.module('app.games')
     }
 ])
 
-.controller('AddGamePlayersController', ['$scope', 'Facebook', 'Data', 'FriendsService', 'GameService',
-    function($scope, Facebook, Data, FriendsService, GameService)  {
+
+.controller('AddGamePlayersModalController', ['$scope', '$modalInstance', 'game',
+    function($scope, $modalInstance, game)  {
+      $scope.game = game;
+      $scope.modalInstance = $modalInstance;
+
+      $scope.cancel = function() {
+        $modalInstance.dismiss();
+      };
+    }
+])
+
+
+.controller('AddGamePlayersController', ['$scope', '$location', 'Facebook', 'Data', 'FriendsService', 'GameService',
+    function($scope, $location, Facebook, Data, FriendsService, GameService)  {
         $scope.emailPlayers = [{ email : '' }];
         Data.emailPlayers = $scope.emailPlayers;
 
@@ -129,7 +142,7 @@ angular.module('app.games')
             $scope.emailPlayers.splice(index, 1);
         };
 
-        $scope.withOutFriendsMsg = "No tienes amigos... puedas buscarlos ingresando al";
+        $scope.withOutFriendsMsg = "Encuentra nuevos amigos!";
 
         /*
         if(Facebook.isAuthenticated()) {
@@ -148,7 +161,7 @@ angular.module('app.games')
                 if(!!Data.currentGame) {
                   var gameplayers_ids = Data.currentGame.gameplayers.map(function(e) { return e.player });
                   $scope.friends = friends.filter(function(e) { return gameplayers_ids.indexOf(e.id) < 0 })
-                  $scope.withOutFriendsMsg = "No tienes mas amigos para agregar al torneo. Puedes buscar nuevos en el";
+                  $scope.withOutFriendsMsg = "Invitaste a todos tus amigos. Encuentra nuevos amigos.";
                 }
 
                 $scope.hasTrueFriends = $scope.friends.filter(function(e) { return e.is_friend }).length > 0;
@@ -159,8 +172,23 @@ angular.module('app.games')
             }
         );
 
+        $scope.findFriends = function() {
+          $location.path("/amigos/buscar/");
+          if(!!$scope.modalInstance) {
+            $scope.modalInstance.dismiss()
+          }
+        };
+
         $scope.inviteFriends = function() {
           var friends = $scope.friends.filter(function(f) {  return f.checked && f.is_friend; });
+
+          if(friends.length == 0) {
+            if(!!$scope.modalInstance) {
+              $scope.modalInstance.dismiss()
+            }
+            return ;
+          }
+
           GameService.inviteFriends($scope.game, friends, 
               function(response) {
                 $scope.friends = $scope.friends.filter(function(f) { return !f.checked && f.is_friend; });
@@ -171,13 +199,17 @@ angular.module('app.games')
                   var player = friends[i];
                   Data.currentGame.gameplayers.push({ "player": player.id, "username": player.username, "status": null, 'initial_points': player.initial_points })
                 }
+
+                if(!!$scope.modalInstance) {
+                  $scope.modalInstance.dismiss()
+                }
               }
           );
         }
 }])
 
-.controller('DetailGameController', ['$scope', '$routeParams', 'GameService', 'Data', 'UserService',
-    function($scope, $routeParams, GameService, Data, UserService)  {
+.controller('DetailGameController', ['$scope', '$routeParams', '$modal', 'GameService', 'Data', 'UserService',
+    function($scope, $routeParams, $modal, GameService, Data, UserService)  {
         function setUserStatus(game) {
           $scope.is_owner = game.owner == $scope.username;
           $scope.owner = game.gameplayers.filter(function(p) { return p.username == game.owner })[0];
@@ -230,10 +262,23 @@ angular.module('app.games')
                   gameplayer.status = null;
                 });
         }
-      
+
+
+        $scope.items = ["item1", "item2", "item3"];
+        $scope.openAddFriendsModal = function() {
+            var modalInstance;
+            modalInstance = $modal.open({
+              templateUrl: 'scripts/games/views/_addGamePlayersModal.html',
+              controller: 'AddGamePlayersModalController',
+              resolve: {
+                game: function() {
+                  return $scope.game;
+                }
+              }
+            });
+        }
     }
 ])
-
 .controller('MyGamesController', ['$scope', '$routeParams', 'GameService', 'Data', 'UserService',
     function($scope, $routeParams, GameService, Data, UserService)  {
         GameService.all(function(games) {

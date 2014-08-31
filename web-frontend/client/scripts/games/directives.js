@@ -96,6 +96,11 @@ angular.module('app.games')
 
         for(var i in $scope.game.gameplayers) {
           gp = $scope.game.gameplayers[i];
+
+          if(!gp.status) {
+            continue;
+          }
+
           gp_points = 0;
 
           for(var j in gp.fixture_points) {

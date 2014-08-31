@@ -20,7 +20,9 @@
             </div>
 
               <div class="callout callout-info" ng-hide="hasTrueFriends">
-                <p>{{ withOutFriendsMsg }} <a href="#/amigos/buscar/">buscador!</a></p>
+                <h4>Busca nuevos amigos! </h4>  
+                <p>{{ withOutFriendsMsg }}</p>
+                <button class="btn btn-success" ng-click="findFriends()">Buscar</button>
               </div>
         </tab>
         <!--
@@ -57,4 +59,5 @@
         </tab>
     </tabset>
 </div>
-<button type="button" class="btn btn-success inviteMorePlayersButton" data-i18n="Invitar" ng-show="canInviteMorePlayers" ng-click="inviteFriends()"></button>
+<button type="button" class="btn btn-warning inviteMorePlayersButton" data-i18n="Cancelar" ng-show="canInviteMorePlayers && modalInstance" ng-click="cancel()"></button>
+<button type="button" style="margin-right:5px" class="btn btn-success inviteMorePlayersButton" data-i18n="Invitar" ng-show="canInviteMorePlayers" ng-click="inviteFriends()"></button>
