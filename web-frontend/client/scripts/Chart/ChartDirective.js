@@ -148,12 +148,16 @@
                 element: ele[0],
                 data: data,
                 xkey: attrs.xkey,
+                parseTime: false,
                 ykeys: JSON.parse(attrs.ykeys),
                 labels: JSON.parse(attrs.labels),
                 lineWidth: attrs.lineWidth || 2,
                 lineColors: colors || ['#0b62a4', '#7a92a3', '#4da74d', '#afd8f8', '#edc240', '#cb4b4b', '#9440ed'],
                 resize: true
               };
+
+              console.info('options');
+                console.info(options);
               return new Morris.Line(options);
             case 'area':
               if (attrs.lineColors === void 0 || attrs.lineColors === '') {

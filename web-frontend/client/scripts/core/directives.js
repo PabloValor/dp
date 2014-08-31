@@ -34,5 +34,13 @@ angular.module('app.core')
     };
 })
 
-
-;
+.directive('chartLine', function() {
+    return {
+      restrict: 'A',
+      scope: { data: '=' },
+      link: function($scope, ele, attrs) {
+          var ctx = ele[0].getContext("2d")
+          var myLineChart = new Chart(ctx).Line($scope.data);
+      }
+    };
+});

@@ -91,6 +91,8 @@ angular.module('app.games')
         // Player Total Points
         var gp, fp, gp_points;
         var gameplayers_points = [];
+        var fixture_points = {};
+        var gameplayers_usernames = [];
 
         for(var i in $scope.game.gameplayers) {
           gp = $scope.game.gameplayers[i];
@@ -99,12 +101,27 @@ angular.module('app.games')
           for(var j in gp.fixture_points) {
             fp = gp.fixture_points[j];
             gp_points += fp.points;
+
+            if(fixture_points[fp.fixture_number] == undefined) {
+              fixture_points[fp.fixture_number] = {'n': 'Fecha ' + fp.fixture_number };
+            } 
+
+            fixture_points[fp.fixture_number][gp.username] = fp.points;
           }
 
+          gameplayers_usernames.push(gp.username);
           gameplayers_points.push({ 'username': gp.username, 'points': gp_points });
         }
 
+        var list_fixture_points = []
+        for(var i in fixture_points) {
+          list_fixture_points.push(fixture_points[i]);
+        }
+
+
         $scope.gameplayer_points = gameplayers_points;
+        $scope.comboData = list_fixture_points;
+        $scope.gameplayers_usernames  = gameplayers_usernames;
       }
     };
 })
