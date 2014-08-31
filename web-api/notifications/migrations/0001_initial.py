@@ -11,24 +11,25 @@ class Migration(SchemaMigration):
         # Adding model 'NotificationGame'
         db.create_table(u'notifications_notificationgame', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('sender', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['games.Player'])),
             ('notification_type', self.gf('django.db.models.fields.CharField')(default='1', max_length=1)),
-            ('player', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['games.Player'])),
-            ('active', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('active', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('gameplayer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['games.GamePlayer'], null=True, blank=True)),
+            ('player', self.gf('django.db.models.fields.related.ForeignKey')(related_name='game_notifications', to=orm['games.Player'])),
+            ('game_id', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'notifications', ['NotificationGame'])
 
         # Adding model 'NotificationFriend'
         db.create_table(u'notifications_notificationfriend', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('sender', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['games.Player'])),
             ('notification_type', self.gf('django.db.models.fields.CharField')(default='1', max_length=1)),
-            ('player', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['games.Player'])),
-            ('active', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('active', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('created_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('updated_at', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('playerfriend', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['games.PlayerFriend'], null=True, blank=True)),
+            ('player', self.gf('django.db.models.fields.related.ForeignKey')(related_name='friend_notifications', to=orm['games.Player'])),
         ))
         db.send_create_signal(u'notifications', ['NotificationFriend'])
 
@@ -62,33 +63,6 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'games.game': {
-            'Meta': {'object_name': 'Game'},
-            'classic': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'open_predictions': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'owner': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'owner_games'", 'to': u"orm['games.Player']"}),
-            'players': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'games'", 'symmetrical': 'False', 'through': u"orm['games.GamePlayer']", 'to': u"orm['games.Player']"}),
-            'points_classic': ('django.db.models.fields.PositiveIntegerField', [], {'default': '2'}),
-            'points_double': ('django.db.models.fields.PositiveIntegerField', [], {'default': '2'}),
-            'points_exact': ('django.db.models.fields.PositiveIntegerField', [], {'default': '3'}),
-            'points_general': ('django.db.models.fields.PositiveIntegerField', [], {'default': '3'}),
-            'tournament': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tournaments.Tournament']"}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
-        u'games.gameplayer': {
-            'Meta': {'object_name': 'GamePlayer'},
-            'another_chance': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
-            'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'game': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['games.Game']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'initial_points': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
-            'player': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['games.Player']"}),
-            'status': ('django.db.models.fields.NullBooleanField', [], {'null': 'True', 'blank': 'True'}),
-            'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
         u'games.player': {
             'Meta': {'object_name': 'Player'},
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
@@ -117,28 +91,24 @@ class Migration(SchemaMigration):
         },
         u'notifications.notificationfriend': {
             'Meta': {'object_name': 'NotificationFriend'},
-            'active': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'notification_type': ('django.db.models.fields.CharField', [], {'default': "'1'", 'max_length': '1'}),
-            'player': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['games.Player']"}),
-            'playerfriend': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['games.PlayerFriend']", 'null': 'True', 'blank': 'True'}),
+            'player': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'friend_notifications'", 'to': u"orm['games.Player']"}),
+            'sender': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['games.Player']"}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
         u'notifications.notificationgame': {
             'Meta': {'object_name': 'NotificationGame'},
-            'active': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'created_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'gameplayer': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['games.GamePlayer']", 'null': 'True', 'blank': 'True'}),
+            'game_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'notification_type': ('django.db.models.fields.CharField', [], {'default': "'1'", 'max_length': '1'}),
-            'player': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['games.Player']"}),
+            'player': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'game_notifications'", 'to': u"orm['games.Player']"}),
+            'sender': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['games.Player']"}),
             'updated_at': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'})
-        },
-        u'tournaments.tournament': {
-            'Meta': {'ordering': "['name']", 'object_name': 'Tournament'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         }
     }
 

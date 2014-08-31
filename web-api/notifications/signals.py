@@ -10,22 +10,26 @@ def gameplayer_creation_notification(sender, instance=None, created=False, **kwa
         # A player is being invitaded to play
         notification_type = '1'
         player = instance.player
+        sender = instance.game.owner
 
     elif not instance.status == None and instance.another_chance == None:
         # A player answered the request to play
         # If he accepts '2' if he rejects '3'
         notification_type = '2' if instance.status else '3'
         player = instance.game.owner
+        sender = instance.player
 
     elif instance.another_chance and instance.status == False:
         # A player asks for antother invitation
         notification_type = '4'
         player = instance.game.owner
+        sender = instance.player
 
     if notification_type:
         notification = NotificationGame(player = player, 
+                                        sender = sender,
                                         notification_type = notification_type,
-                                        gameplayer = instance)
+                                        game_id = instance.game.id)
 
         notification.save()
 
@@ -38,15 +42,17 @@ def playerfriend_creation_notification(sender, instance=None, created=False, **k
         # A player is being being request to be a Friend
         notification_type = '1'
         player = instance.friend
+        sender = instance.player
 
     elif instance.status:
         # A player accepts to be a friend, so we notify the requested
         notification_type = '2'
         player = instance.player
+        sender = instance.friend
 
     if notification_type:
         notification = NotificationFriend(player = player, 
-                                          notification_type = notification_type,
-                                          playerfriend = instance)
+                                          sender = sender,
+                                          notification_type = notification_type)
 
         notification.save()

@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     #url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'),
-    url(r'^api-token-auth/', 'dp.views.obtain_auth_token'),
+    url(r'^api-token-auth/', 'dp.views.obtain_auth_token', name = 'loginToken'),
 )
 
 if settings.DEBUG:
