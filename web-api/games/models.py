@@ -91,6 +91,22 @@ class GamePlayer(models.Model):
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
 
+    def reset(self):
+        self.status = None
+        self.another_chance = None
+
+    def is_invited(self):
+        """ Was invited to play """
+        return self.status == None and self.another_chance == None
+
+    def is_answered_request(self):
+        """ Answered the request to play """
+        return (not self.status == None) and self.another_chance == None
+
+    def is_another_chance(self):
+        """ Asks for antother invitation """
+        return self.another_chance and self.status == False
+
     def get_total_points(self):
         return FixturePlayerPoints.get_player_points(self) + self.initial_points
 

@@ -193,14 +193,14 @@ class PlayerAPITest(APITestCase):
         self.assertTrue(response.data.has_key('game_notifications'))
         self.assertTrue(response.data.has_key('friend_notifications'))
 
-    def test_get_player_with_notification_after_login_200_OK_B(self): 
+    def test_get_player_with_game_notification_after_login_200_OK_A(self): 
         """ 
           Test if the player recevies the notifications after he logs in the site
 
-          Player is invited to a game 
+          Player has a invite game notification
         """
 
-        # Register a new player: we need to know the password so we use this technique
+        # Register a new player: we need to know the password so we use this way
         data = { 'username': 'nico',
                  'email': 'nmbases@gmail.com',
                  'password': 'nicolas1' }
@@ -220,11 +220,259 @@ class PlayerAPITest(APITestCase):
         # Login
         url = reverse('loginToken')
         response = self.client.post(url, data)
-        import ipdb; ipdb.set_trace()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['game_notifications']), 1)
+        self.assertEqual(response.data['game_notifications'][0]['notification_type'], '1')
         self.assertEqual(response.data['game_notifications'][0]['player']['id'], player.id)
 
+    def test_get_player_with_game_notification_after_login_200_OK_B(self): 
+        """ 
+          Test if the player recevies the notifications after he logs in the site
+
+          Nico has a notification of player acepting to play the game
+        """
+
+        # Register a Nico: we need to know the password so we use this way
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        nico = Player.objects.first()
+
+        # Nico creates a new game and invites another player
+        game = GameFactory(owner = nico)
+        gp = GamePlayerFactory(game = game)
+
+        # Player accepts to play
+        gp.status = True
+        gp.save()  
+
+        # Nico Login
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['game_notifications']), 1)
+        self.assertEqual(response.data['game_notifications'][0]['notification_type'], '2')
+        self.assertEqual(response.data['game_notifications'][0]['sender']['id'], gp.player.id)
+
+    def test_get_player_with_game_notification_after_login_200_OK_C(self): 
+        """ 
+          Test if the player recevies the notifications after he logs in the site
+
+          Nico has a notification of player rejecting to play the game
+        """
+
+        # Register a Nico: we need to know the password so we use this way
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        nico = Player.objects.first()
+
+        # Nico creates a new game and invites another player
+        game = GameFactory(owner = nico)
+        gp = GamePlayerFactory(game = game)
+
+        # Player rejects to play
+        gp.status = False
+        gp.save()  
+
+        # Nico Login
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['game_notifications']), 1)
+        self.assertEqual(response.data['game_notifications'][0]['notification_type'], '3')
+        self.assertEqual(response.data['game_notifications'][0]['sender']['id'], gp.player.id)
+
+    def test_get_player_with_game_notification_after_login_200_OK_D(self): 
+        """ 
+          Test if the player recevies the notifications after he logs in the site
+
+          Nico has a notification of a player requesting another chance to play
+        """
+
+        # Register a Nico: we need to know the password so we use this way
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        nico = Player.objects.first()
+
+        # Nico creates a new game and invites another player
+        game = GameFactory(owner = nico)
+        gp = GamePlayerFactory(game = game)
+
+        # Player rejects to play
+        gp.status = False
+        gp.save()  
+
+        # Player asks for another oportunity
+        gp.another_chance = True
+        gp.save()
+
+        # Nico Login
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['game_notifications']), 2)
+
+        # Rejects
+        self.assertEqual(response.data['game_notifications'][0]['notification_type'], '3')
+        self.assertEqual(response.data['game_notifications'][0]['sender']['id'], gp.player.id)
+
+        # Another opportunity
+        self.assertEqual(response.data['game_notifications'][1]['notification_type'], '4')
+        self.assertEqual(response.data['game_notifications'][1]['sender']['id'], gp.player.id)
+
+    def test_get_player_with_game_notification_after_login_200_OK_E(self): 
+        """ 
+          Test if the player recevies the notifications after he logs in the site
+
+          Nico has a notification that his request of another chance to play was accepted
+        """
+
+        # Register a Nico: we need to know the password so we use this way
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        nico = Player.objects.first()
+
+        # Player creates a new game and invites another player
+        game = GameFactory()
+
+        # Nico is invited
+        gp = GamePlayerFactory(game = game, player = nico)
+
+        # Nico rejects to play
+        gp.status = False
+        gp.save()
+
+        # Nico asks for another invitation
+        gp.another_chance = True
+        gp.save()
+
+        # Player invites Nico again
+        gp.reset()
+        gp.save()
+
+        # Nico Login
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['game_notifications']), 1)
+
+        # Rejects
+        self.assertEqual(response.data['game_notifications'][0]['notification_type'], '1')
+        self.assertEqual(response.data['game_notifications'][0]['sender']['id'], gp.game.owner.id)
+        self.assertEqual(response.data['game_notifications'][0]['player']['id'], gp.player.id)
+
+    def test_get_player_with_friend_notification_after_login_200_OK_A(self): 
+        """ 
+          Test if the player recevies the notifications after he logs in the site
+
+          Nico has a Friend Notification
+        """
+
+        # Register a Nico: we need to know the password so we use this way
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        nico = Player.objects.first()
+
+        # Nico has a friend request
+        pf = PlayerFriendFactory(friend = nico)
+
+        # Nico Login
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(len(response.data['friend_notifications']), 1)
+        self.assertEqual(response.data['friend_notifications'][0]['notification_type'], '1')
+        self.assertEqual(response.data['friend_notifications'][0]['sender']['id'], pf.player.id)
+        self.assertEqual(response.data['friend_notifications'][0]['player']['id'], nico.id)
+
+    def test_get_player_with_friend_notification_after_login_200_OK_B(self): 
+        """ 
+          Test if the player recevies the notifications after he logs in the site
+
+          Nico has a notification that a friend has accepted his request
+        """
+
+        # Register a Nico: we need to know the password so we use this way
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        nico = Player.objects.first()
+
+        # Nico has a friend request
+        pf = PlayerFriendFactory(friend = nico)
+
+        # Nico Login
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(len(response.data['friend_notifications']), 1)
+        self.assertEqual(response.data['friend_notifications'][0]['notification_type'], '1')
+        self.assertEqual(response.data['friend_notifications'][0]['sender']['id'], pf.player.id)
+        self.assertEqual(response.data['friend_notifications'][0]['player']['id'], nico.id)
+
+    def test_get_player_with_friend_notification_after_login_200_OK_B(self): 
+        """ 
+          Test if the player recevies the notifications after he logs in the site
+
+          Nico has a notification that his Friend Request was accepted
+        """
+
+        # Register a Nico: we need to know the password so we use this way
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        nico = Player.objects.first()
+
+        # Nico makes a Friend Request
+        pf = PlayerFriendFactory(player = nico)
+
+        # Friend Request accepted
+        pf.status = True
+        pf.save()
+
+        # Nico Login
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(len(response.data['friend_notifications']), 1)
+        self.assertEqual(response.data['friend_notifications'][0]['notification_type'], '2')
+        self.assertEqual(response.data['friend_notifications'][0]['sender']['id'], pf.friend.id)
+        self.assertEqual(response.data['friend_notifications'][0]['player']['id'], nico.id)
 
 
 class PlayerSearchAPITest(APITestCase):

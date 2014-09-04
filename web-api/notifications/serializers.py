@@ -3,8 +3,8 @@ from .models import NotificationFriend, NotificationGame
 from games.serializers import PlayerSerializer, GamePlayerSerializer, PlayerFriendSerializer
 
 class NotificationGameSerializer(serializers.ModelSerializer):
-    gameplayer = GamePlayerSerializer(source="gameplayer")
     player = PlayerSerializer(source="player")
+    sender = PlayerSerializer(source="sender")
 
     class Meta:
         model = NotificationGame
@@ -12,7 +12,7 @@ class NotificationGameSerializer(serializers.ModelSerializer):
 
 class NotificationFriendSerializer(serializers.ModelSerializer):
     player = PlayerSerializer(source="player")
-    playerfriend = PlayerFriendSerializer(source="player")
+    sender = PlayerSerializer(source="sender")
 
     class Meta:
         model = NotificationFriend

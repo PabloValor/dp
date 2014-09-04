@@ -71,6 +71,8 @@ class GameNotificationTest(TestCase):
 
           Because he alread has rejected to play, now he don't wants to see
           the game in his list
+          
+          There is one notification because of the creation of the game
         """
         gp = GamePlayerFactory(status = False)
         gp.another_chance = False
@@ -79,6 +81,37 @@ class GameNotificationTest(TestCase):
         self.assertEqual(NotificationGame.objects.count(), 1)
 
     def test_gameplayer_update_notification_E(self):
+        """ 
+          When a Gameplayer another_chance is updated we create a Notification
+
+          Owner invites Gameplayer again after he had asked for another chance to play
+        """
+
+        # Player invited
+        gp = GamePlayerFactory()
+        self.assertEqual(NotificationGame.objects.count(), 1)
+        self.assertEqual(NotificationGame.objects.filter(player = gp.player).count(), 1)
+
+        # Player rejects 
+        gp.status = False
+        gp.save()
+        self.assertEqual(NotificationGame.objects.filter(player = gp.player).count(), 1)
+        self.assertEqual(NotificationGame.objects.count(), 2)
+
+        # Player asks for another chance
+        gp.another_chance = True
+        gp.save()
+        self.assertEqual(NotificationGame.objects.filter(player = gp.player).count(), 1)
+        self.assertEqual(NotificationGame.objects.count(), 3)
+
+        # Player invites again the user
+        gp.reset()
+        gp.save()
+        self.assertEqual(NotificationGame.objects.filter(player = gp.player).count(), 2)
+        self.assertEqual(NotificationGame.objects.filter(player = gp.player, active = True).count(), 1)
+        self.assertEqual(NotificationGame.objects.count(), 4)
+
+    def test_gameplayer_update_notification_F(self):
         """ 
           When a Gameplayer another_chance is updated but he hasn't answer if he
           plays or not we dont create a Notification

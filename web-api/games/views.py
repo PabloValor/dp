@@ -27,8 +27,7 @@ class GamePlayerUpdateInvitesAgain(generics.UpdateAPIView):
         return GamePlayer.objects.filter(status = False, another_chance = True, game__owner = user)
 
     def pre_save(self, obj):
-        obj.status = None
-        obj.another_chance = None
+        obj.reset()
 
 class GamePlayerUpdate(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
