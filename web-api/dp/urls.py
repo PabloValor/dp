@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^games/', include('games.urls')),
     url(r'^tournaments/', include('tournaments.urls')),
+    url(r'^notifications/', include('notifications.urls')),
     url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

@@ -1,5 +1,5 @@
 from django.db import models
-from games.models import Player, GamePlayer, PlayerFriend
+from games.models import Player, GamePlayer, PlayerFriend, Game
 
 class NotificationModel(models.Model):
     TYPES = ()
@@ -22,7 +22,7 @@ class NotificationGame(NotificationModel):
         ('3', 'Game Invitation Rejected'),
         ('4', 'Game Another Chance'),
     )
-    game_id = models.PositiveIntegerField(blank=True, null=True)
+    game = models.ForeignKey(Game)
 
 class NotificationFriend(NotificationModel):
     player = models.ForeignKey(Player, related_name = 'friend_notifications')

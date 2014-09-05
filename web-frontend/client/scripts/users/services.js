@@ -33,7 +33,8 @@ angular.module('app.users')
     };
 }])
 
-.factory('AuthenticationService', ['$http', 'Session', 'SETTINGS', function($http, Session, SETTINGS) {
+.factory('AuthenticationService', ['$http', 'Session', 'SETTINGS', 
+    function($http, Session, SETTINGS, Data) {
         return {
             login: function(credentials, f_success, f_error) {
                 return $http.post(SETTINGS.url.auth(), credentials)
@@ -42,6 +43,9 @@ angular.module('app.users')
                                 Session.create('token', response.token);
                                 Session.create('username', response.username);
                                 Session.create('user_id', response.user_id);
+
+                                Session.create('friend_notifications', JSON.stringify(response.friend_notifications));
+                                Session.create('game_notifications', JSON.stringify(response.game_notifications));
                                 if(!!f_success) {
                                     f_success(response);
                                 }
@@ -66,6 +70,9 @@ angular.module('app.users')
                                         Session.create('username', response.username);
                                         Session.create('user_id', response.user_id);
 
+                                        Session.create('friend_notifications', JSON.stringify(response.friend_notifications));
+                                        Session.create('game_notifications', JSON.stringify(response.game_notifications));
+
                                         if(!!f_success) {
                                             f_success(response);
                                         }
@@ -88,8 +95,15 @@ angular.module('app.users')
     }
 ])
 
-.factory('UserService', ['$http', 'SETTINGS', 'Session', 'Data',  function($http, SETTINGS, Session, Data) {
+.factory('UserService', ['$http', 'SETTINGS', 'Session', 'Data',  
+    function($http, SETTINGS, Session, Data) {
     return {
+        getFriendNotifications : function(){
+          return JSON.parse(Session.get('friend_notifications'));
+        },
+        getGameNotifications : function(){
+          return JSON.parse(Session.get('game_notifications'));
+        },
         getUsername : function(){
           return Session.get('username');
         },

@@ -6,5 +6,13 @@ angular.module('app.home')
         $scope.username = function() {
           return UserService.getUsername();
         };
+
+        $scope.game_notifications = function() {
+          return UserService.getGameNotifications();
+        };
+
+        $scope.friend_notifications = function() {
+          return UserService.getFriendNotifications();
+        };
     }
 ])

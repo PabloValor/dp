@@ -143,3 +143,137 @@ class FriendNotificationTest(TestCase):
 
         self.assertEqual(NotificationFriend.objects.count(), 2)
         self.assertEqual(NotificationFriend.objects.all()[1].player, pf.player)
+
+from django.core.urlresolvers import reverse
+from rest_framework import status
+from rest_framework.test import APITestCase
+from rest_framework.authtoken.models import Token
+from games.factories import PlayerFactory
+from .factories import NotificationGameFactory, NotificationFriendFactory
+
+class NotificationAPITest(APITestCase):
+    def test_update_notification_202_ACCEPTED_A(self):
+        """ 
+          Nico updates Game Notification 
+        """
+        nico = PlayerFactory()
+        notification = NotificationGameFactory(player = nico)
+        self.assertTrue(NotificationGame.objects.get(pk = notification.pk).active)
+
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('notificationUpdate', kwargs = {'pk': notification.pk, 'notification_type': 'game' })
+        response = self.client.put(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertFalse(NotificationGame.objects.get(pk = notification.pk).active)
+        self.assertEqual(NotificationGame.objects.all().count(), 1)
+
+    def test_update_notification_202_ACCEPTED_B(self):
+        """ 
+          Nico updates Friend Notification 
+        """
+        nico = PlayerFactory()
+        notification = NotificationFriendFactory(player = nico)
+        self.assertTrue(NotificationFriend.objects.get(pk = notification.pk).active)
+
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('notificationUpdate', kwargs = {'pk': notification.pk, 'notification_type': 'friend' })
+        response = self.client.put(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertFalse(NotificationFriend.objects.get(pk = notification.pk).active)
+        self.assertEqual(NotificationFriend.objects.all().count(), 1)
+
+    def test_update_notification_404_NOT_FOUND_A(self):
+        """ 
+            Nico tries to update a Friend Notification but it is a Game Notification
+        """ 
+        nico = PlayerFactory()
+        notification = NotificationGameFactory(player = nico)
+        self.assertTrue(NotificationGame.objects.get(pk = notification.pk).active)
+
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('notificationUpdate', kwargs = {'pk': notification.pk, 'notification_type': 'friend' })
+        response = self.client.put(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(NotificationGame.objects.get(pk = notification.pk).active)
+        self.assertEqual(NotificationGame.objects.all().count(), 1)
+
+    def test_update_notification_404_NOT_FOUND_B(self):
+        """ 
+            Nico tries to update a Game Notification but it is a Friend Notification
+        """
+        nico = PlayerFactory()
+        notification = NotificationFriendFactory(player = nico)
+        self.assertTrue(NotificationFriend.objects.get(pk = notification.pk).active)
+
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('notificationUpdate', kwargs = {'pk': notification.pk, 'notification_type': 'game' })
+        response = self.client.put(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(NotificationFriend.objects.get(pk = notification.pk).active)
+        self.assertEqual(NotificationFriend.objects.all().count(), 1)
+
+    def test_update_notification_404_NOT_FOUND_C(self):
+        """ 
+            Fede tries to update Nico's Friend Notification
+        """
+        fede = PlayerFactory()
+        nico = PlayerFactory()
+        notification = NotificationFriendFactory(player = nico, sender = fede)
+        self.assertTrue(NotificationFriend.objects.get(pk = notification.pk).active)
+
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('notificationUpdate', kwargs = {'pk': notification.pk, 'notification_type': 'friend' })
+        response = self.client.put(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(NotificationFriend.objects.get(pk = notification.pk).active)
+        self.assertEqual(NotificationFriend.objects.all().count(), 1)
+
+    def test_update_notification_404_NOT_FOUND_D(self):
+        """ 
+            Fede tries to update Nico's Game Notification
+        """
+        fede = PlayerFactory()
+        nico = PlayerFactory()
+        notification = NotificationGameFactory(player = nico, sender = fede)
+        self.assertTrue(NotificationGame.objects.get(pk = notification.pk).active)
+
+        token = Token.objects.get(user__username = fede.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('notificationUpdate', kwargs = {'pk': notification.pk, 'notification_type': 'game' })
+        response = self.client.put(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(NotificationGame.objects.get(pk = notification.pk).active)
+        self.assertEqual(NotificationGame.objects.all().count(), 1)
+
+    def test_update_401_UNAUTHORIZED(self):
+        """ 
+            Anon tries to update Nico Notification
+        """
+        nico = PlayerFactory()
+        notification = NotificationFriendFactory(player = nico)
+        self.assertTrue(NotificationFriend.objects.get(pk = notification.pk).active)
+
+        url = reverse('notificationUpdate', kwargs = {'pk': notification.pk, 'notification_type': 'friend' })
+        response = self.client.put(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertTrue(NotificationFriend.objects.get(pk = notification.pk).active)
+        self.assertEqual(NotificationFriend.objects.all().count(), 1)
+
