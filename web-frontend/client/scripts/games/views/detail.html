@@ -133,7 +133,8 @@
             </div>
         </section>
     </div>
-    <div class="col-md-5">
-      <game-table game="game" ng-if="game" username="username"> </game-table>
+    <div class="col-md-5" ng-controller="GameTablesController" ng-if="game">
+      <game-table> </game-table>
+      <game-table-fixture-points> </game-table-fixture-points>
     </div>
 </section>

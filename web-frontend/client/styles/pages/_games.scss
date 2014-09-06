@@ -201,3 +201,22 @@
     }
   }
 }
+
+.game-tables {
+  tr, th {
+    text-align: center;
+  }
+
+  &.game-tables-fixture {
+    .menu {
+      button {
+        min-width: 10px;
+      }
+    }
+
+    h4 {
+      text-align:center;
+    }
+  }
+}
+

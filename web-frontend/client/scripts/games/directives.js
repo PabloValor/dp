@@ -83,50 +83,77 @@ angular.module('app.games')
     return {
       restrict: 'E',
       templateUrl: 'scripts/games/views/_gameTable.html',
+      replace: true
+    };
+})
+
+.directive('gameTableWide', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/games/views/_gameTableWide.html',
+      replace: true
+    };
+})
+
+.directive('gameTableFixturePoints', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/games/views/_gameTableFixturePoints.html',
+      replace: true
+    };
+})
+
+.directive('gameTableFixturePointsWide', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/games/views/_gameTableFixturePointsWide.html',
+      replace: true
+    };
+})
+
+.directive('gameTableChart', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/games/views/_gameTableChart.html',
       replace: true,
-      scope: { game: '=', username: '=' },
+      scope: {fixturePoints : '=', gameplayers : '=' },
       controller: function($scope) {
+        var fixture_points_data = [];
+        var gp_points_total = {};
+        var points,
+            old_points,
+            fp_data,
+            fp,
+            gp_username;
 
+        for(var f in $scope.fixturePoints) {
+          fp = $scope.fixturePoints[f];
+          fp_data = {'fixture': f };
 
-        // Player Total Points
-        var gp, fp, gp_points;
-        var gameplayers_points = [];
-        var fixture_points = {};
-        var gameplayers_usernames = [];
+          for(var i in $scope.gameplayers) {
+            gp_username = $scope.gameplayers[i];
+            points = 0;
 
-        for(var i in $scope.game.gameplayers) {
-          gp = $scope.game.gameplayers[i];
+            // If the player played that fixture
+            // We search for his fixture points
+            if(!!fp[gp_username]) {
+              points = fp[gp_username];
+            }
 
-          if(!gp.status) {
-            continue;
+            old_points = 0;
+            if(!!gp_points_total[gp_username]) {
+              old_points = gp_points_total[gp_username];
+            }
+
+            fp_data[gp_username] = points + old_points;
+            gp_points_total[gp_username] = points + old_points;
           }
 
-          gp_points = 0;
-
-          for(var j in gp.fixture_points) {
-            fp = gp.fixture_points[j];
-            gp_points += fp.points;
-
-            if(fixture_points[fp.fixture_number] == undefined) {
-              fixture_points[fp.fixture_number] = {'n': 'Fecha ' + fp.fixture_number };
-            } 
-
-            fixture_points[fp.fixture_number][gp.username] = fp.points;
-          }
-
-          gameplayers_usernames.push(gp.username);
-          gameplayers_points.push({ 'username': gp.username, 'points': gp_points });
+          fixture_points_data.push(fp_data);
         }
 
-        var list_fixture_points = []
-        for(var i in fixture_points) {
-          list_fixture_points.push(fixture_points[i]);
-        }
+        $scope.fixture_points_data = fixture_points_data;
 
-
-        $scope.gameplayer_points = gameplayers_points;
-        $scope.comboData = list_fixture_points;
-        $scope.gameplayers_usernames  = gameplayers_usernames;
       }
     };
 })

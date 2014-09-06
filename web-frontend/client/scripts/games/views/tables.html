@@ -1,0 +1,16 @@
+<section class="page" ng-controller="GameTablesController">
+  <div class="row">
+    <div class="col-md-6">
+      <game-table-wide> </game-table-wide>
+    </div>
+
+    <div class="col-md-6">
+      <game-table-fixture-points-wide> </game-table-fixture-points-wide>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <game-table-chart fixture-points="fixture_points" gameplayers="gameplayers" ng-if="fixture_points"> </game-table-chart>
+    </div>
+  </div>
+</section>

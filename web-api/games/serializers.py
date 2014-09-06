@@ -79,6 +79,7 @@ class UserGamePlayerField(serializers.Field):
 class GameSerializer(serializers.ModelSerializer):
     owner = serializers.Field(source = 'owner.username')
     tournament_name = serializers.Field(source = 'tournament.name')
+    current_fixture = serializers.Field(source = 'tournament.get_current_fixture_number')
     gameplayers = GamePlayerSerializer(source="gameplayer_set", many = True)
     you = UserGamePlayerField(source = 'gameplayer_set')
 
@@ -106,7 +107,8 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 
                     'gameplayers', 'you', 'classic', 'points_exact', 'open_predictions',
-                    'points_general',  'points_classic',  'points_double')
+                    'points_general',  'points_classic',  'points_double',
+                    'current_fixture')
 
 class PlayerMatchPredictionSerializer(serializers.ModelSerializer):
     class Meta:

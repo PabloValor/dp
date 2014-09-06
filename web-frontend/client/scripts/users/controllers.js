@@ -33,6 +33,7 @@ angular.module('app.users')
             Facebook.login(
                 function(response) { 
                     $rootScope.loadingInit = false;
+                    $rootScope.$broadcast("userLoginSuccess");
                     $location.path('/');
                 }, 
                 function(response) { 

@@ -11,6 +11,13 @@ class Tournament(models.Model):
         else:
            return None 
 
+    def get_current_fixture_number(self):
+        fixture = self.get_current_fixture()
+        if fixture:
+          return fixture.number
+        else:
+          return None
+
     def get_past_fixtures(self):
       fixtures = self.fixtures.filter(is_finished = True).order_by('number')
       return fixtures

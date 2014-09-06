@@ -10,6 +10,7 @@ angular.module('app.games', [])
 
             .when('/game/detail/:gameId', { templateUrl: 'scripts/games/views/detail.html' })
             .when('/torneos/detalle/:gameId', { templateUrl: 'scripts/games/views/detail.html' })
+            .when('/torneos/detalle/:gameId/tablas', { templateUrl: 'scripts/games/views/tables.html' })
 
             .when('/games/create', { templateUrl: 'scripts/games/views/all.html' })
             .when('/torneos/nuevo', { templateUrl: 'scripts/games/views/new.html' })

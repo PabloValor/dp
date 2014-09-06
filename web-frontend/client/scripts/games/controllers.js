@@ -324,4 +324,77 @@ angular.module('app.games')
         }
       
     }
-]);
+])
+
+.controller('GameTablesController', ['$scope', '$routeParams', 'GameService', 'Data', 'UserService',
+    function($scope, $routeParams, GameService, Data, UserService)  {
+        function initPoints() {
+          // We set the different kinds of points
+          var gp, fp, gp_points, fixtures_played;
+          var gameplayers_points = [];
+          var gameplayers = [];
+
+          var fixture_points = {};
+          var fixtures_count = 0;
+
+          for(var i in $scope.game.gameplayers) {
+            gp = $scope.game.gameplayers[i];
+
+            if(!gp.status) {
+              continue;
+            }
+
+            gp_points = 0;
+
+            for(var j in gp.fixture_points) {
+              fp = gp.fixture_points[j];
+              gp_points += fp.points;
+
+              if(fixture_points[fp.fixture_number] == undefined) {
+                fixtures_count++;
+                fixture_points[fp.fixture_number] = {};
+              } 
+
+              fixture_points[fp.fixture_number][gp.username] =  fp.points;
+            }
+
+            gameplayers.push(gp.username);
+            fixtures_played = !!gp.fixture_points ? gp.fixture_points.length : 0;
+            gameplayers_points.push({ 'username': gp.username, 'points': gp_points, 'fixtures_played': fixtures_played });
+          }
+
+          $scope.nextFixturePoints = function() {
+            $scope.currentFixturePoints++;
+          }
+
+          $scope.previousFixturePoints = function() {
+            $scope.currentFixturePoints--;
+          }
+
+          $scope.lastFixturePoints = fixtures_count;
+
+          $scope.currentFixturePoints = 1;
+          $scope.fixture_points = fixture_points;
+          $scope.gameplayer_points = gameplayers_points;
+          $scope.gameplayers = gameplayers;
+        }
+        
+
+        // We set the current game
+        if(!!Data.currentGame && ($routeParams.gameId == Data.currentGame.id)) {
+          $scope.game = Data.currentGame;
+          initPoints();
+
+        } else {
+          Data.currentGame = true; 
+          GameService.get($routeParams.gameId, 
+            function(game) {
+              $scope.game = game;
+              Data.currentGame = game;
+              initPoints();
+          });
+        }
+
+    }
+])
+;
