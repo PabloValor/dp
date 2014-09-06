@@ -30,8 +30,8 @@
         display: none;
         z-index: 11;
         position: absolute;
-        left: 180px;
-        top: 10px;
+        left: 210px;
+        top: 14px;
         line-height: 48px;
         font-size: 18px;
         color: #ccc;
@@ -51,15 +51,15 @@
         background-repeat: no-repeat;
         background-image: url("../images/logo.png");
         background-size: 44px 55px;
-        background-position: 15px 0;
+        background-position: 40px 5px;
         @media (min-width: $screen-sm) {
             display: inline-block;
-            width: 170px;
+            width: 220px;
         }
 
         span {
             font-size: 24px;
-            margin-left: 70px;
+            margin-left: 100px;
             vertical-align: middle;
             color: $bright;
 
@@ -220,7 +220,8 @@
         // 
         .nav-left {
             float: left;
-            padding: 0 $padding-base-horizontal;
+            padding: 5px $padding-base-horizontal;
+            padding-left: 50px;
             > li {
                 margin-right: 15px;
             }
@@ -230,7 +231,7 @@
 
         // 
         .nav-right {
-            padding: 0 $padding-base-horizontal;
+            padding: 5px $padding-base-horizontal;
             > li {
                 margin-left: 15px;
             }

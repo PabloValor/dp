@@ -22,6 +22,16 @@ class GameNotificationTest(TestCase):
         gp = GamePlayerFactory(game = game, player = game.owner)
         self.assertEqual(NotificationGame.objects.count(), 0)
 
+    def test_gameplayer_creation_notification_C(self):
+        """ 
+          When a Gameplayer is created but the player is the owner
+          we don't create a notification for the player
+
+        """
+        game = GameFactory()
+        gp = GamePlayerFactory(game = game, player = game.owner, status = True)
+        self.assertEqual(NotificationGame.objects.count(), 0)
+
     def test_gameplayer_update_notification_A(self):
         """ 
           When a Gameplayer status is updated we create a Notification

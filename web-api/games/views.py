@@ -161,6 +161,7 @@ def player_friend_update(request, pk):
 
 
 from social.apps.django_app.utils import strategy
+from notifications.serializers import NotificationGameSerializer, NotificationFriendSerializer
 
 @strategy()
 @api_view(['POST'])
@@ -173,7 +174,15 @@ def social_register(request, backend):
             return Response(str(err), status=400)
 
         if user:
-          return Response({ 'token': user.auth_token.key, 'username': user.username, 'user_id': user.id },  status=status.HTTP_200_OK )
+            game_notifications = NotificationGameSerializer(user.game_notifications.filter(active = True), many = True)
+            friend_notifications = NotificationFriendSerializer(user.friend_notifications.filter(active = True), many = True)
+
+            return Response({ 'token': user.auth_token.key, 
+                              'username': user.username, 
+                              'game_notifications': game_notifications.data,
+                              'friend_notifications': friend_notifications.data,
+                              'user_id': user.id },  
+                              status=status.HTTP_200_OK )
         else:
             return Response("Bad Credentials", status=403)
     else:

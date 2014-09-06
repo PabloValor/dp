@@ -28,8 +28,7 @@
 
         <div data-ng-controller="AppCtrl">
             <div data-ng-hide="isSpecificPage()" data-ng-cloak>
-                <section data-ng-include=" 'views/header.html' " id="header" class="top-header" ></section>
-
+                <nav-header></nav-header>
                 <aside data-ng-include=" 'views/nav.html' "
                      id="nav-container"></aside>
             </div>
@@ -117,6 +116,9 @@
         <script src="scripts/predictions/config.js"></script>
         <script src="scripts/predictions/services.js"></script>
         <script src="scripts/predictions/controllers.js"></script>
+
+        <script src="scripts/notifications/config.js"></script>
+        <script src="scripts/notifications/services.js"></script>
 
         <!-- endbuild -->
 

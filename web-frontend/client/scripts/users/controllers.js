@@ -18,6 +18,7 @@ angular.module('app.users')
             AuthenticationService.login($scope.credentials,
                 function(response) {
                     $rootScope.loadingInit = false;
+                    $rootScope.$broadcast("userLoginSuccess");
                     $location.path('/');
 
                 }, function(response) {

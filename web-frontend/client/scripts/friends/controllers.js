@@ -4,6 +4,7 @@ angular.module('app.friends')
 .controller('FriendsController', ['$scope', 'UserService', 'FriendsService', '$rootScope',
     function($scope, UserService, FriendsService, $rootScope)  {
         $rootScope.loadingInit = true;
+
         FriendsService.getFriends(
           function(players) {
 

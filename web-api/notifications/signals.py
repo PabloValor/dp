@@ -5,8 +5,11 @@ from .models import NotificationGame, NotificationFriend
 
 @receiver(post_save, sender=GamePlayer)
 def gameplayer_creation_notification(sender, instance=None, created=False, **kwargs):
+    if instance.player == instance.game.owner:
+        return
+
     notification_type = ''
-    if (created or instance.is_invited()) and not instance.player == instance.game.owner:
+    if (created or instance.is_invited()):
         # A player is being invitaded to play
         notification_type = '1'
         player = instance.player

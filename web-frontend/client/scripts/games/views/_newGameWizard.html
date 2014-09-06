@@ -8,7 +8,7 @@
   </div>
 
   <div class="menu pull-left clearfix" >
-    <button class="btn btn-w-md btn-gap-v btn-default" type="button" ng-show="currentStep == lastStep" ng-click="setOptionalStep()">Configuracion Avanzada</button>
+    <button class="btn btn-w-md btn-gap-v btn-default" type="button" ng-show="currentStep == lastStep && !showOptional" ng-click="setOptionalStep()">Configuracion Avanzada</button>
   </div>
   <div class="menu pull-right clearfix" >
     <button class="btn btn-w-md btn-gap-v btn-primary" type="button" ng-show="showOptional" ng-click="setlastStep()">Regresar</button>

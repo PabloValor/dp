@@ -43,4 +43,46 @@ angular.module('app.core')
           var myLineChart = new Chart(ctx).Line($scope.data);
       }
     };
+})
+
+.directive('navHeader', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/core/views/header.html',
+      controller: ['$scope', '$rootScope', '$location', 'UserService', 'NotificationService', 
+      function($scope, $rootScope, $location, UserService, NotificationService) {
+        function setNotificationCount() {
+          $scope.notification_count = $scope.game_notifications.length + $scope.friend_notifications.length;
+        }
+
+        $scope.username = UserService.getUsername();
+        $scope.game_notifications = NotificationService.getGameNotifications();
+        $scope.friend_notifications = NotificationService.getFriendNotifications();
+        setNotificationCount() 
+
+        $rootScope.$on("userLoginSuccess", 
+          function() { 
+              $scope.username = UserService.getUsername();
+              $scope.game_notifications = NotificationService.getGameNotifications();
+              $scope.friend_notifications = NotificationService.getFriendNotifications();
+              setNotificationCount();
+          });
+
+        $scope.toFriendNotification = function(notification) {
+          NotificationService.updateNotification(notification.id, 'friend'); // We don't care about the response
+          $scope.friend_notifications = NotificationService.removeFriendNotification(notification);
+          setNotificationCount();
+          $location.path('/amigos');
+        };
+
+        $scope.toGameNotification = function(notification) {
+          NotificationService.updateNotification(notification.id, 'game'); // We don't care about the response
+          $scope.game_notifications = NotificationService.removeGameNotification(notification);
+          setNotificationCount();
+          $location.path('/torneos/detalle/' + notification.game_id);
+        };
+
+      }]
+    };
 });
+

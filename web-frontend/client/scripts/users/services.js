@@ -98,12 +98,6 @@ angular.module('app.users')
 .factory('UserService', ['$http', 'SETTINGS', 'Session', 'Data',  
     function($http, SETTINGS, Session, Data) {
     return {
-        getFriendNotifications : function(){
-          return JSON.parse(Session.get('friend_notifications'));
-        },
-        getGameNotifications : function(){
-          return JSON.parse(Session.get('game_notifications'));
-        },
         getUsername : function(){
           return Session.get('username');
         },
