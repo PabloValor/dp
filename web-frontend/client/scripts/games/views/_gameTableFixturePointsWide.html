@@ -15,16 +15,16 @@
             <tr>
                 <th>#</th>
                 <th>Jugador</th>
-                <th>Clasicos Acertados</th>
+                <th>Clasico Acertado</th>
                 <th>Puntos</th>
             </tr>
         </thead>
         <tbody ng-repeat="fp in fixture_points" ng-show="($index + 1) == currentFixturePoints">
-            <tr ng-repeat="(username, points) in fp">
+            <tr ng-repeat="(username, points_classic) in fp">
               <td>{{ $index + 1 }}</td>
               <td>{{ username }}</td>
-              <td>0</td>
-              <td>{{ points }}</td>
+              <td>{{ points_classic.classic_prediction ? 'Si' : 'No' }}</td>
+              <td>{{ points_classic.points }}</td>
             </tr>
         </tbody>
     </table>

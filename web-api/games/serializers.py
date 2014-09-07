@@ -10,7 +10,7 @@ class FixturePlayerPointsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FixturePlayerPoints
-        fields = ('fixture_number', 'points')
+        fields = ('fixture_number', 'points', 'classic_prediction')
 
 class GamePlayerSerializer(serializers.ModelSerializer):
     player_id = serializers.Field(source = 'player.id')

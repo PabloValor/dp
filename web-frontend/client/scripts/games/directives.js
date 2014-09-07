@@ -137,7 +137,7 @@ angular.module('app.games')
             // If the player played that fixture
             // We search for his fixture points
             if(!!fp[gp_username]) {
-              points = fp[gp_username];
+              points = fp[gp_username].points;
             }
 
             old_points = 0;

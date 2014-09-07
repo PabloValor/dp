@@ -111,13 +111,20 @@ class GamePlayer(models.Model):
         return FixturePlayerPoints.get_player_points(self) + self.initial_points
 
     def get_fixture_points(self, fixture):
-        points = 0
+        points = self.initial_points
+        classic = False
+
         if fixture.is_finished:
-            points = sum([player_prediction.get_points() 
-                        for player_prediction in self.match_predictions.all() 
-                        if not player_prediction.match.suspended and player_prediction.match.fixture.pk == fixture.pk and player_prediction.match.is_finished])
-    
-        return points + self.initial_points
+          predictions = self.match_predictions.filter(match__fixture = fixture, match__is_finished = True)
+          for player_prediction in predictions:
+            prediction_points = player_prediction.get_points()
+
+            if prediction_points > 0 and player_prediction.match.is_classic:
+              classic = True
+
+            points = prediction_points + points
+
+        return (points , classic)
 
     def get_fixture_predictions(self, fixture):
         match_ids = [x.pk for x in fixture.matches.all()]
@@ -190,6 +197,7 @@ class FixturePlayerPoints(models.Model):
     fixture = models.ForeignKey(Fixture)
     gameplayer = models.ForeignKey(GamePlayer)
     points = models.IntegerField(verbose_name = 'Puntos')
+    classic_prediction = models.BooleanField(default = False)
 
     def __unicode__(self):
         return "{0} - {1} = {2} puntos".format(self.gameplayer.player, self.fixture, self.points)

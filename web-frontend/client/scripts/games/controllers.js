@@ -337,7 +337,7 @@ angular.module('app.games')
     function($scope, $routeParams, GameService, Data, UserService)  {
         function initPoints() {
           // We set the different kinds of points
-          var gp, fp, gp_points, fixtures_played;
+          var gp, fp, gp_points, fixtures_played, classic_predictions;
           var gameplayers_points = [];
           var gameplayers = [];
 
@@ -345,6 +345,7 @@ angular.module('app.games')
 
           for(var i in $scope.game.gameplayers) {
             gp = $scope.game.gameplayers[i];
+            classic_predictions = 0;
 
             if(!gp.status) {
               continue;
@@ -360,12 +361,16 @@ angular.module('app.games')
                 fixture_points[fp.fixture_number] = {};
               } 
 
-              fixture_points[fp.fixture_number][gp.username] =  fp.points;
+              if(fp.classic_prediction) {
+                classic_predictions++;
+              }
+
+              fixture_points[fp.fixture_number][gp.username] =  {'points': fp.points, 'classic_prediction': fp.classic_prediction }
             }
 
             gameplayers.push(gp.username);
             fixtures_played = !!gp.fixture_points ? gp.fixture_points.length : 0;
-            gameplayers_points.push({ 'username': gp.username, 'points': gp_points + gp.initial_points, 'fixtures_played': fixtures_played });
+            gameplayers_points.push({ 'username': gp.username, 'points': gp_points + gp.initial_points, 'fixtures_played': fixtures_played, 'classic_predictions':classic_predictions });
           }
 
           var username, points;
@@ -379,7 +384,7 @@ angular.module('app.games')
 
               for(var j in gameplayers) {
                 username = gameplayers[j];
-                fixture_points[i][username] =  0;
+                fixture_points[i][username] =  {'points': 0, 'classic_prediction': false }
               }
             } else {
               // We check if all the players have points if not we fill up with zero points
@@ -387,7 +392,7 @@ angular.module('app.games')
                 username = gameplayers[j];
                 points = fp[username];
                 if(!!!points) {
-                  fixture_points[i][username] =  0;
+                  fixture_points[i][username] = {'points': 0, 'classic_prediction': false };
                 }
               }
             }

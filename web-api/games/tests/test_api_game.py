@@ -1270,6 +1270,7 @@ class GameAPIFixturePointsTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(response.data[0]['gameplayers'][0].has_key('fixture_points'))
+        self.assertTrue(response.data[0]['gameplayers'][0]['fixture_points'][0].has_key('classic_prediction'))
 
     def test_get_game_with_multiple_fixture_points_200_OK(self):
         # Game Player
@@ -1289,6 +1290,8 @@ class GameAPIFixturePointsTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(response.data[0]['gameplayers'][0].has_key('fixture_points'))
         self.assertEqual(len(response.data[0]['gameplayers'][0]['fixture_points']), 2)
+        self.assertTrue(response.data[0]['gameplayers'][0]['fixture_points'][0].has_key('classic_prediction'))
+        self.assertTrue(response.data[0]['gameplayers'][0]['fixture_points'][1].has_key('classic_prediction'))
 
     def test_get_game_with_multiple_fixture_points_and_multiples_players_200_OK(self):
         # Game Player
