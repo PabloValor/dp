@@ -156,8 +156,6 @@
                 resize: true
               };
 
-              console.info('options');
-                console.info(options);
               return new Morris.Line(options);
             case 'area':
               if (attrs.lineColors === void 0 || attrs.lineColors === '') {

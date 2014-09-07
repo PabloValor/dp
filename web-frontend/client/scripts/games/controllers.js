@@ -335,7 +335,6 @@ angular.module('app.games')
           var gameplayers = [];
 
           var fixture_points = {};
-          var fixtures_count = 0;
 
           for(var i in $scope.game.gameplayers) {
             gp = $scope.game.gameplayers[i];
@@ -351,7 +350,6 @@ angular.module('app.games')
               gp_points += fp.points;
 
               if(fixture_points[fp.fixture_number] == undefined) {
-                fixtures_count++;
                 fixture_points[fp.fixture_number] = {};
               } 
 
@@ -363,6 +361,31 @@ angular.module('app.games')
             gameplayers_points.push({ 'username': gp.username, 'points': gp_points, 'fixtures_played': fixtures_played });
           }
 
+          var username, points;
+          // We see if a user did not played a game and fill up with zero points
+          for(var i = 1; i < $scope.game.current_fixture; i++) {
+            fp = fixture_points[i];
+
+            // If no player played this fixture we fill up with zero points
+            if(!!!fp) {
+              fixture_points[i] = {};
+
+              for(var j in gameplayers) {
+                username = gameplayers[j];
+                fixture_points[i][username] =  0;
+              }
+            } else {
+              // We check if all the players have points if not we fill up with zero points
+              for(var j in gameplayers) {
+                username = gameplayers[j];
+                points = fp[username];
+                if(!!!points) {
+                  fixture_points[i][username] =  0;
+                }
+              }
+            }
+          }
+
           $scope.nextFixturePoints = function() {
             $scope.currentFixturePoints++;
           }
@@ -371,7 +394,7 @@ angular.module('app.games')
             $scope.currentFixturePoints--;
           }
 
-          $scope.lastFixturePoints = fixtures_count;
+          $scope.lastFixturePoints = $scope.game.current_fixture - 1;
 
           $scope.currentFixturePoints = 1;
           $scope.fixture_points = fixture_points;
