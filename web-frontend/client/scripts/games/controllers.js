@@ -333,7 +333,7 @@ angular.module('app.games')
     }
 ])
 
-.controller('GameTablesController', ['$scope', '$routeParams', 'GameService', 'Data', 'UserService',
+.controller('GameTablesController', ['$scope', '$routeParams', 'GameService', 'Data', 'UserService', 
     function($scope, $routeParams, GameService, Data, UserService)  {
         function initPoints() {
           // We set the different kinds of points
@@ -414,8 +414,8 @@ angular.module('app.games')
           $scope.gameplayers = gameplayers;
         }
         
-
         // We set the current game
+        console.log("cargando tablas");
         if(!!Data.currentGame && ($routeParams.gameId == Data.currentGame.id)) {
           $scope.game = Data.currentGame;
           initPoints();
@@ -426,10 +426,72 @@ angular.module('app.games')
             function(game) {
               $scope.game = game;
               Data.currentGame = game;
+              $scope.$broadcast("gameTablesLoadedGame");
+
               initPoints();
           });
         }
 
+    }
+])
+
+.controller('TournamentTablesController', ['$scope', '$routeParams', 'PredictionService', 
+    function($scope, $routeParams, PredictionService)  {
+        function setTournamentPointsFixture(tournament) {
+            PredictionService.getTournamentFixture(tournament,
+              function(tournamentGame) {
+                // We init the teams with zero points
+                var teams_points = {};
+                var fixture,
+                    match;
+
+                for(var i  in tournamentGame.current_fixture.matches) {
+                    match = tournamentGame.current_fixture.matches[i];
+                    teams_points[match.local_team.name] = 0;
+                    teams_points[match.visitor_team.name] = 0;
+                }
+                var fixtures = tournamentGame.fixtures;
+                var current_fixture_number =  tournamentGame.current_fixture.number;
+                for(var i = 0; i < current_fixture_number; i ++) {
+                  fixture = fixtures[i];
+
+                  for(var j in fixture.matches) {
+                    match = fixture.matches[j];
+
+                    if(match.local_team_goals > match.visitor_team_goals) {
+                      teams_points[match.local_team.name] += 3;
+
+                    } else if(match.local_team_goals < match.visitor_team_goals) {
+                      teams_points[match.visitor_team.name] += 3;
+
+                    } else {
+                      teams_points[match.visitor_team.name] += 1;
+                      teams_points[match.local_team.name] += 1;
+                    }
+                  }
+                }
+
+                // We transform the list of teampoints to an array of objects
+                //
+                //
+                var teams_table = [];
+                for(var team in teams_points) {
+                  teams_table.push({'name': team, 'points': teams_points[team]});
+                }
+
+                $scope.teams_table = teams_table;
+
+            }, function(error) {
+
+            });
+        };
+
+
+        if(!!$scope.game) {
+          setTournamentPointsFixture($scope.game.tournament); 
+        } else {
+          $scope.$on("gameTablesLoadedGame", function() {setTournamentPointsFixture($scope.game.tournament); });
+        }
     }
 ])
 ;

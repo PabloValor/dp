@@ -157,4 +157,14 @@ angular.module('app.games')
       }
     };
 })
+
+.directive('tournamentTable', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/games/views/_tournamentTable.html',
+      replace: true
+    };
+})
+
 ;
+

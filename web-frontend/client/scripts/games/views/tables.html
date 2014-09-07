@@ -13,4 +13,9 @@
       <game-table-chart fixture-points="fixture_points" gameplayers="gameplayers" ng-if="fixture_points"> </game-table-chart>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-6" ng-controller="TournamentTablesController">
+      <tournament-table ng-if="teams_table"> </tournament-table>
+    </div>
+  </div>
 </section>

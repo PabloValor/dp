@@ -70,7 +70,6 @@ angular.module('app.core')
 
         $rootScope.$on("notificationsUpdated", 
             function() {
-              console.log("actualizando header");
               $scope.game_notifications = NotificationService.getGameNotifications();
               $scope.friend_notifications = NotificationService.getFriendNotifications();
               console.log($scope.game_notifications);
