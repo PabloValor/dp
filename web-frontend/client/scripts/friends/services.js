@@ -2,7 +2,8 @@
 angular.module('app.friends')
 
 
-.factory('FriendsService', ['$http', 'SETTINGS', 'Data',  function($http, SETTINGS, Data) {
+.factory('FriendsService', ['$http', 'SETTINGS', 'Data',  'NotificationService',
+    function($http, SETTINGS, Data, NotificationService) {
     return {
         getFriends: function(f_success, f_error) {
             if(!!Data.friends) {
@@ -64,7 +65,19 @@ angular.module('app.friends')
         }, 
         clearCache : function() {
             delete Data.friends;
-        }
+        },
+        getFriendNotification : function(friend_username) {
+          var friend_notifications = NotificationService.getFriendNotifications();
+          var friend_notification;
 
+          for(var i in friend_notifications) {
+            friend_notification = friend_notifications[i];
+            if(friend_notification.sender.username == friend_username) {
+              return friend_notification;
+            }
+          }
+
+          return null;
+        }
     };
 }]);

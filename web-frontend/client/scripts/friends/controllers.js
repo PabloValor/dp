@@ -1,8 +1,8 @@
 'use strict';
 angular.module('app.friends')
 
-.controller('FriendsController', ['$scope', 'UserService', 'FriendsService', '$rootScope',
-    function($scope, UserService, FriendsService, $rootScope)  {
+.controller('FriendsController', ['$scope', 'UserService', 'FriendsService', '$rootScope', 'NotificationService',
+    function($scope, UserService, FriendsService, $rootScope, NotificationService)  {
         $rootScope.loadingInit = true;
 
         FriendsService.getFriends(
@@ -44,7 +44,13 @@ angular.module('app.friends')
                 function(response) {
                   FriendsService.clearCache();
                   UserService.clearCache();
-                });
+
+                  var friend_notification = FriendsService.getFriendNotification(friend.username);
+                  if(friend_notification != null) {
+                    NotificationService.removeFriendNotification(friend_notification);
+                    NotificationService.updateNotification(friend_notification.username, 'friend');
+                  }
+            });
         }
     }
 ])
