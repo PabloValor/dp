@@ -23,8 +23,8 @@ def gameplayer_creation_notification(sender, instance=None, created=False, **kwa
             old_notification.active = False
             old_notification.save()
           except NotificationGame.DoesNotExist as e:
-            # Error
-            return None
+            # Could be that the user already desactivated all the notifications
+            pass
 
     elif instance.is_answered_request():
         # A player answered the request to play

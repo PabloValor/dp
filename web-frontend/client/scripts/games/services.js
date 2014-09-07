@@ -1,7 +1,8 @@
 'use strict';
 angular.module('app.games')
 
-.factory('GameService', ['$http', 'SETTINGS', function($http, SETTINGS) {
+.factory('GameService', ['$http', 'SETTINGS', 'NotificationService', 
+    function($http, SETTINGS, NotificationService) {
     return {
         all: function(f_success, f_error) {
                 $http.get(SETTINGS.url.games())
@@ -122,6 +123,19 @@ angular.module('app.games')
                         f_error(response);
                     }
                 });
+        },
+        getGameNotification : function(game_id) {
+          var game_notifications = NotificationService.getGameNotifications();
+          var game_notification;
+
+          for(var i in game_notifications) {
+            game_notification = game_notifications[i];
+            if(game_notification.game_id == game_id) {
+              return game_notification;
+            }
+          }
+
+          return null;
         }
     }
 }])

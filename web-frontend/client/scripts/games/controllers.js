@@ -208,8 +208,8 @@ angular.module('app.games')
         }
 }])
 
-.controller('DetailGameController', ['$scope', '$routeParams', '$modal', 'GameService', 'Data', 'UserService',
-    function($scope, $routeParams, $modal, GameService, Data, UserService)  {
+.controller('DetailGameController', ['$scope', '$routeParams', '$modal', 'GameService', 'Data', 'UserService', 'NotificationService',
+    function($scope, $routeParams, $modal, GameService, Data, UserService, NotificationService)  {
         function setUserStatus(game) {
           $scope.is_owner = game.owner == $scope.username;
           $scope.owner = game.gameplayers.filter(function(p) { return p.username == game.owner })[0];
@@ -239,13 +239,20 @@ angular.module('app.games')
               Data.currentGame = game;
               setUserStatus(game);
               setFriendsAnotherChance($scope.game);
+
           });
         }
+
 
         $scope.updateGamePlayerStatus = function(status) {
             GameService.updateGamePlayerStatus($scope.game.you[0].id, status, 
                 function(response) {
                   $scope.user.status = status;
+                  var game_notification = GameService.getGameNotification($scope.game.id);
+                  if(game_notification != null) {
+                    NotificationService.removeGameNotification(game_notification);
+                    NotificationService.updateNotification(game_notification.id, 'game');
+                  }
                 });
         }
 
@@ -358,7 +365,7 @@ angular.module('app.games')
 
             gameplayers.push(gp.username);
             fixtures_played = !!gp.fixture_points ? gp.fixture_points.length : 0;
-            gameplayers_points.push({ 'username': gp.username, 'points': gp_points, 'fixtures_played': fixtures_played });
+            gameplayers_points.push({ 'username': gp.username, 'points': gp_points + gp.initial_points, 'fixtures_played': fixtures_played });
           }
 
           var username, points;

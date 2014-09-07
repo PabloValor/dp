@@ -66,7 +66,16 @@ angular.module('app.core')
               $scope.game_notifications = NotificationService.getGameNotifications();
               $scope.friend_notifications = NotificationService.getFriendNotifications();
               setNotificationCount();
-          });
+        });
+
+        $rootScope.$on("notificationsUpdated", 
+            function() {
+              console.log("actualizando header");
+              $scope.game_notifications = NotificationService.getGameNotifications();
+              $scope.friend_notifications = NotificationService.getFriendNotifications();
+              console.log($scope.game_notifications);
+              setNotificationCount();
+        });
 
         $scope.toFriendNotification = function(notification) {
           NotificationService.updateNotification(notification.id, 'friend'); // We don't care about the response
