@@ -51,7 +51,9 @@
         </div>
         <div class="col-sm-9">
             <section class="panel panel-default mail-container ">
-                <div class="panel-heading"><span class="flaticon-football7"></span><strong> Partidos</strong></div>
+                <div class="panel-heading"><span class="flaticon-football7"></span><strong> Partidos</strong>
+                        <a class="btn btn-default pull-right" href="#/torneos/detalle/{{ selectedGame.id }}/tablas" style="text-transform:none">Estadisticas</a>
+                </div>
                 <div ng-class="{'loading-cloak': loadingFixture }" class="fixture-container ">
 
                 <cloak loading="loadingFixture"></cloak>
@@ -62,8 +64,8 @@
                   </div>
                   <div class="menu">
                     <div class="pull-right">
-                      <button class="btn btn-w-md btn-gap-v btn-inverse" type="button" ng-disabled="currentFixture.number == 1" ng-click="previousFixture()"><i class="fa fa-long-arrow-left"></i></button>
-                      <button class="btn btn-w-md btn-gap-v btn-inverse" type="button" ng-disabled="currentFixture.number == lastFixtureNumber" ng-click="nextFixture()" ng-disabled=""><i class="fa fa-long-arrow-right"></i></button>
+                        <button class="btn btn-w-md btn-gap-v btn-inverse" type="button" ng-disabled="currentFixture.number == 1" ng-click="previousFixture()"><i class="fa fa-long-arrow-left"></i></button>
+                        <button class="btn btn-w-md btn-gap-v btn-inverse" type="button" ng-disabled="currentFixture.number == lastFixtureNumber" ng-click="nextFixture()" ng-disabled=""><i class="fa fa-long-arrow-right"></i></button>
                     </div>
                   </div>
                 </div>
