@@ -162,7 +162,8 @@ angular.module('app.games')
     return {
       restrict: 'E',
       templateUrl: 'scripts/games/views/_tournamentTable.html',
-      replace: true
+      replace: true,
+      scope: { table: '=', title: '=' }
     };
 })
 

@@ -415,7 +415,6 @@ angular.module('app.games')
         }
         
         // We set the current game
-        console.log("cargando tablas");
         if(!!Data.currentGame && ($routeParams.gameId == Data.currentGame.id)) {
           $scope.game = Data.currentGame;
           initPoints();
@@ -435,9 +434,9 @@ angular.module('app.games')
     }
 ])
 
-.controller('TournamentTablesController', ['$scope', '$routeParams', 'PredictionService', 
-    function($scope, $routeParams, PredictionService)  {
-        function setTournamentPointsFixture(tournament) {
+.controller('TournamentTablesController', ['$scope', '$routeParams', 'PredictionService', '$rootScope',
+    function($scope, $routeParams, PredictionService, $rootScope)  {
+        function setTournamentTable(tournament) {
             PredictionService.getTournamentFixture(tournament,
               function(tournamentGame) {
                 // We init the teams with zero points
@@ -450,6 +449,7 @@ angular.module('app.games')
                     teams_points[match.local_team.name] = 0;
                     teams_points[match.visitor_team.name] = 0;
                 }
+
                 var fixtures = tournamentGame.fixtures;
                 var current_fixture_number =  tournamentGame.current_fixture.number;
                 for(var i = 0; i < current_fixture_number; i ++) {
@@ -472,8 +472,6 @@ angular.module('app.games')
                 }
 
                 // We transform the list of teampoints to an array of objects
-                //
-                //
                 var teams_table = [];
                 for(var team in teams_points) {
                   teams_table.push({'name': team, 'points': teams_points[team]});
@@ -486,11 +484,72 @@ angular.module('app.games')
             });
         };
 
+        function setPredictionsTable(gameplayer_id) {
+            PredictionService.getPredictions(gameplayer_id,
+              function(predictions) {
+                var predictions_table = {};
+                var prediction,
+                    local_team,
+                    visitor_team,
+                    winner_team,
+                    points;
 
+                // Fixture that is being played
+                var current_fixture = $scope.game.current_fixture;
+                for(var i in predictions) {
+                  prediction = predictions[i];
+
+                  // If the match has not been played
+                  // We skip the prediction
+                  if(prediction.match.fixture >= current_fixture) {
+                    continue;
+                  }
+
+                  local_team = prediction.match.local_team.name;
+                  visitor_team = prediction.match.visitor_team.name;
+
+                  if(!!!predictions_table[local_team]) {
+                    predictions_table[local_team] = 0;
+                  }
+
+                  if(!!!predictions_table[visitor_team]) {
+                    predictions_table[visitor_team] = 0;
+                  }
+
+                  if(prediction.local_team_goals > prediction.visitor_team_goals) {
+                    predictions_table[local_team] += 3;
+
+                  } else if(prediction.local_team_goals < prediction.visitor_team_goals) {
+                    predictions_table[visitor_team] += 3;
+
+                  } else {
+                    predictions_table[local_team] += 1;
+                    predictions_table[visitor_team] += 1;
+                  }
+                }
+
+                // We transform the list of teampoints to an array of objects
+                var predictions_list_table = [];
+                for(var team in predictions_table) {
+                  predictions_list_table.push({'name': team, 'points': predictions_table[team]});
+                }
+
+                $scope.predictions_table = predictions_list_table;
+                $rootScope.loadingInit = false;
+            }, function(error) {
+            });
+        }
+
+        $rootScope.loadingInit = true;
         if(!!$scope.game) {
-          setTournamentPointsFixture($scope.game.tournament); 
+          setTournamentTable($scope.game.tournament); 
+          setPredictionsTable($scope.game.you[0].id);
         } else {
-          $scope.$on("gameTablesLoadedGame", function() {setTournamentPointsFixture($scope.game.tournament); });
+          $scope.$on("gameTablesLoadedGame", 
+              function() {
+                setTournamentTable($scope.game.tournament); 
+                setPredictionsTable($scope.game.you[0].id);
+              });
         }
     }
 ])
