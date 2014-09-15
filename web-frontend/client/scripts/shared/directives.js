@@ -23,8 +23,7 @@
           addBg = function(path) {
             $element.removeClass('body-home body-special body-tasks body-lock');
             switch (path) {
-              case '/':
-                return $element.addClass('body-home');
+              case '/bienvenido':
               case '/404':
               case '/pages/500':
               case '/pages/signin':

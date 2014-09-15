@@ -10,19 +10,26 @@
     }
 
     .logo {
+        text-align: center;
         background-repeat: no-repeat;
         background-image: url("../images/logo.png");
-        background-size: 95px 120px;
-        background-position: 350px 15px;
-        font-size: 46px;
-        font-weight: bold;
-        padding-top: 65px;
+        background-size: 105px 130px;
+        background-position: 0px 5px;
+        font-weight: 600;
+        font-size: 70px;
+        padding-top: 30px;
         padding-bottom: 20px;
-
-
-        font-size: 46px;
-        font-weight: bold;
         color: black;
+        width: 450px;
+        padding-left: 60px;
+        margin: 0 auto;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+
+        span {
+          font-family: "lato";
+        }
     }
 
     // 

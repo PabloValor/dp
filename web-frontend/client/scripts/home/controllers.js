@@ -5,3 +5,12 @@ angular.module('app.home')
     function($scope, UserService)  {
     }
 ])
+
+/*
+.controller('DashboardController', ['$scope', '$rootScope', 
+    function($scope, $rootScope)  {
+      $rootScope.loadingInit = true;
+    }
+])
+
+*/
