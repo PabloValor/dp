@@ -45,6 +45,38 @@ angular.module('app.core')
     };
 })
 
+.directive('phrases', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'scripts/core/views/phrases.html',
+      replace: true,
+      scope: { bambino: '@' },
+      controller: function($scope) {
+        var phrases = [
+                  { text: 'Esto es in-cre-i-ble, acá falta Spilber (sic) nomás...de ciencia ficción!!!', author: 'Bambino Veira' },
+                  { text: 'Para mi, el fútbol es belleza.', author: 'Bambino Veira' },
+                  { text: 'La base está.', author: 'Bambino Veira' },
+                  { text: 'Estamos motivados.', author: 'Bambino Veira' },
+                  { text: 'El fútbol, como la vida, es un estado de ánimo.', author: 'Bambino Veira' },
+                  { text: 'Que lindo, que lindo...', author: 'Bambino Veira' } ];
+
+        var i = _.random(0, phrases.length - 1);
+        $scope.phrase = phrases[i];
+      }
+    };
+})
+
+.directive('backgroundFootball', function() {
+    return {
+      restrict: 'A',
+       link: function ($scope, element) {
+
+        var i = _.random(1, 4);
+        element.addClass('bg_' + i);
+      }
+    }
+})
+
 .directive('navHeader', function() {
     return {
       restrict: 'E',
