@@ -63,6 +63,7 @@ angular.module('app.users')
             $rootScope.loadingLogin = true;
             Facebook.login(
                 function(response) { 
+                    $rootScope.$broadcast("userLoginSuccess");
                     $location.path('/dashboard');
                 }, 
                 function(response) { console.log(response); 

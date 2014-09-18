@@ -6,6 +6,9 @@ from ..models import Player, FixturePlayerPoints
 from ..factories import *
 
 class ExactPredictionTest(TestCase):
+    """
+        We test if the  Prediction is an exact prediction
+    """
     def test_prediction_ok(self):
         match_1 = MatchFactory(is_finished = True)
 
@@ -17,7 +20,7 @@ class ExactPredictionTest(TestCase):
         self.assertTrue(player_prediction.is_exact_prediction())
 
     def test_prediction_not_ok(self):
-        match_2 = MatchFactory()
+        match_2 = MatchFactory(is_finished = True)
         player_prediction = \
                 PlayerMatchPredictionFactory(visitor_team_goals = (match_2.visitor_team_goals + 1), 
                                             local_team_goals = match_2.local_team_goals, 
@@ -26,6 +29,9 @@ class ExactPredictionTest(TestCase):
         self.assertFalse(player_prediction.is_exact_prediction())
 
 class GeneralPredictionTest(TestCase):
+    """
+        We test if the  Prediction is a general prediction
+    """
     def test_same_goals_prediction_true(self):
         match = MatchFactory(is_finished = True)
 
@@ -106,6 +112,12 @@ class GeneralPredictionTest(TestCase):
         self.assertFalse(player_prediction.is_general_prediction())
 
 class ExactGamePlayerPointsTest(TestCase):
+    """ An exact game counts the points if
+          - The player predicted correctly an exact result
+          - The player predicted correctly a general result
+
+          The points of both predictions sums up
+    """
     def test_player_exact_prediction_points_A(self):
         """ 
           Matches: 1
