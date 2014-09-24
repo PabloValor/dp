@@ -1,0 +1,125 @@
+.landing {
+  .container {
+    background-repeat: no-repeat;
+    width: 100%;
+    min-height: 676px;
+    background-size: cover;
+    padding: 0px;
+    position: relative;
+
+    &.bg_1 {
+      background-image: url("../images/background/bg_1.jpg");
+    }
+
+    &.bg_2 {
+      background-image: url("../images/background/bg_2.jpg");
+    }
+
+    &.bg_3 {
+      background-image: url("../images/background/bg_3.jpg");
+    }
+
+    &.bg_4 {
+      background-image: url("../images/background/bg_4.jpg");
+    }
+  }
+
+
+  .logo {
+      text-align: center;
+      background-repeat: no-repeat;
+      background-image: url("../images/logo.png");
+      background-size: 105px 130px;
+      background-position: 0px 5px;
+      font-weight: 600;
+      font-size: 70px;
+      padding-top: 30px;
+      padding-bottom: 20px;
+      color: white;
+      width: 450px;
+      padding-left: 60px;
+      margin: 0 auto;
+      margin-top: 20px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+
+      span {
+        font-family: "lato";
+      }
+  }
+
+  .phrases {
+    font-style: italic;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    color: white;
+    font-weight: 600;
+    width: 100%;
+    margin: 0 auto;
+    font-family: "lato";
+
+    position: absolute;
+    top: 200px;
+
+    .text {
+      font-size: 45px;
+      width: 60%;
+      display: inline-block;
+    }
+    
+    .author {
+      display: block;
+      width: 70%;
+      text-align: right;
+      font-size: 20px;
+    }
+  }
+
+
+  .form {
+      margin-top: 280px;
+      background: rgba(255,255,255,0.3);
+      height: 200px;
+      text-align: center;
+
+      hr {
+        margin-top: 40px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #6D6969;
+      }
+
+      a {
+        font-size: 18px;
+        width: 150px;
+        height: 45px;
+        margin: 0;
+        margin-top: 30px;
+        display: inline-block;
+
+        &.signin {
+          margin-right: 10px;
+        }
+
+        &.facebook-landing {
+          border: medium none;
+          line-height: 33px;
+        }
+
+        &.signup {
+          margin: 0 auto;
+          margin-top: 20px;
+          display: block;
+          width: 315px;
+        }
+
+      }
+  }
+
+  .picture-copyright {
+    font-size: 10px;
+    position: absolute;
+    top: 0;
+    left: 5px;
+    font-weight: bold;
+  }
+}

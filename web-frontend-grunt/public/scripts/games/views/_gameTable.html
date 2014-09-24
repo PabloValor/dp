@@ -1,0 +1,23 @@
+<section class="panel panel-default">
+  <div class="panel-heading" style="line-height: 23px;"><span class="flaticon-trophy46 flaticon-medium"></span><strong><span data-i18n="Posiciones"></span></strong></div>
+  <div class="panel-body game-tables">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Jugador</th>
+                <th>Puntos</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="gp in gameplayer_points | orderBy: '-points'" ng-class="{'success': gp.username == username }">
+              <td>{{ $index + 1 }}</td>
+              <td>{{ gp.username }}</td>
+              <td>{{ gp.points }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-default pull-right" href="#/torneos/detalle/{{ game.id }}/tablas">Ver Detallado</a>
+  </div>
+</section>

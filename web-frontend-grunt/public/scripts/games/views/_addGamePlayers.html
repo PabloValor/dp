@@ -1,0 +1,63 @@
+<div class="ui-tab-container inviteMorePlayers">
+    <tabset justified="true" class="ui-tab">
+        <tab heading="Amigos">
+            <div ng-show="hasTrueFriends">
+              <div class="form-group">
+                  <input type="text" class="form-control" ng-model="friendsFilter" placeholder="Buscar">
+              </div>
+              <div ng-class="{'row' : true, 'emailsWithCounter' : canInviteMorePlayers }" ng-repeat="friend in friends | filter:friendsFilter" ng-if="friend.is_friend">
+                <div class="col-xs-7">
+                    <label class="ui-checkbox" >
+                        <input name="checkbox2" type="checkbox" value="{{ friend.id }}" ng-model="friend.checked"><span>{{ friend.username }}</span>
+                    </label>
+                </div>
+                <div class="col-xs-4" ng-show="canInviteMorePlayers">
+                    <counter player="friend" show-popup="true"></counter>
+                </div>
+                 <span ng-show="canInviteMorePlayers" class="glyphicon glyphicon-question-sign col-xs-1 inviteMorePlayersHelp"  popover-trigger="mouseenter" popover="Puntos Iniciales"></span>
+              </div>
+
+            </div>
+
+              <div class="callout callout-info" ng-hide="hasTrueFriends">
+                <h4>Busca nuevos amigos! </h4>  
+                <p>{{ withOutFriendsMsg }}</p>
+                <button class="btn btn-success" ng-click="findFriends()">Buscar</button>
+              </div>
+        </tab>
+        <!--
+        <tab heading="Facebook">
+            <div class="callout callout-info">
+                <p>Invita a tus amigos a jugar con vos</p>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="facebookFilter" placeholder="Buscar">
+            </div>
+            <div class="form-group" ng-repeat="facebookPlayer in facebookPlayers | filter:facebookFilter" >
+                <label class="ui-checkbox">
+                    <input name="checkbox2" type="checkbox" value="{{ facebookPlayer.id }}" ng-model="facebookPlayer.checked"><span>{{ facebookPlayer.name }}</span>
+                </label>
+            </div>
+        </tab>
+        -->
+        <tab heading="Emails">
+            <div class="form-group" ng-repeat="player in emailPlayers">
+                <div class="input-group">
+                    <input type="email" class="form-control" ng-model="player.email" placeholder="email@email.com">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-danger btn" type="button" ng-click="removeEmailPlayer(player)" ng-disabled="emailPlayers.length == 1">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-sm" ng-click="addEmailPlayer()">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </tab>
+    </tabset>
+</div>
+<button type="button" class="btn btn-warning inviteMorePlayersButton" data-i18n="Cancelar" ng-show="canInviteMorePlayers && modalInstance" ng-click="cancel()"></button>
+<button type="button" style="margin-right:5px" class="btn btn-success inviteMorePlayersButton" data-i18n="Invitar" ng-show="canInviteMorePlayers" ng-click="inviteFriends()"></button>

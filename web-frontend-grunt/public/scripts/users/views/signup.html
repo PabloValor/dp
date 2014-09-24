@@ -1,0 +1,92 @@
+<cloak loading="loadingInit" left="'35%'"></cloak>
+<div class="page-signup">
+
+    <div class="signin-header">
+        <div class="container text-center">
+            <div class="logo">
+                    <span>dp futbol</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="signup-body" ng-controller="SignupController">
+        <div class="container">
+            <div class="form-container">
+
+                <section>
+                    <form class="form-horizontal" ng-submit="signup(user)" name="form_signup" no-validate>
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </span>
+                                <input  type="text"
+                                        class="form-control"
+                                        placeholder="apodo"
+                                        tabindex = "1" 
+                                        required
+                                        ng-model="user.username"
+                                        >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-envelope"></span>
+                                </span>
+                                <input type="email"
+                                       class="form-control"
+                                       placeholder="email"
+                                       tabindex = "2" 
+                                        required
+                                       ng-model="user.email"
+                                       >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-lock"></span>
+                                </span>
+                                <input type="password"
+                                       class="form-control"
+                                       placeholder="clave"
+                                       tabindex = "3" 
+                                       required
+                                       ng-model="user.password"
+                                       >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="divider"></div>
+                            <button type="submit" 
+                                    tabindex = "4" 
+                                    ng-disabled="!form_signup.$valid"
+                                    class="btn btn-primary btn-block btn-lg">Crear</button>
+                        </div>
+ 
+                        <div ng-show="errors"> 
+                          <div ng-repeat="error in errors" class="error">
+                            {{ error[0] }} 
+                          </div>
+                        </div>
+                    </form>
+                </section>
+
+                <span class="line-thru">O</span>
+
+                <section class="row signin-social text-center">
+                    <a href="javascript:;" ng-click="signup_fb()"  class="btn btn-default btn-facebook facebook-landing"><i class="fa fa-facebook"></i>facebook</a>
+                    <!-- <a href="javascript:;" class="btn btn-default btn-gplus google-landing"><i class="fa fa-google-plus"></i>google+</a> -->
+                </section>
+
+                <section>
+                    <p class="text-center text-muted">Ya tienes una cuenta? <a href="#/pages/signin" >Logueate</a></p>
+                </section>
+
+                <!-- <p class="text-muted text-small">By clicking on Sign up, you agree to <a href="javascript:;">terms & conditions</a> and <a href="javascript:;">privacy policy</a></p> -->
+            </div>
+        </div>
+    </div>
+</div>

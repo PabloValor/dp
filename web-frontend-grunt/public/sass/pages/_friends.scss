@@ -1,0 +1,30 @@
+.friends {
+
+  .mail-categories {
+    .list-group {
+        .list-group-item {
+            padding: 0;
+            &.active {
+                > a {
+                    border-left: 3px solid $color-blue;
+                    color: $color-blue;
+                    background-color: #fafafa;                    
+              }
+            }
+            > a {
+                &:hover {
+                    border-left: 3px solid $color-blue;
+                    color: $color-blue;
+                    background-color: #fafafa;                    
+                }
+            }
+        }
+    }
+  }
+
+  .players-list {
+    .ask-friendship {
+        margin-right:5px;
+    }
+  }
+}

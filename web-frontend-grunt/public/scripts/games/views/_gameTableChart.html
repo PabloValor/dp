@@ -1,0 +1,13 @@
+<section class="panel panel-default">
+  <div class="panel-heading"><span class="glyphicon glyphicon-th"></span><strong> Puntos Detallado</strong></div>
+    <div class="panel-body">
+        <div morris-chart
+              data-data="fixture_points_data"
+              data-type="line"
+              data-xkey="fixture"
+              data-ykeys='{{ gameplayers }}'
+              data-labels='{{ gameplayers }}'
+              data-line-width="3"
+              ></div>
+    </div>
+</section>

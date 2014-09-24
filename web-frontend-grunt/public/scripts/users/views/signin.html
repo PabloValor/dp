@@ -1,0 +1,75 @@
+<cloak loading="loadingInit" left="'35%'"></cloak>
+<div class="page-signin">
+
+    <div class="signin-header">
+        <div class="container text-center">
+            <div class="logo">
+                    <span>dp futbol</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="signin-body"  ng-controller='LoginController'>
+        <div class="container">
+            <div class="form-container">
+                <form class="form-horizontal" ng-submit="login(credentials)" name="form_signin" novalidate>
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </span>
+                                <input type="text"
+                                       ng-model="credentials.username"
+                                       class="form-control"
+                                       required
+                                       placeholder="apodo"
+                                       >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-lock"></span>
+                                </span>
+                                <input type="password"
+                                       class="form-control"
+                                       ng-model="credentials.password"
+                                       required
+                                       placeholder="clave"
+                                       >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="form-group" ng-show="loginFailed">
+                            <p class="text-danger">Las credenciales son incorrectas. Por favor reintente nuevamente. </p>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-lg btn-block" 
+                                   ng-disabled="!form_signin.$valid"
+                                   value="Entrar" />
+                        </div>
+                        <div class="error" ng-show="error"> {{ error }} </div>
+                    </fieldset>
+                </form>
+
+                <span class="line-thru">O</span>
+
+                <section class="row signin-social text-center">
+                    <a href="javascript:;" ng-click="login_fb()"  class="btn btn-default btn-facebook facebook-landing"><i class="fa fa-facebook"></i>facebook</a>
+                    <!-- <a href="javascript:;" class="btn btn-default btn-gplus google-landing"><i class="fa fa-google-plus"></i>google+</a>                   -->
+                </section>
+
+
+
+                <section>
+                    <p class="text-center"><a href="javascript:;">Te olvidaste la clave?</a></p>
+                    <p class="text-center text-muted text-small">Sos nuevo? <a href="#/signup">Create una cuenta</a></p>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+
+</div>

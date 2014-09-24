@@ -1,0 +1,21 @@
+<section class="panel panel-default">
+  <div class="panel-heading" style="line-height: 23px;"><span class="flaticon-trophy46 flaticon-medium"></span><strong><span data-i18n="{{ title }}"></span></strong></div>
+  <div class="panel-body game-tables">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Equipo</th>
+                <th>Puntos</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="team in table | orderBy: '-points'">
+              <td>{{ $index + 1 }}</td>
+              <td>{{ team.name }} </td>
+              <td>{{ team.points }}</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</section>
