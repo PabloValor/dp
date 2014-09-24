@@ -1,12 +1,58 @@
 {
-  "name": "jquery-steps",
-  "homepage": "https://github.com/rstaib/jquery-steps",
-  "version": "1.0.7",
-  "_release": "1.0.7",
+  "name": "jquery.steps",
+  "description": "A powerful jQuery wizard plugin that supports accessibility and HTML5.",
+  "keywords": [
+    "wizard",
+    "navigation",
+    "forms",
+    "UI",
+    "component",
+    "HTML5",
+    "accessibility",
+    "validation",
+    "tabs",
+    "steps"
+  ],
+  "version": "1.0.8",
+  "authors": [
+    {
+      "name": "Rafael Staib",
+      "email": "me@rafaelstaib.com",
+      "url": "http://www.rafaelstaib.com"
+    }
+  ],
+  "homepage": "http://www.jquery-steps.com",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rstaib/jquery-steps.git"
+  },
+  "license": "MIT",
+  "main": [
+    "build/jquery.steps.js",
+    "demo/css/jquery.steps.css"
+  ],
+  "ignore": [
+    "**/.*",
+    "build/*.nupkg",
+    "build/*.zip",
+    "lib",
+    "nuget",
+    "src",
+    "test",
+    "*.md",
+    "*.txt",
+    "Gruntfile.js",
+    "package.json",
+    "steps.jquery.json"
+  ],
+  "dependencies": {
+    "jquery": "1.10.2"
+  },
+  "_release": "1.0.8",
   "_resolution": {
     "type": "version",
-    "tag": "1.0.7",
-    "commit": "be18420eb54fcdaca93f56cec9bedfc4551b9063"
+    "tag": "1.0.8",
+    "commit": "19f1fc593669bfa2999c3fa60481c88c573f919d"
   },
   "_source": "git://github.com/rstaib/jquery-steps.git",
   "_target": "~1.0.7",

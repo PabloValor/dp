@@ -21,6 +21,10 @@ io.sockets.on('connection', function (socket) {
 	});
 });
 
+app.get('/hello', function(req, res){
+    // res.send('hello!');
+    res.send('bonjour!');
+});
 // use livereload middleware
 app.use(require('grunt-contrib-livereload/lib/utils').livereloadSnippet);
 
