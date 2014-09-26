@@ -164,13 +164,18 @@ angular.module('app.predictions')
 
           if(winner_is_local) {
             local_goals = 1;
+            match.generalPrediction = "local";
           } else if(winner_is_local == false) {
             visitor_goals = 1;
+            match.generalPrediction = "visitor";
+          } else {
+            match.generalPrediction = "draw";
           }
 
           PredictionService.doPrediction(gameplayer.id, match.id, local_goals, visitor_goals, 
-              function(response) {
+              function(prediction) {
                 match.hasPrediction = true;
+                $scope.predictions[$scope.selectedGameplayer.id][match.id ] = prediction;
               });
         }
         
@@ -178,8 +183,9 @@ angular.module('app.predictions')
           var gameplayer = $scope.selectedGame.you[0];
           if(!!match.predictionLocalGoals && !!match.predictionVisitorGoals) {
             PredictionService.doPrediction(gameplayer.id, match.id, match.predictionLocalGoals, match.predictionVisitorGoals, 
-                function(response) {
+                function(prediction) {
                   match.hasPrediction = true;
+                  $scope.predictions[$scope.selectedGameplayer.id][match.id ] = prediction;
                 });
           }
         }

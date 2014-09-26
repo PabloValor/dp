@@ -126,6 +126,7 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:9000',
+    'localhost:3000',
 )
 
 CORS_ALLOW_HEADERS = (

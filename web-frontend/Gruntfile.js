@@ -39,7 +39,7 @@
       },
       connect: {
         options: {
-          port: 9000,
+          port: 3000,
           hostname: "localhost"
         },
         livereload: {
