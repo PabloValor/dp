@@ -4,6 +4,15 @@
         <section class="panel panel-default">
             <div class="panel-heading"><span class="flaticon-soccer51"></span> <strong>Mis Amigos</strong></div>
             <div class="panel-body mail-categories">
+
+                <div class="row" style="margin-bottom:20px">
+                  <div class="pull-right" ng-show="friends" style="margin-right:15px;">
+                      <a class="btn btn-w-md btn-gap-v btn-success pull-right" href="#/amigos/buscar" style="font-weight:600;">
+                        <span data-i18n="Buscar Amigos"></span>
+                      </a>
+                  </div>
+                </div>
+
                 <ul class="list-group " ng-show="friends">
                     <li ng-repeat="friend in friends" class="list-group-item" ng-class='{active: selectedFriend == friend}' ng-if="friend.is_friend">
                         <a href="javascript:;" ng-click="selectFriend(friend)">

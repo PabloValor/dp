@@ -2,12 +2,19 @@
 <div class="page my-games" ng-controller="GameController">
 
     <section class="panel panel-default">
-        <div class="panel-heading"><strong><span class="flaticon-trophy33"></span> Mis Torneos</strong></div>
+        <div class="panel-heading"><span class="flaticon-trophy33"></span><strong> Mis Torneos</strong></div>
 
         <div class="panel-body">
 
           <div class="row" style="margin-bottom:20px" ng-show="games && games.length > 3">
-            <div class="pull-right" style="margin-right: 16px">
+
+            <div class="pull-right" style="margin-right: 20px;margin-top:16px;">
+              <a class="btn btn-w-md btn-gap-v btn-success pull-right" href="#/torneos/nuevo" style="font-weight:600;">
+                <span data-i18n="Crear Torneo"></span>
+              </a>
+            </div>
+
+            <div class="pull-left" style="margin-left: 16px">
               <span class="ui-select ">
                   <select ng-model="youGameStatus">
                       <option value="" data-i18n="-- Todos --"></option>

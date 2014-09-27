@@ -50,9 +50,7 @@ angular.module('app.notifications')
               }
             }
 
-            // Could be that the notification is not in the Session because was received
-            // from WebSocket
-            if(!!n && n.id == notification.id) {
+            if(n.id == notification.id) {
               notifications.splice(i, 1);
             }
 
