@@ -145,3 +145,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 AUTH_USER_MODEL = 'games.Player'
 
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+

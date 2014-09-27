@@ -54,6 +54,9 @@
         <script src="public/bower_components/underscore/underscore-min.js"></script>
         <!-- endbuild -->
 
+	<script src="/socket.io/socket.io.js"></script>
+        <script src="public/bower_components/angular-socket-io/socket.js"></script>
+
         <!-- build:js scripts/ui.js -->
         <script src="public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         <script src="public/bower_components/jquery-spinner/dist/jquery.spinner.min.js"></script>
@@ -113,6 +116,8 @@
 
         <script src="public/scripts/core/config.js"></script>
         <script src="public/scripts/core/directives.js"></script>
+        <script src="public/scripts/core/factories.js"></script>
+        <script src="public/scripts/core/controllers.js"></script>
 
         <script src="public/scripts/friends/config.js"></script>
         <script src="public/scripts/friends/services.js"></script>
@@ -146,13 +151,5 @@
         </script>
 
 
-	<script src="/socket.io/socket.io.js"></script>
-	<script>
-            var socket = io.connect('http://localhost:9000');
-            socket.on('news', function (data) {
-                    console.log("data: ");
-                    socket.emit('my other event', { my: 'data' });
-            });
-	</script>
     </body>
 </html>

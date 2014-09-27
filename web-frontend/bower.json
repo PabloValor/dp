@@ -31,7 +31,8 @@
     "weather-icons": "~0.0.1",
     "textAngular": "1.2.1",
     "flot.tooltip": "~0.6.7",
-    "chartjs": "~0.2.0"
+    "chartjs": "~0.2.0",
+    "angular-socket-io": "~0.6.0"
   },
   "devDependencies": {
     "twbs-bootstrap-sass": "~3.1.1",

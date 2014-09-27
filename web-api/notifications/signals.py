@@ -2,6 +2,9 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from games.models import GamePlayer, PlayerFriend
 from .models import NotificationGame, NotificationFriend
+from django.conf import settings
+
+import redis
 
 @receiver(post_save, sender=GamePlayer)
 def gameplayer_creation_notification(sender, instance=None, created=False, **kwargs):
@@ -46,6 +49,13 @@ def gameplayer_creation_notification(sender, instance=None, created=False, **kwa
                                         game_id = instance.game.id)
 
         notification.save()
+
+        r = redis.StrictRedis(host= settings.REDIS_HOST, port = settings.REDIS_PORT)
+        r.publish('notifications', 
+                  { 'game_id': notification.game.id, 
+                    'listener_id': player.auth_token.key,
+                    'sender_name': sender.username })
+
 
 
 @receiver(post_save, sender=PlayerFriend)
