@@ -157,6 +157,7 @@ angular.module('app.core')
                   $scope.friend_notifications.push(notification)
               }
 
+              console.error(notification);
               logger.log(notification_message);
               setNotificationCount();
           });
@@ -181,6 +182,7 @@ angular.module('app.core')
         };
 
         $scope.toGameNotification = function(notification) {
+          console.info(notification);
           NotificationService.updateNotification(notification.id, 'game'); // We don't care about the response
           $scope.game_notifications = NotificationService.removeGameNotification(notification);
           setNotificationCount();
