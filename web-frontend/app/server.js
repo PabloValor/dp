@@ -20,9 +20,13 @@ sub.subscribe('notifications');
 
 io.sockets.on('connection', function (socket) {
     console.log('conectando');
-    sub.on('message', function(channel, message) {
-        console.log(message);
-        socket.send(message);
+    sub.on('message', function(channel, response) {
+        var message = JSON.parse(response);
+        console.log(message.listener_id);
+        console.log(message['notification']);
+        console.log('000');
+        socket.emit(message.listener_id, message.notification);
+        console.log('enviado');
     });
 });
 

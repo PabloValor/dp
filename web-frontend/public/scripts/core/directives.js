@@ -81,14 +81,16 @@ angular.module('app.core')
     return {
       restrict: 'E',
       templateUrl: 'scripts/core/views/header.html',
-      controller: ['$scope', '$rootScope', '$location', 'UserService', 'NotificationService', 
-      function($scope, $rootScope, $location, UserService, NotificationService) {
+      controller: ['$scope', '$rootScope', '$location', 'socket', 'logger', 'UserService', 'NotificationService', 
+      function($scope, $rootScope, $location, socket, logger, UserService, NotificationService) {
         function setNotificationCount() {
           $scope.notification_count = $scope.game_notifications.length + $scope.friend_notifications.length;
         }
 
+        // These are call to the Session
         $scope.username = UserService.getUsername();
         $scope.game_notifications = NotificationService.getGameNotifications();
+        console.log($scope.game_notifications);
         $scope.friend_notifications = NotificationService.getFriendNotifications();
         setNotificationCount() 
 
@@ -96,6 +98,7 @@ angular.module('app.core')
           function() { 
               $scope.username = UserService.getUsername();
               $scope.game_notifications = NotificationService.getGameNotifications();
+              console.log($scope.game_notifications);
               $scope.friend_notifications = NotificationService.getFriendNotifications();
               setNotificationCount();
         });
@@ -107,6 +110,68 @@ angular.module('app.core')
               console.log($scope.game_notifications);
               setNotificationCount();
         });
+
+        var getFriendNotificationMessage = function(notification) {
+          var message;
+          switch(notification.notification_type) {
+              case '1':
+               message = notification.sender.username + ' quiere ser tu amigo!';
+               break;
+              case '1':
+               message = notification.sender.username + ' es tu amigo!';
+               break;
+          }
+
+          return message;
+        };
+        
+        var getGameNotificationMessage = function(notification) {
+          var message;
+          switch(notification.notification_type) {
+              case '1':
+               message = notification.sender.username + ' te invito jugar al torneo ' + notification.game_name;
+               break;
+              case '2':
+               message = notification.sender.username + ' acepto jugar al torneo ' +  notification.game_name;
+               break;
+              case '3':
+               message = notification.sender.username + ' rechazo jugar al torneo ' + notification.game_name;
+               break;
+              case '4':
+               message = notification.sender.username + ' solicita que lo invites de vuelta al torneo ' + notification.game_name
+               break;
+          }
+
+          return message;
+        };
+        
+        var listen = function(token) {
+          console.info(token);
+          socket.on(token, function (notification) {
+              var notification_message;
+              if(!!notification.game_name) {
+                  $scope.game_notifications.push(notification)
+                  notification_message = getGameNotificationMessage(notification);
+              } else {
+                  notification_message = getFriendNotificationMessage(notification);
+                  $scope.friend_notifications.push(notification)
+              }
+
+              logger.log(notification_message);
+              setNotificationCount();
+          });
+        };
+
+        var token = UserService.getToken();
+        if(token) {
+          listen(token);
+        } else {
+          $rootScope.$on("userLoginSuccess", 
+            function() {
+              token = UserService.getToken();
+              listen(token);
+            });
+        }
 
         $scope.toFriendNotification = function(notification) {
           NotificationService.updateNotification(notification.id, 'friend'); // We don't care about the response
@@ -121,6 +186,10 @@ angular.module('app.core')
           setNotificationCount();
           $location.path('/torneos/detalle/' + notification.game_id);
         };
+
+        $scope.getFriendNotificationMessage = getFriendNotificationMessage;
+        $scope.getGameNotificationMessage = getGameNotificationMessage;
+
 
       }]
     };

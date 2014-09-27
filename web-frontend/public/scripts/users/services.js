@@ -104,6 +104,9 @@ angular.module('app.users')
         getUserID : function(){
           return Session.get('user_id');
         },
+        getToken: function(){
+          return Session.get('token');
+        },
         create: function(user, f_success, f_error) {
             $http.post(SETTINGS.url.player(), user)
                 .success(function(response) {

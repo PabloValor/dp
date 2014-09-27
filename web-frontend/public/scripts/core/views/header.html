@@ -126,12 +126,10 @@
                                       <span class="round-icon sm bg-success"><i class="fa flaticon-sports35"></i></span>
                                   </span>
                                   <div class="media-body">
-                                      <span class="block" ng-if="notification.notification_type == '1'">
-                                        <span>{{ notification.sender.username }}</span> quiere ser tu amigo!
+                                      <span class="block">
+                                        {{ getFriendNotificationMessage(notification) }}
                                       </span>
-                                      <span class="block" ng-if="notification.notification_type == '2'">
-                                        <span>{{ notification.sender.username }}</span> es tu amigo!
-                                      </span>
+                                        
                                   </div>
                               </a>
                           </li>
@@ -140,17 +138,8 @@
                                   <span class="pull-left media-icon">
                                       <span class="round-icon sm bg-info"><i class="fa flaticon-trophy33"></i></span>
                                   </span>
-                                  <div class="media-body" ng-if="notification.notification_type == '1'">
-                                     <span>{{ notification.sender.username }}</span> te invito jugar al torneo <span>{{ notification.game_name }}</span>
-                                  </div>
-                                  <div class="media-body" ng-if="notification.notification_type == '2'">
-                                     <span>{{ notification.sender.username }}</span> acepto jugar al torneo <span>{{ notification.game_name }}</span>
-                                  </div>
-                                  <div class="media-body" ng-if="notification.notification_type == '3'">
-                                     <span>{{ notification.sender.username }}</span> rechazo jugar al torneo <span>{{ notification.game_name }}</span>
-                                  </div>
-                                  <div class="media-body" ng-if="notification.notification_type == '4'">
-                                     <span>{{ notification.sender.username }}</span> solicita que lo invites de vuelta al torneo <span>{{ notification.game_name }}</span>
+                                  <div class="media-body">
+                                     {{ getGameNotificationMessage(notification) }}
                                   </div>
                               </a>
                           </li>

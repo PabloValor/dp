@@ -1,10 +1,18 @@
+import json
+import redis
+
+from django.conf import settings
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from games.models import GamePlayer, PlayerFriend
 from .models import NotificationGame, NotificationFriend
-from django.conf import settings
+from .serializers import NotificationGameSerializer
 
-import redis
+def send_notification(token, serializer):
+      message =  { 'listener_id': token, 'notification': serializer.data }
+
+      r = redis.StrictRedis(host= settings.REDIS_HOST, port = settings.REDIS_PORT)
+      r.publish('notifications', json.dumps(message))
 
 @receiver(post_save, sender=GamePlayer)
 def gameplayer_creation_notification(sender, instance=None, created=False, **kwargs):
@@ -50,11 +58,8 @@ def gameplayer_creation_notification(sender, instance=None, created=False, **kwa
 
         notification.save()
 
-        r = redis.StrictRedis(host= settings.REDIS_HOST, port = settings.REDIS_PORT)
-        r.publish('notifications', 
-                  { 'game_id': notification.game.id, 
-                    'listener_id': player.auth_token.key,
-                    'sender_name': sender.username })
+        serializer = NotificationGameSerializer(notification)
+        send_notification(player.auth_token.key, serializer)
 
 
 
@@ -80,3 +85,6 @@ def playerfriend_creation_notification(sender, instance=None, created=False, **k
                                           notification_type = notification_type)
 
         notification.save()
+
+        serializer = NotificationFriendSerializer(notification)
+        send_notification(player.auth_token.key, serializer)
