@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
+    'djrill',
     'tournaments',
     'games',
     'notifications',
@@ -148,3 +149,12 @@ AUTH_USER_MODEL = 'games.Player'
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 
+# MANDRILL
+MANDRILL_API_KEY = os.environ['MANDRILL_API_KEY']
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+
+# CELERY SETTINGS
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from games.models import GamePlayer, PlayerFriend
 from .models import NotificationGame, NotificationFriend
 from .serializers import NotificationGameSerializer, NotificationFriendSerializer
+from .tasks import send_notification_email
 
 def send_notification(token, serializer):
       message =  { 'listener_id': token, 'notification': serializer.data }
@@ -61,6 +62,7 @@ def gameplayer_creation_notification(sender, instance=None, created=False, **kwa
         serializer = NotificationGameSerializer(notification)
         send_notification(player.auth_token.key, serializer)
 
+        send_notification_email.delay(serializer.data)
 
 
 @receiver(post_save, sender=PlayerFriend)
@@ -88,3 +90,5 @@ def playerfriend_creation_notification(sender, instance=None, created=False, **k
 
         serializer = NotificationFriendSerializer(notification)
         send_notification(player.auth_token.key, serializer)
+
+        send_notification_email.delay(serializer.data)
