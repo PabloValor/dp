@@ -41,7 +41,6 @@ angular.module('app.notifications')
             return notifications;
           },
           removeNotification: function(notifications, notification) {
-
             var n;
             for(var i in notifications) {
               n = notifications[i];
@@ -54,6 +53,24 @@ angular.module('app.notifications')
               notifications.splice(i, 1);
             }
 
+          },
+          addGameNotification: function(notification) {
+            var notifications = this.getGameNotifications();
+
+            notifications.push(notification);
+
+            Session.create('game_notifications', JSON.stringify(notifications));
+
+            $rootScope.$broadcast("notificationsUpdated");
+          },
+          addFriendNotification: function(notification) {
+            var notifications = this.getFriendNotifications();
+
+            notifications.push(notification);
+
+            Session.create('friend_notifications', JSON.stringify(notifications));
+
+            $rootScope.$broadcast("notificationsUpdated");
           },
           updateNotification: function(notification_pk, notification_type) {
             $http.put(SETTINGS.url.updateNotification(notification_pk, notification_type));

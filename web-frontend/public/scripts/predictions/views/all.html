@@ -13,9 +13,9 @@
 
     <div class="row" ng-show="hasGames">
         <div class="col-sm-3">
-            <section class="panel panel-default mail-categories" style="height:400px;margin-bottom:80px;">
+            <section class="panel panel-default mail-categories">
                 <div class="panel-heading"><span class="flaticon-trophy33"></span> <strong><span data-i18n="Torneos"></span></strong></div>
-                <ul class="list-group" data-slim-scroll >
+                <ul class="list-group">
                     <li ng-repeat="game in games" class="list-group-item" ng-class='{active: selectedGame == game}'>
                         <a href="javascript:;" ng-click="selectGame(game)">
                           {{ game.name }}

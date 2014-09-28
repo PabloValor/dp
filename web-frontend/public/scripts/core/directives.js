@@ -150,11 +150,11 @@ angular.module('app.core')
           socket.on(token, function (notification) {
               var notification_message;
               if(!!notification.game_name) {
-                  $scope.game_notifications.push(notification)
                   notification_message = getGameNotificationMessage(notification);
+                  NotificationService.addGameNotification(notification);
               } else {
                   notification_message = getFriendNotificationMessage(notification);
-                  $scope.friend_notifications.push(notification)
+                  NotificationService.addFriendNotification(notification);
               }
 
               console.error(notification);
