@@ -90,7 +90,6 @@ angular.module('app.core')
         // These are call to the Session
         $scope.username = UserService.getUsername();
         $scope.game_notifications = NotificationService.getGameNotifications();
-        console.log($scope.game_notifications);
         $scope.friend_notifications = NotificationService.getFriendNotifications();
         setNotificationCount() 
 
@@ -112,12 +111,13 @@ angular.module('app.core')
         });
 
         var getFriendNotificationMessage = function(notification) {
+          console.info(notification);
           var message;
           switch(notification.notification_type) {
               case '1':
                message = notification.sender.username + ' quiere ser tu amigo!';
                break;
-              case '1':
+              case '2':
                message = notification.sender.username + ' es tu amigo!';
                break;
           }
