@@ -6,10 +6,10 @@
                 <div class="form-group col-sm-7">
                   <input type="text" class="form-control col-sm-10" name="username" ng-model="username" placeholder="Buscar Amigos" required>
                 </div>
-                <button type="submit" class="btn btn-primary" data-ng-disabled="!form_search.$valid">Buscar</button>
+                <button type="submit" class="btn btn-inverse" data-ng-disabled="!form_search.$valid">Buscar</button>
             </form>              
 
-            <div class="callout callout-success" ng-show="intro">
+            <div class="callout callout-info" ng-show="intro">
                 <p>Busca nuevos amigos para jugar Torneos</p>
             </div>
 
@@ -38,11 +38,11 @@
 
 
                         <td class="col-sm-2" > 
-                          <button class="btn btn-info" ng-click="makeFriend(player)" ng-show="player.you_are_bad_friend">
+                          <button class="btn btn-primary" ng-click="makeFriend(player)" ng-show="player.you_are_bad_friend">
                             <span class="flaticon-sports35 ask-friendship "></span>
                             Solicitar Amistad
                           </button> 
-                          <button class="btn btn-info" ng-click="makeFriend(player)" 
+                          <button class="btn btn-primary" ng-click="makeFriend(player)" 
                                  ng-hide="player.is_friend || player.is_limbo_friend || player.is_bad_friend || player.you_are_bad_friend || player.is_waiting_for_you" >
                                  <span class="flaticon-sports35 ask-friendship "></span>
                                  Solicitar Amistad

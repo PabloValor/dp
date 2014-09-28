@@ -6,7 +6,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from games.models import GamePlayer, PlayerFriend
 from .models import NotificationGame, NotificationFriend
-from .serializers import NotificationGameSerializer
+from .serializers import NotificationGameSerializer, NotificationFriendSerializer
 
 def send_notification(token, serializer):
       message =  { 'listener_id': token, 'notification': serializer.data }

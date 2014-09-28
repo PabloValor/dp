@@ -9,7 +9,7 @@
           <div class="row" style="margin-bottom:20px" ng-show="games && games.length > 3">
 
             <div class="pull-right" style="margin-right: 20px;margin-top:16px;">
-              <a class="btn btn-w-md btn-gap-v btn-success pull-right" href="#/torneos/nuevo" style="font-weight:600;">
+              <a class="btn btn-w-md btn-gap-v btn-primary pull-right" href="#/torneos/nuevo" style="font-weight:600;">
                 <span data-i18n="Crear Torneo"></span>
               </a>
             </div>
@@ -29,7 +29,7 @@
 
           <div class="row" ng-hide="games">
             <div class="col-md-12">
-                <div class="callout callout-success">
+                <div class="callout callout-info">
                   <h4> No estas jugando ningun Torneo </h4>  
                   <p>Crea un nuevo Torneo invita a tus amigos</p>
                   <div style="margin-top:20px"><a href="#/torneos/nuevo" class="btn btn-primary btn-md">Crear Torneo</a> </div>
@@ -57,8 +57,8 @@
                     </div>
 
                     <div class="gameplayer-status">
-                        <span class="label label-primary" ng-show="game.you[0].status">Jugando</span>
-                        <span class="label label-success" ng-show="game.you[0].status == undefined">Sin responder</span>
+                        <span class="label label-success" ng-show="game.you[0].status">Jugando</span>
+                        <span class="label label-info" ng-show="game.you[0].status == undefined">Sin responder</span>
                         <span class="label label-danger" ng-show="game.you[0].status == false && !game.you[0].another_chance">Rechazaste</span>
                         <span class="label label-info" ng-show="game.you[0].status == false && game.you[0].another_chance">Solicitaste otra invitacion</span>
                     </div>

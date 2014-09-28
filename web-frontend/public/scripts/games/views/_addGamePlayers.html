@@ -22,7 +22,7 @@
               <div class="callout callout-info" ng-hide="hasTrueFriends">
                 <h4>Busca nuevos amigos! </h4>  
                 <p>{{ withOutFriendsMsg }}</p>
-                <button class="btn btn-success" ng-click="findFriends()">Buscar</button>
+                <button class="btn btn-primary" ng-click="findFriends()">Buscar</button>
               </div>
         </tab>
         <!--
@@ -46,18 +46,18 @@
                 <div class="input-group">
                     <input type="email" class="form-control" ng-model="player.email" placeholder="email@email.com">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-danger btn" type="button" ng-click="removeEmailPlayer(player)" ng-disabled="emailPlayers.length == 1">
+                        <button type="button" class="btn btn-default btn" type="button" ng-click="removeEmailPlayer(player)" ng-disabled="emailPlayers.length == 1">
                             <span class="glyphicon glyphicon-minus"></span>
                         </button>
                     </span>
                 </div>
             </div>
 
-            <button type="button" class="btn btn-primary btn-sm" ng-click="addEmailPlayer()">
+            <button type="button" class="btn btn-inverse btn-sm" ng-click="addEmailPlayer()">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
         </tab>
     </tabset>
 </div>
-<button type="button" class="btn btn-warning inviteMorePlayersButton" data-i18n="Cancelar" ng-show="canInviteMorePlayers && modalInstance" ng-click="cancel()"></button>
-<button type="button" style="margin-right:5px" class="btn btn-success inviteMorePlayersButton" data-i18n="Invitar" ng-show="canInviteMorePlayers" ng-click="inviteFriends()"></button>
+<button type="button" class="btn btn-primary inviteMorePlayersButton" data-i18n="Invitar" ng-show="canInviteMorePlayers" ng-click="inviteFriends()"></button>
+<button type="button" style="margin-right:5px" class="btn btn-default inviteMorePlayersButton" data-i18n="Cancelar" ng-show="canInviteMorePlayers && modalInstance" ng-click="cancel()"></button>

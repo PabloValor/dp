@@ -7,7 +7,7 @@
 
                 <div class="row" style="margin-bottom:20px">
                   <div class="pull-right" ng-show="friends" style="margin-right:15px;">
-                      <a class="btn btn-w-md btn-gap-v btn-success pull-right" href="#/amigos/buscar" style="font-weight:600;">
+                      <a class="btn btn-w-md btn-gap-v btn-primary pull-right" href="#/amigos/buscar" style="font-weight:600;">
                         <span data-i18n="Buscar Amigos"></span>
                       </a>
                   </div>
@@ -21,7 +21,7 @@
                     </li>
                 </ul>
 
-              <div class="callout callout-success" ng-hide="friends">
+              <div class="callout callout-info" ng-hide="friends">
                   <h4> Busca Amigos </h4>  
                   <p> Hace nuevos amigos para empezar a jugar un Torneo. </p>
                   <div style="margin-top:20px"><a href="#/amigos/buscar" class="btn btn-primary btn-md">Buscar Amigos</a> </div>
@@ -36,7 +36,7 @@
                     <li ng-repeat="friend in friends_waiting_for_you" class="list-group-item" ng-class='{active: selectedFriend == friend}'>
                         <a href="javascript:;" ng-click="selectFriend(friend)">
                           {{ friend.username }}
-                            <button type="button" ng-click="updateFriendship(false, friend)" style="margin-left: 10px;"class="btn btn-danger btn-sm pull-right"><span class="glyphicon glyphicon-remove"></span>&nbsp; No </button>
+                            <button type="button" ng-click="updateFriendship(false, friend)" style="margin-left: 10px;"class="btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-remove"></span>&nbsp; No </button>
                             <button type="button" ng-click="updateFriendship(true, friend)" class="btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon-ok"></span>&nbsp; Si </button>
                         </a>
                     </li>
@@ -67,7 +67,7 @@
             <div class="panel-heading"><span class="flaticon-soccer51"></span> <strong>Ficha </strong></div>
             <div class="panel-body">
 
-              <div class="callout callout-success" ng-hide="selectedFriend">
+              <div class="callout callout-info" ng-hide="selectedFriend">
                   <p>Selecciona a un amigo para ver su ficha</p>
               </div>
 

@@ -58,8 +58,8 @@
                       </div>
 
                       <div>
-                        <span class="label label-primary" ng-show="player.status">Jugando</span>
-                        <span class="label label-success" ng-show="player.status == undefined">Esperando respuesta</span>
+                        <span class="label label-success" ng-show="player.status">Jugando</span>
+                        <span class="label label-info" ng-show="player.status == undefined">Esperando respuesta</span>
                         <span class="label label-danger"  ng-show="player.status == false  && !player.another_chance">Rechazo</span>
                         <span class="glyphicon glyphicon-question-sign"  ng-show="player.status == false  && player.another_chance == undefined" popover-trigger="mouseenter" popover="{{ player.username }} tiene que solicitar una invitacion para invitarlo de vuelta." ></span>
                         <span class="glyphicon glyphicon-question-sign"  ng-show="player.status == false  && player.another_chance == false" popover-trigger="mouseenter" popover="{{ player.username }} no tiene interes en jugar en este Torneo." ></span>
@@ -72,7 +72,7 @@
                     <div class="callout callout-info" ng-show="is_owner">
                       <h4>Sos el creador de este torneo! </h4>  
                       <p>Podes invitar mas amigos a jugar.</p>
-                      <button class="btn btn-success" ng-click="openAddFriendsModal()">Invitar mas amigos</button>
+                      <button class="btn btn-primary" ng-click="openAddFriendsModal()">Invitar mas amigos</button>
                     </div>
 
                     <div ng-hide="is_owner">
@@ -95,7 +95,7 @@
                             </div>
                             <div class="col-sm-4">
                               <button type="button" ng-click="updateGamePlayerAnotherChance(true)" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok"></span>&nbsp; Si </button>
-                              <button type="button" ng-click="updateGamePlayerAnotherChance(false)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp; No </button>
+                              <button type="button" ng-click="updateGamePlayerAnotherChance(false)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp; No </button>
                           </div>
                         </div>
                         <div class="row" style="margin-top:10px"> 
@@ -114,7 +114,7 @@
                             </div>
                             <div class="col-sm-5">
                               <button type="button" ng-click="updateGamePlayerStatus(true)" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok"></span>&nbsp; Si </button>
-                              <button type="button" ng-click="updateGamePlayerStatus(false)" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp; No </button>
+                              <button type="button" ng-click="updateGamePlayerStatus(false)" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp; No </button>
                           </div>
                         </div>
                       </div>
