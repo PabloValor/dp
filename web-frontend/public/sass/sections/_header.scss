@@ -46,7 +46,16 @@
         background-repeat: no-repeat;
         background-image: url("../images/logo.png");
         background-size: auto 50px;
-        background-position: center;
+        background-position: 45% center;
+        position: relative;
+
+        .logo-brand {
+            position: absolute;
+            left: 47%;
+            top: 22%;
+            color: #FFF;
+            font-size: 25px;
+        }
     }
 
     // 

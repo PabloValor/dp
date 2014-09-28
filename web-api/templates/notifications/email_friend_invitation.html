@@ -1,0 +1,15 @@
+{% extends "notifications/email_layout.html" %}
+
+{% block content %}
+  <div style="text-align:center;color:#173A66;margin-bottom:35px;">
+    <h1>Te hicieron un pedido de amistad</h1>
+  </div>
+  <div style="color:black;width:550px;margin:0 auto;font-size:15px;">
+    <p>&nbsp; <strong>{{ sender }}</strong> quiere ser tu amigo en <strong>DP futbol</strong>.</p>
+
+    <p style="text-align:right">
+        <a href="http://www.dpfutbol.com" class="btn" style="margin-top:30px;display: inline-block; margin-bottom: 0; font-weight: normal; text-align: center; vertical-align: middle; cursor: pointer; background-image: none; border: 1px solid transparent; white-space: nowrap; padding: 6px 12px; font-size: 14px; line-height: 1.42857; border-radius: 2px; color: #fff; background-color: #1c7ebb; border-color: #196fa5;text-decoration: none;">Ir a DP futbol</a>
+    </p>
+    <p>Saludos! <br> El equipo de DP Futbol.</p>
+  </div>
+{% endblock %}

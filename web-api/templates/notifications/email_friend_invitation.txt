@@ -1,0 +1,11 @@
+DP futbol
+=========
+
+Te hicieron un pedido de amistad.
+
+{{ sender }} te envio un pedido de amistad en DP Futbol.
+
+Saludos,
+El equipo de DP Futbol.
+
+www.dpfutbol.com

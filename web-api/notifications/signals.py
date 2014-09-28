@@ -4,10 +4,11 @@ import redis
 from django.conf import settings
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-from games.models import GamePlayer, PlayerFriend
+from games.models import GamePlayer, PlayerFriend, Player
 from .models import NotificationGame, NotificationFriend
 from .serializers import NotificationGameSerializer, NotificationFriendSerializer
-from .tasks import send_notification_email
+
+from .tasks import send_welcome_email, send_game_notification_email, send_friend_notification_email
 
 def send_notification(token, serializer):
       message =  { 'listener_id': token, 'notification': serializer.data }
@@ -21,11 +22,14 @@ def gameplayer_creation_notification(sender, instance=None, created=False, **kwa
         return
 
     notification_type = ''
+    send_mail = False
     if (created or instance.is_invited()):
         # A player is being invitaded to play
         notification_type = '1'
         player = instance.player
         sender = instance.game.owner
+
+        send_mail = True
 
         # If the owner of the game is inviting again a player who rejected to play
         # We desactivate the first notification where the owner invited him
@@ -62,18 +66,24 @@ def gameplayer_creation_notification(sender, instance=None, created=False, **kwa
         serializer = NotificationGameSerializer(notification)
         send_notification(player.auth_token.key, serializer)
 
-        send_notification_email.delay(serializer.data)
+
+        # We only send a mail if a player is being invited
+        if send_mail:
+            send_game_notification_email.delay(player.email, sender.username, instance.game.name)
 
 
 @receiver(post_save, sender=PlayerFriend)
 def playerfriend_creation_notification(sender, instance=None, created=False, **kwargs):
     notification_type = ''
+    send_mail = False
 
     if created:
         # A player is being being request to be a Friend
         notification_type = '1'
         player = instance.friend
         sender = instance.player
+
+        send_mail = True
 
     elif instance.status:
         # A player accepts to be a friend, so we notify the requested
@@ -91,4 +101,11 @@ def playerfriend_creation_notification(sender, instance=None, created=False, **k
         serializer = NotificationFriendSerializer(notification)
         send_notification(player.auth_token.key, serializer)
 
-        send_notification_email.delay(serializer.data)
+        # We only send a mail if a player is sending a friend request
+        if send_mail:
+            send_friend_notification_email.delay(player.email, sender.username)
+
+@receiver(post_save, sender=Player)
+def player_creation_welcome_email(sender, instance=None, created=False, **kwargs):
+    send_welcome_email.delay({'username': instance.username, 'email': instance.email })
+

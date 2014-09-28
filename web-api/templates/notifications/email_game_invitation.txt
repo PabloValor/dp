@@ -1,0 +1,11 @@
+DP futbol
+=========
+
+Te invitaron a jugar un nuevo torneo.
+
+{{ sender }} te envio una invitación para jugar al torneo {{ game_name }}.
+
+Saludos,
+El equipo de DP Futbol.
+
+www.dpfutbol.com

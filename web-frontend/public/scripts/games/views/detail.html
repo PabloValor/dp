@@ -41,8 +41,8 @@
                       </div>
 
                       <div>
-                        <span class="label label-primary" ng-show="user.status">Jugando</span>
-                        <span class="label label-success" ng-show="user.status == undefined">No respondiste</span>
+                        <span class="label label-success" ng-show="user.status">Jugando</span>
+                        <span class="label label-info" ng-show="user.status == undefined">No respondiste</span>
                         <span class="label label-danger" ng-show="user.status == false && !user.another_chance">Rechazaste</span>
                         <span class="label label-info" ng-show="user.status == false && user.another_chance">Solicitaste otra invitacion</span>
                       </div>

@@ -1,4 +1,5 @@
 from django.http import Http404
+from django.shortcuts import render_to_response
 from rest_framework import  permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -25,3 +26,6 @@ def notification_update(request, pk, notification_type):
 
     except (NotificationGame.DoesNotExist, NotificationFriend.DoesNotExist):
       return Response(status = status.HTTP_404_NOT_FOUND)
+
+def email(request):
+  return render_to_response('notifications/email_friend_invitation.html', {'sender': 'nicolas'})
