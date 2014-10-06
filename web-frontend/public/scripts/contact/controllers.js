@@ -3,12 +3,10 @@ angular.module('app.contact')
 
 .controller('ContactController', ['$scope', 'ContactService',
     function($scope, ContactService)  {
+	$scope.contact_sent = false;
 	$scope.submit_contact = function() {
-	    console.info($scope.email);
-	    console.info($scope.subject);
-	    console.info($scope.text);
-
-	    ContactService.new($scope.email, $scope.subject, $scope.text)
+	    $scope.contact_sent = true;
+	    ContactService.new($scope.subject, $scope.text)
 	}
     }
 ]);

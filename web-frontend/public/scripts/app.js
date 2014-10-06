@@ -88,7 +88,9 @@
             tournamentFixture: function(tournament_id) { return this.base + '/tournaments/' + tournament_id + '/fixture' },
             doPrediction: function() { return this.base + '/games/prediction/'},
             getPredictions: function(gameplayer_id) { return this.base + '/games/predictions/' + gameplayer_id + '/' },
-            updateNotification: function(pk, notification_type) { return this.base + '/notifications/' + pk + '/' + notification_type }
+            updateNotification: function(pk, notification_type) { return this.base + '/notifications/' + pk + '/' + notification_type },
+            contactNew: function() { return this.base + '/contact/'},
+
     }
 }) 
 
