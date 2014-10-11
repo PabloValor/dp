@@ -97,7 +97,6 @@ angular.module('app.core')
           function() { 
               $scope.username = UserService.getUsername();
               $scope.game_notifications = NotificationService.getGameNotifications();
-              console.log($scope.game_notifications);
               $scope.friend_notifications = NotificationService.getFriendNotifications();
               setNotificationCount();
         });
@@ -106,12 +105,10 @@ angular.module('app.core')
             function() {
               $scope.game_notifications = NotificationService.getGameNotifications();
               $scope.friend_notifications = NotificationService.getFriendNotifications();
-              console.log($scope.game_notifications);
               setNotificationCount();
         });
 
         var getFriendNotificationMessage = function(notification) {
-          console.info(notification);
           var message;
           switch(notification.notification_type) {
               case '1':
@@ -146,7 +143,6 @@ angular.module('app.core')
         };
         
         var listen = function(token) {
-          console.info(token);
           socket.on(token, function (notification) {
               var notification_message;
               if(!!notification.game_name) {
@@ -182,7 +178,6 @@ angular.module('app.core')
         };
 
         $scope.toGameNotification = function(notification) {
-          console.info(notification);
           NotificationService.updateNotification(notification.id, 'game'); // We don't care about the response
           $scope.game_notifications = NotificationService.removeGameNotification(notification);
           setNotificationCount();

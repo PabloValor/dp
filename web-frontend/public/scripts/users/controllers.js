@@ -4,7 +4,7 @@ angular.module('app.users')
 .controller('LoginController', ['$scope', '$location', '$http', 'AuthenticationService', 'Facebook', 'SETTINGS', '$rootScope',
     function($scope, $location, $http, AuthenticationService, Facebook, SETTINGS, $rootScope)  {
         if(AuthenticationService.isAuthenticated()) {
-            $location.path('/');
+            $location.path('/dashboard');
         }
 
         $scope.credentials = {

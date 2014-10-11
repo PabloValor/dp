@@ -1,10 +1,7 @@
+'use strict';
+angular.module('app.home')
 
-
-/*
-.controller('DashboardController', ['$scope', '$rootScope', 
-    function($scope, $rootScope)  {
-      $rootScope.loadingInit = true;
+.controller('HomeController', ['$scope', '$location', 'UserService', 
+    function($scope, $location, UserService)  {
     }
-])
-
-*/
+]);
