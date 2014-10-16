@@ -8,9 +8,9 @@ angular.module('app.home', [])
       .when('/bienvenido', {
         templateUrl: 'scripts/home/views/bienvenido.html'
       })
-      .when('/dashboard', {
+      .when('/noticias', {
         authenticate: true,
-        templateUrl: 'scripts/home/views/dashboard.html'
+        templateUrl: 'scripts/home/views/home.html'
       });
 }])
 

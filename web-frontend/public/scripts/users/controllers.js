@@ -4,7 +4,7 @@ angular.module('app.users')
 .controller('LoginController', ['$scope', '$location', '$http', 'AuthenticationService', 'Facebook', 'SETTINGS', '$rootScope',
     function($scope, $location, $http, AuthenticationService, Facebook, SETTINGS, $rootScope)  {
         if(AuthenticationService.isAuthenticated()) {
-            $location.path('/dashboard');
+            $location.path('/noticias');
         }
 
         $scope.credentials = {
@@ -12,16 +12,18 @@ angular.module('app.users')
             password: '' 
         };
 
+        $rootScope.loadingLogin = false;
+
         $scope.login = function() {
             $rootScope.loadingLogin = true;
             $scope.error = '';
             AuthenticationService.login($scope.credentials,
                 function(response) {
                     $rootScope.$broadcast("userLoginSuccess");
-                    $location.path('/dashboard');
+                    $location.path('/noticias');
 
                 }, function(response) {
-                    $rootScope.loadingInit = false;
+                    $rootScope.loadingLogin = false;
                     $scope.error = response.non_field_errors[0];
                 });
         };
@@ -32,7 +34,7 @@ angular.module('app.users')
             Facebook.login(
                 function(response) { 
                     $rootScope.$broadcast("userLoginSuccess");
-                    $location.path('/dashboard');
+                    $location.path('/noticias');
                 }, 
                 function(response) { 
                     $rootScope.loadingLogin = false;
@@ -50,7 +52,7 @@ angular.module('app.users')
 .controller('SignupController', ['$scope', '$location', 'UserService', 'AuthenticationService', 'Facebook', '$rootScope',
     function($scope, $location, UserService, AuthenticationService, Facebook, $rootScope)  {
         if(AuthenticationService.isAuthenticated()) {
-            $location.path('/dashboard');
+            $location.path('/noticias');
         }
 
         $scope.user = {
@@ -64,7 +66,7 @@ angular.module('app.users')
             Facebook.login(
                 function(response) { 
                     $rootScope.$broadcast("userLoginSuccess");
-                    $location.path('/dashboard');
+                    $location.path('/noticias');
                 }, 
                 function(response) { console.log(response); 
                                      $rootScope.loadingLogin = false; });
@@ -76,7 +78,6 @@ angular.module('app.users')
             delete $scope.errors;
             UserService.create(user, 
                 function(response) {
-                    $rootScope.loadingLogin = false;
                     $location.path('/signin');
                 },
                 function(errors) {

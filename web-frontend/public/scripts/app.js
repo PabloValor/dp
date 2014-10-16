@@ -109,7 +109,7 @@
 	    
 	if (AuthenticationService.isAuthenticated() && go_to_homepage ){
 	    console.info("hola");
-            $location.path( "/dashboard" );
+            $location.path( "/noticias" );
             event.preventDefault(); 
         }
     });
