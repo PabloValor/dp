@@ -1,11 +1,13 @@
 .landing {
+  height: 100%;
   .container {
     background-repeat: no-repeat;
-    width: 100%;
-    min-height: 676px;
     background-size: cover;
+    background-color: #B2B2B2;
     padding: 0px;
     position: relative;
+    width: 100%;
+    height: 100%;    
 
     &.bg_1 {
       background-image: url("../images/background/bg_1.jpg");
