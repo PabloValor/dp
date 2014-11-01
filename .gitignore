@@ -9,4 +9,5 @@ lib
 /tmp/bower_components/font-awesome/src/3.2.1/icon/cut/index.html
 tmp/
 .sass-cache
-design/
+design/*
+web-frontend/node_modules/*
