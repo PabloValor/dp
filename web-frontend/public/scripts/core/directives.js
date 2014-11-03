@@ -81,8 +81,8 @@ angular.module('app.core')
     return {
       restrict: 'E',
       templateUrl: 'scripts/core/views/header.html',
-      controller: ['$scope', '$rootScope', '$location', 'socket', 'logger', 'UserService', 'NotificationService', 
-      function($scope, $rootScope, $location, socket, logger, UserService, NotificationService) {
+      controller: ['$scope', '$rootScope', '$location', 'socket', 'logger', 'UserService', 'NotificationService', 'AuthenticationService',
+      function($scope, $rootScope, $location, socket, logger, UserService, NotificationService, AuthenticationService) {
         function setNotificationCount() {
           $scope.notification_count = $scope.game_notifications.length + $scope.friend_notifications.length;
         }
@@ -187,6 +187,10 @@ angular.module('app.core')
         $scope.getFriendNotificationMessage = getFriendNotificationMessage;
         $scope.getGameNotificationMessage = getGameNotificationMessage;
 
+        $scope.logout = function() {
+            AuthenticationService.logout();
+            $location.path('/');
+        };
 
       }]
     };

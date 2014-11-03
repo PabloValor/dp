@@ -42,9 +42,6 @@ angular.module('app.users')
                 });
         };
 
-        $scope.logout = function() {
-            AuthenticationService.logout();
-        };
 
     }
 ])
