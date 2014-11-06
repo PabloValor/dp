@@ -11,3 +11,4 @@ tmp/
 .sass-cache
 design/*
 web-frontend/node_modules/*
+/web-api/.coverage

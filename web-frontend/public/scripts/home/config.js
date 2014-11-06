@@ -10,7 +10,7 @@ angular.module('app.home', [])
       })
       .when('/noticias', {
         authenticate: true,
-        templateUrl: 'scripts/home/views/home.html'
+        templateUrl: 'scripts/home/views/news.html'
       });
 }])
 

@@ -13,7 +13,9 @@
 	font-family: Flaticon;
         font-size: 20px;
         font-style: normal;
-}.flaticon-american25:before {
+}
+
+.flaticon-american25:before {
 	content: "\e000";
 }
 .flaticon-big55:before {
@@ -253,3 +255,22 @@
     color: #2ec1cc;
 }
 
+.flaticon-games-news:before {
+    font-size: 40px;
+	content: "\e042";    
+}
+
+.flaticon-friends-news:before {
+    font-size: 45px;
+  	content: "\e03f";
+}
+
+.flaticon-predictions-news:before {
+    font-size: 50px;
+	content: "\e01a";    
+}
+
+.flaticon-notifications-news:before {
+    font-size: 45px;
+	content: "\e01c";
+}
