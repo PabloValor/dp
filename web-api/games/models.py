@@ -47,6 +47,12 @@ class Player(AbstractUser):
     def is_friend(self, player):
         return player in self.get_true_friends()
 
+    def get_all_gameplayers(self):
+        return self.gameplayer_set.filter(status = True)
+
+    def get_all_games_points(self, gameplayers):
+        return sum([x.get_total_points() for x in gameplayers])
+
 class PlayerFriend(models.Model):
     player = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = 'friend_player')
     friend = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = 'friend')

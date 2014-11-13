@@ -28,11 +28,18 @@ class ObtainAuthToken(APIView):
             game_notifications = NotificationGameSerializer(user.game_notifications.filter(active = True), many = True)
             friend_notifications = NotificationFriendSerializer(user.friend_notifications.filter(active = True), many = True)
 
+            user_gameplayers = user.get_all_gameplayers()
+            user_total_points = user.get_all_games_points(user_gameplayers)
+            
             return Response({'token': token.key, 
                              'username': user.username, 
                              'game_notifications': game_notifications.data,
                              'friend_notifications': friend_notifications.data,
+                             'friends_count': len(user.get_all_friends()),
+                             'games_count': user_gameplayers.count(),
+                             'games_points': user_total_points,
                              'user_id': user.id })
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 obtain_auth_token = ObtainAuthToken.as_view()

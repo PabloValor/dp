@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.authtoken.models import Token
 from ..serializers import GameSerializer
+from ..models import Player
 from ..factories import *
 
 class PlayerAPITest(APITestCase):
@@ -473,6 +474,78 @@ class PlayerAPITest(APITestCase):
         self.assertEqual(response.data['friend_notifications'][0]['notification_type'], '2')
         self.assertEqual(response.data['friend_notifications'][0]['sender']['id'], pf.friend.id)
         self.assertEqual(response.data['friend_notifications'][0]['player']['id'], nico.id)
+
+        
+    def test_get_player_with_statistics_after_login_200_OK_A(self): 
+        """ 
+          Test if the player recevies the statistics after he logs in the site
+        """
+
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        self.assertTrue(response.data.has_key('friends_count'))
+        self.assertTrue(response.data.has_key('games_count'))
+        self.assertTrue(response.data.has_key('games_points'))
+
+    def test_get_player_with_statistics_after_login_200_OK_B(self): 
+        """ 
+          Test if the player recevies the statistics after he logs in the site
+
+          We check the values. All the values have to be equal to zero.
+        """
+
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        self.assertEqual(response.data['friends_count'], 0)
+        self.assertEqual(response.data['games_count'], 0)
+        self.assertEqual(response.data['games_points'], 0)
+
+    def test_get_player_with_statistics_after_login_200_OK_C(self): 
+        """ 
+          Test if the player recevies the statistics after he logs in the site
+
+          We check that is playing a game.
+        """
+
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+
+        player = Player.objects.first()
+        gameplayer = GamePlayerFactory(status = True, player = player)
+        
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        self.assertEqual(response.data['friends_count'], 0)
+        self.assertEqual(response.data['games_count'], 1)
+        self.assertEqual(response.data['games_points'], 0)
 
 
 class PlayerSearchAPITest(APITestCase):
