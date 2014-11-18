@@ -12,7 +12,19 @@ angular.module('app.users')
 
     this.get = function(key) {
         return $window.sessionStorage[key];
-    }
+    };
+
+    this.initUser = function(response) {
+        console.info(response);
+        this.create('token', response.token);
+        this.create('username', response.username);
+        this.create('user_id', response.user_id);
+        this.create('friend_notifications', JSON.stringify(response.friend_notifications));
+        this.create('game_notifications', JSON.stringify(response.game_notifications));
+        this.create('games_count', JSON.stringify(response.games_count));
+        this.create('games_points', JSON.stringify(response.games_points));
+        this.create('friends_count', JSON.stringify(response.friends_count));        
+    };
 
     return this;
 }])
@@ -39,13 +51,9 @@ angular.module('app.users')
             login: function(credentials, f_success, f_error) {
                 return $http.post(SETTINGS.url.auth(), credentials)
                             .success(function(response) {
-                                console.log(response)
-                                Session.create('token', response.token);
-                                Session.create('username', response.username);
-                                Session.create('user_id', response.user_id);
 
-                                Session.create('friend_notifications', JSON.stringify(response.friend_notifications));
-                                Session.create('game_notifications', JSON.stringify(response.game_notifications));
+                                Session.initUser(response);                                
+                                
                                 if(!!f_success) {
                                     f_success(response);
                                 }
@@ -65,17 +73,12 @@ angular.module('app.users')
                                   { "access_token": token, "backend": backend })
 
                             .success(function(response) {
-                                        console.log(response);
-                                        Session.create('token', response.token);
-                                        Session.create('username', response.username);
-                                        Session.create('user_id', response.user_id);
 
-                                        Session.create('friend_notifications', JSON.stringify(response.friend_notifications));
-                                        Session.create('game_notifications', JSON.stringify(response.game_notifications));
-
-                                        if(!!f_success) {
-                                            f_success(response);
-                                        }
+                                Session.initUser(response);
+                                
+                                if(!!f_success) {
+                                    f_success(response);
+                                }
                             })
                             .error(function(response) {
                                 console.log(response);

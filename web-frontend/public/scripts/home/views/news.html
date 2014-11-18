@@ -1,4 +1,4 @@
-<div class="page page-dashboard" data-ng-controller="DashboardCtrl">
+<div class="page page-dashboard" data-ng-controller="HomeController">
     <!-- stats -->
     <div class="row">
         <div class="col-lg-3 col-xsm-6">
@@ -7,7 +7,7 @@
                     <i class="flaticon-games-news"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">25</p>
+                    <p class="size-h2">{{ game_counts }}</p>
                     <p class="text-muted"><span data-i18n="Torneos Jugando"></span></p>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                     <i class="flaticon-friends-news"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">112</p>
+                    <p class="size-h2">{{ friends_count }}</p>
                     <p class="text-muted"><span data-i18n="Amigos"></span></p>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                     <i class="flaticon-predictions-news"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">4,550</p>
+                    <p class="size-h2">{{ game_points }}</p>
                     <p class="text-muted"><span data-i18n="Puntos"></span></p>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     <i class="flaticon-notifications-news"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">262</p>
+                    <p class="size-h2">{{ notification_counts }}</p>
                     <p class="text-muted"><span data-i18n="Notificaciones"></span></p>
                 </div>
             </div>
