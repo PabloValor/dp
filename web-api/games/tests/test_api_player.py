@@ -1,4 +1,3 @@
-import json
 from django.core.urlresolvers import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -520,7 +519,7 @@ class PlayerAPITest(APITestCase):
         self.assertEqual(response.data['games_count'], 0)
         self.assertEqual(response.data['games_points'], 0)
 
-    def test_get_player_with_statistics_after_login_200_OK_C(self): 
+    def test_get_player_with_game_statistics_after_login_200_OK_A(self): 
         """ 
           Test if the player recevies the statistics after he logs in the site
 
@@ -535,7 +534,6 @@ class PlayerAPITest(APITestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-
         player = Player.objects.first()
         gameplayer = GamePlayerFactory(status = True, player = player)
         
@@ -543,11 +541,144 @@ class PlayerAPITest(APITestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         
-        self.assertEqual(response.data['friends_count'], 0)
         self.assertEqual(response.data['games_count'], 1)
+
+        
+    def test_get_player_with_game_statistics_after_login_200_OK_B(self): 
+        """ 
+          Test if the player recevies the statistics after he logs in the site
+
+          We check that is not playing a game.
+        """
+
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        player = Player.objects.first()
+        gameplayer = GamePlayerFactory(status = False, player = player)
+        
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        self.assertEqual(response.data['games_count'], 0)
+        
+    def test_get_player_with_friend_statistics_after_login_200_OK_A(self): 
+        """ 
+          Test if the player recevies the statistics after he logs in the site
+
+          We check that he has a friend.
+        """
+
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        player = Player.objects.first()
+        friend = PlayerFactory()
+        pf = PlayerFriendFactory(player = player, friend = friend, status = True)        
+        
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        self.assertEqual(response.data['friends_count'], 1)
+        self.assertEqual(response.data['games_count'], 0)
+        self.assertEqual(response.data['games_points'], 0)
+
+        
+    def test_get_player_with_friend_statistics_after_login_200_OK_B(self): 
+        """ 
+          Test if the player recevies the statistics after he logs in the site
+
+          We check that he has doesn't have a friend but yes a request.
+        """
+
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        player = Player.objects.first()
+        friend = PlayerFactory()
+        pf = PlayerFriendFactory(player = player, friend = friend, status = False)  
+        
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        self.assertEqual(response.data['friends_count'], 0)
+        self.assertEqual(response.data['games_count'], 0)
         self.assertEqual(response.data['games_points'], 0)
 
 
+    def test_get_player_with_game_points_statistics_after_login_200_A(self): 
+        """ 
+          Test if the player recevies the statistics after he logs in the site
+
+          We check that he has some points.
+        """
+
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        player = Player.objects.first()
+        gameplayer = GamePlayerFactory(status = True, player = player)
+        fixture_player_points = FixturePlayerPointsFactory(points = 10, gameplayer = gameplayer)        
+
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        self.assertEqual(response.data['games_count'], 1)
+        self.assertEqual(response.data['games_points'], 10)
+
+        
+    def test_get_player_with_game_points_statistics_after_login_200_B(self): 
+        """ 
+          Test if the player recevies the statistics after he logs in the site
+
+          We check that he is not playing a game.
+        """
+
+        data = { 'username': 'nico',
+                 'email': 'nmbases@gmail.com',
+                 'password': 'nicolas1' }
+
+        url = reverse('playerCreate')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        player = Player.objects.first()
+        gameplayer = GamePlayerFactory(status = False, player = player)
+        fixture_player_points = FixturePlayerPointsFactory(points = 10, gameplayer = gameplayer)        
+
+        url = reverse('loginToken')
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        self.assertEqual(response.data['games_count'], 0)
+        self.assertEqual(response.data['games_points'], 0)
+        
+
+        
 class PlayerSearchAPITest(APITestCase):
     def test_get_all__401_UNAUTHORIZED(self): 
         player = PlayerFactory()
