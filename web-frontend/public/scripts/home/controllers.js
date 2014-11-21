@@ -1,8 +1,9 @@
 'use strict';
 angular.module('app.home')
 
-.controller('HomeController', ['$scope', 'StatisticsService', 
-    function($scope, StatisticsService)  {
+.controller('HomeController', ['$rootScope', '$scope', 'StatisticsService', 
+    function($rootScope, $scope, StatisticsService)  {
+        $rootScope.loadingLogin = false;
         $scope.game_counts = StatisticsService.getGamesCounts();
         $scope.game_points = StatisticsService.getGamesPoints();
         $scope.friends_count = StatisticsService.getFriendsCounts();
