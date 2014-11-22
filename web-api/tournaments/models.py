@@ -3,6 +3,7 @@ from django.utils import timezone
 
 class Tournament(models.Model):
     name = models.CharField(max_length = 100)
+    is_finished = models.BooleanField(default = False)
 
     def get_current_fixture(self):
         fixtures = self.fixtures.filter(is_finished = False).order_by('number')
@@ -25,9 +26,6 @@ class Tournament(models.Model):
     def get_future_fixtures(self):
       fixtures = self.fixtures.filter(is_finished = False).order_by('number')
       return fixtures
-
-    def is_finished(self):
-        return self.get_current_fixture() == None
 
     def get_teams(self):
       fixture = self.fixtures.first()

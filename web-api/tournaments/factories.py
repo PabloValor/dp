@@ -5,6 +5,7 @@ from .models import  Team, Fixture, Match, Tournament
 
 class TournamentFactory(factory.Factory):
     name = factory.Sequence(lambda n: 'Torneo {0}'.format(n))
+    is_finished = False
 
 class TeamFactory(factory.Factory):
     name = factory.Sequence(lambda n: 'Team {0}'.format(n))

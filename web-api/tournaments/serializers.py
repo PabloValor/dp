@@ -39,3 +39,11 @@ class TournamentFixtureSerializer(serializers.ModelSerializer):
         model = Tournament
         fields = ('id', 'fixtures', 'current_fixture', 'is_finished')
 
+class TournamentCurrentFixtureSerializer(serializers.ModelSerializer):
+    fixture = FixtureSerializer(source = "get_current_fixture")
+    tournament_name = serializers.Field(source = 'name')
+
+    class Meta:
+        model = Tournament
+        fields = ('fixture', 'tournament_name', 'is_finished')
+
