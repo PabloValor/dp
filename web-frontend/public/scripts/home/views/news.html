@@ -54,33 +54,23 @@
             <section class="panel panel-default">
                 <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Data"></span></strong></div>
                 <div class="panel-body" data-ng-controller="morrisChartCtrl">
-                    <div morris-chart
-                         data-data="comboData"
-                         data-type="bar"
-                         data-xkey="year"
-                         data-ykeys='["a", "b", "c"]'
-                         data-labels='["Value A", "Value B", "Value C"]'
-                         data-bar-colors='["#176799","#42A4BB","#78D6C7"]'
-                         style="height: 300px;"
-                         ></div>
-                </div>
+
             </section> 
         </div>
         <div class="col-md-4">
 
             <div class="panel panel-default">
-                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Data"></span></strong></div>
-                <div class="panel-body"  data-ng-controller="flotChartCtrl">
-                    <div data-flot-chart
-                         data-data="donutChart2.data"
-                         data-options="donutChart2.options"
-                         style="width: 100%; height: 300px;"
-                         ></div>                    
+                <div class="panel-body">
+                  <a href="#/torneos/nuevo" class="btn btn-success btn-lg btn-block">
+                    <span class="flaticon-trophy33"></span>
+                    <span data-i18n="Crear Torneo"></span>
+                  </a>
+                  <a href="#/amigos/buscar" class="btn btn-info btn-lg btn-block">
+                    <span class="flaticon-sports35"></span>
+                    <span data-i18n="Buscar Amigos"></span>
+                  </a>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 
@@ -89,10 +79,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Realtime Data"></span></strong></div>
                 <div class="panel-body">
-                    <div data-flot-chart-realtime
-                         data-type="realtime"
-                         style="width: 100%; height: 275px;"
-                         ></div>                    
+
                 </div>
             </div>        
         </div>
