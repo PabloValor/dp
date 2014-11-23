@@ -1,8 +1,6 @@
 'use strict';
 angular.module('app.home')
-
-.factory('StatisticsService', ['Session', 'NotificationService',  function(Session, NotificationService) {
-    console.info("servicio");
+    .factory('StatisticsService', ['$http', 'Session', 'SETTINGS', 'NotificationService',  function($http, Session, SETTINGS, NotificationService) {
     return {
         getGamesCounts : function(){
             return Session.get('games_count');
@@ -16,9 +14,17 @@ angular.module('app.home')
         getNotificationCounts: function(){
             var friend_notifications = NotificationService.getFriendNotifications();
             var game_notifications = NotificationService.getGameNotifications();
-            
-            console.info(friend_notifications.length);
+                
             return friend_notifications.length + game_notifications.length
+        },
+        getAllTournamentsCurrentFixture: function(f) {
+            return $http.get(SETTINGS.url.allTournamentsCurrentFixture())
+                .success(function(response) {
+                    f(response);
+                })
+                .error(function(response) {
+                    f(response);
+                });
         }
     }
 }])

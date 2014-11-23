@@ -90,7 +90,7 @@
             getPredictions: function(gameplayer_id) { return this.base + '/games/predictions/' + gameplayer_id + '/' },
             updateNotification: function(pk, notification_type) { return this.base + '/notifications/' + pk + '/' + notification_type },
             contactNew: function() { return this.base + '/contact/'},
-
+            allTournamentsCurrentFixture: function() { return this.base + '/tournaments/fixtures'}
     }
 }) 
 

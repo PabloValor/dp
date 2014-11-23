@@ -4,7 +4,7 @@ from .views import TournamentList, TournamentFixtureList, AllTournamentCurrentFi
 
 urlpatterns = patterns('tournaments.views',
                     url(r'^$', TournamentList.as_view(), name = 'tournamentList'),
-                    url(r'^/fixtures$', AllTournamentCurrentFixtureList.as_view(), name = 'allTournamentCurrentFixtureList'),
+                    url(r'^fixtures$', AllTournamentCurrentFixtureList.as_view(), name = 'allTournamentCurrentFixtureList'),
                     url(r'^(?P<pk>[0-9]+)/fixture$', TournamentFixtureList.as_view(), name = 'tournamentFixtureList'),
 )
 

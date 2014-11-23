@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Proximo Partidos"></span></strong></div>
+  <div class="panel-body">
+    <div ng-repeat="tournament in tournaments" class="fixture-next">
+      <span class="fixture-number">Fecha {{ tournament.fixture.number}}</span>
+      <table class="table table-hover" style="font-size:15px;">
+        <thead>
+          <tr>
+            <th style="text-align:right">Local </th>
+            <th></th>
+            <th style="text-align:left"> Visitante </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="match in tournament.fixture.matches | orderBy: 'id'" align="center" class="match">
+            <td align="right" class="team">
+              {{ match.local_team.name }} 
+              <img src="http://localhost:8000{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />
+            </td>
+            <td  ng-hide="selectedGame.classic" style="color:green">vs</td>
+            <td align="left" class="team">
+              <img src="http://localhost:8000{{ match.visitor_team.crest }}" style="height: 20px;margin-right:5px;" />
+              {{ match.visitor_team.name }}  
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>        
+

@@ -45,5 +45,5 @@ class TournamentCurrentFixtureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tournament
-        fields = ('fixture', 'tournament_name', 'is_finished')
+        fields = ('fixture', 'tournament_name')
 
