@@ -357,7 +357,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertTrue(response.data['fixtures'][0]['matches'][0]['is_finished'])
         self.assertFalse(response.data['fixtures'][0]['matches'][1]['is_finished'])
 
-    def test_get_fixture_with_is_playing_info_A(self):
+    def test_get_fixture_with_its_playing_info_A(self):
         # Tournament
         tournament = TournamentFactory()
         fixture = FixtureFactory(tournament = tournament, open_until = timezone.now())
@@ -375,7 +375,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(response.data['fixtures'][0]['is_playing'])
 
-    def test_get_fixture_with_is_playing_info_B(self):
+    def test_get_fixture_with_its_playing_info_B(self):
         # Tournament
         tournament = TournamentFactory()
         fixture = FixtureFactory(tournament = tournament)
