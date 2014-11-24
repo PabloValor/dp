@@ -12,7 +12,7 @@ class TournamentFixtureList(generics.RetrieveAPIView):
     serializer_class = TournamentFixtureSerializer
     queryset = Tournament.objects.all()
 
-class AllTournamentNexttFixtureList(generics.ListAPIView):
+class AllTournamentNextFixtureList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = TournamentNextFixtureSerializer
     queryset = Tournament.objects.filter(is_finished = False)    

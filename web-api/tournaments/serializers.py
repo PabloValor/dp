@@ -16,7 +16,7 @@ class MatchSerializer(serializers.ModelSerializer):
         #date, local_team, local_team_goals, visitor_team, visitor_team_goals fixture, suspended, is_classic,
 
 class FixtureSerializer(serializers.ModelSerializer):
-    matches = MatchSerializer(source = 'matches', many=True)
+    matches = MatchSerializer(source = 'matches', many = True)
     is_closed = serializers.Field(source = 'is_closed')
 
     class Meta:
@@ -40,10 +40,9 @@ class TournamentFixtureSerializer(serializers.ModelSerializer):
         fields = ('id', 'fixtures', 'current_fixture', 'is_finished')
 
 class TournamentNextFixtureSerializer(serializers.ModelSerializer):
-    fixture = FixtureSerializer(source = "get_current_fixture")
+    fixture = FixtureSerializer(source = "get_next_fixture")
     tournament_name = serializers.Field(source = 'name')
 
     class Meta:
         model = Tournament
         fields = ('fixture', 'tournament_name')
-
