@@ -373,7 +373,7 @@ class TournamentFixtureAPITest(APITestCase):
 
         # Asset
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTrue(response.data['fixtures'][0]['is_playing'])
+        self.assertTrue(response.data['fixtures'][0]['is_closed'])
 
     def test_get_fixture_with_its_playing_info_B(self):
         # Tournament
@@ -391,7 +391,7 @@ class TournamentFixtureAPITest(APITestCase):
 
         # Asset
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertFalse(response.data['fixtures'][0]['is_playing'])
+        self.assertFalse(response.data['fixtures'][0]['is_closed'])
 
     def test_get_tournaments_next_fixture_200_OK_A(self):
         """
@@ -543,6 +543,33 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data[2]['tournament_name'], tournament_c.name)
         self.assertEqual(response.data[2]['fixture']['number'], 2)
 
+    def test_get_tournaments_next_fixture_when_there_is_one_playing_200_OK_A(self):
+        """
+        We get next fixture from all the tournaments of the site.
+        Tournaments: 1
+
+        If a fixture is being played we get the next one.
+        """
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_playing = True)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1)
+        fixture_3 = FixtureFactory(tournament = tournament, number = 2)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets from All the Tournaments the Current Fixture
+        url = reverse('allTournamentNextFixtureList')
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)        
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['tournament_name'], tournament.name)
+        self.assertEqual(response.data[0]['fixture']['number'], fixture_2.number)        
 
 class FixtureTest(TestCase):
     def test_get_active_fixture_A(self):

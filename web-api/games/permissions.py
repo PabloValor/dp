@@ -88,8 +88,8 @@ class PlayerMatchPredictionPermission(permissions.BasePermission):
         if match.fixture.is_finished:
           return False
 
-        # If the fixture is being played
-        if match.fixture.is_playing():
+        # If the fixture is close for new predictions
+        if match.fixture.is_closed():
           return False
 
         return True

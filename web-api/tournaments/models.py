@@ -68,6 +68,7 @@ class Fixture(models.Model):
     is_finished = models.BooleanField(default = False, verbose_name = "Termino")
     tournament = models.ForeignKey(Tournament, verbose_name = "Torneo", related_name = 'fixtures')
     open_until = models.DateTimeField(verbose_name = "Abierta hasta")
+    is_playing  = models.BooleanField(default = False)    
 
     def __unicode__(self):
         return "Fecha: {0}".format(self.number)
@@ -82,7 +83,7 @@ class Fixture(models.Model):
 
         return predictions
 
-    def is_playing(self):
+    def is_closed(self):
       return self.open_until < timezone.now()
 
     class Meta:

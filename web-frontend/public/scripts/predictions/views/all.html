@@ -69,14 +69,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="fixture-status" ng-show="(currentFixture.is_finished || currentFixture.is_playing )&& selectedGameplayer.id == userGameplayer.id">
+                <div class="fixture-status" ng-show="(currentFixture.is_finished || currentFixture.is_closed )&& selectedGameplayer.id == userGameplayer.id">
                   <span class="fixture-finished-title" ng-show="currentFixture.is_finished">Fecha Terminada</span>
-                  <span class="fixture-playing-title"  ng-show="currentFixture.is_playing && !currentFixture.is_finished"> Fecha Jugandose </span>
+                  <span class="fixture-playing-title"  ng-show="currentFixture.is_closed && !currentFixture.is_finished"> Fecha Jugandose </span>
                 </div>
                 <div class="fixture-status" ng-show="selectedGameplayer.id != userGameplayer.id">
                   <span class="fixture-finished-title">{{ selectedGameplayer.username }}</span>
                 </div>
-                <table class="table table-hover" style="font-size:15px;" ng-class="{'fixture-disabled': currentFixture.is_finished || currentFixture.is_playing || selectedGameplayer.id != userGameplayer.id }">
+                <table class="table table-hover" style="font-size:15px;" ng-class="{'fixture-disabled': currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id }">
                     <thead>
                       <tr>
                         <th></th>
@@ -91,7 +91,7 @@
                       <tr ng-repeat="match in currentFixture.matches | orderBy: 'id'" 
                           align="center" 
                           class="match"  
-                          ng-class="{'active': match.is_finished && !match.hasPrediction || (!match.is_finished && currentFixture.is_playing) || selectedGameplayer.id != userGameplayer.id, 
+                          ng-class="{'active': match.is_finished && !match.hasPrediction || (!match.is_finished && currentFixture.is_closed) || selectedGameplayer.id != userGameplayer.id, 
                                      'danger': match.is_finished && match.hasPrediction && match.points == 0,
                                      'success': match.is_finished && match.hasPrediction && match.points > 0 }" >
 
@@ -113,7 +113,7 @@
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
                               <input name="{{ match.local_team }}_{{ match.visitor_team}}" type="radio" value="local" 
-                                     ng-disabled="currentFixture.is_finished || currentFixture.is_playing || selectedGameplayer.id != userGameplayer.id" 
+                                     ng-disabled="currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
                                      ng-click="doGeneralPrediction(match, true)" 
                                      ng-model="match.generalPrediction">
                               <span popover-trigger="mouseenter" popover="Gana {{ match.local_team.name }}" ng-if="!match.is_finished">L</span>
@@ -123,7 +123,7 @@
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
                               <input name="{{ match.local_team }}_{{ match.visitor_team}}" type="radio" value="draw" 
-                                     ng-disabled="currentFixture.is_finished || currentFixture.is_playing || selectedGameplayer.id != userGameplayer.id" 
+                                     ng-disabled="currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
                                      ng-model="match.generalPrediction">
                               <span popover-trigger="mouseenter" popover="Empatan" ng-if="!match.is_finished" ng-click="doGeneralPrediction(match)">E</span>
                               <span ng-if="match.is_finished">E</span>
@@ -132,7 +132,7 @@
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
                               <input name="{{ match.local_team }}_{{ match.visitor_team}}" type="radio" value="visitor" 
-                                     ng-disabled="currentFixture.is_finished || currentFixture.is_playing || selectedGameplayer.id != userGameplayer.id" 
+                                     ng-disabled="currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
                                      ng-click="doGeneralPrediction(match, false)" 
                                      ng-model="match.generalPrediction">
                               <span popover-trigger="mouseenter" popover="Gana {{ match.visitor_team.name }}" ng-if="!match.is_finished">V</span>
@@ -141,7 +141,7 @@
                           </td>
                           <td ng-hide="selectedGame.classic">
                             <select style="width: 50px;" 
-                                    ng-disabled="currentFixture.is_finished || currentFixture.is_playing || selectedGameplayer.id != userGameplayer.id" 
+                                    ng-disabled="currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
                                     ng-change="doExactPrediction(match)"
                                     ng-model="match.predictionLocalGoals">
                                     <option value=""></option>
@@ -160,7 +160,7 @@
                           <td  ng-hide="selectedGame.classic" style="color:green">vs</td>
                           <td  ng-hide="selectedGame.classic">
                                 <select style="width: 50px;"  
-                                    ng-disabled="currentFixture.is_finished || currentFixture.is_playing || selectedGameplayer.id != userGameplayer.id" 
+                                    ng-disabled="currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
                                     ng-change="doExactPrediction(match)"
                                     ng-model="match.predictionVisitorGoals">
                                     <option value=""> </option>

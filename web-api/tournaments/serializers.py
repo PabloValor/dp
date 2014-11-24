@@ -17,11 +17,11 @@ class MatchSerializer(serializers.ModelSerializer):
 
 class FixtureSerializer(serializers.ModelSerializer):
     matches = MatchSerializer(source = 'matches', many=True)
-    is_playing = serializers.Field(source = 'is_playing')
+    is_closed = serializers.Field(source = 'is_closed')
 
     class Meta:
         model = Fixture
-        fields = ('number', 'is_finished', 'matches', 'is_playing')
+        fields = ('number', 'is_finished', 'matches', 'is_closed')
 
 class TournamentSerializer(serializers.ModelSerializer):
     teams = TeamSerializer(source = 'get_teams', many = True)
