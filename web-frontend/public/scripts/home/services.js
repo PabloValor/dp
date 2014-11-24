@@ -17,8 +17,8 @@ angular.module('app.home')
                 
             return friend_notifications.length + game_notifications.length
         },
-        getAllTournamentsCurrentFixture: function(f) {
-            return $http.get(SETTINGS.url.allTournamentsCurrentFixture())
+        getAllTournamentsNextFixture: function(f) {
+            return $http.get(SETTINGS.url.allTournamentsNextFixture())
                 .success(function(response) {
                     f(response);
                 })

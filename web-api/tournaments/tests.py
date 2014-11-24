@@ -393,10 +393,10 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertFalse(response.data['fixtures'][0]['is_playing'])
 
-    def test_get_all_tournaments_current_fixture_one_tournament_200_OK_A(self):
+    def test_get_all_tournaments_next_fixture_one_tournament_200_OK_A(self):
         """
         From one Tournament
-          Three fixtures with the same status. The current fixture is the first one.
+          Three fixtures with the same status. The next fixture is the first one.
         """
         # Tournament
         tournament = TournamentFactory()
@@ -410,7 +410,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets from All the Tournaments the Current Fixture
-        url = reverse('allTournamentCurrentFixtureList')
+        url = reverse('allTournamentNextFixtureList')
         response = self.client.get(url)
 
         # Assert
@@ -419,11 +419,11 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data[0]['tournament_name'], tournament.name)
         self.assertEqual(response.data[0]['fixture']['number'], fixture_1.number)
 
-    def test_get_all_tournaments_current_fixture_one_tournament_200_OK_B(self):
+    def test_get_all_tournaments_next_fixture_one_tournament_200_OK_B(self):
         """
         From one Tournament
 
-          The middle one is the Current Fixture
+          The middle one is the Next Fixture
         """
         # Tournament
         tournament = TournamentFactory()
@@ -436,8 +436,8 @@ class TournamentFixtureAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        # Player gets from All the Tournaments the Current Fixture
-        url = reverse('allTournamentCurrentFixtureList')
+        # Player gets from All the Tournaments the Next Fixture
+        url = reverse('allTournamentNextFixtureList')
         response = self.client.get(url)
 
         # Assert
@@ -446,11 +446,11 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data[0]['tournament_name'], tournament.name)
         self.assertEqual(response.data[0]['fixture']['number'], fixture_2.number)
 
-    def test_get_all_tournaments_current_fixture_one_tournament_200_OK_C(self):
+    def test_get_all_tournaments_next_fixture_one_tournament_200_OK_C(self):
         """
         From one Tournament
 
-          The last one is the Current Fixture
+          The last one is the Next Fixture
         """
         # Tournament
         tournament = TournamentFactory()
@@ -463,8 +463,8 @@ class TournamentFixtureAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        # Player gets from All the Tournaments the Current Fixture
-        url = reverse('allTournamentCurrentFixtureList')
+        # Player gets from All the Tournaments the Next Fixture
+        url = reverse('allTournamentNextFixtureList')
         response = self.client.get(url)
 
         # Assert
@@ -473,7 +473,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data[0]['tournament_name'], tournament.name)
         self.assertEqual(response.data[0]['fixture']['number'], fixture_3.number)
 
-    def test_get_all_tournaments_current_fixture_none_tournament_200_OK(self):
+    def test_get_all_tournaments_next_fixture_none_tournament_200_OK(self):
         """
         From one Tournament that has already finished. The response is None.
         """
@@ -486,15 +486,15 @@ class TournamentFixtureAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        # Player gets from All the Tournaments the Current Fixture
-        url = reverse('allTournamentCurrentFixtureList')
+        # Player gets from All the Tournaments the Next Fixture
+        url = reverse('allTournamentNextFixtureList')
         response = self.client.get(url)
 
         # Assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)        
         self.assertEqual(len(response.data), 0)
 
-    def test_get_all_tournaments_current_fixture_200_OK(self):
+    def test_get_all_tournaments_next_fixture_200_OK(self):
         """
         From three Tournaments.
         """
@@ -517,7 +517,7 @@ class TournamentFixtureAPITest(APITestCase):
 
         # Tournament A
         # Player gets Tournament Fixture
-        url = reverse('allTournamentCurrentFixtureList')
+        url = reverse('allTournamentNextFixtureList')
         response = self.client.get(url)
 
         # Assert
@@ -531,7 +531,8 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data[1]['fixture']['number'], 1)
         
         self.assertEqual(response.data[2]['tournament_name'], tournament_c.name)
-        self.assertEqual(response.data[2]['fixture']['number'], 2)        
+        self.assertEqual(response.data[2]['fixture']['number'], 2)
+
 
 class FixtureTest(TestCase):
     def test_get_active_fixture_A(self):
