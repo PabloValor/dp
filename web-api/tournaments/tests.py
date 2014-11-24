@@ -393,10 +393,12 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertFalse(response.data['fixtures'][0]['is_playing'])
 
-    def test_get_all_tournaments_next_fixture_one_tournament_200_OK_A(self):
+    def test_get_tournaments_next_fixture_200_OK_A(self):
         """
-        From one Tournament
-          Three fixtures with the same status. The next fixture is the first one.
+        We get next fixture from all the tournaments of the site.
+        Tournaments: 1
+
+        The next fixture is the first one.
         """
         # Tournament
         tournament = TournamentFactory()
@@ -419,12 +421,13 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data[0]['tournament_name'], tournament.name)
         self.assertEqual(response.data[0]['fixture']['number'], fixture_1.number)
 
-    def test_get_all_tournaments_next_fixture_one_tournament_200_OK_B(self):
+    def test_get_tournaments_next_fixture_200_OK_B(self):
         """
-        From one Tournament
+        We get next fixture from all the tournaments of the site.
+        Tournaments: 1
 
-          The middle one is the Next Fixture
-        """
+        The next fixture is the second one.
+        """        
         # Tournament
         tournament = TournamentFactory()
         fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_finished = True)
@@ -446,12 +449,14 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data[0]['tournament_name'], tournament.name)
         self.assertEqual(response.data[0]['fixture']['number'], fixture_2.number)
 
-    def test_get_all_tournaments_next_fixture_one_tournament_200_OK_C(self):
-        """
-        From one Tournament
 
-          The last one is the Next Fixture
+    def test_get_tournaments_next_fixture_200_OK_C(self):
         """
+        We get next fixture from all the tournaments of the site.
+        Tournaments: 1
+
+        The next fixture is the third one.
+        """                
         # Tournament
         tournament = TournamentFactory()
         fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_finished = True)
@@ -473,10 +478,13 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data[0]['tournament_name'], tournament.name)
         self.assertEqual(response.data[0]['fixture']['number'], fixture_3.number)
 
-    def test_get_all_tournaments_next_fixture_none_tournament_200_OK(self):
+    def test_get_tournaments_next_fixture_200_OK_D(self):
         """
-        From one Tournament that has already finished. The response is None.
-        """
+        We get next fixture from all the tournaments of the site.
+        Tournaments: 1
+
+        The next fixture is none. Because all the fixtures have finished.
+        """                        
         # Tournament
         tournament = TournamentFactory(is_finished = True)
         fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_finished = True)
@@ -494,10 +502,12 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)        
         self.assertEqual(len(response.data), 0)
 
-    def test_get_all_tournaments_next_fixture_200_OK(self):
+    def test_get_tournaments_next_fixture_200_OK_E(self):
         """
-        From three Tournaments.
-        """
+        We get next fixture from all the tournaments of the site.
+
+        Tournaments: 3
+        """                                
         # Tournament
         tournament = TournamentFactory()
         FixtureFactory(tournament = tournament, number = 0)
