@@ -1,4 +1,4 @@
-<div class="page page-dashboard" data-ng-controller="HomeController">
+<div class="page page-dashboard news" data-ng-controller="HomeController">
     <!-- stats -->
     <div class="row">
         <div class="col-lg-3 col-xsm-6">
@@ -75,17 +75,12 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Realtime Data"></span></strong></div>
-                <div class="panel-body">
-
-                </div>
-            </div>        
-        </div>
-        <div class="col-md-4">
-              <all-tournaments-next-fixture></all-tournaments-next-fixture>
-        </div>
+      <div class="col-md-8">
+        <all-tournaments-current-or-last-fixture></all-tournaments-current-or-last-fixture>                    
+      </div>
+      <div class="col-md-4">
+        <all-tournaments-next-fixture></all-tournaments-next-fixture>
+      </div>
 
     </div>
 

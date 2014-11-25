@@ -25,7 +25,17 @@ angular.module('app.home')
                 .error(function(response) {
                     f(response);
                 });
-        }
+        },
+        getAllTournamentsCurrentOrLastFixture: function(f) {
+            return $http.get(SETTINGS.url.allTournamentsCurrentOrLastFixture())
+                .success(function(response) {
+                    f(response);
+                })
+                .error(function(response) {
+                    f(response);
+                });
+        }        
+        
     }
 }])
 

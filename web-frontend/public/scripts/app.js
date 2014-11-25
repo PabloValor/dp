@@ -90,7 +90,8 @@
             getPredictions: function(gameplayer_id) { return this.base + '/games/predictions/' + gameplayer_id + '/' },
             updateNotification: function(pk, notification_type) { return this.base + '/notifications/' + pk + '/' + notification_type },
             contactNew: function() { return this.base + '/contact/'},
-            allTournamentsNextFixture: function() { return this.base + '/tournaments/fixtures/next'}
+            allTournamentsNextFixture: function() { return this.base + '/tournaments/fixtures/next'},
+            allTournamentsCurrentOrLastFixture: function() { return this.base + '/tournaments/fixtures/current-or-last'}            
     }
 }) 
 

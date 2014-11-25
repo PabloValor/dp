@@ -46,3 +46,11 @@ class TournamentNextFixtureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tournament
         fields = ('fixture', 'tournament_name')
+
+class TournamentCurrentOrLastFixtureSerializer(serializers.ModelSerializer):
+    fixture = FixtureSerializer(source = "get_current_or_last_fixture")
+    tournament_name = serializers.Field(source = 'name')
+
+    class Meta:
+        model = Tournament
+        fields = ('fixture', 'tournament_name')        

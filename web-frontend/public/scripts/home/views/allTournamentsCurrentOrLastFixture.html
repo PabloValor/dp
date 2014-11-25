@@ -1,0 +1,53 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Ultima Fecha"></span></strong></div>
+  <div class="panel-body">
+    <div ng-repeat="tournament in tournaments" class="fixture-next">    
+      <table class="table table-hover fixture fixture-last">
+        <thead>
+          <tr>
+            <th></th>                    
+            <th style="text-align:right">Local </th>
+            <th><span class="fixture-number">Fecha {{ tournament.fixture.number}}</span></th>          
+            <th style="text-align:left"> Visitante </th>
+            <th style="text-align:center"> Resultado </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="match in tournament.fixture.matches | orderBy: 'id'" align="center" class="match">
+            <td>
+              <i class="flaticon-football7 classic" 
+                 popover-trigger="mouseenter" 
+                 popover="Clasico"
+                 ng-show="match.is_classic" ></i>
+            </td>
+            <td align="right" class="team">
+              {{ match.local_team.name }} 
+              <img src="http://localhost:8000{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />
+            </td>
+            <td  ng-hide="selectedGame.classic" style="color:green">vs</td>
+            <td align="left"  class="team">
+              <img src="http://localhost:8000{{ match.visitor_team.crest }}" style="height: 20px;margin-right:5px;" />
+              {{ match.visitor_team.name }}  
+            </td>
+            <td>
+              <span ng-show="match.is_finished" 
+                    class="label label-primary match-outcome" 
+                    popover-trigger="mouseenter" popover="Gano {{ match.winner }}" 
+                    ng-if="match.winner">
+                {{ match.local_team_goals }} : {{ match.visitor_team_goals }}
+              </span>
+
+              <span ng-show="match.is_finished" 
+                    class="label label-primary match-outcome" 
+                    popover-trigger="mouseenter" popover="Empataron" 
+                    ng-if="!match.winner">
+                {{ match.local_team_goals }} : {{ match.visitor_team_goals }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>        
+

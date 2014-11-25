@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, status
 from .models import Team, Tournament, Fixture
-from .serializers import TeamSerializer, TournamentSerializer, TournamentFixtureSerializer, TournamentNextFixtureSerializer
+from .serializers import (TeamSerializer, TournamentSerializer, TournamentFixtureSerializer,
+                          TournamentNextFixtureSerializer, TournamentCurrentOrLastFixtureSerializer)
 
 class TournamentList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -15,4 +16,9 @@ class TournamentFixtureList(generics.RetrieveAPIView):
 class AllTournamentNextFixtureList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = TournamentNextFixtureSerializer
-    queryset = Tournament.objects.filter(is_finished = False)    
+    queryset = Tournament.objects.filter(is_finished = False)
+
+class AllTournamentCurrentOrLastFixtureList(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = TournamentCurrentOrLastFixtureSerializer
+    queryset = Tournament.objects.filter(is_finished = False)        

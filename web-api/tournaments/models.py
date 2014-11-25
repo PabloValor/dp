@@ -7,10 +7,21 @@ class Tournament(models.Model):
 
     def get_current_fixture(self):
         fixtures = self.get_future_fixtures()
-        if fixtures.count() > 0:
+        if fixtures.exists():
            return fixtures.first()
         else:
            return None
+
+    def get_current_or_last_fixture(self):
+        fixture = self.fixtures.filter(is_finished = False, is_playing = True)
+        if fixture.exists():
+            return fixture[0]
+
+        last_fixture = self.get_last_fixture()
+        if last_fixture.exists():
+            return last_fixture[0]
+        else:
+            return self.get_current_fixture()
 
     def get_current_fixture_number(self):
         fixture = self.get_current_fixture()
@@ -38,8 +49,12 @@ class Tournament(models.Model):
         return next_fixture
       
     def get_past_fixtures(self):
-      fixtures = self.fixtures.filter(is_finished = True).order_by('number')
-      return fixtures
+        fixtures = self.fixtures.filter(is_finished = True).order_by('number')
+        return fixtures
+
+    def get_last_fixture(self):
+        fixtures = self.fixtures.filter(is_finished = True).order_by('-number')
+        return fixtures
 
     def get_future_fixtures(self):
       fixtures = self.fixtures.filter(is_finished = False, is_playing = False).order_by('number')

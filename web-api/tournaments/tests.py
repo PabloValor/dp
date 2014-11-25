@@ -562,7 +562,7 @@ class TournamentFixtureAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        # Player gets from All the Tournaments the Current Fixture
+        # Player gets from All the Tournaments the Next Fixture
         url = reverse('allTournamentNextFixtureList')
         response = self.client.get(url)
 
@@ -590,7 +590,7 @@ class TournamentFixtureAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        # Player gets from All the Tournaments the Current Fixture
+        # Player gets from All the Tournaments the Next Fixture
         url = reverse('allTournamentNextFixtureList')
         response = self.client.get(url)
 
@@ -618,7 +618,7 @@ class TournamentFixtureAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        # Player gets from All the Tournaments the Current Fixture
+        # Player gets from All the Tournaments the Next Fixture
         url = reverse('allTournamentNextFixtureList')
         response = self.client.get(url)
 
@@ -647,7 +647,7 @@ class TournamentFixtureAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        # Player gets from All the Tournaments the Current Fixture
+        # Player gets from All the Tournaments the Next Fixture
         url = reverse('allTournamentNextFixtureList')
         response = self.client.get(url)
 
@@ -675,7 +675,7 @@ class TournamentFixtureAPITest(APITestCase):
         token = Token.objects.get(user__username = player.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        # Player gets from All the Tournaments the Current Fixture
+        # Player gets from All the Tournaments the Next Fixture
         url = reverse('allTournamentNextFixtureList')
         response = self.client.get(url)
 
@@ -683,6 +683,186 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)        
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['fixture'], None)        
+
+    def test_get_tournaments_current_or_last_fixture_200_OK_A(self):
+        """
+        We get the current or last fixture from all the tournaments of the site.
+        Tournaments: 1
+
+        Tournament hasn't started. Current fixture is the first.
+        """
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1)
+        fixture_3 = FixtureFactory(tournament = tournament, number = 2)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets from All the Tournaments the Current Fixture
+        url = reverse('allTournamentCurrentOrLastFixtureList')
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)        
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['tournament_name'], tournament.name)
+        self.assertEqual(response.data[0]['fixture']['number'], fixture_1.number)
+
+    def test_get_tournaments_current_or_last_fixture_200_OK_B(self):
+        """
+        We get the current or last fixture from all the tournaments of the site.
+        Tournaments: 1
+        Is Playing: True
+
+        Tournament has started. The first fixture is being playing so the 
+         Current fixture is still the first fixture.
+        """
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_playing = True)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1)
+        fixture_3 = FixtureFactory(tournament = tournament, number = 2)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets from All the Tournaments the Current Fixture
+        url = reverse('allTournamentCurrentOrLastFixtureList')
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)        
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['tournament_name'], tournament.name)
+        self.assertEqual(response.data[0]['fixture']['number'], fixture_1.number)
+
+        
+    def test_get_tournaments_current_or_last_fixture_200_OK_C(self):
+        """
+        We get the current or last fixture from all the tournaments of the site.
+        Tournaments: 1
+        Is Playing: True
+
+        Tournament has started. The first fixture has finished so it's the last fixture.
+        """
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_playing = True, is_finished = True)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1)
+        fixture_3 = FixtureFactory(tournament = tournament, number = 2)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets from All the Tournaments the Current Fixture
+        url = reverse('allTournamentCurrentOrLastFixtureList')
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)        
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['tournament_name'], tournament.name)
+        self.assertEqual(response.data[0]['fixture']['number'], fixture_1.number)
+
+    def test_get_tournaments_current_or_last_fixture_200_OK_D(self):
+        """
+        We get the current or last fixture from all the tournaments of the site.
+        Tournaments: 1
+        Is Playing: True
+
+        Tournament is playing his last fixture.
+        Current Fixture: fixture_3
+        """
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_playing = True, is_finished = True)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1, is_finished = True)
+        fixture_3 = FixtureFactory(tournament = tournament, number = 2, is_playing = True)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets from All the Tournaments the Current Fixture
+        url = reverse('allTournamentCurrentOrLastFixtureList')
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)        
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['tournament_name'], tournament.name)
+        self.assertEqual(response.data[0]['fixture']['number'], fixture_3.number)
+
+    def test_get_tournaments_current_or_last_fixture_200_OK_DA(self):
+        """
+        We get the current or last fixture from all the tournaments of the site.
+        Tournaments: 1
+        Is Playing: False
+
+        Tournament is playing his last fixture.
+        Current Fixture: fixture_2
+        """
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_playing = True, is_finished = True)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1, is_finished = True)
+        fixture_3 = FixtureFactory(tournament = tournament, number = 2)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets from All the Tournaments the Current Fixture
+        url = reverse('allTournamentCurrentOrLastFixtureList')
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)        
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['tournament_name'], tournament.name)
+        self.assertEqual(response.data[0]['fixture']['number'], fixture_2.number)        
+
+
+    def test_get_tournaments_current_or_last_fixture_200_OK_E(self):
+        """
+        We get the current or last fixture from all the tournaments of the site.
+        Tournaments: 1
+        Is Playing: True
+
+        Tournament has finished
+        Current Fixture is the last one.
+        """
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_playing = True, is_finished = True)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1, is_finished = True)
+        fixture_3 = FixtureFactory(tournament = tournament, number = 2, is_playing = True, is_finished = True)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets from All the Tournaments the Current Fixture
+        url = reverse('allTournamentCurrentOrLastFixtureList')
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)        
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['tournament_name'], tournament.name)
+        self.assertEqual(response.data[0]['fixture']['number'], fixture_3.number)                        
+
         
 class FixtureTest(TestCase):
     def test_get_active_fixture_A(self):
