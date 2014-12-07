@@ -6,9 +6,10 @@ include
 lib
 .Python
 .DS_Store
-/tmp/bower_components/font-awesome/src/3.2.1/icon/cut/index.html
+tmp/bower_components/font-awesome/src/3.2.1/icon/cut/index.html
 tmp/
 .sass-cache
 design/*
 web-frontend/node_modules/*
-/web-api/.coverage
+web-api/.coverage
+web-frontend/node_modules    
