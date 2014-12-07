@@ -10,7 +10,7 @@ module.exports = function(grunt) {
         express: {
             livereload: {
                 options: {
-                    port: 9000,
+                    port: 9090,
                     bases: path.resolve('public'),
                     monitor: {},
                     debug: true,

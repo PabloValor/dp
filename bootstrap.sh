@@ -3,6 +3,8 @@ apt-get update
 #apt-get -y upgrade
 apt-get install -y build-essential
 apt-get install -y make
+apt-get install -y curl
+apt-get install -y git
 
 # Database
 PG_VERSION=9.1
@@ -45,11 +47,11 @@ cd
 rm -rf redis-2.8.9
 rm redis-2.8.9.tar.gz
 
-# # Python dev
+# Python dev
 apt-get -y install python-dev libpq-dev
 apt-get -y install python-pip
 
-# # Apps dependencies
+# Backend dependencies
 pip install virtualenv
 cd /vagrant
 virtualenv env
@@ -60,3 +62,18 @@ echo 'export AWS_ACCESS_KEY_ID=0G8GTV79ZZV2202XW682' >> /home/vagrant/.bashrc
 echo "export AWS_SECRET_ACCESS_KEY=0MB3tAjz816yOjxmbMFMU0hTRA4PNNbKW6RkrLRl" >> /home/vagrant/.bashrc
 echo 'export MANDRILL_API_KEY=4rbqFI0BJL8ryoHT7CRGLw' >> /home/vagrant/.bashrc
 source /home/vagrant/.bashrc
+
+cd /vagrant/web-api
+./manage syncdb
+./manage migrate
+./manage.py loaddata tournaments/fixtures/argentina_2014.json
+
+# Frontend dependencies
+curl -sL https://deb.nodesource.com/setup | sudo bash -
+apt-get install -y nodejs
+npm install -g coffee-script
+npm install -g grunt-cli
+cd /vagrant/web-frontend
+npm install
+gem install compass
+
