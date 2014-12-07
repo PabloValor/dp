@@ -12,4 +12,6 @@ tmp/
 design/*
 web-frontend/node_modules/*
 web-api/.coverage
-web-frontend/node_modules    
+web-frontend/node_modules
+env
+.vagrant
