@@ -53,4 +53,23 @@ class TournamentCurrentOrLastFixtureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tournament
-        fields = ('fixture', 'tournament_name')        
+        fields = ('fixture', 'tournament_name')
+
+class TeamStatsField(serializers.Field):
+    def to_native(self, team):
+        tournament =  self.root.object
+        return team.get_tournament_stats(tournament)
+    
+class TeamStatsSerializer(serializers.ModelSerializer):
+    stats = TeamStatsField(source = '*')
+    
+    class Meta:
+        model = Team
+        fields = ('id', 'name', 'crest', 'stats')        
+
+class TournamentStatsSerializer(serializers.ModelSerializer):
+    teams = TeamStatsSerializer(source = 'get_teams', many = True)
+
+    class Meta:
+        model = Tournament
+        fields = ('id', 'name', 'teams',)
