@@ -24,11 +24,16 @@ class FixtureSerializer(serializers.ModelSerializer):
         fields = ('number', 'is_finished', 'matches', 'is_closed')
 
 class TournamentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tournament
+        fields = ('id', 'name', )
+
+class TournamentTeamsSerializer(serializers.ModelSerializer):
     teams = TeamSerializer(source = 'get_teams', many = True)
 
     class Meta:
         model = Tournament
-        fields = ('id', 'name', 'teams',)
+        fields = ('id', 'name', 'teams',)        
 
 class TournamentFixtureSerializer(serializers.ModelSerializer):
     fixtures = FixtureSerializer(source="fixtures", many = True)

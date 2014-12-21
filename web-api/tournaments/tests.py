@@ -48,11 +48,19 @@ class TournamentAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player asks for the tournament
-        url = reverse('tournamentList')
+        url = reverse('tournamentTeamsList')
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data[0]['teams']), 2)
+
+    def test_get_401_UNAUTHORIZED(self):
+        tournament_1 = TournamentFactory()
+
+        url = reverse('tournamentTeamsList')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)        
 
     def test_get_tournament_with_teams_stats_200_OK(self):
         # Tournament
