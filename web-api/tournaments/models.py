@@ -92,6 +92,24 @@ class Team(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_tournament_stats(self, tournament):
+        wins = 0
+        draws = 0
+        losses = 0
+        
+        for match in self.get_all_matches(tournament):
+            if match.get_winner() == self:
+                wins += 1
+            elif match.get_winner() == None:
+                draws += 1
+            else:
+                losses += 1
+
+        return {'w': wins, 'd': draws, 'l': losses}
+
+    def get_all_matches(self, tournament):
+        return Match.get_all(tournament, self)        
+        
     class Meta:
         ordering = ['name']
         verbose_name = "Equipo"
@@ -136,9 +154,9 @@ class Match(models.Model):
 
     def get_winner(self):
       if self.local_wins():
-        return self.local_team.name
+        return self.local_team
       elif self.visitor_wins():
-        return self.visitor_team.name
+        return self.visitor_team
       else:
         return None
 
@@ -148,12 +166,19 @@ class Match(models.Model):
 
     def visitor_wins(self):
         return self.local_team_goals < self.visitor_team_goals
-
+ 
     def nobody_wins(self):
         return self.local_team_goals == self.visitor_team_goals
 
     def __unicode__(self):
         return u"Fecha %s : %s vs %s " % (self.fixture.number, self.local_team.name, self.visitor_team.name)
 
+    @classmethod
+    def get_all(cls, tournament, team):
+        fixtures_ids = [fixture.id for fixture in tournament.fixtures.all()]
+        matches = Match.objects.raw('select * from tournaments_match where fixture_id in %s and (local_team_id = %s or visitor_team_id = %s)',
+                          [tuple(fixtures_ids), team.id, team.id])
+        return matches
+    
     class Meta:
         verbose_name = "Partido"

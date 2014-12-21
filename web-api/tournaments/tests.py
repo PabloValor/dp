@@ -1,4 +1,5 @@
 import json
+import random
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -975,3 +976,115 @@ class TournamentTest(TestCase):
 
         teams = tournament.get_teams()
         self.assertEqual(len(teams), 2)
+
+
+    def test_get_all_matches_1(self):
+        """
+        Test Get all the matches' team
+        """
+        
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament)
+        team = TeamFactory()        
+        match = MatchFactory(local_team = team, fixture = fixture)        
+
+        matches = team.get_all_matches(tournament)
+
+        self.assertEqual(matches[0], match)
+
+    def test_get_all_matches_2(self):
+        """
+        Test Get all the matches' team
+        """
+        
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament)
+        team = TeamFactory()        
+        match_1 = MatchFactory(local_team = team, fixture = fixture)
+        match_2 = MatchFactory(local_team = team, fixture = fixture)                
+
+        matches = team.get_all_matches(tournament)
+
+        self.assertEqual(matches[0], match_1)
+        self.assertEqual(matches[1], match_2)        
+        
+    def test_get_tournament_stats_1(self):
+        """
+        Test Local teams stats.
+        
+        Stats: W:1 D:0 L:0
+        """
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament)
+        team = TeamFactory()        
+        match = MatchFactory(local_team = team,
+                             fixture = fixture,
+                             local_team_goals = 1,
+                             visitor_team_goals = 0)
+
+        stats = team.get_tournament_stats(tournament)
+        self.assertEqual(stats['w'], 1)
+        self.assertEqual(stats['d'], 0)
+        self.assertEqual(stats['l'], 0)
+
+    def test_get_tournament_stats_2(self):
+        """
+        Test Local teams stats.
+        
+        Stats: W:0 D:1 L:0
+        """
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament)
+        team = TeamFactory()        
+        match = MatchFactory(local_team = team,
+                             fixture = fixture,
+                             local_team_goals = 1,
+                             visitor_team_goals = 1)
+
+        stats = team.get_tournament_stats(tournament)
+        self.assertEqual(stats['w'], 0)
+        self.assertEqual(stats['d'], 1)
+        self.assertEqual(stats['l'], 0)
+
+    def test_get_tournament_stats_3(self):
+        """
+        Test Local teams stats.
+        
+        Stats: W:0 D:0 L:1
+        """
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament)
+        team = TeamFactory()        
+        match = MatchFactory(local_team = team,
+                             fixture = fixture,
+                             local_team_goals = 0,
+                             visitor_team_goals = 1)
+
+        stats = team.get_tournament_stats(tournament)
+        self.assertEqual(stats['w'], 0)
+        self.assertEqual(stats['d'], 0)
+        self.assertEqual(stats['l'], 1)
+
+
+    def test_get_tournament_stats_multiples_matches(self):
+        """
+        Test Local teams stats.
+        """
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament)
+        team = TeamFactory()
+
+        wins = [MatchFactory(local_team = team, fixture = fixture,local_team_goals = 2, visitor_team_goals = 1)
+                for x in xrange(random.randint(0, 10))]
+
+        draws = [MatchFactory(local_team = team, fixture = fixture,local_team_goals = 2, visitor_team_goals = 2)
+                 for x in xrange(random.randint(0, 10))]         
+
+        losses = [MatchFactory(local_team = team, fixture = fixture,local_team_goals = 2, visitor_team_goals = 3)
+                  for x in xrange(random.randint(0, 10))]         
+
+        stats = team.get_tournament_stats(tournament)
+
+        self.assertEqual(stats['w'], len(wins))
+        self.assertEqual(stats['d'], len(draws))
+        self.assertEqual(stats['l'], len(losses))
