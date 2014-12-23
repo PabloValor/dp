@@ -85,11 +85,12 @@
             gamePlayerInviteAgain : function(gameplayer_id) { return this.base + '/games/gameplayer/invites-again/' + gameplayer_id + '/'},
             gamePlayerAnotherChance: function(gameplayer_id) { return this.base + '/games/gameplayer/another-chance/' + gameplayer_id + '/'},
             gamePlayerCreate: function() { return this.base + '/games/gameplayer/' },
-            tournamentFixture: function(tournament_id) { return this.base + '/tournaments/' + tournament_id + '/fixture' },
             doPrediction: function() { return this.base + '/games/prediction/'},
             getPredictions: function(gameplayer_id) { return this.base + '/games/predictions/' + gameplayer_id + '/' },
             updateNotification: function(pk, notification_type) { return this.base + '/notifications/' + pk + '/' + notification_type },
             contactNew: function() { return this.base + '/contact/'},
+            allTournaments: function() { return this.base + '/tournaments'},                                    
+            tournamentFixture: function(tournament_id) { return this.base + '/tournaments/' + tournament_id + '/fixture' },
             allTournamentsNextFixture: function() { return this.base + '/tournaments/fixtures/next'},
             allTournamentsCurrentOrLastFixture: function() { return this.base + '/tournaments/fixtures/current-or-last'}            
     }
