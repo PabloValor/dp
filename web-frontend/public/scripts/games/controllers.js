@@ -40,9 +40,14 @@ angular.module('app.games')
 
 .controller('NewGameController', ['$scope', '$location', 'TournamentService', 'GameService', 'Facebook', 'UserService', 'Data', 'FriendsService',
     function($scope, $location, TournamentService, GameService, Facebook, UserService, Data, FriendsService)  {
-        TournamentService.all(function(tournaments) {
-            $scope.tournaments = tournaments;
-        });
+        TournamentService.getAll(
+            function(tournaments) {
+                console.info("sin error")
+                $scope.tournaments = tournaments;
+            },
+            function(response) {
+                console.error(response)
+            });
 
         delete Data.currentGame; // So the FriendsControllers show all the friends
         $scope.data = Data;

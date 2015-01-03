@@ -140,24 +140,35 @@ angular.module('app.games')
     }
 }])
 
-.factory('TournamentService', ['$http', function($http) {
+.factory('TournamentService', ['$http', 'SETTINGS', function($http, SETTINGS) {
     return {
-        all: function(f_success, f_error) {
-                $http.get('http://127.0.0.1:8000/tournaments/')
-                    .success(function(response) {
-                        console.log(response)
-
-                        if(!!f_success) {
-                            f_success(response);
-                        }
-                    })
-                    .error(function(response) {
-                        console.log(response);
-
-                        if(!!f_error) {
-                            f_error(response);
-                        }
-                    });
-            }
+        getAll: function(f_s, f_e) {
+            return $http.get(SETTINGS.url.allTournaments())
+                .success(function(response) {
+                    f_s(response);
+                })
+                .error(function(response) {
+                    console.error("errror")
+                    f_e(response);
+                });
+        },        
+        getAllTournamentsNextFixture: function(f) {
+            return $http.get(SETTINGS.url.allTournamentsNextFixture())
+                .success(function(response) {
+                    f(response);
+                })
+                .error(function(response) {
+                    f(response);
+                });
+        },
+        getAllTournamentsCurrentOrLastFixture: function(f) {
+            return $http.get(SETTINGS.url.allTournamentsCurrentOrLastFixture())
+                .success(function(response) {
+                    f(response);
+                })
+                .error(function(response) {
+                    f(response);
+                });
+        }                
     }
 }]);
