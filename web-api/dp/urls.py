@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'dp.views.home', name='home'),
 
+    url(r'^homepage/', include('homepage.urls')),    
     url(r'^contact/', include('contact.urls')),
     url(r'^games/', include('games.urls')),
     url(r'^tournaments/', include('tournaments.urls')),

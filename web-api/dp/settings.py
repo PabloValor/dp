@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'games',
     'notifications',
     'contact',
+    'homepage',
 )
 
 MIDDLEWARE_CLASSES = (
