@@ -89,6 +89,7 @@
             getPredictions: function(gameplayer_id) { return this.base + '/games/predictions/' + gameplayer_id + '/' },
             updateNotification: function(pk, notification_type) { return this.base + '/notifications/' + pk + '/' + notification_type },
             contactNew: function() { return this.base + '/contact/'},
+            allTournamentsHomepage: function() { return this.base + '/homepage/tournaments'},            
             allTournaments: function() { return this.base + '/tournaments/'},
             tournamentFixture: function(tournament_id) { return this.base + '/tournaments/' + tournament_id + '/fixture' },
             allTournamentsNextFixture: function() { return this.base + '/tournaments/fixtures/next'},

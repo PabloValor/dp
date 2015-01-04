@@ -1,8 +1,8 @@
 <div class="panel panel-default">
   <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Proxima Fecha"></span></strong></div>
   <div class="panel-body">
-    <div ng-repeat="tournament in tournaments_next" class="fixture">
-      <span class="fixture-number">Fecha {{ tournament.fixture.number}}</span>
+    <div ng-repeat="tournamentFixture in tournamentFixtureList" class="fixture" ng-show="tournamentFixture.tournament_name == tournament.name">
+      <span class="fixture-number">Fecha {{ tournamentFixture.fixture.number}}</span>
       <table class="table table-hover" style="font-size:15px;">
         <thead>
           <tr>
@@ -12,7 +12,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="match in tournament.fixture.matches | orderBy: 'id'" align="center" class="match">
+          <tr ng-repeat="match in tournamentFixture.fixture.matches | orderBy: 'id'" align="center" class="match">
             <td align="right" class="team">
               {{ match.local_team.name }} 
               <img src="http://localhost:8000{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />

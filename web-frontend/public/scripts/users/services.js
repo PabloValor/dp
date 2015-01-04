@@ -15,6 +15,7 @@ angular.module('app.users')
     };
 
     this.initUser = function(response) {
+        console.info('Init User');
         console.info(response);
         this.create('token', response.token);
         this.create('username', response.username);
