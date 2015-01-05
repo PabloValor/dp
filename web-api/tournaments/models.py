@@ -97,7 +97,7 @@ class Team(models.Model):
         draws = 0
         losses = 0
         
-        for match in self.get_all_matches(tournament):
+        for match in self.get_all_finished_matches(tournament):
             if match.get_winner() == self:
                 wins += 1
             elif match.get_winner() == None:
@@ -107,8 +107,8 @@ class Team(models.Model):
 
         return {'w': wins, 'd': draws, 'l': losses}
 
-    def get_all_matches(self, tournament):
-        return Match.get_all(tournament, self)        
+    def get_all_finished_matches(self, tournament):
+        return Match.get_finished(tournament, self)        
         
     class Meta:
         ordering = ['name']
@@ -174,9 +174,9 @@ class Match(models.Model):
         return u"Fecha %s : %s vs %s " % (self.fixture.number, self.local_team.name, self.visitor_team.name)
 
     @classmethod
-    def get_all(cls, tournament, team):
+    def get_finished(cls, tournament, team):
         fixtures_ids = [fixture.id for fixture in tournament.fixtures.all()]
-        matches = Match.objects.raw('select * from tournaments_match where fixture_id in %s and (local_team_id = %s or visitor_team_id = %s)',
+        matches = Match.objects.raw('select * from tournaments_match where fixture_id in %s and (local_team_id = %s or visitor_team_id = %s) and is_finished is True',
                           [tuple(fixtures_ids), team.id, team.id])
         return matches
     

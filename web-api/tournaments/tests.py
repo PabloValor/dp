@@ -1025,32 +1025,32 @@ class TournamentTest(TestCase):
         self.assertEqual(len(teams), 2)
 
 
-    def test_get_all_matches_1(self):
+    def test_get_all_finished_matches_1(self):
         """
-        Test Get all the matches' team
+        Test Get all finished matches' team
         """
         
         tournament = TournamentFactory()
         fixture = FixtureFactory(tournament = tournament)
         team = TeamFactory()        
-        match = MatchFactory(local_team = team, fixture = fixture)        
+        match = MatchFactory(local_team = team, fixture = fixture, is_finished = True)        
 
-        matches = team.get_all_matches(tournament)
+        matches = team.get_all_finished_matches(tournament)
 
         self.assertEqual(matches[0], match)
 
-    def test_get_all_matches_2(self):
+    def test_get_all_finished_matches_2(self):
         """
-        Test Get all the matches' team
+        Test Get all finished matches' team
         """
         
         tournament = TournamentFactory()
         fixture = FixtureFactory(tournament = tournament)
         team = TeamFactory()        
-        match_1 = MatchFactory(local_team = team, fixture = fixture)
-        match_2 = MatchFactory(local_team = team, fixture = fixture)                
+        match_1 = MatchFactory(local_team = team, fixture = fixture, is_finished = True)
+        match_2 = MatchFactory(local_team = team, fixture = fixture, is_finished = True)                
 
-        matches = team.get_all_matches(tournament)
+        matches = team.get_all_finished_matches(tournament)
 
         self.assertEqual(matches[0], match_1)
         self.assertEqual(matches[1], match_2)        
@@ -1067,7 +1067,8 @@ class TournamentTest(TestCase):
         match = MatchFactory(local_team = team,
                              fixture = fixture,
                              local_team_goals = 1,
-                             visitor_team_goals = 0)
+                             visitor_team_goals = 0,
+                             is_finished = True)
 
         stats = team.get_tournament_stats(tournament)
         self.assertEqual(stats['w'], 1)
@@ -1086,7 +1087,8 @@ class TournamentTest(TestCase):
         match = MatchFactory(local_team = team,
                              fixture = fixture,
                              local_team_goals = 1,
-                             visitor_team_goals = 1)
+                             visitor_team_goals = 1,
+                             is_finished = True)
 
         stats = team.get_tournament_stats(tournament)
         self.assertEqual(stats['w'], 0)
@@ -1105,13 +1107,30 @@ class TournamentTest(TestCase):
         match = MatchFactory(local_team = team,
                              fixture = fixture,
                              local_team_goals = 0,
-                             visitor_team_goals = 1)
+                             visitor_team_goals = 1, 
+                             is_finished = True)
 
         stats = team.get_tournament_stats(tournament)
         self.assertEqual(stats['w'], 0)
         self.assertEqual(stats['d'], 0)
         self.assertEqual(stats['l'], 1)
 
+    def test_get_tournament_stats_unfinished_match_1(self):
+        """
+        Test Unfinished Game
+        """
+        tournament = TournamentFactory()
+        fixture = FixtureFactory(tournament = tournament)
+        team = TeamFactory()        
+        match = MatchFactory(local_team = team,
+                             fixture = fixture,
+                             local_team_goals = 1,
+                             visitor_team_goals = 0)
+
+        stats = team.get_tournament_stats(tournament)
+        self.assertEqual(stats['w'], 0)
+        self.assertEqual(stats['d'], 0)
+        self.assertEqual(stats['l'], 0)
 
     def test_get_tournament_stats_multiples_matches(self):
         """
@@ -1121,13 +1140,13 @@ class TournamentTest(TestCase):
         fixture = FixtureFactory(tournament = tournament)
         team = TeamFactory()
 
-        wins = [MatchFactory(local_team = team, fixture = fixture,local_team_goals = 2, visitor_team_goals = 1)
+        wins = [MatchFactory(local_team = team, fixture = fixture,local_team_goals = 2, visitor_team_goals = 1, is_finished = True)
                 for x in xrange(random.randint(0, 10))]
 
-        draws = [MatchFactory(local_team = team, fixture = fixture,local_team_goals = 2, visitor_team_goals = 2)
+        draws = [MatchFactory(local_team = team, fixture = fixture,local_team_goals = 2, visitor_team_goals = 2, is_finished = True)
                  for x in xrange(random.randint(0, 10))]         
 
-        losses = [MatchFactory(local_team = team, fixture = fixture,local_team_goals = 2, visitor_team_goals = 3)
+        losses = [MatchFactory(local_team = team, fixture = fixture,local_team_goals = 2, visitor_team_goals = 3, is_finished = True)
                   for x in xrange(random.randint(0, 10))]         
 
         stats = team.get_tournament_stats(tournament)
