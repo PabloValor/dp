@@ -10,6 +10,8 @@ angular.module('app.home')
         $scope.friends_count = StatisticsService.getFriendsCounts();
         $scope.notification_counts = StatisticsService.getNotificationCounts();
 
+        $scope.tournament = false;
+
         HomepageService.getAllTournaments(
             function(tournamentList) {
                 if(tournamentList.length > 0) {

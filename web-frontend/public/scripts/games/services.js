@@ -140,35 +140,90 @@ angular.module('app.games')
     }
 }])
 
-.factory('TournamentService', ['$http', 'SETTINGS', function($http, SETTINGS) {
+.factory('TournamentService', ['$http', 'SETTINGS', 'Data', 
+    function($http, SETTINGS, Data) {
     return {
         getAll: function(f_s, f_e) {
-            return $http.get(SETTINGS.url.allTournaments())
+            if(!!Data.allTournaments) {
+                f_s(Data.allTournaments);
+                return;
+            } 
+
+            $http.get(SETTINGS.url.allTournaments())
                 .success(function(response) {
+
+                    Data.allTournaments = response;
+
+                    console.info("All Tournaments")
                     f_s(response);
                 })
                 .error(function(response) {
-                    console.error("errror")
+                    console.error("All Tournaments")
                     f_e(response);
                 });
         },        
-        getAllTournamentsNextFixture: function(f) {
-            return $http.get(SETTINGS.url.allTournamentsNextFixture())
+        getAllTournamentsNextFixture: function(f_s, f_e) {
+            if(!!Data.allTournamentsNextFixture) {
+                f_s(Data.allTournamentsNextFixture);
+                return;
+            } 
+
+            $http.get(SETTINGS.url.allTournamentsNextFixture())
                 .success(function(response) {
-                    f(response);
+
+                    Data.allTournamentsNextFixture = response;
+
+                    console.info("Next Fixture")
+                    f_s(response);
                 })
                 .error(function(response) {
-                    f(response);
+                    console.error("Next Fixture")
+                    console.error(response)
+                    f_e(response)
                 });
         },
-        getAllTournamentsCurrentOrLastFixture: function(f) {
-            return $http.get(SETTINGS.url.allTournamentsCurrentOrLastFixture())
+        getAllTournamentsCurrentOrLastFixture: function(f_s, f_e) {
+            if(!!Data.allTournamentsCurrentOrLastFixture) {
+                f_s(Data.allTournamentsCurrentOrLastFixture);
+                return;
+            } 
+
+            $http.get(SETTINGS.url.allTournamentsCurrentOrLastFixture())
                 .success(function(response) {
-                    f(response);
+                    
+                    Data.allTournamentsCurrentOrLastFixture = response;
+
+                    console.info("Current Fixture")
+                    f_s(response);
                 })
                 .error(function(response) {
-                    f(response);
+                    console.error("Current Fixture")
+                    console.error(response)
+                    f_e(response)
                 });
-        }                
+        },
+        getTournamentStats: function(tournament_id, f_s, f_e) {
+            if(!!Data.tournamentStats && !!Data.tournamentStats[tournament_id]) {
+                f_s(Data.tournamentStats[tournament_id]);
+                return;
+            } 
+
+            $http.get(SETTINGS.url.tournamentStats(tournament_id))
+                .success(function(response) {
+                    if(!!!Data.tournamentStats) {
+                        Data.tournamentStats = {};
+                    } 
+
+                    Data.tournamentStats[tournament_id] = response;
+
+                    console.info("Current Fixture")
+                    f_s(response);
+                })
+                .error(function(response) {
+                    console.error("Current Fixture")
+                    console.error(response)
+                    f_e(response)
+                });
+        }
     }
 }]);
