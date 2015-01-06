@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.core.exceptions import ValidationError
 from models import TournamentHomepage
 from tournaments.factories import TournamentFactory
+from factories import NewsFactory
 
 class TournamentHomepageTest(TestCase):
     def test_save_tournament(self):
@@ -64,4 +65,31 @@ class TournamentHomepageAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+from .models import News
         
+class NewsAPITest(APITestCase):
+    def test_get_all_news_200_OK(self):
+        NewsFactory()
+        NewsFactory()
+ 
+        player = PlayerFactory()
+        
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+ 
+        url = reverse('newsList')
+        response = self.client.get(url)
+        self.assertEqual(len(response.data), 2)
+
+    def test_get_all_news_active_200_OK(self):
+        NewsFactory()
+        NewsFactory(active = False)
+ 
+        player = PlayerFactory()
+        
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+ 
+        url = reverse('newsList')
+        response = self.client.get(url)
+        self.assertEqual(len(response.data), 1)        
