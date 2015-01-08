@@ -48,6 +48,32 @@ angular.module('app.home')
                         f_error(response);
                     }
                 });
-        }
+        },
+        getAllNews: function(f_success, f_error) {
+            if(!!Data.news) {
+                f_success(Data.news);
+                return;
+            } 
+
+            $http.get(SETTINGS.url.allNews())
+                .success(function(response) {
+                    console.info('News Homepage')
+                    console.info(response);
+
+                    Data.news = response;                    
+
+                    if(!!f_success) {
+                        f_success(response);
+                    }
+                })
+                .error(function(response) {
+                    console.error('News Homepage')                    
+                    console.error(response);
+
+                    if(!!f_error) {
+                        f_error(response);
+                    }
+                });
+        }        
     }
     }])

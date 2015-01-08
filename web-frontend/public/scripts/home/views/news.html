@@ -1,106 +1,102 @@
 <div class="page page-dashboard news" data-ng-controller="HomeController">
-    <!-- stats -->
-    <div class="row">
-        <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
-                <span class="box-icon bg-success">
-                    <i class="flaticon-games-news"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">{{ game_counts }}</p>
-                    <p class="text-muted"><span data-i18n="Torneos Jugando"></span></p>
-                </div>
-            </div>
+  <!-- stats -->
+  <div class="row">
+    <div class="col-lg-3 col-xsm-6">
+      <div class="panel mini-box">
+        <span class="box-icon bg-success">
+          <i class="flaticon-games-news"></i>
+        </span>
+        <div class="box-info">
+          <p class="size-h2">{{ game_counts }}</p>
+          <p class="text-muted"><span data-i18n="Torneos Jugando"></span></p>
         </div>
-        <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
-                <span class="box-icon bg-info">
-                    <i class="flaticon-friends-news"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">{{ friends_count }}</p>
-                    <p class="text-muted"><span data-i18n="Amigos"></span></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
-                <span class="box-icon bg-dark-blue">
-                    <i class="flaticon-predictions-news"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">{{ game_points }}</p>
-                    <p class="text-muted"><span data-i18n="Puntos"></span></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
-                <span class="box-icon bg-danger">
-                    <i class="flaticon-notifications-news"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">{{ notification_counts }}</p>
-                    <p class="text-muted"><span data-i18n="Notificaciones"></span></p>
-                </div>
-            </div>
-        </div>
-
+      </div>
     </div>
-    <!-- end stats -->
-
-    <div class="row">
-        <div class="col-md-8">
-            <section class="panel panel-default">
-                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Ultimas Noticias"></span></strong></div>
-                <div class="panel-body">
-                </div>
-            </section> 
+    <div class="col-lg-3 col-xsm-6">
+      <div class="panel mini-box">
+        <span class="box-icon bg-info">
+          <i class="flaticon-friends-news"></i>
+        </span>
+        <div class="box-info">
+          <p class="size-h2">{{ friends_count }}</p>
+          <p class="text-muted"><span data-i18n="Amigos"></span></p>
         </div>
-        <div class="col-md-4">
-          <div class="row">
+      </div>
+    </div>
+    <div class="col-lg-3 col-xsm-6">
+      <div class="panel mini-box">
+        <span class="box-icon bg-dark-blue">
+          <i class="flaticon-predictions-news"></i>
+        </span>
+        <div class="box-info">
+          <p class="size-h2">{{ game_points }}</p>
+          <p class="text-muted"><span data-i18n="Puntos"></span></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-xsm-6">
+      <div class="panel mini-box">
+        <span class="box-icon bg-danger">
+          <i class="flaticon-notifications-news"></i>
+        </span>
+        <div class="box-info">
+          <p class="size-h2">{{ notification_counts }}</p>
+          <p class="text-muted"><span data-i18n="Notificaciones"></span></p>
+        </div>
+      </div>
+    </div>
 
-            <div class="col-md-12">
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  <a href="#/torneos/nuevo" class="btn btn-success btn-lg btn-block">
-                    <span class="flaticon-trophy33"></span>
-                    <span data-i18n="Crear Torneo"></span>
-                  </a>
-                  <a href="#/amigos/buscar" class="btn btn-info btn-lg btn-block">
-                    <span class="flaticon-sports35"></span>
-                    <span data-i18n="Buscar Amigos"></span>
-                  </a>
-                </div>
-              </div>
-            </div>
+  </div>
+  <!-- end stats -->
 
-            <div class="col-md-12">
-              <div class="panel panel-default">
-                <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Torneo"></span></strong></div>
-                <div class="panel-body">
-                  <span class="ui-select homepageTournamentSelect">
-                    <select ng-model="tournament" ng-options="x.name for x in tournamentList track by x.id">
-                    </select>
-                  </span>
-                </div>
-              </div>
+  <div class="row">
+    <div class="col-md-8">
+      <all-news></all-news>
+    </div>
+    <div class="col-md-4">
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <a href="#/torneos/nuevo" class="btn btn-success btn-lg btn-block">
+                <span class="flaticon-trophy33"></span>
+                <span data-i18n="Crear Torneo"></span>
+              </a>
+              <a href="#/amigos/buscar" class="btn btn-info btn-lg btn-block">
+                <span class="flaticon-sports35"></span>
+                <span data-i18n="Buscar Amigos"></span>
+              </a>
             </div>
           </div>
         </div>
+
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Torneo"></span></strong></div>
+            <div class="panel-body">
+              <span class="ui-select homepageTournamentSelect">
+                <select ng-model="tournament" ng-options="x.name for x in tournamentList track by x.id">
+                </select>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <all-tournaments-current-or-last-fixture tournamentList="tournamentList" tournament="tournament" ng-if="tournament"></all-tournaments-current-or-last-fixture>                    
+    </div>
+    <div class="col-md-4">
+      <all-tournaments-next-fixture tournament="tournament" ng-if="tournament"></all-tournaments-next-fixture>
     </div>
 
-    <div class="row">
-      <div class="col-md-8">
-        <all-tournaments-current-or-last-fixture tournamentList="tournamentList" tournament="tournament" ng-if="tournament"></all-tournaments-current-or-last-fixture>                    
-      </div>
-      <div class="col-md-4">
-        <all-tournaments-next-fixture tournament="tournament" ng-if="tournament"></all-tournaments-next-fixture>
-      </div>
-
-    </div>
-    
-    <tournament-stats tournament="tournament" ng-if="tournament"></tournaments-stats>
+  </div>
+  
+  <tournament-stats tournament="tournament" ng-if="tournament"></tournaments-stats>
 
 </div>
-  
+

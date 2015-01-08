@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from django.db import models
 from django.core.exceptions import ValidationError
 from tournaments.models import Tournament
@@ -20,4 +22,7 @@ class News(models.Model):
     date = models.DateField(auto_now_add = True)
 
     def __unicode__(self):
-        return "{0} {1}".format(self.date, self.title)
+        return u"{0} {1}".format(self.date, self.title)
+
+    class Meta:
+        verbose_name_plural = "News"    

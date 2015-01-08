@@ -94,7 +94,8 @@
             allTournamentsNextFixture: function() { return this.base + '/tournaments/fixtures/next'},
             allTournamentsCurrentOrLastFixture: function() { return this.base + '/tournaments/fixtures/current-or-last'}, 
             tournamentFixture: function(tournament_id) { return this.base + '/tournaments/' + tournament_id + '/fixture' },
-            tournamentStats: function(tournament_id) { return this.base + '/tournaments/' + tournament_id + '/stats' }
+            tournamentStats: function(tournament_id) { return this.base + '/tournaments/' + tournament_id + '/stats' },
+            allNews: function() { return this.base + '/homepage/news'}
     }
 }) 
 

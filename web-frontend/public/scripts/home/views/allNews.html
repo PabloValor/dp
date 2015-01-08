@@ -1,0 +1,19 @@
+<section class="panel panel-default newsPanel" >
+  <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> <span data-i18n="Ultimas Noticias"></span></strong></div>
+  <div class="panel-body newsList">
+    <div data-slim-scroll>
+      <div ng-repeat="news in newsList">
+        <div class="row">
+          <div class="col-sm-2">
+            <h5>{{ news.date }}</h5>
+          </div>
+          <div class="col-sm-10">
+            <h4>{{ news.title}}</h4>
+            <p>{{ news.description }}</p>
+            <a href="{{ news.link }}" target="_blank">Leer Mas</a>
+          </div>        
+        </div>
+      </div>
+    </div>
+  </div>
+</section>  

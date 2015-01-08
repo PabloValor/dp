@@ -73,8 +73,26 @@ angular.module('app.home')
 
             $scope.title = "Posiciones";
             $scope.largeTable = true;
-
             $scope.$watch('tournament', function (newVal) { setTournamentTable(); });
         }]
     }
-});
+})
+
+.directive('allNews', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'scripts/home/views/allNews.html',
+        replace: true,
+        scope: { tournament: '='},
+        controller: ['$scope', 'HomepageService', function($scope, HomepageService) {
+            HomepageService.getAllNews(
+                function(newsList) {
+                    $scope.newsList = newsList;
+                },
+                function(response) {
+                    console.error("Deal with error");
+                });
+        }]
+    }
+})
+;

@@ -92,4 +92,10 @@ class NewsAPITest(APITestCase):
  
         url = reverse('newsList')
         response = self.client.get(url)
-        self.assertEqual(len(response.data), 1)        
+        self.assertEqual(len(response.data), 1)
+    
+    def test_get_all_news_homepage_401_UNAUTHORIZED(self):
+        url = reverse('newsList')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
