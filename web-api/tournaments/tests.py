@@ -67,7 +67,7 @@ class TournamentAPITest(APITestCase):
         tournament = TournamentFactory()
         fixture = FixtureFactory(tournament = tournament)
         team = TeamFactory()
-        match = MatchFactory(local_team = team, fixture = fixture,
+        match = MatchFactory(local_team = team, fixture = fixture, is_finished = True,
                              local_team_goals = 1, visitor_team_goals = 0)
 
         # Player
@@ -371,15 +371,15 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['fixtures'][0]['matches']), 3)
 
-        self.assertEqual(response.data['fixtures'][0]['matches'][0]['date'], match_1.date)
+        self.assertEqual(response.data['fixtures'][0]['matches'][0]['date'], str(match_1.date))
         self.assertEqual(response.data['fixtures'][0]['matches'][0]['local_team']['name'], match_1.local_team.name)
         self.assertEqual(response.data['fixtures'][0]['matches'][0]['visitor_team']['name'], match_1.visitor_team.name)
 
-        self.assertEqual(response.data['fixtures'][0]['matches'][1]['date'], match_2.date)
+        self.assertEqual(response.data['fixtures'][0]['matches'][1]['date'], str(match_2.date))
         self.assertEqual(response.data['fixtures'][0]['matches'][1]['local_team']['name'], match_2.local_team.name)
         self.assertEqual(response.data['fixtures'][0]['matches'][1]['visitor_team']['name'], match_2.visitor_team.name)
 
-        self.assertEqual(response.data['fixtures'][0]['matches'][2]['date'], match_3.date)
+        self.assertEqual(response.data['fixtures'][0]['matches'][2]['date'], str(match_3.date))
         self.assertEqual(response.data['fixtures'][0]['matches'][2]['local_team']['name'], match_3.local_team.name)
         self.assertEqual(response.data['fixtures'][0]['matches'][2]['visitor_team']['name'], match_3.visitor_team.name)
 

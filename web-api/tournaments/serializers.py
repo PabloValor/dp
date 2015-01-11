@@ -7,17 +7,17 @@ class TeamSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'crest')
 
 class MatchSerializer(serializers.ModelSerializer):
-    visitor_team = TeamSerializer(source = 'visitor_team')
-    local_team = TeamSerializer(source = 'local_team')
-    winner = serializers.Field(source = 'get_winner')
+    visitor_team = TeamSerializer()
+    local_team = TeamSerializer()
+    winner = serializers.BooleanField(source = 'get_winner')
 
     class Meta:
         model = Match
         #date, local_team, local_team_goals, visitor_team, visitor_team_goals fixture, suspended, is_classic,
 
 class FixtureSerializer(serializers.ModelSerializer):
-    matches = MatchSerializer(source = 'matches', many = True)
-    is_closed = serializers.Field(source = 'is_closed')
+    matches = MatchSerializer(many = True)
+    is_closed = serializers.BooleanField()
 
     class Meta:
         model = Fixture
@@ -36,9 +36,9 @@ class TournamentTeamsSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'teams',)        
 
 class TournamentFixtureSerializer(serializers.ModelSerializer):
-    fixtures = FixtureSerializer(source="fixtures", many = True)
+    fixtures = FixtureSerializer(many = True)
     current_fixture = FixtureSerializer(source = "get_current_fixture")
-    is_finished = serializers.Field(source = 'is_finished')
+    is_finished = serializers.BooleanField()
 
     class Meta:
         model = Tournament
@@ -46,7 +46,7 @@ class TournamentFixtureSerializer(serializers.ModelSerializer):
 
 class TournamentNextFixtureSerializer(serializers.ModelSerializer):
     fixture = FixtureSerializer(source = "get_next_fixture")
-    tournament_name = serializers.Field(source = 'name')
+    tournament_name = serializers.CharField(source = 'name')
 
     class Meta:
         model = Tournament
@@ -54,15 +54,15 @@ class TournamentNextFixtureSerializer(serializers.ModelSerializer):
 
 class TournamentCurrentOrLastFixtureSerializer(serializers.ModelSerializer):
     fixture = FixtureSerializer(source = "get_current_or_last_fixture")
-    tournament_name = serializers.Field(source = 'name')
+    tournament_name = serializers.CharField(source = 'name')
 
     class Meta:
         model = Tournament
         fields = ('fixture', 'tournament_name')
 
 class TeamStatsField(serializers.Field):
-    def to_native(self, team):
-        tournament =  self.root.object
+    def to_representation(self, team):
+        tournament =  self.root.instance
         return team.get_tournament_stats(tournament)
     
 class TeamStatsSerializer(serializers.ModelSerializer):
