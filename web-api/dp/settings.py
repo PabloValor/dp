@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'corsheaders',
     'social.apps.django_app.default',
-    'south',
     'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
