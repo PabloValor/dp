@@ -37,10 +37,6 @@ class GamePlayerUpdate(generics.UpdateAPIView):
         user = self.request.user
         return user.gameplayer_set
 
-class GamePlayerCreate(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = GamePlayerCreateSerializer
-
 class GameList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = GameSerializer
@@ -59,28 +55,16 @@ class GameCreate(generics.CreateAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
-    def pre_save(self, obj):
-        obj.owner = self.request.user
-
-    def post_save(self, obj, created=False):
-        game_player = GamePlayer.objects.get(player = obj.owner, game = obj, status = None)
-        game_player.status = True
-        game_player.save()
 
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwnerOrReadOnly,)
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
-    def pre_save(self, obj):
-        obj.owner = self.request.user
 
 class PlayerMatchPredictionCreate(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated, PlayerMatchPredictionPermission)
     serializer_class = PlayerMatchPredictionSerializer
-
-    def pre_save(self, obj):
-      PlayerMatchPrediction.objects.filter(match = obj.match, gameplayer = obj.gameplayer).delete()
 
 class PlayerMatchPredictionList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, SameGamePlaying, OpenGame)
@@ -134,12 +118,6 @@ class PlayerFriendCreate(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = PlayerFriendSerializer
 
-    def pre_save(self, obj):
-        obj.player = self.request.user
-
-        # If the player who rejected the last invitation creates a new one
-        # we delete the old one (maybe in the future we will like to save this info)
-        PlayerFriend.objects.filter(friend =  obj.player, player = obj.friend, status = False).delete()
 
 @api_view(['PUT'])
 @permission_classes((permissions.IsAuthenticated,))
@@ -157,8 +135,16 @@ def player_friend_update(request, pk):
 
     except PlayerFriend.DoesNotExist:
       return Response(status = status.HTTP_400_BAD_REQUEST)
-          
 
+@api_view(['POST'])
+@permission_classes((permissions.IsAuthenticated,))
+def game_player_create(request):
+    serializer = GamePlayerCreateSerializer(data=request.data, many = True, context = {'request': request })
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 from social.apps.django_app.utils import strategy
 from notifications.serializers import NotificationGameSerializer, NotificationFriendSerializer

@@ -6,20 +6,20 @@ from tournaments.serializers import MatchSerializer
 
 
 class FixturePlayerPointsSerializer(serializers.ModelSerializer):
-    fixture_number = serializers.Field(source = 'fixture.number')
+    fixture_number = serializers.IntegerField(source = 'fixture.number')
 
     class Meta:
         model = FixturePlayerPoints
         fields = ('fixture_number', 'points', 'classic_prediction')
 
 class GamePlayerSerializer(serializers.ModelSerializer):
-    player_id = serializers.Field(source = 'player.id')
-    username = serializers.Field(source = 'player.username')
+    player_id = serializers.IntegerField(source = 'player.id', read_only = True)
+    username = serializers.CharField(source = 'player.username', read_only = True)
     fixture_points = FixturePlayerPointsSerializer(source="fixtureplayerpoints_set", many = True, read_only = True)
 
     class Meta:
         model = GamePlayer
-        fields = ('player', 'username', 'status', 'another_chance', 'id', 'initial_points', 'fixture_points')
+        fields = ('player', 'username', 'status', 'another_chance', 'id', 'initial_points', 'fixture_points', 'player_id')
 
 class GamePlayerUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,17 +37,12 @@ class GamePlayerUpdateInvitesAgainSerializer(serializers.ModelSerializer):
         fields = ('another_chance', 'status')
 
     def validate(self, attrs):
-        view =  self.context['view']
-        if view.object == None:
+        if self.instance == None:
           raise serializers.ValidationError("Empty list")
 
         return attrs
 
 class GamePlayerCreateSerializer(serializers.ModelSerializer):
-    def __init__(self, *args, **kwargs):
-        kwargs.pop('many', True)
-        super(GamePlayerCreateSerializer, self).__init__(many=True, *args, **kwargs)
-
     class Meta:
         model = GamePlayer
         fields = ('player','game', 'initial_points', )
@@ -70,39 +65,66 @@ class GamePlayerCreateSerializer(serializers.ModelSerializer):
         return attrs
 
 class UserGamePlayerField(serializers.Field):
-    def to_native(self, gameplayers):
+    def to_representation(self, gameplayers):
         if self.context:
           user = self.context['request'].user
           gameplayer = gameplayers.filter(player = user)
           return gameplayer.values('id', 'player__username', 'status', 'another_chance', 'initial_points', )
 
 class GameSerializer(serializers.ModelSerializer):
-    owner = serializers.Field(source = 'owner.username')
-    tournament_name = serializers.Field(source = 'tournament.name')
-    current_fixture = serializers.Field(source = 'tournament.get_current_fixture_number')
     gameplayers = GamePlayerSerializer(source="gameplayer_set", many = True)
-    you = UserGamePlayerField(source = 'gameplayer_set')
+    you = UserGamePlayerField(source = 'gameplayer_set', read_only = True)
+    
+    owner = serializers.CharField(source = 'owner.username', read_only = True)
+    tournament_name = serializers.CharField(source = 'tournament.name', read_only = True)
+    current_fixture = serializers.IntegerField(source = 'tournament.get_current_fixture_number', read_only = True)
 
     def validate(self, attrs):
         game_owner = self.context['request'].user
         gameplayers = attrs['gameplayer_set']
 
         if gameplayers:
-          players_ids = [gp.player.id for gp in gameplayers]
+          players_ids = [gp['player'].id for gp in gameplayers]
 
           for gp in gameplayers:
-            if gp.player == game_owner:
+            player = gp['player']
+            if player == game_owner:
               continue
 
-            if players_ids.count(gp.player.id) > 1:
+            if players_ids.count(player.id) > 1:
               raise serializers.ValidationError("Duplicate users")
 
-            if not game_owner.is_friend(gp.player):
+            if not game_owner.is_friend(player):
               raise serializers.ValidationError("There is someone that is not a friend")
 
         return attrs
 
 
+    def create(self, validated_data):
+        request = self.context['request']
+        gameplayerList = validated_data.pop('gameplayer_set')
+
+        game = Game(**validated_data)
+        game.owner = request.user
+        game.save()
+
+        for gameplayer in gameplayerList:
+            player = gameplayer['player']
+            status = player == game.owner
+            game_player = GamePlayer.objects.create(player = player,
+                                                    game = game,
+                                                    status = status,
+                                                    initial_points = gameplayer.get('initial_points', 0))
+        
+        return game
+
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+
+        return instance
+        
     class Meta:
         model = Game
         fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 
@@ -111,12 +133,20 @@ class GameSerializer(serializers.ModelSerializer):
                     'current_fixture')
 
 class PlayerMatchPredictionSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+      PlayerMatchPrediction.objects.filter(match = validated_data['match'],
+                                           gameplayer = validated_data['gameplayer']).delete()
+
+      player_match_prediction = PlayerMatchPrediction.objects.create(**validated_data)
+
+      return player_match_prediction
+    
     class Meta:
         model = PlayerMatchPrediction
 
 class PlayerMatchPredictionListSerializer(serializers.ModelSerializer):
-    match = MatchSerializer(source="match")
-    points = serializers.Field(source = "get_points")
+    match = MatchSerializer()
+    points = serializers.IntegerField(source = "get_points")
 
     class Meta:
         model = PlayerMatchPrediction
@@ -130,7 +160,7 @@ class PlayerSerializer(serializers.ModelSerializer):
         fields = ('id', 'username',)
 
 class IsFriendField(serializers.Field):
-    def to_native(self, friends):
+    def to_representation(self, friends):
         request = self.context['request']
         return request.user in friends
 
@@ -166,40 +196,54 @@ class PlayerFriendSerializer(serializers.ModelSerializer):
 
         return attrs
 
+    def create(self, validated_data):
+        player = self.context['request'].user
+        friend = validated_data['friend']        
+
+        instance = PlayerFriend.objects.create(player = player, friend = friend)
+
+        # If the player who rejected the last invitation creates a new one
+        # we delete the old one (maybe in the future we will like to save this info)
+        PlayerFriend.objects.filter(friend =  player, player = friend, status = False).delete()
+
+        return instance
+
 class PlayerCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
         write_only_fields = ('password',) 
         fields = ('username', 'email', 'password')
 
-    def validate_email(self, attrs, source):
-        if not attrs['email']:
+    def validate_email(self, value):
+        if not value:
             raise serializers.ValidationError('The email field is required.')
-        elif Player.objects.filter(email = attrs[source]).exists():
+        elif Player.objects.filter(email = value).exists():
                 raise serializers.ValidationError('There is a user with the same email.')
 
-        return attrs
+        return value
 
-    def validate_password(self, attrs, source):
-        if not attrs['password']:
+    def validate_password(self, value):
+        if not value:
             raise serializers.ValidationError('The password field is required.')
-        elif len(attrs['password']) < 8:
+        elif len(value) < 8:
             raise serializers.ValidationError('The password has to have 8 characters.')
-        return attrs
+        return value
 
-    def restore_object(self, attrs, instance = None):
-        # Retrieves
-        if instance:
-            instance.username = attrs.get('username', instance.username)
-            instance.email = attrs.get('email', instance.email)
-        # Creates
-        else:
-            request = self.context['request']
-            if request.user.is_anonymous:
-                instance = Player(email=attrs['email'], username=attrs['username'])
-                instance.set_password(attrs['password'])
+    def create(self, validated_data):
+        request = self.context['request']
+        if request.user.is_anonymous:
+            instance = Player(email=validated_data['email'], username=validated_data['username'])
+            instance.set_password(validated_data['password'])
+            instance.save()
 
         return instance
+
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.save()
+
+        return instance    
 
 class PlayerUpdateSerializer(serializers.ModelSerializer):
     class Meta:

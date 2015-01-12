@@ -22,7 +22,7 @@ class ObtainAuthToken(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.DATA)
         if serializer.is_valid():
-            user = serializer.object['user']
+            user = serializer.validated_data['user']            
             token, created = Token.objects.get_or_create(user = user)
 
             game_notifications = NotificationGameSerializer(user.game_notifications.filter(active = True), many = True)

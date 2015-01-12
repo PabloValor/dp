@@ -42,6 +42,7 @@ class GameAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         url = reverse('gameCreate')
+
         data = { 'name' : 'Game 1', 'tournament': tournament.pk, 'gameplayers': [{'player': player.id, 'username': player.username}] }
         response = self.client.post(url, data, format='json')
 
@@ -119,7 +120,7 @@ class GameAPITest(APITestCase):
         self.assertTrue(player.gameplayer_set.first().status)
         self.assertFalse(Game.objects.first().classic)
 
-    def test_create_401_UNAUTHORIZED(self):
+    def test_create_403_FORBIDDEN(self):
         player = PlayerFactory()
         tournament = TournamentFactory()
 
@@ -128,7 +129,7 @@ class GameAPITest(APITestCase):
 
         response = self.client.post(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_create_get_200_OK(self):
         player = PlayerFactory()
@@ -168,14 +169,14 @@ class GameAPITest(APITestCase):
         response = self.client.put(url, serializer.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_update_401_UNAUTHORIZED(self):
+    def test_update_403_FORBIDDEN(self):
         game = GameFactory()
 
         url = reverse('gameDetail', kwargs = {'pk': game.pk })
 
         serializer = GameSerializer(game)
         response = self.client.put(url, serializer.data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_update_403_FORBIDDEN(self):
         player = PlayerFactory()
@@ -190,7 +191,7 @@ class GameAPITest(APITestCase):
         response = self.client.put(url, serializer.data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_update_201_CREATED(self):
+    def test_update_404_NOT_FOUND(self):
         game = GameFactory()
         owner = game.owner
 
@@ -201,7 +202,7 @@ class GameAPITest(APITestCase):
 
         serializer = GameSerializer(game)
         response = self.client.put(url, serializer.data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_update_get_200_OK(self):
         game = GameFactory()
@@ -277,13 +278,13 @@ class GameAPITest(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_delete_401_UNAUTHORIZED(self):
+    def test_delete_403_FORBIDDEN(self):
         game = GameFactory()
 
         url = reverse('gameDetail', kwargs = {'pk': game.pk })
 
         response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_create_with_one_players_200_OK(self):
         # The owner is a player
@@ -511,7 +512,7 @@ class GameAPIInvitationTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertFalse(GamePlayer.objects.get(pk = gp.pk).status)
 
-    def test_another_player_tries_to_update_the_game_player_for_him_400_BAD_REQUEST(self):
+    def test_another_player_tries_to_update_the_game_player_for_him_404_NOT_FOUND(self):
         # Player creates game
         owner = PlayerFactory()
         game = GameFactory(owner = owner)
@@ -528,10 +529,10 @@ class GameAPIInvitationTest(APITestCase):
         data = { 'status' : True  } 
         response = self.client.put(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertFalse(GamePlayer.objects.get(pk = gp.pk).status)
 
-    def test_some_guy_tries_to_update_the_game_player_for_him_401_UNAUTHORIZED(self):
+    def test_some_guy_tries_to_update_the_game_player_for_him_403_FORBIDDEN(self):
         # Player creates game
         owner = PlayerFactory()
         game = GameFactory(owner = owner)
@@ -542,7 +543,7 @@ class GameAPIInvitationTest(APITestCase):
         data = { 'status' : True  } 
         response = self.client.put(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     """ 
         PLAYER REQUESTS FOR ANOTHER INVITATION AFTER HE REJECTED THE FIRST ONE
@@ -595,7 +596,7 @@ class GameAPIInvitationTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertFalse(GamePlayer.objects.get(id = gp.id).another_chance)
 
-    def test_nico_wants_change_fede_game_player_another_chance_status_400_BAD_REQUEST(self):
+    def test_nico_wants_change_fede_game_player_another_chance_status_404_NOT_FOUND(self):
         # Player creates a game
         nico = PlayerFactory()
         game = GameFactory(owner = nico)
@@ -613,10 +614,10 @@ class GameAPIInvitationTest(APITestCase):
         data = { 'another_chance' : True  } 
         response = self.client.put(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertFalse(GamePlayer.objects.get(id = gp.id).another_chance)
 
-    def test_anon_wants_change_fede_game_player_another_chance_status_401_UNAUTHORIZED(self):
+    def test_anon_wants_change_fede_game_player_another_chance_status_403_FORBIDDEN(self):
         # Player creates a game
         game = GameFactory()
 
@@ -629,9 +630,9 @@ class GameAPIInvitationTest(APITestCase):
         data = { 'another_chance' : True  } 
         response = self.client.put(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_fede_who_rejected_to_play_ask_for_another_opportunity_when_he_is_already_playing_400_BAD_REQUEST(self):
+    def test_fede_who_rejected_to_play_ask_for_another_opportunity_when_he_is_already_playing_404_NOT_FOUND(self):
         # Player creates a game
         nico = PlayerFactory()
         game = GameFactory(owner = nico)
@@ -649,9 +650,9 @@ class GameAPIInvitationTest(APITestCase):
         data = { 'another_chance' : True  } 
         response = self.client.put(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_fede_who_rejected_to_play_ask_for_another_opportunity_when_he_didnt_asnwer_the_request_400_BAD_REQUEST(self):
+    def test_fede_who_rejected_to_play_ask_for_another_opportunity_when_he_didnt_asnwer_the_request_404_NOT_FOUND(self):
         # Player creates a game
         nico = PlayerFactory()
         game = GameFactory(owner = nico)
@@ -669,9 +670,9 @@ class GameAPIInvitationTest(APITestCase):
         data = { 'another_chance' : True  } 
         response = self.client.put(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_nico_wants_to_fool_around_and_update_his_another_chance_status_400_BAD_REQUEST(self):
+    def test_nico_wants_to_fool_around_and_update_his_another_chance_status_404_NOT_FOUND(self):
         # Player creates a game
         nico = PlayerFactory()
         game = GameFactory(owner = nico)
@@ -681,12 +682,11 @@ class GameAPIInvitationTest(APITestCase):
         token = Token.objects.get(user__username = nico.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
-        # Fede asks for another opportunity
         url = reverse('gamePlayerUpdateAnotherChance', kwargs = {'pk': gp.id })
         data = { 'another_chance' : True  } 
         response = self.client.put(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     """ 
         GAME OWNER INVITES AGAIN THE USER THAT REJECTED PREVIOUSLY BUT ASKED A NEW CHANCE
@@ -715,7 +715,7 @@ class GameAPIInvitationTest(APITestCase):
         self.assertTrue(GamePlayer.objects.get(id = gp.id).another_chance == None)
         self.assertTrue(GamePlayer.objects.get(id = gp.id).status == None)
 
-    def test_nico_invites_fede_again_after_his_rejection_A_400_BAD_REQUEST(self):
+    def test_nico_invites_fede_again_after_his_rejection_A_404_NOT_FOUND(self):
         # Nico creates a game
         nico = PlayerFactory()
         game = GameFactory(owner = nico)
@@ -732,9 +732,9 @@ class GameAPIInvitationTest(APITestCase):
         url = reverse('gamePlayerUpdateInvitesAgain', kwargs = {'pk': gp.id })
         response = self.client.put(url, None, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_nico_invites_fede_again_after_his_rejection_B_400_BAD_REQUEST(self):
+    def test_nico_invites_fede_again_after_his_rejection_B_404_NOT_FOUND(self):
         # Nico creates a game
         nico = PlayerFactory()
         game = GameFactory(owner = nico)
@@ -751,9 +751,9 @@ class GameAPIInvitationTest(APITestCase):
         url = reverse('gamePlayerUpdateInvitesAgain', kwargs = {'pk': gp.id })
         response = self.client.put(url, None, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_fede_invites_fede_again_after_his_rejection_400_BAD_REQUEST(self):
+    def test_fede_invites_fede_again_after_his_rejection_404_NOT_FOUND(self):
         # Nico creates a game
         nico = PlayerFactory()
         game = GameFactory(owner = nico)
@@ -770,9 +770,9 @@ class GameAPIInvitationTest(APITestCase):
         url = reverse('gamePlayerUpdateInvitesAgain', kwargs = {'pk': gp.id })
         response = self.client.put(url, None, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_anon_invites_fede_again_after_his_rejection_400_BAD_REQUEST(self):
+    def test_anon_invites_fede_again_after_his_rejection_403_FORBIDDEN(self):
         # Nico creates a game
         nico = PlayerFactory()
         game = GameFactory(owner = nico)
@@ -785,7 +785,7 @@ class GameAPIInvitationTest(APITestCase):
         url = reverse('gamePlayerUpdateInvitesAgain', kwargs = {'pk': gp.id })
         response = self.client.put(url, None, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
     """ 
@@ -1055,7 +1055,7 @@ class GameAPIInvitationTest(APITestCase):
         # Nico authenticates
         token = Token.objects.get(user__username = nico.username)
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
-
+        
         # Nico and Fede are friends
         fede = PlayerFactory()
         PlayerFriendFactory(player = nico, friend = fede, status = True)
@@ -1068,7 +1068,7 @@ class GameAPIInvitationTest(APITestCase):
         url = reverse('gamePlayerCreate')
         data = [{ 'player':fede.id, 'game': game.id, 'initial_points': 20 }, { 'player':tucu.id, 'game': game.id, 'initial_points': 10 }]
         response = self.client.post(url, data, format='json')
-
+        
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(len(fede.games.all()), 1)
         self.assertEqual(len(tucu.games.all()), 1)
@@ -1156,7 +1156,7 @@ class GameAPIInvitationTest(APITestCase):
         data = [{ 'player':anon.id, 'game': game.id }]
         response = self.client.post(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 class GameAPIInitialPointsTest(APITestCase):
     """ 
