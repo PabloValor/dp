@@ -120,7 +120,7 @@ class GameAPITest(APITestCase):
         self.assertTrue(player.gameplayer_set.first().status)
         self.assertFalse(Game.objects.first().classic)
 
-    def test_create_403_FORBIDDEN(self):
+    def test_create_401_UNAUTHORIZED(self):
         player = PlayerFactory()
         tournament = TournamentFactory()
 
@@ -129,7 +129,7 @@ class GameAPITest(APITestCase):
 
         response = self.client.post(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_create_get_200_OK(self):
         player = PlayerFactory()
@@ -278,13 +278,13 @@ class GameAPITest(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_delete_403_FORBIDDEN(self):
+    def test_delete_401_UNAUTHORIZED(self):
         game = GameFactory()
 
         url = reverse('gameDetail', kwargs = {'pk': game.pk })
 
         response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_create_with_one_players_200_OK(self):
         # The owner is a player
@@ -532,7 +532,7 @@ class GameAPIInvitationTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertFalse(GamePlayer.objects.get(pk = gp.pk).status)
 
-    def test_some_guy_tries_to_update_the_game_player_for_him_403_FORBIDDEN(self):
+    def test_some_guy_tries_to_update_the_game_player_for_him_401_UNAUTHORIZED(self):
         # Player creates game
         owner = PlayerFactory()
         game = GameFactory(owner = owner)
@@ -543,7 +543,7 @@ class GameAPIInvitationTest(APITestCase):
         data = { 'status' : True  } 
         response = self.client.put(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     """ 
         PLAYER REQUESTS FOR ANOTHER INVITATION AFTER HE REJECTED THE FIRST ONE
@@ -617,7 +617,7 @@ class GameAPIInvitationTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertFalse(GamePlayer.objects.get(id = gp.id).another_chance)
 
-    def test_anon_wants_change_fede_game_player_another_chance_status_403_FORBIDDEN(self):
+    def test_anon_wants_change_fede_game_player_another_chance_status_401_UNAUTHORIZED(self):
         # Player creates a game
         game = GameFactory()
 
@@ -630,7 +630,7 @@ class GameAPIInvitationTest(APITestCase):
         data = { 'another_chance' : True  } 
         response = self.client.put(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_fede_who_rejected_to_play_ask_for_another_opportunity_when_he_is_already_playing_404_NOT_FOUND(self):
         # Player creates a game
@@ -772,7 +772,7 @@ class GameAPIInvitationTest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_anon_invites_fede_again_after_his_rejection_403_FORBIDDEN(self):
+    def test_anon_invites_fede_again_after_his_rejection_401_UNAUTHORIZED(self):
         # Nico creates a game
         nico = PlayerFactory()
         game = GameFactory(owner = nico)
@@ -785,7 +785,7 @@ class GameAPIInvitationTest(APITestCase):
         url = reverse('gamePlayerUpdateInvitesAgain', kwargs = {'pk': gp.id })
         response = self.client.put(url, None, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
     """ 
@@ -1156,7 +1156,7 @@ class GameAPIInvitationTest(APITestCase):
         data = [{ 'player':anon.id, 'game': game.id }]
         response = self.client.post(url, data, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 class GameAPIInitialPointsTest(APITestCase):
     """ 

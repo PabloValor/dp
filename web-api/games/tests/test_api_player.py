@@ -68,7 +68,7 @@ class PlayerAPITest(APITestCase):
         self.assertEqual(Player.objects.all().count(), 1)
         self.assertTrue(response.data.has_key('username'))
 
-    def test_update_user_403_FORBIDDEN(self):
+    def test_update_user_401_UNAUTHORIZED(self):
         game = GameFactory()
         player = PlayerFactory()
         data = { 'games': [game.pk] }
@@ -76,7 +76,7 @@ class PlayerAPITest(APITestCase):
         url = reverse('playerUpdate', kwargs = { 'pk': player.pk })
         response = self.client.put(url, data)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_update_other_user_401_UNAUTHORIZED(self):
         player = PlayerFactory()
@@ -147,13 +147,13 @@ class PlayerAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_list_of_players_403_FORBIDDEN(self): 
+    def test_get_list_of_players_401_UNAUTHORIZED(self): 
         player = PlayerFactory()
 
         url = reverse('playerList')
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_player_200_OK(self): 
         player = PlayerFactory()
@@ -166,13 +166,13 @@ class PlayerAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_player_403_FORBIDDEN(self): 
+    def test_get_player_401_UNAUTHORIZED(self): 
         player = PlayerFactory()
 
         url = reverse('playerDetail', kwargs = {'pk': player.pk })
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_player_with_notification_after_login_200_OK_A(self): 
         """ 
@@ -680,13 +680,13 @@ class PlayerAPITest(APITestCase):
 
         
 class PlayerSearchAPITest(APITestCase):
-    def test_get_all_403_FORBIDDEN(self): 
+    def test_get_all_401_NOT_AUTHORIZED(self): 
         player = PlayerFactory()
 
         url = reverse('playerListSearch', kwargs={'username': ''})
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_filter_current_user_200_OK(self): 
         player = PlayerFactory()
@@ -906,11 +906,11 @@ class PlayerFriendAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_get_friends_403_FORBIDDEN(self): 
+    def test_get_friends_401_UNAUTHORIZED(self): 
         url = reverse('playerFriendsList')
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_post_player_sends_another_invitation_400_BAD_REQUEST(self): 
         # Only the player that rejects the invitation can make a new one
@@ -1156,7 +1156,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(gp.match_predictions.count(), 0)
 
-    def test_anon_try_to_do_a_prediction_403_FORBIDDEN(self):
+    def test_anon_try_to_do_a_prediction_401_UNAUTHORIZED(self):
         # Tournament
         fixture = FixtureFactory()
         match = MatchFactory(fixture = fixture)
@@ -1171,7 +1171,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         url = reverse('playerMatchPredictionCreate')
         response = self.client.post(url, {'gameplayer': gp.id, 'match': match.id, 'visitor_team_goals': 1, 'local_team_goals': 2 }, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(gp.match_predictions.count(), 0)
 
     def test_fede_tries_to_do_a_prediction_as_nico_403_FORBIDDEN(self):
@@ -1619,7 +1619,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['points'], None)
 
-    def test_anon_tries_to_get_nicos_predictions_403_FORBIDDEN(self):
+    def test_anon_tries_to_get_nicos_predictions_401_UNAUTHORIZED(self):
         """
           Anon tries to get Nico's predictions
         """
@@ -1637,7 +1637,7 @@ class PlayerMatchPredictionAPITest(APITestCase):
         url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_fede_get_nico_gets_predictions_200_OK(self):
         """
