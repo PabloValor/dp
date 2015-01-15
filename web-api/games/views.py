@@ -146,31 +146,34 @@ def game_player_create(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-from social.apps.django_app.utils import strategy
+from social.apps.django_app.utils import psa
 from notifications.serializers import NotificationGameSerializer, NotificationFriendSerializer
+from social.backends.facebook import FacebookAppOAuth2, FacebookOAuth2
 
-@strategy()
+
+@psa()
 @api_view(['POST'])
 def social_register(request, backend):
-    auth_token = request.DATA.get('access_token', None)
-    if auth_token:
-        try:
-            user = request.strategy.backend.do_auth(access_token=auth_token)
-        except Exception, err:
-            return Response(str(err), status=400)
+    if isinstance(request.backend, FacebookAppOAuth2) or isinstance(request.backend, FacebookOAuth2):
+        auth_token = request.DATA.get('access_token', None)
+        if auth_token:
+            try:
+                user = request.backend.do_auth(access_token=auth_token)
+            except Exception, err:
+                return Response(str(err), status=400)
 
-        if user:
-            game_notifications = NotificationGameSerializer(user.game_notifications.filter(active = True), many = True)
-            friend_notifications = NotificationFriendSerializer(user.friend_notifications.filter(active = True), many = True)
+            if user:
+                game_notifications = NotificationGameSerializer(user.game_notifications.filter(active = True), many = True)
+                friend_notifications = NotificationFriendSerializer(user.friend_notifications.filter(active = True), many = True)
 
-            return Response({ 'token': user.auth_token.key, 
-                              'username': user.username, 
-                              'game_notifications': game_notifications.data,
-                              'friend_notifications': friend_notifications.data,
-                              'user_id': user.id },  
-                              status=status.HTTP_200_OK )
-        else:
-            return Response("Bad Credentials", status=403)
-    else:
-        return Response("Bad request", status=400)
+                return Response({ 'token': user.auth_token.key, 
+                                  'username': user.username, 
+                                  'game_notifications': game_notifications.data,
+                                  'friend_notifications': friend_notifications.data,
+                                  'user_id': user.id },  
+                                status=status.HTTP_200_OK )
+            else:
+                return Response("Bad Credentials", status=403)
+
+    return Response("Bad request", status=400)
 

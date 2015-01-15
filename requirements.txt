@@ -21,7 +21,7 @@ kombu==3.0.23
 oauthlib==0.6.3
 psycopg2==2.5.3
 python-openid==2.2.5
-python-social-auth==0.1.26
+python-social-auth==0.2.1
 pytz==2014.7
 redis==2.10.3
 requests==2.3.0
