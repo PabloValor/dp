@@ -1,8 +1,13 @@
 <section class="page" ng-controller="ContactController">
     <div class="col-md-6">
       <section class="panel panel-default">
-          <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> <strong>Formulario Contacto</strong></div>
+          <div class="panel-heading"><span class="glyphicon glyphicon-th"></span> <strong>Formulario de Contacto</strong></div>
           <div class="panel-body">
+
+            <div class="callout callout-info" ng-hide="contact_sent">
+              <p> Si tienes alguna sugerencia o duda envianos una consulta! </p>
+            </div>
+            
               <form role="form" name="form_contact" ng-submit="submit_contact()" novalidate ng-hide="contact_sent">
                   <div class="form-group">
                       <input type="text" class="form-control"  ng-model="subject" name="subject" placeholder="Asunto" required>
@@ -19,7 +24,7 @@
                 <h4>Consulta enviada!</h4>  
                 <p>En la brevedad estaremos respondiendote.</p>
                 <p>Muchas gracias,<br>
-                El Equipo de <strong>DP futbol.</strong></p>
+                El Equipo de <strong>DP Fútbol.</strong></p>
               </div>
 
           </div>

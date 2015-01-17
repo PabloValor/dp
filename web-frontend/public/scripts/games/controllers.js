@@ -99,7 +99,7 @@ angular.module('app.games')
 
         $scope.steps = [
           {'number': 1, 'label': 'Nombre', validate : function(scope) { return !!scope.game.name; }  },
-          {'number': 2, 'label': 'Competicion', validate : function(scope) { return !!scope.selectedTournament.tournament; } },
+          {'number': 2, 'label': 'Competición', validate : function(scope) { return !!scope.selectedTournament.tournament; } },
           {'number': 3, 'label': 'Jugadores'  },
           {'number': 4, 'label': 'Crear Torneo' }
         ];

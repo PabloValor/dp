@@ -8,9 +8,11 @@ angular.module('app.friends')
         FriendsService.getFriends(
           function(players) {
 
-              $scope.friends = players.filter(function(p) { return p.is_friend });
-              $scope.friends_limbo = players.filter(function(p) { return p.is_limbo_friend });
-              $scope.friends_waiting_for_you = players.filter(function(p) { return p.is_waiting_for_you });
+              if(players.length > 0) {
+                  $scope.friends = players.filter(function(p) { return p.is_friend });
+                  $scope.friends_limbo = players.filter(function(p) { return p.is_limbo_friend });
+                  $scope.friends_waiting_for_you = players.filter(function(p) { return p.is_waiting_for_you });
+              } 
 
               $rootScope.loadingInit = false;
           },

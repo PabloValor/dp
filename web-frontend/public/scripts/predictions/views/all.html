@@ -1,11 +1,11 @@
 <cloak loading="loadingInit"></cloak>
 <div class="page predictions" ng-controller="PredictionsController" >
   <div class="panel panel-default" ng-show="!hasGames">
-      <div class="panel-heading"><span class="flaticon-football7"></span> <strong>Mis Pronosticos</strong></div>
+      <div class="panel-heading"><span class="flaticon-football7"></span> <strong>Mis Pronósticos</strong></div>
       <div class="panel-body">
         <div class="callout callout-info">
-          <h4> No estas jugando ningun Torneo </h4>  
-          <p>Crea un nuevo Torneo invita a tus amigos</p>
+          <h4> No estas jugando ningún Torneo </h4>  
+          <p>Crea un nuevo Torneo invitando a tus amigos</p>
           <div style="margin-top:20px"><a href="#/torneos/nuevo" class="btn btn-primary btn-md">Crear Torneo</a> </div>
         </div>
       </div>
@@ -44,7 +44,7 @@
                 </ul>
 
                 <div class="callout callout-warning" ng-show="!selectedGame.open_predictions && selectedGame.gameplayers.length > 1">
-                    <p>Pronosticos Privados</p>
+                    <p>Pronósticos Privados</p>
                 </div>
             </section>
 
@@ -81,7 +81,7 @@
                       <tr>
                         <th></th>
                         <th style="text-align:right"> Equipo Local </th>
-                        <th style="text-align:center;width: 31%;" colspan="3"> Pronostico</th>
+                        <th style="text-align:center;width: 31%;" colspan="3"> Pronóstico</th>
                         <th style="text-align:left" > Equipo Visitante </th>
                         <th style="text-align:center"> Resultado </th>
                         <th style="text-align:center"> Puntos </th>
@@ -103,7 +103,7 @@
 
                             <i class="flaticon-football7 no-prediction" 
                                popover-trigger="mouseenter" 
-                               popover="Sin pronostico"
+                               popover="Sin pronóstico"
                                ng-show="!match.hasPrediction" ></i>
                           </td>
                           <td align="right" style="width:25%">
