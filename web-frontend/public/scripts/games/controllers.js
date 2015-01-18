@@ -60,6 +60,9 @@ angular.module('app.games')
                              //'points_double' : { initial_points : 2, label: 'Es Doble', help : 'Por cuanto se multiplica el partido marcado como doble.'  },
                              'points_classic' : { initial_points : 2, label: 'Clasico de la fecha', help : 'Cuantos puntos extras se suman por haber acertado el clasico.' }};
 
+        $scope.gameModeOptions = [{text: "Resultado General", value: true}, {text: "Resultado Exacto", value: false}];
+        $scope.gamePredictionsOptions = [{text: "Pronósticos Abiertos", value: true}, {text: "Pronósticos Cerrados", value: false}];
+
         $scope.newGame = function() {
             var friends = $scope.data.gamePlayerFriends.filter(function(item) { return item.checked });
             var gameplayers = [];

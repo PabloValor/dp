@@ -2,10 +2,8 @@
     <tabset  class="ui-tab">
         <tab heading="Modalidad">
           <div style="min-height: 250px;">
-              <span class="ui-select">
-                  <select ng-model="game.classic">
-                      <option value="true" data-i18n="Resultado General"></option>
-                      <option value="" data-i18n="Resultado Exacto"></option>
+            <span class="ui-select">
+                  <select ng-model="game.classic"  ng-options="item.value as item.text for item in gameModeOptions"> 
                   </select>
               </span>
 
@@ -14,12 +12,10 @@
               <game-mode classic="game.classic" ></game-mode>
           </div>
         </tab>
-        <tab heading="Pronosticos">
+        <tab heading="Pronósticos">
           <div style="min-height: 250px;">
-              <span class="ui-select ">
-                  <select ng-model="game.open_predictions">
-                      <option value="true" data-i18n="Pronosticos Abiertos"></option>
-                      <option value="" data-i18n="Pronosticos Cerrados"></option>
+            <span class="ui-select">
+                  <select ng-model="game.open_predictions" ng-options="item.value as item.text for item in gamePredictionsOptions">
                   </select>
               </span>
 
