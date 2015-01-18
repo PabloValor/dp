@@ -40,6 +40,8 @@ class TournamentAPITest(APITestCase):
         fixture = FixtureFactory(tournament = tournament)
         team_1 = TeamFactory()
         team_2 = TeamFactory()
+        tournament.teams.add(team_1)
+        tournament.teams.add(team_2)        
         match = MatchFactory(local_team = team_1, visitor_team = team_2, fixture = fixture)
 
         # Player
@@ -66,10 +68,14 @@ class TournamentAPITest(APITestCase):
         # Tournament
         tournament = TournamentFactory()
         fixture = FixtureFactory(tournament = tournament)
-        team = TeamFactory()
-        match = MatchFactory(local_team = team, fixture = fixture, is_finished = True,
+        local_team = TeamFactory()
+        visitor_team = TeamFactory()        
+        tournament.teams.add(local_team)
+        tournament.teams.add(visitor_team)        
+        match = MatchFactory(local_team = local_team, visitor_team = visitor_team,
+                             fixture = fixture, is_finished = True,
                              local_team_goals = 1, visitor_team_goals = 0)
-
+        
         # Player
         player = PlayerFactory()
         token = Token.objects.get(user__username = player.username)
@@ -84,14 +90,14 @@ class TournamentAPITest(APITestCase):
 
         # Order by ID reverse
         team = teams[1]
-        self.assertEqual(team['stats']['w'], 1)
-        self.assertEqual(team['stats']['d'], 0)
-        self.assertEqual(team['stats']['l'], 0)
-
-        team = teams[0]
         self.assertEqual(team['stats']['w'], 0)
         self.assertEqual(team['stats']['d'], 0)
-        self.assertEqual(team['stats']['l'], 1)        
+        self.assertEqual(team['stats']['l'], 1)
+
+        team = teams[0]
+        self.assertEqual(team['stats']['w'], 1)
+        self.assertEqual(team['stats']['d'], 0)
+        self.assertEqual(team['stats']['l'], 0)        
 
     def test_get_tournament_with_teams_stats_401_UNAUTHORIZED(self):
         tournament = TournamentFactory()
@@ -1019,9 +1025,10 @@ class TournamentTest(TestCase):
         fixture = FixtureFactory(tournament = tournament)
         team_1 = TeamFactory()
         team_2 = TeamFactory()
-        match = MatchFactory(local_team = team_1, visitor_team = team_2, fixture = fixture)
-
-        teams = tournament.get_teams()
+        match = MatchFactory(local_team = team_1, visitor_team = team_2, fixture = fixture)        
+        tournament.teams.add(team_1)
+        tournament.teams.add(team_2)
+        teams = tournament.teams.all()
         self.assertEqual(len(teams), 2)
 
 

@@ -1,9 +1,47 @@
 from django.db import models
 from django.utils import timezone
 
+class Team(models.Model):
+    name = models.CharField(max_length = 50, verbose_name = "Nombre")
+    crest = models.ImageField(upload_to = "crests", verbose_name = "Escudo", null = True)
+
+    def crest_thumbnail(self):
+        if self.crest:
+            return '<img src="{0}" />'.format(self.crest.url)
+        else:
+            return ''
+
+    crest_thumbnail.allow_tags = True
+
+    def __unicode__(self):
+        return self.name
+
+    def get_tournament_stats(self, tournament):
+        wins = 0
+        draws = 0
+        losses = 0
+        
+        for match in self.get_all_finished_matches(tournament):
+            if match.get_winner() == self:
+                wins += 1
+            elif match.get_winner() == None:
+                draws += 1
+            else:
+                losses += 1
+
+        return {'w': wins, 'd': draws, 'l': losses}
+
+    def get_all_finished_matches(self, tournament):
+        return Match.get_finished(tournament, self)        
+        
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Equipo"
+
 class Tournament(models.Model):
     name = models.CharField(max_length = 100)
     is_finished = models.BooleanField(default = False)
+    teams = models.ManyToManyField(Team)
 
     def get_current_fixture(self):
         fixtures = self.get_future_fixtures()
@@ -60,16 +98,6 @@ class Tournament(models.Model):
       fixtures = self.fixtures.filter(is_finished = False, is_playing = False).order_by('number')
       return fixtures
 
-    def get_teams(self):
-      fixture = self.fixtures.first()
-      teams = []
-      if fixture:
-        for match in fixture.matches.all():
-          teams.append(match.visitor_team)
-          teams.append(match.local_team)
-
-      return teams
-
     def __unicode__(self):
         return self.name
 
@@ -77,42 +105,6 @@ class Tournament(models.Model):
         verbose_name = "Torneo"
         ordering = ['name']
 
-class Team(models.Model):
-    name = models.CharField(max_length = 50, verbose_name = "Nombre")
-    crest = models.ImageField(upload_to = "crests", verbose_name = "Escudo", null = True)
-
-    def crest_thumbnail(self):
-        if self.crest:
-            return '<img src="{0}" />'.format(self.crest.url)
-        else:
-            return ''
-
-    crest_thumbnail.allow_tags = True
-
-    def __unicode__(self):
-        return self.name
-
-    def get_tournament_stats(self, tournament):
-        wins = 0
-        draws = 0
-        losses = 0
-        
-        for match in self.get_all_finished_matches(tournament):
-            if match.get_winner() == self:
-                wins += 1
-            elif match.get_winner() == None:
-                draws += 1
-            else:
-                losses += 1
-
-        return {'w': wins, 'd': draws, 'l': losses}
-
-    def get_all_finished_matches(self, tournament):
-        return Match.get_finished(tournament, self)        
-        
-    class Meta:
-        ordering = ['name']
-        verbose_name = "Equipo"
 
 class Fixture(models.Model):
     number = models.PositiveIntegerField(verbose_name = "Fecha numero")

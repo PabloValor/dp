@@ -29,7 +29,7 @@ class TournamentSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', )
 
 class TournamentTeamsSerializer(serializers.ModelSerializer):
-    teams = TeamSerializer(source = 'get_teams', many = True)
+    teams = TeamSerializer(many = True)
 
     class Meta:
         model = Tournament
@@ -73,7 +73,7 @@ class TeamStatsSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'crest', 'stats')        
 
 class TournamentStatsSerializer(serializers.ModelSerializer):
-    teams = TeamStatsSerializer(source = 'get_teams', many = True)
+    teams = TeamStatsSerializer(many = True)
 
     class Meta:
         model = Tournament
