@@ -52,7 +52,7 @@
         <div class="col-sm-9">
             <section class="panel panel-default mail-container ">
                 <div class="panel-heading"><span class="flaticon-football7"></span><strong> Partidos</strong>
-                        <a class="btn btn-default pull-right" href="#/torneos/detalle/{{ selectedGame.id }}/tablas" style="text-transform:none">Estadisticas</a>
+                        <a class="btn btn-default pull-right" href="#/torneos/detalle/{{ selectedGame.id }}/tablas" style="text-transform:none">Estadísticas</a>
                 </div>
                 <div ng-class="{'loading-cloak': loadingFixture }" class="fixture-container ">
 
@@ -183,14 +183,14 @@
                           <td>
                               <span ng-show="match.is_finished" 
                                     class="label label-primary match-outcome" 
-                                    popover-trigger="mouseenter" popover="Gano {{ match.winner.name }}" 
+                                    popover-trigger="mouseenter" popover="Ganó {{ match.winner.name }}" 
                                     ng-if="match.winner">
                                       {{ match.local_team_goals }} : {{ match.visitor_team_goals }}
                               </span>
 
                               <span ng-show="match.is_finished" 
                                     class="label label-primary match-outcome" 
-                                    popover-trigger="mouseenter" popover="Empataron" 
+                                    popover-trigger="mouseenter" popover="Empatarón" 
                                     ng-if="!match.winner">
                                       {{ match.local_team_goals }} : {{ match.visitor_team_goals }}
                               </span>
