@@ -91,6 +91,7 @@
             contactNew: function() { return this.base + '/contact/'},
             allTournamentsHomepage: function() { return this.base + '/homepage/tournaments'},            
             allTournaments: function() { return this.base + '/tournaments/'},
+            allTournamentsTeams: function() { return this.base + '/tournaments/teams'},            
             allTournamentsNextFixture: function() { return this.base + '/tournaments/fixtures/next'},
             allTournamentsCurrentOrLastFixture: function() { return this.base + '/tournaments/fixtures/current-or-last'}, 
             tournamentFixture: function(tournament_id) { return this.base + '/tournaments/' + tournament_id + '/fixture' },

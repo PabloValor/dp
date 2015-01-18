@@ -155,13 +155,34 @@ angular.module('app.games')
                     Data.allTournaments = response;
 
                     console.info("All Tournaments")
+                    console.info(response)                    
                     f_s(response);
                 })
                 .error(function(response) {
                     console.error("All Tournaments")
                     f_e(response);
                 });
-        },        
+        },
+        getAllWithTeams: function(f_s, f_e) {
+            if(!!Data.allTournaments) {
+                f_s(Data.allTournaments);
+                return;
+            } 
+
+            $http.get(SETTINGS.url.allTournamentsTeams())
+                .success(function(response) {
+
+                    Data.allTournaments = response;
+
+                    console.info("All Tournaments Teams")
+                    console.info(response)
+                    f_s(response);
+                })
+                .error(function(response) {
+                    console.error("All Tournaments Teams")
+                    f_e(response);
+                });
+        },                
         getAllTournamentsNextFixture: function(f_s, f_e) {
             if(!!Data.allTournamentsNextFixture) {
                 f_s(Data.allTournamentsNextFixture);

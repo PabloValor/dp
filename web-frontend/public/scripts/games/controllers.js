@@ -40,9 +40,8 @@ angular.module('app.games')
 
 .controller('NewGameController', ['$scope', '$location', 'TournamentService', 'GameService', 'Facebook', 'UserService', 'Data', 'FriendsService',
     function($scope, $location, TournamentService, GameService, Facebook, UserService, Data, FriendsService)  {
-        TournamentService.getAll(
+        TournamentService.getAllWithTeams(
             function(tournaments) {
-                console.info("sin error")
                 $scope.tournaments = tournaments;
             },
             function(response) {
