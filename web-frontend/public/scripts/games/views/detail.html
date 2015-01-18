@@ -44,7 +44,7 @@
                         <span class="label label-success" ng-show="user.status">Jugando</span>
                         <span class="label label-info" ng-show="user.status == undefined">No respondiste</span>
                         <span class="label label-danger" ng-show="user.status == false && !user.another_chance">Rechazaste</span>
-                        <span class="label label-info" ng-show="user.status == false && user.another_chance">Solicitaste otra invitacion</span>
+                        <span class="label label-info" ng-show="user.status == false && user.another_chance">Solicitaste otra invitación</span>
                       </div>
                     </div>
 
@@ -61,10 +61,10 @@
                         <span class="label label-success" ng-show="player.status">Jugando</span>
                         <span class="label label-info" ng-show="player.status == undefined">Esperando respuesta</span>
                         <span class="label label-danger"  ng-show="player.status == false  && !player.another_chance">Rechazo</span>
-                        <span class="glyphicon glyphicon-question-sign"  ng-show="player.status == false  && player.another_chance == undefined" popover-trigger="mouseenter" popover="{{ player.username }} tiene que solicitar una invitacion para invitarlo de vuelta." ></span>
+                        <span class="glyphicon glyphicon-question-sign"  ng-show="player.status == false  && player.another_chance == undefined" popover-trigger="mouseenter" popover="{{ player.username }} tiene que solicitar una invitación para invitarlo de vuelta." ></span>
                         <span class="glyphicon glyphicon-question-sign"  ng-show="player.status == false  && player.another_chance == false" popover-trigger="mouseenter" popover="{{ player.username }} no tiene interes en jugar en este Torneo." ></span>
 
-                        <span class="label label-info" ng-show="player.status == false && player.another_chance">Solicita otra invitacion</span>
+                        <span class="label label-info" ng-show="player.status == false && player.another_chance">Solicita otra invitación</span>
                         <button type="button" ng-show="is_owner && player.status == false && player.another_chance" ng-click="invitePlayerAgain(player)" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok"></span>&nbsp; Invitar </button>
                       </div>
                     </div>
