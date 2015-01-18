@@ -1,0 +1,183 @@
+[ {
+    "pk": 1,
+    "model": "tournaments.tournament",
+    "fields": {
+      "teams": [
+        5,
+        15,
+        20
+      ],
+      "name": "Copa Ciudad de Mar del Plata",
+      "is_finished": false
+    }
+  },
+  {
+    "pk": 2,
+    "model": "tournaments.tournament",
+    "fields": {
+      "teams": [
+        7,
+        10,
+        16
+      ],
+      "name": "Copa de Oro de Mar del Plata",
+      "is_finished": false
+    }
+  },
+  {
+    "pk": 1,
+    "model": "tournaments.fixture",
+    "fields": {
+      "open_until": "2015-01-17T22:00:00Z",
+      "is_playing": false,
+      "number": 1,
+      "tournament": 1,
+      "is_finished": true
+    }
+  },
+  {
+    "pk": 2,
+    "model": "tournaments.fixture",
+    "fields": {
+      "open_until": "2015-01-20T22:00:00Z",
+      "is_playing": false,
+      "number": 2,
+      "tournament": 1,
+      "is_finished": false
+    }
+  },
+  {
+    "pk": 3,
+    "model": "tournaments.fixture",
+    "fields": {
+      "open_until": "2015-01-25T22:00:00Z",
+      "is_playing": false,
+      "number": 3,
+      "tournament": 1,
+      "is_finished": false
+    }
+  },
+  {
+    "pk": 4,
+    "model": "tournaments.fixture",
+    "fields": {
+      "open_until": "2015-01-15T22:00:00Z",
+      "is_playing": false,
+      "number": 1,
+      "tournament": 2,
+      "is_finished": true
+    }
+  },
+  {
+    "pk": 5,
+    "model": "tournaments.fixture",
+    "fields": {
+      "open_until": "2015-01-18T22:00:00Z",
+      "is_playing": false,
+      "number": 2,
+      "tournament": 2,
+      "is_finished": false
+    }
+  },
+  {
+    "pk": 6,
+    "model": "tournaments.fixture",
+    "fields": {
+      "open_until": "2015-01-27T22:00:00Z",
+      "is_playing": false,
+      "number": 3,
+      "tournament": 2,
+      "is_finished": false
+    }
+  },
+  {
+    "pk": 1,
+    "model": "tournaments.match",
+    "fields": {
+      "visitor_team_goals": 4,
+      "is_classic": false,
+      "local_team_goals": 1,
+      "date": "2015-01-18",
+      "suspended": false,
+      "is_finished": true,
+      "fixture": 1,
+      "visitor_team": 15,
+      "local_team": 5
+    }
+  },
+  {
+    "pk": 2,
+    "model": "tournaments.match",
+    "fields": {
+      "visitor_team_goals": 0,
+      "is_classic": false,
+      "local_team_goals": 0,
+      "date": "2015-01-18",
+      "suspended": false,
+      "is_finished": false,
+      "fixture": 2,
+      "visitor_team": 20,
+      "local_team": 5
+    }
+  },
+  {
+    "pk": 3,
+    "model": "tournaments.match",
+    "fields": {
+      "visitor_team_goals": 0,
+      "is_classic": false,
+      "local_team_goals": 0,
+      "date": "2015-01-18",
+      "suspended": false,
+      "is_finished": false,
+      "fixture": 3,
+      "visitor_team": 15,
+      "local_team": 20
+    }
+  },
+  {
+    "pk": 4,
+    "model": "tournaments.match",
+    "fields": {
+      "visitor_team_goals": 0,
+      "is_classic": false,
+      "local_team_goals": 1,
+      "date": "2015-01-18",
+      "suspended": false,
+      "is_finished": true,
+      "fixture": 4,
+      "visitor_team": 7,
+      "local_team": 10
+    }
+  },
+  {
+    "pk": 5,
+    "model": "tournaments.match",
+    "fields": {
+      "visitor_team_goals": 0,
+      "is_classic": false,
+      "local_team_goals": 0,
+      "date": "2015-01-18",
+      "suspended": false,
+      "is_finished": false,
+      "fixture": 5,
+      "visitor_team": 7,
+      "local_team": 16
+    }
+  },
+  {
+    "pk": 6,
+    "model": "tournaments.match",
+    "fields": {
+      "visitor_team_goals": 0,
+      "is_classic": false,
+      "local_team_goals": 0,
+      "date": "2015-01-18",
+      "suspended": false,
+      "is_finished": false,
+      "fixture": 6,
+      "visitor_team": 10,
+      "local_team": 16
+    }
+  }
+]
