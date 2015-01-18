@@ -24,11 +24,11 @@
             </td>
             <td align="right" class="team">
               {{ match.local_team.name }} 
-              <img src="http://localhost:8000{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />
+              <img src="{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />
             </td>
             <td  ng-hide="selectedGame.classic" style="color:green">vs</td>
             <td align="left"  class="team">
-              <img src="http://localhost:8000{{ match.visitor_team.crest }}" style="height: 20px;margin-right:5px;" />
+              <img src="{{ match.visitor_team.crest }}" style="height: 20px;margin-right:5px;" />
               {{ match.visitor_team.name }}  
             </td>
             <td>

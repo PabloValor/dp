@@ -108,7 +108,7 @@
                           </td>
                           <td align="right" style="width:25%">
                               {{ match.local_team.name }} 
-                            <img src="http://localhost:8000{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />
+                            <img src="{{ match.local_team.crest }}" style="height: 20px;margin-left:5px;" />
                           </td>
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
@@ -177,7 +177,7 @@
                                 </select>
                           </td>
                           <td align="left"  style="width:25%">
-                            <img src="http://localhost:8000{{ match.visitor_team.crest }}" style="height: 20px;margin-right:5px;" />
+                            <img src="{{ match.visitor_team.crest }}" style="height: 20px;margin-right:5px;" />
                             {{ match.visitor_team.name }}  
                           </td>
                           <td>
