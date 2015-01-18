@@ -4,14 +4,14 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-var consolidate = require('consolidate');
 
-app.engine('dust', consolidate.dust);
-app.set('view engine', 'dust');
-app.set('views', './app/templates');
+app.engine('html', require('ejs').renderFile);
+app.set('views', __dirname + '/views');
 
 app.use(app.router);
 app.use('/public', express.static(__dirname + "/../public"));
+app.use('/scripts', express.static(__dirname + "/../public/scripts"));
+app.use('/views', express.static(__dirname + "/../public/views"));
 
 var redis = require('socket.io/node_modules/redis');
 var sub = redis.createClient();
@@ -31,8 +31,12 @@ io.sockets.on('connection', function (socket) {
 });
 
 
-app.get('/hello', function(req, res){
-    res.send('bonjour!');
+app.get('/', function(req, res){
+    res.render('index.html');    
+});
+
+app.use(function(req, res) {
+    res.status(404).render('404.html');
 });
 
 // use livereload middleware
