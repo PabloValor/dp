@@ -3,6 +3,9 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
+
+server.listen(3000)
+
 var io = require('socket.io').listen(server);
 
 app.engine('html', require('ejs').renderFile);
@@ -47,3 +50,4 @@ exports = module.exports = server;
 exports.use = function() {
 	app.use.apply(app, arguments);
 };
+
