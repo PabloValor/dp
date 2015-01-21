@@ -113,7 +113,7 @@
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
                               <input name="{{ match.local_team }}_{{ match.visitor_team}}" type="radio" value="local" 
-                                     ng-disabled="currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
+                                     ng-disabled="match.is_finished || currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
                                      ng-click="doGeneralPrediction(match, true)" 
                                      ng-model="match.generalPrediction">
                               <span popover-trigger="mouseenter" popover="Gana {{ match.local_team.name }}" ng-if="!match.is_finished">L</span>
@@ -123,7 +123,7 @@
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
                               <input name="{{ match.local_team }}_{{ match.visitor_team}}" type="radio" value="draw" 
-                                     ng-disabled="currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
+                                     ng-disabled="match.is_finished ||currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
                                      ng-model="match.generalPrediction">
                               <span popover-trigger="mouseenter" popover="Empatan" ng-if="!match.is_finished" ng-click="doGeneralPrediction(match)">E</span>
                               <span ng-if="match.is_finished">E</span>
@@ -132,7 +132,7 @@
                           <td ng-show="selectedGame.classic" style="width: 82px">
                             <label class="ui-radio">
                               <input name="{{ match.local_team }}_{{ match.visitor_team}}" type="radio" value="visitor" 
-                                     ng-disabled="currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
+                                     ng-disabled="match.is_finished ||currentFixture.is_finished || currentFixture.is_closed || selectedGameplayer.id != userGameplayer.id" 
                                      ng-click="doGeneralPrediction(match, false)" 
                                      ng-model="match.generalPrediction">
                               <span popover-trigger="mouseenter" popover="Gana {{ match.visitor_team.name }}" ng-if="!match.is_finished">V</span>
