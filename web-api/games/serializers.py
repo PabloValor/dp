@@ -110,7 +110,12 @@ class GameSerializer(serializers.ModelSerializer):
 
         for gameplayer in gameplayerList:
             player = gameplayer['player']
-            status = player == game.owner
+            # The status needs to be None and not False
+            status = None
+            
+            if player == game.owner:
+                status = True
+                
             game_player = GamePlayer.objects.create(player = player,
                                                     game = game,
                                                     status = status,

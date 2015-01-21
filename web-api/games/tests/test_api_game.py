@@ -286,7 +286,7 @@ class GameAPITest(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_create_with_one_players_200_OK(self):
+    def test_create_with_one_player_200_OK(self):
         # The owner is a player
         owner = PlayerFactory()
         token = Token.objects.get(user__username = owner.username)
@@ -304,6 +304,11 @@ class GameAPITest(APITestCase):
         self.assertEqual(Game.objects.count(), 1)
         self.assertEqual(Game.objects.all()[0].players.count(), 2)
         self.assertEqual(Game.objects.all()[0].owner, owner)
+
+        # Check if the Owner is playing and the player invited status is None
+        self.assertEqual(player.gameplayer_set.first().status, None)
+        self.assertTrue(owner.gameplayer_set.first().status)        
+        
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_with_one_player_that_are_not_friends_400_BAD_REQUEST_A(self):
