@@ -64,9 +64,10 @@ echo 'export MANDRILL_API_KEY=4rbqFI0BJL8ryoHT7CRGLw' >> /home/vagrant/.bashrc
 source /home/vagrant/.bashrc
 
 cd /vagrant/web-api
-./manage syncdb
-./manage migrate
-./manage.py loaddata tournaments/fixtures/argentina_2014.json
+./manage.py syncdb
+./manage.py makemigrations
+./manage.py migrate
+./manage.py loaddata tournaments/fixtures/teams.json
 
 # Frontend dependencies
 curl -sL https://deb.nodesource.com/setup | sudo bash -
