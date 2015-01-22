@@ -20,20 +20,6 @@ module.exports = function(grunt) {
         },
 
         compass: {
-            dist: {
-                options: {
-                    sassDir: 'public/sass',
-                    imagesDir: "public/sass/ui/images/",
-                    javascriptsDir: "public/scripts",
-                    fontsDir: "public/fonts",
-                    httpFontsPath: "fonts",
-                    importPath: "public/bower_components",
-                    httpGeneratedImagesPath: "public/sass/ui/images/",
-                    cssDir: 'public/css',
-                    relativeAssets: true,
-                    environment: 'production'
-                }
-            },
             dev: {
                 options: {
                     sassDir: 'public/sass',
@@ -50,21 +36,6 @@ module.exports = function(grunt) {
             }
         },
 
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc'
-            },
-            gruntfile: {
-                src: 'Gruntfile.js'
-            },
-            lib: {
-                src: ['lib/**/*.js']
-            },
-            test: {
-                src: ['test/**/*.js']
-            },
-        },
-
         regarde: {
             pub: {
                 files: 'public/**/*',
@@ -79,38 +50,27 @@ module.exports = function(grunt) {
                 tasks: 'livereload'
             }
         },
-
-        jsbeautifier: {
-            files: ['Gruntfile.js'],
+        uglify: {
             options: {
-                'indent_size': 4,
-                'indent_char': ' ',
-                'indent_level': 0,
-                'indent_with_tabs': false,
-                'preserve_newlines': true,
-                'max_preserve_newlines': 10,
-                'jslint_happy': false,
-                'brace_style': 'collapse',
-                'keep_array_indentation': false,
-                'keep_function_indentation': false,
-                'space_before_conditional': true,
-                'eval_code': false,
-                'indent_case': false,
-                'unescape_strings': false
+                mangle: false
+            },
+            dist: {
+                files: {
+                    'public/scripts/site.min.js':
+                    ['public/scripts/app.js', 'public/scripts/shared/main.js', 'public/scripts/**/*.js', 'public/vendors/*.js']
+                }
             }
         }
     });
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-compass');
-    grunt.loadNpmTasks('grunt-contrib-nodeunit');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-livereload');
-    grunt.loadNpmTasks('grunt-jsbeautifier');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-express');
     grunt.loadNpmTasks('grunt-regarde');
 
-    grunt.registerTask('format', ['jshint', 'jsbeautifier', 'compass']);
+    grunt.registerTask('format', ['compass', 'uglify']);
     grunt.registerTask('server', ['livereload-start', 'express', 'regarde']);
     // Default task.
     grunt.registerTask('default', ['format', 'server']);
