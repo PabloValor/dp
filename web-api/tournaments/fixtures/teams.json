@@ -159,5 +159,85 @@
       "name": "Vélez Sarsfield",
       "crest": "/media/crests/velez.png"
     }
+  },
+  {
+    "model": "tournaments.team",
+    "pk": 21,
+    "fields": {
+      "name": "Crucero del Norte",
+      "crest": "/media/crests/crucerodelnorte.png"
+    }
+  },
+  {
+    "model": "tournaments.team",
+    "pk": 22,
+    "fields": {
+      "name": "Temperley",
+      "crest": "/media/crests/temperley.png"
+    }
+  },
+      {
+    "model": "tournaments.team",
+    "pk": 23,
+    "fields": {
+      "name": "Colón",
+      "crest": "/media/crests/colon.png"
+    }
+      },
+      {
+    "model": "tournaments.team",
+    "pk": 24,
+    "fields": {
+      "name": "Huracán",
+      "crest": "/media/crests/huracan.png"
+    }
+      },
+      {
+    "model": "tournaments.team",
+    "pk": 25,
+    "fields": {
+      "name": "Unión",
+      "crest": "/media/crests/union.png"
+    }
+      },
+      {
+    "model": "tournaments.team",
+    "pk": 26,
+    "fields": {
+      "name": "Nueva Chicago",
+      "crest": "/media/crests/nuevachicago.png"
+    }
+      },
+      {
+    "model": "tournaments.team",
+    "pk": 27,
+    "fields": {
+      "name": "Sarmiento",
+      "crest": "/media/crests/sarmiento.png"
+    }
+      },
+      {
+    "model": "tournaments.team",
+    "pk": 28,
+    "fields": {
+      "name": "Aldosivi",
+      "crest": "/media/crests/aldosivi.png"
+    }
+      },
+      {
+    "model": "tournaments.team",
+    "pk": 29,
+    "fields": {
+      "name": "San Martin (SJ)",
+      "crest": "/media/crests/sanmartinsj.png"
+    }
+      },
+      {
+    "model": "tournaments.team",
+    "pk": 30,
+    "fields": {
+      "name": "Argentinos Juniors",
+      "crest": "/media/crests/argentinosjuniors.png"
+    }
   }
 ]

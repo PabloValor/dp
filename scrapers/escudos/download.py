@@ -5,8 +5,8 @@ from StringIO import StringIO
 
 base_url = "http://canchallena.lanacion.com.ar/_ui/desktop/imgs/escudos/{0}.png"
 
-for escudo_id in range(5000,10000):
-    for tipo in range(1, 5):
+for escudo_id in range(0,2000):
+    for tipo in range(1, 3):
         escudo_nombre = '{0}_{1}'.format(escudo_id, tipo)
         image_file = escudo_nombre + '.png'
 
@@ -19,5 +19,3 @@ for escudo_id in range(5000,10000):
             i = Image.open(StringIO(response.content))
             i.save(image_file)
             print(escudo_nombre)
-          else:
-            break
