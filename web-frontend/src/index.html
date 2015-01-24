@@ -10,12 +10,9 @@
         <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
         <!-- needs images, font... therefore can not be part of ui.css -->
         <link rel="stylesheet" href="/public/bower_components/font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" href="/public/bower_components/weather-icons/css/weather-icons.min.css">
         <!-- end needs images -->
 
-        <!-- build:css styles/ui.css -->
         <link rel="stylesheet" href="/public/bower_components/morris.js/morris.css">
-        <!-- endbuild -->
         <link rel="stylesheet" href="/public/css/main.css">
 
         <link rel="stylesheet" href="/public/fonts/soccer_icons/flaticon.css">
@@ -45,18 +42,13 @@
           </div>
         </div>
 
-
-        <!-- build:js scripts/vendor.js -->
+        <!-- build:js js/vendor.js -->                
         <script src="/public/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/public/bower_components/angular/angular.min.js"></script>
         <script src="/public/bower_components/angular-route/angular-route.min.js"></script>
         <script src="/public/bower_components/angular-animate/angular-animate.min.js"></script>
         <script src="/public/bower_components/underscore/underscore-min.js"></script>
-        <!-- endbuild -->
 
-	    <script src="/socket.io/socket.io.js"></script>
-
-        <!-- build:js scripts/ui.js -->
         <script src="/public/bower_components/angular-socket-io/socket.js"></script>        
         <script src="/public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         <script src="/public/bower_components/jquery-spinner/dist/jquery.spinner.min.js"></script>
@@ -81,9 +73,11 @@
         <script src="/public/bower_components/textAngular/dist/textAngular.min.js"></script>
 
         <script src="/public/bower_components/chartjs/Chart.js"></script>
-        <!-- endbuild -->
+        <!-- endbuild -->        
+        
+	    <script src="/socket.io/socket.io.js"></script>
 
-        <!-- build:js({.tmp,scripts}) scripts/app.js -->        
+        <!-- build:js js/site.js -->        
         <script src="/public/scripts/app.js"></script>
         <script src="/public/scripts/shared/main.js"></script>
         <script src="/public/scripts/shared/directives.js"></script>

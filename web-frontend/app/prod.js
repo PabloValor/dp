@@ -13,6 +13,7 @@ app.set('views', __dirname + '/../public');
 
 app.use(app.router);
 app.use('/public', express.static(__dirname + "/../public"));
+app.use('/js', express.static(__dirname + "/../public/js"));
 app.use('/scripts', express.static(__dirname + "/../public/scripts"));
 app.use('/views', express.static(__dirname + "/../public/views"));
 
