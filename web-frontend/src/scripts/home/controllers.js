@@ -18,9 +18,7 @@ angular.module('app.home')
                     $scope.tournament = tournamentList[0];
                 }
 
-                if(tournamentList.length > 1) {
-                    $scope.tournamentList = tournamentList;
-                }
+                $scope.tournamentList = tournamentList;
             },
             function(response) {
                 // TODO
