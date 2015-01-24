@@ -3,18 +3,29 @@ angular.module('app.games')
 
 .controller('GameController', ['$scope', '$location', 'GameService', 'Data', 'UserService', '$rootScope',
     function($scope, $location, GameService, Data, UserService, $rootScope)  {
-        $rootScope.loadingInit = true;
-        GameService.all(function(games) {
-          $scope.games = games.filter(function(game) { return !( game.you[0].status == false && game.you[0].another_chance == false) });
+        var getGames = function() {
+            GameService.all(function(games) {
+                $scope.games = games.filter(function(game) { return !( game.you[0].status == false && game.you[0].another_chance == false) });
 
-          $rootScope.loadingInit = false;
-          if($scope.games.length == 1) {
-            $scope.gameDetail($scope.games[0]);
-          }
-        }, function(response) {
-          console.error(response);
-          $rootScope.loadingInit = false;
-        });
+                $rootScope.loadingInit = false;
+                if($scope.games.length == 1) {
+                    $scope.gameDetail($scope.games[0]);
+                }
+            }, function(response) {
+                console.error(response);
+                $rootScope.loadingInit = false;
+            });
+        };
+
+        $rootScope.loadingInit = true;
+
+        getGames();
+
+        $rootScope.$on("newGameNotification", 
+                       function() {
+                           console.info("Game Notification All");
+                           getGames();
+                       });
 
         $scope.gameDetail = function(game) {
           Data.currentGame = game;
@@ -255,6 +266,7 @@ angular.module('app.games')
 
         $rootScope.$on("newGameNotification", 
                        function(event, notification) { 
+                           console.info("Game Notification Detail");
                            getCurrentGame(notification.game_id)
                        });
 
