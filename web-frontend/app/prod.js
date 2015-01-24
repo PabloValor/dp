@@ -9,12 +9,12 @@ server.listen(3000)
 var io = require('socket.io').listen(server);
 
 app.engine('html', require('ejs').renderFile);
-app.set('views', __dirname + '/../src');
+app.set('views', __dirname + '/../public');
 
 app.use(app.router);
-app.use('/public', express.static(__dirname + "/../src"));
-app.use('/scripts', express.static(__dirname + "/../src/scripts"));
-app.use('/views', express.static(__dirname + "/../src/views"));
+app.use('/public', express.static(__dirname + "/../public"));
+app.use('/scripts', express.static(__dirname + "/../public/scripts"));
+app.use('/views', express.static(__dirname + "/../public/views"));
 
 var redis = require('socket.io/node_modules/redis');
 var sub = redis.createClient();
