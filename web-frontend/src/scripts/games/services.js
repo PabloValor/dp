@@ -136,6 +136,9 @@ angular.module('app.games')
           }
 
           return null;
+        },
+        clearCache: function() {
+            delete Data.allGames;
         }
     }
 }])

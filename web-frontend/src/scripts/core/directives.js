@@ -146,7 +146,7 @@ angular.module('app.core')
           socket.on(token, function (notification) {
               var notification_message;
               if(!!notification.game_name) {
-                  $rootScope.$broadcast("newGameNotification");
+                  $rootScope.$broadcast("newGameNotification", notification);
                   notification_message = getGameNotificationMessage(notification);
                   NotificationService.addGameNotification(notification);
               } else {

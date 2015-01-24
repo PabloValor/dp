@@ -215,8 +215,8 @@ angular.module('app.games')
         }
 }])
 
-.controller('DetailGameController', ['$scope', '$routeParams', '$modal', 'GameService', 'Data', 'UserService', 'NotificationService',
-    function($scope, $routeParams, $modal, GameService, Data, UserService, NotificationService)  {
+.controller('DetailGameController', ['$rootScope', '$scope', '$routeParams', '$modal', 'GameService', 'Data', 'UserService', 'NotificationService',
+    function($rootScope, $scope, $routeParams, $modal, GameService, Data, UserService, NotificationService)  {
         function setUserStatus(game) {
           $scope.is_owner = game.owner == $scope.username;
           $scope.owner = game.gameplayers.filter(function(p) { return p.username == game.owner })[0];
@@ -225,6 +225,17 @@ angular.module('app.games')
 
         function setFriendsAnotherChance(game) {
           $scope.friendsAnotherChance = game.gameplayers.filter(function(p) { return !p.status && p.another_chance; });
+        }
+
+        function getCurrentGame(game_id) {
+          GameService.get(game_id, 
+            function(game) {
+              $scope.game = game;
+              Data.currentGame = game;
+              setUserStatus(game);
+              setFriendsAnotherChance($scope.game);
+
+          });
         }
 
         $scope.username = UserService.getUsername();
@@ -237,19 +248,15 @@ angular.module('app.games')
           setUserStatus($scope.game);
           setFriendsAnotherChance($scope.game);
         } else {
-
           Data.currentGame = true; 
-
-          GameService.get($routeParams.gameId, 
-            function(game) {
-              $scope.game = game;
-              Data.currentGame = game;
-              setUserStatus(game);
-              setFriendsAnotherChance($scope.game);
-
-          });
+            getCurrentGame($routeParams.gameId);
         }
 
+
+        $rootScope.$on("newGameNotification", 
+                       function(event, notification) { 
+                           getCurrentGame(notification.game_id)
+                       });
 
         $scope.updateGamePlayerStatus = function(status) {
             GameService.updateGamePlayerStatus($scope.game.you[0].id, status, 
