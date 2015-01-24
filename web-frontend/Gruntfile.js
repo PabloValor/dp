@@ -31,9 +31,23 @@ module.exports = function(grunt) {
                     httpGeneratedImagesPath: "public/sass/ui/images/",
                     cssDir: 'public/css',
                     relativeAssets: true,
+                    environment: 'development'
+                }
+            },
+            build: {
+                options: {
+                    sassDir: '.tmp/sass',
+                    imagesDir: ".tmp/sass/ui/images/",
+                    javascriptsDir: ".tmp/scripts",
+                    fontsDir: ".tmp/fonts",
+                    httpFontsPath: "fonts",
+                    importPath: ".tmp/bower_components",
+                    httpGeneratedImagesPath: ".tmp/sass/ui/images/",
+                    cssDir: '.tmp/css',
+                    relativeAssets: true,
                     environment: 'production'
                 }
-            }
+            }            
         },
 
         regarde: {
@@ -50,29 +64,74 @@ module.exports = function(grunt) {
                 tasks: 'livereload'
             }
         },
+        
         uglify: {
             options: {
                 mangle: false
             },
-            dist: {
+            build: {
                 files: {
-                    'public/scripts/site.min.js':
-                    ['public/scripts/app.js', 'public/scripts/shared/main.js', 'public/scripts/**/*.js', 'public/vendors/*.js']
+                    '.tmp/js/site.min.js':
+                    ['.tmp/scripts/app.js', '.tmp/scripts/shared/main.js', '.tmp/scripts/**/*.js', '.tmp/vendors/*.js']
                 }
-            }
+            }            
+        },
+        
+        clean: {
+            'before-build': ['.tmp', 'public'],
+            'after-build': ['.tmp']            
+        },
+        
+        copy: {
+            'pre-build': {
+                files: [
+                    { expand: true, cwd: 'src/', src: '**', dest: '.tmp/' }
+                ]
+            },
+            'post-build': {
+                files: [
+                    {expand: true,
+                     cwd: '.tmp/',
+                     src:['index.html','404.html','favicon.ico',
+                          'css/**',
+                          'js/**',
+                          'fonts/**',
+                          'i18n/**',                           
+                          'images/**',
+                          'views/**'], dest: 'public/' }
+                ]
+            }            
+        },
+        #
+        useminPrepare: {
+            html: '.tmp/index.html'
         }
     });
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-livereload');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-usemin');    
     grunt.loadNpmTasks('grunt-express');
     grunt.loadNpmTasks('grunt-regarde');
 
-    grunt.registerTask('format', ['compass', 'uglify']);
+
+    grunt.registerTask('format', ['compass:dev']);
     grunt.registerTask('server', ['livereload-start', 'express', 'regarde']);
-    // Default task.
+
+    grunt.registerTask('clean-build', ['clean:before-build']);
+    grunt.registerTask('build', ['clean:before-build',
+                                 'useminPrepare',
+                                 'concat:generated',
+                                 'uglify:generated',
+                                 'copy:pre-build',
+                                 'compass:build',
+                                 'usemin',
+                                 'copy:post-build',
+                                 'clean:after-build']);
+    
     grunt.registerTask('default', ['format', 'server']);
 
 };

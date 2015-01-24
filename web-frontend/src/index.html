@@ -55,9 +55,9 @@
         <!-- endbuild -->
 
 	    <script src="/socket.io/socket.io.js"></script>
-        <script src="/public/bower_components/angular-socket-io/socket.js"></script>
 
         <!-- build:js scripts/ui.js -->
+        <script src="/public/bower_components/angular-socket-io/socket.js"></script>        
         <script src="/public/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         <script src="/public/bower_components/jquery-spinner/dist/jquery.spinner.min.js"></script>
         <script src="/public/bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js"></script>
@@ -83,7 +83,57 @@
         <script src="/public/bower_components/chartjs/Chart.js"></script>
         <!-- endbuild -->
 
-        <script src="/public/scripts/site.min.js"></script>
+        <!-- build:js({.tmp,scripts}) scripts/app.js -->        
+        <script src="/public/scripts/app.js"></script>
+        <script src="/public/scripts/shared/main.js"></script>
+        <script src="/public/scripts/shared/directives.js"></script>
+        <script src="/public/scripts/shared/localize.js"></script>
+        <script src="/public/scripts/UI/UICtrl.js"></script>
+        <script src="/public/scripts/UI/UIDirective.js"></script>
+        <script src="/public/scripts/UI/UIService.js"></script>
+        <script src="/public/scripts/Form/FormDirective.js"></script>
+        <script src="/public/scripts/Form/FormCtrl.js"></script>
+        <script src="/public/scripts/Form/FormValidation.js"></script>
+        <script src="/public/scripts/Table/TableCtrl.js"></script>
+        <script src="/public/scripts/Task/Task.js"></script>
+        <script src="/public/scripts/Chart/ChartCtrl.js"></script>
+        <script src="/public/scripts/Chart/ChartDirective.js"></script>
+
+        <script src="/public/scripts/users/config.js"></script>
+        <script src="/public/scripts/users/services.js"></script>
+        <script src="/public/scripts/users/controllers.js"></script>
+
+        <script src="/public/scripts/home/config.js"></script>
+        <script src="/public/scripts/home/controllers.js"></script>
+        <script src="/public/scripts/home/services.js"></script>
+        <script src="/public/scripts/home/directives.js"></script>
+
+        <script src="/public/scripts/games/config.js"></script>
+        <script src="/public/scripts/games/directives.js"></script>
+        <script src="/public/scripts/games/services.js"></script>
+        <script src="/public/scripts/games/controllers.js"></script>
+
+        <script src="/public/scripts/core/config.js"></script>
+        <script src="/public/scripts/core/directives.js"></script>
+        <script src="/public/scripts/core/factories.js"></script>
+        <script src="/public/scripts/core/controllers.js"></script>
+
+        <script src="/public/scripts/friends/config.js"></script>
+        <script src="/public/scripts/friends/services.js"></script>
+        <script src="/public/scripts/friends/controllers.js"></script>
+        
+        <script src="/public/scripts/predictions/config.js"></script>
+        <script src="/public/scripts/predictions/services.js"></script>
+        <script src="/public/scripts/predictions/controllers.js"></script>
+
+        <script src="/public/scripts/notifications/config.js"></script>
+        <script src="/public/scripts/notifications/services.js"></script>
+
+        <script src="/public/scripts/contact/config.js"></script>
+        <script src="/public/scripts/contact/services.js"></script>
+        <script src="/public/scripts/contact/controllers.js"></script>
+
+        <!-- endbuild -->        
 
         <script>
         window.fbAsyncInit = function() {
