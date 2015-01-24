@@ -129,20 +129,9 @@ angular.module('app.users')
                 });
         }, 
         search: function(username, f_success, f_error) {
-            if(!!Data.search) {
-             if( !!Data.search[username]) {
-                f_success(Data.search[username]);
-                return;
-              }
-            } else {
-              Data.search = {};
-            }
-
             $http.get(SETTINGS.url.playerSearch(username))
                 .success(function(response) {
                     console.log(response);
-
-                    Data.search[username] = response;
 
                     if(!!f_success) {
                         f_success(response);
