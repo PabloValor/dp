@@ -3,23 +3,29 @@ angular.module('app.friends')
 
 .controller('FriendsController', ['$scope', 'UserService', 'FriendsService', '$rootScope', 'NotificationService',
     function($scope, UserService, FriendsService, $rootScope, NotificationService)  {
+
+        var setFriends = function() {
+            FriendsService.getFriends(
+                function(players) {
+                    if(players.length > 0) {
+                        $scope.friends = players.filter(function(p) { return p.is_friend });
+                        $scope.friends_limbo = players.filter(function(p) { return p.is_limbo_friend });
+                        $scope.friends_waiting_for_you = players.filter(function(p) { return p.is_waiting_for_you });
+                    } 
+
+                    $rootScope.loadingInit = false;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        };
+
         $rootScope.loadingInit = true;
 
-        FriendsService.getFriends(
-          function(players) {
+        setFriends();
 
-              if(players.length > 0) {
-                  $scope.friends = players.filter(function(p) { return p.is_friend });
-                  $scope.friends_limbo = players.filter(function(p) { return p.is_limbo_friend });
-                  $scope.friends_waiting_for_you = players.filter(function(p) { return p.is_waiting_for_you });
-              } 
-
-              $rootScope.loadingInit = false;
-          },
-          function(error) {
-              console.log(error);
-          }
-        );
+        $rootScope.$on("newFriendNotification", function() { FriendsService.clearCache(); setFriends(); });
 
         $scope.selectFriend = function(friend) {
           $scope.selectedFriend = friend;
