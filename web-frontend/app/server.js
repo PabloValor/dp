@@ -9,7 +9,7 @@ server.listen(3000)
 var io = require('socket.io').listen(server);
 
 app.engine('html', require('ejs').renderFile);
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/../public');
 
 app.use(app.router);
 app.use('/public', express.static(__dirname + "/../public"));
