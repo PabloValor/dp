@@ -11,7 +11,7 @@ module.exports = function(grunt) {
             livereload: {
                 options: {
                     port: 9090,
-                    bases: path.resolve('public'),
+                    bases: path.resolve('src'),
                     monitor: {},
                     debug: true,
                     server: path.resolve('./app/server')
@@ -52,17 +52,17 @@ module.exports = function(grunt) {
 
         regarde: {
             pub: {
-                files: 'public/**/*',
+                files: 'src/**/*',
                 tasks: ['livereload']
             },
             trigger: {
                 files: '.server',
                 tasks: 'express-restart:livereload'
             },
-            express: {
-                files: 'app/templates/hello.dust',
-                tasks: 'livereload'
-            }
+            sass: {
+                files: 'src/sass/**/*.scss',
+                tasks: ['format']
+            }            
         },
         
         uglify: {
