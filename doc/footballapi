@@ -1,0 +1,48 @@
+# All tournaments
+GET http://football-api.com/api/?Action=competitions&APIKey=78525d93-d4a8-8505-4ba97c40f52c
+
+# {
+#     "id": "1075",
+#     "name": "Argentino B",
+#     "region": "Argentina"
+# },
+# {
+#     "id": "1076",
+#     "name": "Argentino A",
+#     "region": "Argentina"
+# },
+# {
+#     "id": "1077",
+#     "name": "Prim B Metro",
+#     "region": "Argentina"
+# },
+# {
+#     "id": "1078",
+#     "name": "Prim B Nacional",
+#     "region": "Argentina"
+# },
+# {
+#     "id": "1079",
+#     "name": "Prim C Metro",
+#     "region": "Argentina"
+# },
+# {
+#     "id": "1080",
+#     "name": "Prim D Metro",
+#     "region": "Argentina"
+# },
+# {
+#     "id": "1081",
+#     "name": "Primera División",
+#     "region": "Argentina"
+# },
+# {
+#     "id": "2129",
+#     "name": "Copa Argentina",
+#     "region": "Argentina"
+# }
+
+
+GET http://football-api.com/api/?Action=fixtures&APIKey=78525d93-d4a8-8505-4ba97c40f52c&comp_id=2129&from_date=15.02.2015&to_date=20.12.2015
+
+GET http://football-api.com/api/?Action=fixtures&APIKey=78525d93-d4a8-8505-4ba97c40f52c&comp_id=2129&match_date=15.02.2015
