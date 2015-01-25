@@ -34,6 +34,7 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
+app.use(express.favicon(__dirname +"/../public/favicon.ico")); 
 
 app.get('/', function(req, res){
     res.render('index.html');    
@@ -42,6 +43,7 @@ app.get('/', function(req, res){
 app.use(function(req, res) {
     res.status(404).render('404.html');
 });
+
 
 // use livereload middleware
 app.use(require('grunt-contrib-livereload/lib/utils').livereloadSnippet);
