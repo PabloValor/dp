@@ -46,16 +46,11 @@
         background-repeat: no-repeat;
         background-image: url("../images/logo.png");
         background-size: auto 50px;
-        background-position: 45% center;
+        background-position: center;
         position: relative;
+        width: 50px;
+        height: 50px;
 
-        .logo-brand {
-            position: absolute;
-            left: 47%;
-            top: 22%;
-            color: #FFF;
-            font-size: 25px;
-        }
     }
 
     // 
@@ -204,8 +199,8 @@
         // 
         .nav-left {
             float: left;
-            padding: 5px $padding-base-horizontal;
-            padding-left: 50px;
+            width: 220px;  
+
             > li {
                 margin-right: 15px;
             }
