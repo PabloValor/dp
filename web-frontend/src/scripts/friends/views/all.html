@@ -32,7 +32,7 @@
         <section class="panel panel-default friend-list-wrapper" ng-if="friends_waiting_for_you" >
             <div class="panel-heading"><span class="flaticon-soccer51"></span><strong> Amigos que esperan tu respuesta</strong></div>
             <div class="panel-body mail-categories friend-list">
-                <ul class="list-group" ng-if="!no_more_friends_waiting" data-slim-scroll>
+                <ul class="list-group" ng-if="!no_more_friends_waiting" >
                     <li ng-repeat="friend in friends_waiting_for_you" class="list-group-item" ng-class='{active: selectedFriend == friend}'>
                         <a href="javascript:;" ng-click="selectFriend(friend)">
                           {{ friend.username }}
