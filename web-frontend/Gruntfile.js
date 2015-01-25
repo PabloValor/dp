@@ -206,7 +206,7 @@ module.exports = function(grunt) {
 
 
     grunt.registerTask('format', ['compass:dev']);
-    grunt.registerTask('server', ['livereload-start', 'express', 'regarde']);
+    grunt.registerTask('server', ['livereload-start', 'compass:dev', 'express', 'regarde']);
 
     grunt.registerTask('clean-build', ['clean:before-build']);
     grunt.registerTask('build', ['clean:pre-build',
