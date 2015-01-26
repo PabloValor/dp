@@ -11742,54 +11742,55 @@ button.toast-close-button {
   padding: 10px;
   text-align: center;
   margin: 0 auto;
+  height: 280px;
   width: 70%;
 }
-/* line 165, ../sass/pages/_games.scss */
+/* line 166, ../sass/pages/_games.scss */
 .newGame .crests .crest {
   display: inline;
   cursor: pointer;
 }
-/* line 168, ../sass/pages/_games.scss */
+/* line 169, ../sass/pages/_games.scss */
 .newGame .crests .crest img {
   height: 50px;
   margin: 5px;
 }
 
-/* line 180, ../sass/pages/_games.scss */
+/* line 181, ../sass/pages/_games.scss */
 .my-games .panel-game .panel-body {
   font-size: 19px;
 }
-/* line 182, ../sass/pages/_games.scss */
+/* line 183, ../sass/pages/_games.scss */
 .my-games .panel-game .panel-body div {
   margin-bottom: 15px;
 }
-/* line 185, ../sass/pages/_games.scss */
+/* line 186, ../sass/pages/_games.scss */
 .my-games .panel-game .panel-body div.game-tournament {
   font-size: 18px;
 }
-/* line 188, ../sass/pages/_games.scss */
+/* line 189, ../sass/pages/_games.scss */
 .my-games .panel-game .panel-body div.game-tournament i:before {
   font-size: 28px;
 }
-/* line 194, ../sass/pages/_games.scss */
+/* line 195, ../sass/pages/_games.scss */
 .my-games .panel-game .panel-body div.game-owner i:before {
   font-size: 30px;
 }
-/* line 201, ../sass/pages/_games.scss */
+/* line 202, ../sass/pages/_games.scss */
 .my-games .panel-game .panel-body button {
   font-weight: 800;
   letter-spacing: 0.5px;
 }
 
-/* line 210, ../sass/pages/_games.scss */
+/* line 211, ../sass/pages/_games.scss */
 .game-tables tr, .game-tables th {
   text-align: center;
 }
-/* line 216, ../sass/pages/_games.scss */
+/* line 217, ../sass/pages/_games.scss */
 .game-tables.game-tables-fixture .menu button {
   min-width: 10px;
 }
-/* line 221, ../sass/pages/_games.scss */
+/* line 222, ../sass/pages/_games.scss */
 .game-tables.game-tables-fixture h4 {
   text-align: center;
 }

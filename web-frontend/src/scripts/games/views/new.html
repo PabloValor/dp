@@ -33,11 +33,13 @@
                             <p>Por ejemplo: 'Torneo Transición 2014.'</p>
                         </div>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-7" data-slim-scroll>
                         <div ng-repeat="tournament in tournaments" ng-show="selectedTournament.tournament == tournament">
                           <div class="crests">
-                            <div class="crest" ng-repeat="team in tournament.teams | orderBy:'name'">
-                              <img src="{{ team.crest }}" popover-trigger="mouseenter" popover="{{ team.name }}"/>
+                            <div data-slim-scroll>
+                              <div class="crest" ng-repeat="team in tournament.teams | orderBy:'name'">
+                                <img src="{{ team.crest }}" popover-trigger="mouseenter" popover="{{ team.name }}"/>
+                              </div>
                             </div>
                           </div>
                         </div>
