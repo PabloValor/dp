@@ -59,7 +59,7 @@
     "model": "tournaments.team",
     "pk": 8,
     "fields": {
-      "name": "Gimnasia y Esgrima",
+      "name": "Gimnasia y Esgrima (LP)",
       "crest": "/media/crests/gimnasia_lp.png"
     }
   },
@@ -228,7 +228,7 @@
     "model": "tournaments.team",
     "pk": 29,
     "fields": {
-      "name": "San Martin (SJ)",
+      "name": "San Martín (SJ)",
       "crest": "/media/crests/sanmartinsj.png"
     }
       },
