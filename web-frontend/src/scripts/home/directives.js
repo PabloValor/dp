@@ -84,7 +84,12 @@ angular.module('app.home')
         templateUrl: 'scripts/home/views/allNews.html',
         replace: true,
         scope: { tournament: '='},
-        controller: ['$scope', 'HomepageService', function($scope, HomepageService) {
+        controller: ['$scope', '$sce', 'HomepageService', function($scope, $sce, HomepageService) {
+            $scope.renderHtml = function(html_code)
+            {
+                return $sce.trustAsHtml(html_code);
+            };
+            
             HomepageService.getAllNews(
                 function(newsList) {
                     $scope.newsList = newsList;
