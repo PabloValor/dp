@@ -1,12 +1,12 @@
 .page-signin,
 .page-signup {
 
-    // 
-    .signin-header {
-    }
+    height: 100%;
 
+
+        
     .error {
-      color: red;
+        color: red;
     }
 
     .logo {
@@ -28,7 +28,14 @@
         text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 
         span {
-          font-family: "lato";
+            font-family: "lato";
+        }
+
+        &.logo-business {
+            background-image: url("../images/logo-business.png");
+            background-size: auto 200px;
+            background-position: center;
+            height: 205px;
         }
     }
 
@@ -40,7 +47,7 @@
     }
 
     .signin-social {
-      margin-bottom: 20px;
+        margin-bottom: 20px;
     }
 
     .form-container {
@@ -79,5 +86,33 @@
             top: 49%;
             z-index: -2;
         }
+    }
+
+    // Business Site
+    .page-container {
+        height: 94%;
+    }
+
+    .footer {
+        .ownership {
+            text-align: right;
+
+            img {
+                height: 37px;
+                padding-right: 10px;
+            }
+            
+            span {
+                color: white;
+                font-style: italic;
+                font-size: 12px;
+                display: inline-block;
+                padding-right: 10px;
+            }
+
+        }
+        
+        height: 6%;
+        background-color: #026BAE;
     }
 }

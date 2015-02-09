@@ -29,7 +29,8 @@ angular.module('app.core')
       templateUrl: 'scripts/core/views/loadingCloak.html',
       replace: true,
       scope: { loading: '=', left: '@' },
-      controller: function($scope) {
+        controller: function($scope, $rootScope) {
+            $scope.businessSite = $rootScope.businessSite;
       }
     };
 })

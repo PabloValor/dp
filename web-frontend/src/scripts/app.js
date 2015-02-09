@@ -104,7 +104,7 @@
 
 .run(function ($rootScope, $location, AuthenticationService) {
     $rootScope.$on("$routeChangeStart", function(event, next, current){
-	console.info(next);
+	    console.info(next);
         if (next.authenticate && !AuthenticationService.isAuthenticated()){
             $location.path( "/signin" );
             event.preventDefault(); 
@@ -114,7 +114,6 @@
 	    (!!next.$$route.redirectTo && next.$$route.redirectTo.indexOf('bienvenido')) > 0;
 	    
 	if (AuthenticationService.isAuthenticated() && go_to_homepage ){
-	    console.info("hola");
             $location.path( "/noticias" );
             event.preventDefault(); 
         }

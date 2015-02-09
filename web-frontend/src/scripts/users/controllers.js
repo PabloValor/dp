@@ -42,7 +42,21 @@ angular.module('app.users')
                 });
         };
 
+        $scope.businessSiteSite = !!$rootScope.businessSite;
 
+        if ($rootScope.businessSite) {
+            $scope.placeholders =
+                {
+                    'username': 'nombre y apellido',
+                    'password': 'clave'
+                };
+        } else {
+            $scope.placeholders =
+                {
+                    'username': 'apodo',
+                    'password': 'clave'
+                };
+        }        
     }
 ])
 
@@ -83,5 +97,22 @@ angular.module('app.users')
                   console.error(errors);
                 });
         };
+
+        if ($rootScope.businessSite) {
+            $scope.placeholders =
+                {
+                    'username': 'nombre y apellido',
+                    'password': 'clave',
+                    'email': 'email corporativo'
+                };
+        } else {
+            $scope.placeholders =
+                {
+                    'username': 'apodo',
+                    'password': 'clave',
+                    'email': 'email'
+                };
+        }
+
     }
 ]);

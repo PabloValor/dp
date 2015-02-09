@@ -11385,6 +11385,11 @@ button.toast-close-button {
   margin-top: 0;
 }
 
+/* line 1, ../sass/pages/_signin_signup.scss */
+.page-signin,
+.page-signup {
+  height: 100%;
+}
 /* line 8, ../sass/pages/_signin_signup.scss */
 .page-signin .error,
 .page-signup .error {
@@ -11415,7 +11420,15 @@ button.toast-close-button {
 .page-signup .logo span {
   font-family: "lato";
 }
-/* line 36, ../sass/pages/_signin_signup.scss */
+/* line 34, ../sass/pages/_signin_signup.scss */
+.page-signin .logo.logo-business,
+.page-signup .logo.logo-business {
+  background-image: url("../images/logo-business.png");
+  background-size: auto 200px;
+  background-position: center;
+  height: 205px;
+}
+/* line 43, ../sass/pages/_signin_signup.scss */
 .page-signin .signin-body,
 .page-signin .signup-body,
 .page-signup .signin-body,
@@ -11423,18 +11436,18 @@ button.toast-close-button {
   border-top: 1px solid #f8f8f8;
   padding: 20px 10px;
 }
-/* line 42, ../sass/pages/_signin_signup.scss */
+/* line 49, ../sass/pages/_signin_signup.scss */
 .page-signin .signin-social,
 .page-signup .signin-social {
   margin-bottom: 20px;
 }
-/* line 46, ../sass/pages/_signin_signup.scss */
+/* line 53, ../sass/pages/_signin_signup.scss */
 .page-signin .form-container,
 .page-signup .form-container {
   max-width: 420px;
   margin: 10px auto;
 }
-/* line 52, ../sass/pages/_signin_signup.scss */
+/* line 59, ../sass/pages/_signin_signup.scss */
 .page-signin .line-thru,
 .page-signup .line-thru {
   margin: 1em 0;
@@ -11447,7 +11460,7 @@ button.toast-close-button {
   width: 100%;
   z-index: 1;
 }
-/* line 62, ../sass/pages/_signin_signup.scss */
+/* line 69, ../sass/pages/_signin_signup.scss */
 .page-signin .line-thru:before,
 .page-signup .line-thru:before {
   width: 50px;
@@ -11460,7 +11473,7 @@ button.toast-close-button {
   top: 50%;
   z-index: -1;
 }
-/* line 73, ../sass/pages/_signin_signup.scss */
+/* line 80, ../sass/pages/_signin_signup.scss */
 .page-signin .line-thru:after,
 .page-signup .line-thru:after {
   width: 100%;
@@ -11470,6 +11483,37 @@ button.toast-close-button {
   position: absolute;
   top: 49%;
   z-index: -2;
+}
+/* line 92, ../sass/pages/_signin_signup.scss */
+.page-signin .page-container,
+.page-signup .page-container {
+  height: 94%;
+}
+/* line 96, ../sass/pages/_signin_signup.scss */
+.page-signin .footer,
+.page-signup .footer {
+  height: 6%;
+  background-color: #026BAE;
+}
+/* line 97, ../sass/pages/_signin_signup.scss */
+.page-signin .footer .ownership,
+.page-signup .footer .ownership {
+  text-align: right;
+}
+/* line 100, ../sass/pages/_signin_signup.scss */
+.page-signin .footer .ownership img,
+.page-signup .footer .ownership img {
+  height: 37px;
+  padding-right: 10px;
+}
+/* line 105, ../sass/pages/_signin_signup.scss */
+.page-signin .footer .ownership span,
+.page-signup .footer .ownership span {
+  color: white;
+  font-style: italic;
+  font-size: 12px;
+  display: inline-block;
+  padding-right: 10px;
 }
 
 /* line 2, ../sass/pages/_profile.scss */
@@ -12416,7 +12460,11 @@ button.toast-close-button {
   width: 50px;
   height: 50px;
 }
-/* line 57, ../sass/sections/_header.scss */
+/* line 54, ../sass/sections/_header.scss */
+.top-header .logo.logo-business {
+  background-image: url("../images/logo-business.png");
+}
+/* line 60, ../sass/sections/_header.scss */
 .top-header .menu-button {
   display: block;
   position: absolute;
@@ -12426,12 +12474,12 @@ button.toast-close-button {
   padding: 10px 12px;
   border-radius: 4px;
 }
-/* line 65, ../sass/sections/_header.scss */
+/* line 68, ../sass/sections/_header.scss */
 .top-header .menu-button:hover {
   cursor: pointer;
   background-color: #181a24;
 }
-/* line 70, ../sass/sections/_header.scss */
+/* line 73, ../sass/sections/_header.scss */
 .top-header .menu-button .icon-bar {
   display: block;
   width: 22px;
@@ -12439,78 +12487,78 @@ button.toast-close-button {
   border-radius: 1px;
   background-color: #fff;
 }
-/* line 77, ../sass/sections/_header.scss */
+/* line 80, ../sass/sections/_header.scss */
 .top-header .menu-button .icon-bar + .icon-bar {
   margin-top: 4px;
 }
 @media (min-width: 768px) {
-  /* line 57, ../sass/sections/_header.scss */
+  /* line 60, ../sass/sections/_header.scss */
   .top-header .menu-button {
     display: none;
   }
 }
-/* line 87, ../sass/sections/_header.scss */
+/* line 90, ../sass/sections/_header.scss */
 .top-header .dropdown-menu.panel {
   padding: 0;
   white-space: nowrap;
 }
-/* line 91, ../sass/sections/_header.scss */
+/* line 94, ../sass/sections/_header.scss */
 .top-header .dropdown-menu.panel .panel-heading,
 .top-header .dropdown-menu.panel .panel-footer {
   padding: 10px 15px;
 }
-/* line 96, ../sass/sections/_header.scss */
+/* line 99, ../sass/sections/_header.scss */
 .top-header .dropdown-menu.panel .list-group-item {
   padding: 10px 15px;
 }
-/* line 98, ../sass/sections/_header.scss */
+/* line 101, ../sass/sections/_header.scss */
 .top-header .dropdown-menu.panel .list-group-item > a {
   display: block;
 }
-/* line 104, ../sass/sections/_header.scss */
+/* line 107, ../sass/sections/_header.scss */
 .top-header .dropdown-menu.panel .media .media-body {
   padding-right: 75px;
 }
-/* line 112, ../sass/sections/_header.scss */
+/* line 115, ../sass/sections/_header.scss */
 .top-header .top-nav {
   width: 100%;
   height: 53px;
 }
-/* line 116, ../sass/sections/_header.scss */
+/* line 119, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left,
 .top-header .top-nav .nav-right {
   font-size: 16px;
   line-height: 25px;
 }
-/* line 121, ../sass/sections/_header.scss */
+/* line 124, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left > li,
 .top-header .top-nav .nav-right > li {
   float: left;
 }
-/* line 124, ../sass/sections/_header.scss */
+/* line 127, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left > li.nav-profile > a,
 .top-header .top-nav .nav-right > li.nav-profile > a {
   padding: 0;
 }
-/* line 127, ../sass/sections/_header.scss */
+/* line 130, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left > li.nav-profile .hidden-xs,
 .top-header .top-nav .nav-right > li.nav-profile .hidden-xs {
   padding-right: 8px;
 }
-/* line 130, ../sass/sections/_header.scss */
+/* line 133, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left > li.nav-profile i,
 .top-header .top-nav .nav-right > li.nav-profile i {
   width: 18px;
   font-size: 16px;
   margin-right: 5px;
 }
-/* line 139, ../sass/sections/_header.scss */
+/* line 142, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left > li a:hover, .top-header .top-nav .nav-left > li a:focus,
 .top-header .top-nav .nav-right > li a:hover,
 .top-header .top-nav .nav-right > li a:focus {
   text-decoration: none;
 }
-/* line 145, ../sass/sections/_header.scss */
+/* line 148, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left > li > .btn-group > a,
 .top-header .top-nav .nav-left > li > a,
 .top-header .top-nav .nav-right > li > .btn-group > a,
@@ -12522,7 +12570,7 @@ button.toast-close-button {
   border-radius: 22px;
 }
 @media (min-width: 768px) {
-  /* line 145, ../sass/sections/_header.scss */
+  /* line 148, ../sass/sections/_header.scss */
   .top-header .top-nav .nav-left > li > .btn-group > a,
   .top-header .top-nav .nav-left > li > a,
   .top-header .top-nav .nav-right > li > .btn-group > a,
@@ -12531,7 +12579,7 @@ button.toast-close-button {
     color: #fafafa;
   }
 }
-/* line 157, ../sass/sections/_header.scss */
+/* line 160, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left > li > .btn-group > a .badge,
 .top-header .top-nav .nav-left > li > a .badge,
 .top-header .top-nav .nav-right > li > .btn-group > a .badge,
@@ -12540,27 +12588,27 @@ button.toast-close-button {
   top: -2px;
   right: -10px;
 }
-/* line 167, ../sass/sections/_header.scss */
+/* line 170, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left > li ul.dropdown-menu a:hover,
 .top-header .top-nav .nav-right > li ul.dropdown-menu a:hover {
   background-color: #1C7EBB;
   color: #fff;
 }
-/* line 172, ../sass/sections/_header.scss */
+/* line 175, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left > li ul.dropdown-menu .glyphicon,
 .top-header .top-nav .nav-right > li ul.dropdown-menu .glyphicon {
   margin-right: 10px;
 }
-/* line 200, ../sass/sections/_header.scss */
+/* line 203, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left {
   float: left;
   width: 220px;
 }
-/* line 204, ../sass/sections/_header.scss */
+/* line 207, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-left > li {
   margin-right: 15px;
 }
-/* line 212, ../sass/sections/_header.scss */
+/* line 215, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-right {
   height: 55px;
   border-left: 1px solid #8f8eb8;
@@ -12568,28 +12616,28 @@ button.toast-close-button {
   padding: 2px 12px;
   padding-top: 16px;
 }
-/* line 213, ../sass/sections/_header.scss */
+/* line 216, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-right .notification {
   padding-right: 20px;
 }
-/* line 215, ../sass/sections/_header.scss */
+/* line 218, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-right .notification a {
   padding-top: 0px;
 }
-/* line 219, ../sass/sections/_header.scss */
+/* line 222, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-right .notification .badge-warning {
   background-color: #3A99FF;
 }
-/* line 230, ../sass/sections/_header.scss */
+/* line 233, ../sass/sections/_header.scss */
 .top-header .top-nav .nav-right > li {
   margin-left: 15px;
 }
-/* line 239, ../sass/sections/_header.scss */
+/* line 242, ../sass/sections/_header.scss */
 .top-header .langs .list-langs a {
   position: relative;
   padding: 8px 20px 8px 57px;
 }
-/* line 243, ../sass/sections/_header.scss */
+/* line 246, ../sass/sections/_header.scss */
 .top-header .langs .list-langs a .flag {
   position: absolute;
   top: 7px;
@@ -12933,27 +12981,30 @@ button.toast-close-button {
 .loading {
   background-repeat: no-repeat;
   background-image: url("../images/logo-wb.png");
-  background-size: 75px 100px;
-  background-position: 0px 0;
-  padding-left: 90px;
-  padding-top: 30px;
+  background-size: auto 140px;
+  background-position: top center;
+  padding-top: 140px;
   font-size: 50px;
   font-weight: 600;
-  left: 25%;
+  left: 35%;
   margin: 0 auto;
   position: absolute;
   top: 200px;
   z-index: 20;
   letter-spacing: 2px;
 }
-/* line 334, ../sass/sections/_core.scss */
+/* line 333, ../sass/sections/_core.scss */
 .loading #circleG {
   position: absolute;
   right: -122px;
-  top: 74px;
+  top: 183px;
+}
+/* line 339, ../sass/sections/_core.scss */
+.loading.logo-business {
+  background-image: url("../images/logo-business-wb.png");
 }
 
-/* line 341, ../sass/sections/_core.scss */
+/* line 344, ../sass/sections/_core.scss */
 .facebook-landing {
   display: block;
   font-size: 20px;
@@ -12962,7 +13013,7 @@ button.toast-close-button {
   margin-bottom: 5px;
 }
 
-/* line 349, ../sass/sections/_core.scss */
+/* line 352, ../sass/sections/_core.scss */
 .google-landing {
   display: block;
   font-size: 20px;

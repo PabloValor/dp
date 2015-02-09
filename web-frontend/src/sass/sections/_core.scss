@@ -317,14 +317,13 @@ background-color:#000000}
     background-repeat: no-repeat;
     background-image: url("../images/logo-wb.png");
 
-    background-size: 75px 100px;
-    background-position: 0px 0;
-    padding-left: 90px;
-    padding-top: 30px;
+    background-size: auto 140px;
+    background-position: top center;
+    padding-top: 140px;
 
     font-size: 50px;
     font-weight: 600;
-    left: 25%;
+    left: 35%;
     margin: 0 auto;
     position: absolute;
     top: 200px;
@@ -334,7 +333,11 @@ background-color:#000000}
     #circleG {
       position: absolute;
       right: -122px;
-      top: 74px;
+      top: 183px;
+    }
+
+    &.logo-business {
+        background-image: url("../images/logo-business-wb.png");
     }
 }
 
