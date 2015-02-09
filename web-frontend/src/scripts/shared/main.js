@@ -16,12 +16,15 @@
       };
     }
   ]).controller('NavCtrl', [
-    '$scope', 'taskStorage', 'filterFilter', function($scope, taskStorage, filterFilter) {
+      '$scope', 'taskStorage', 'filterFilter', '$rootScope', function($scope, taskStorage, filterFilter, $rootScope) {
       var tasks;
       tasks = $scope.tasks = taskStorage.get();
       $scope.taskRemainingCount = filterFilter(tasks, {
         completed: false
       }).length;
+
+      $scope.businessSite = $rootScope.businessSite;
+          
       return $scope.$on('taskRemaining:changed', function(event, count) {
         return $scope.taskRemainingCount = count;
       });
