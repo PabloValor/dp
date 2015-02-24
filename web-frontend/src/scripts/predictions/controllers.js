@@ -1,8 +1,8 @@
 'use strict';
 angular.module('app.predictions')
 
-.controller('PredictionsController', ['$scope', '$q', '$location', 'GameService', 'PredictionService', 'Data', '$rootScope',
-    function($scope, $q, $location, GameService, PredictionService, Data, $rootScope)  {
+.controller('PredictionsController', ['$scope', '$q', '$location', 'GameService', 'PredictionService', 'Data', '$rootScope', 'logger',
+    function($scope, $q, $location, GameService, PredictionService, Data, $rootScope, logger)  {
         function setTournamentFixture(tournament, currentFixtureNumber) {
             var deferred = $q.defer();
             PredictionService.getTournamentFixture($scope.selectedGame.tournament,
@@ -162,6 +162,8 @@ angular.module('app.predictions')
           var local_goals = 0;
           var visitor_goals = 0;
 
+          var old_prediction = match.generalPrediction;
+
           if(winner_is_local) {
             local_goals = 1;
             match.generalPrediction = "local";
@@ -176,6 +178,10 @@ angular.module('app.predictions')
               function(prediction) {
                 match.hasPrediction = true;
                 $scope.predictions[$scope.selectedGameplayer.id][match.id ] = prediction;
+              },
+              function(error) {
+                  logger.logError("Ha surgido un error, por favor intentelo de vuelta.");
+                  match.generalPrediction = old_prediction;
               });
         }
         
