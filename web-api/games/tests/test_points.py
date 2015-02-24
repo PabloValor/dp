@@ -1498,3 +1498,34 @@ class FixturePointsTest(TestCase):
         self.assertTrue(FixturePlayerPoints.objects.first())
         self.assertEqual(FixturePlayerPoints.objects.first().points, 3)
         self.assertFalse(FixturePlayerPoints.objects.first().classic_prediction)
+
+    def test_recalculate_fixture_points(self):
+        """
+          We test if the fixture calculates again the points if it's saved again
+
+          The player gets 6 points from an Exact Prediction
+        """
+        gp = GamePlayerFactory(status = True) # The game is an Exact Game
+
+        fixture = FixtureFactory(tournament = gp.game.tournament)
+
+        # Match is finished so we can count the points
+        match = MatchFactory(fixture = fixture, is_finished = True,
+                             local_team_goals = 1,
+                             visitor_team_goals = 0) 
+
+        prediction = PlayerMatchPredictionFactory(match = match, 
+                                    gameplayer = gp,
+                                    visitor_team_goals = 0,
+                                    local_team_goals = 1)
+
+        fixture.is_finished = True
+        fixture.save()
+
+        self.assertEqual(FixturePlayerPoints.objects.first().points, 6)
+
+        prediction.visitor_team_goals = 2
+        prediction.save()
+        fixture.save()
+
+        self.assertEqual(FixturePlayerPoints.objects.first().points, 0)
