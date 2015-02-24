@@ -462,54 +462,6 @@ angular.module('app.games')
 
 .controller('TournamentTablesController', ['$scope', '$routeParams', 'PredictionService', '$rootScope',
     function($scope, $routeParams, PredictionService, $rootScope)  {
-        function setTournamentTable(tournament) {
-            PredictionService.getTournamentFixture(tournament,
-              function(tournamentGame) {
-                // We init the teams with zero points
-                var teams_points = {};
-                var fixture,
-                    match;
-
-                for(var i  in tournamentGame.current_fixture.matches) {
-                    match = tournamentGame.current_fixture.matches[i];
-                    teams_points[match.local_team.name] = 0;
-                    teams_points[match.visitor_team.name] = 0;
-                }
-
-                var fixtures = tournamentGame.fixtures;
-                var current_fixture_number =  tournamentGame.current_fixture.number - 1;
-                for(var i = 0; i < current_fixture_number; i ++) {
-                  fixture = fixtures[i];
-
-                  for(var j in fixture.matches) {
-                    match = fixture.matches[j];
-
-                    if(match.local_team_goals > match.visitor_team_goals) {
-                      teams_points[match.local_team.name] += 3;
-
-                    } else if(match.local_team_goals < match.visitor_team_goals) {
-                      teams_points[match.visitor_team.name] += 3;
-
-                    } else {
-                      teams_points[match.visitor_team.name] += 1;
-                      teams_points[match.local_team.name] += 1;
-                    }
-                  }
-                }
-
-                // We transform the list of teampoints to an array of objects
-                var teams_table = [];
-                for(var team in teams_points) {
-                  teams_table.push({'name': team, 'points': teams_points[team]});
-                }
-
-                $scope.teams_table = teams_table;
-
-            }, function(error) {
-
-            });
-        };
-
         function setPredictionsTable(gameplayer_id) {
             PredictionService.getPredictions(gameplayer_id,
               function(predictions) {
@@ -581,12 +533,12 @@ angular.module('app.games')
 
         $rootScope.loadingInit = true;
         if(!!$scope.game) {
-          setTournamentTable($scope.game.tournament); 
-          setPredictionsTable($scope.game.you[0].id);
+            $scope.tournament = { id: $scope.game.tournament };
+            setPredictionsTable($scope.game.you[0].id);
         } else {
-          $scope.$on("gameTablesLoadedGame", 
+            $scope.$on("gameTablesLoadedGame", 
               function() {
-                setTournamentTable($scope.game.tournament); 
+                $scope.tournament = { id: $scope.game.tournament };
                 setPredictionsTable($scope.game.you[0].id);
               });
         }

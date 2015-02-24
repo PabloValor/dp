@@ -16,7 +16,7 @@
   </div>
   <div class="row"  ng-controller="TournamentTablesController">
     <div class="col-md-6">
-      <tournament-table ng-if="teams_table" table="teams_table" title="game.tournament_name"> </tournament-table>
+      <tournament-stats tournament="tournament" ng-if="tournament"></tournaments-stats>
     </div>
     <div class="col-md-6">
       <tournament-table ng-if="predictions_table" table="predictions_table" title="'Segun tus pronosticos'"> </tournament-table>
