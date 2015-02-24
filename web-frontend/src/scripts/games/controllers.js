@@ -513,56 +513,69 @@ angular.module('app.games')
         function setPredictionsTable(gameplayer_id) {
             PredictionService.getPredictions(gameplayer_id,
               function(predictions) {
-                var predictions_table = {};
-                var prediction,
-                    local_team,
-                    visitor_team,
-                    winner_team,
-                    points;
-
-                // Fixture that is being played
-                var current_fixture = $scope.game.current_fixture;
-                for(var i in predictions) {
-                  prediction = predictions[i];
-
-                  // If the match has not been played
-                  // We skip the prediction
-                  if(prediction.match.fixture >= current_fixture) {
-                    continue;
+                  if(!!!predictions) {
+                      return;
                   }
 
-                  local_team = prediction.match.local_team.name;
-                  visitor_team = prediction.match.visitor_team.name;
+                  var predictions_table = {};
+                  var prediction,
+                      local_team,
+                      visitor_team,
+                      winner_team,
+                      points;
 
-                  if(!!!predictions_table[local_team]) {
-                    predictions_table[local_team] = 0;
+                  // Fixture that is being played
+                  // Fixture has the ID of the Match fixture
+                  var game_current_fixture = $scope.game.current_fixture;
+                  console.info(" current fixture");
+                  console.info(game_current_fixture);
+                  var first_prediction_key = Object.keys(predictions)[0];
+                  var current_fixture =   predictions[first_prediction_key].match.fixture;
+
+                  for(var i in predictions) {
+                      prediction = predictions[i];
+
+                      if(prediction.match.fixture != current_fixture) {
+                          game_current_fixture -= 1;
+                          if(game_current_fixture == 0) {
+                              break;
+                          }
+
+                          current_fixture = prediction.match.fixture;
+                      }
+
+                      local_team = prediction.match.local_team.name;
+                      visitor_team = prediction.match.visitor_team.name;
+
+                      if(!!!predictions_table[local_team]) {
+                          predictions_table[local_team] = 0;
+                      }
+
+                      if(!!!predictions_table[visitor_team]) {
+                          predictions_table[visitor_team] = 0;
+                      }
+
+                      if(prediction.local_team_goals > prediction.visitor_team_goals) {
+                          predictions_table[local_team] += 3;
+
+                      } else if(prediction.local_team_goals < prediction.visitor_team_goals) {
+                          predictions_table[visitor_team] += 3;
+
+                      } else {
+                          predictions_table[local_team] += 1;
+                          predictions_table[visitor_team] += 1;
+                      }
                   }
 
-                  if(!!!predictions_table[visitor_team]) {
-                    predictions_table[visitor_team] = 0;
+                  // We transform the list of teampoints to an array of objects
+                  var predictions_list_table = [];
+                  for(var team in predictions_table) {
+                      predictions_list_table.push({'name': team, 'points': predictions_table[team]});
                   }
 
-                  if(prediction.local_team_goals > prediction.visitor_team_goals) {
-                    predictions_table[local_team] += 3;
-
-                  } else if(prediction.local_team_goals < prediction.visitor_team_goals) {
-                    predictions_table[visitor_team] += 3;
-
-                  } else {
-                    predictions_table[local_team] += 1;
-                    predictions_table[visitor_team] += 1;
-                  }
-                }
-
-                // We transform the list of teampoints to an array of objects
-                var predictions_list_table = [];
-                for(var team in predictions_table) {
-                  predictions_list_table.push({'name': team, 'points': predictions_table[team]});
-                }
-
-                $scope.predictions_table = predictions_list_table;
-                $rootScope.loadingInit = false;
-            }, function(error) {
+                  $scope.predictions_table = predictions_list_table;
+                  $rootScope.loadingInit = false;
+              }, function(error) {
             });
         }
 
