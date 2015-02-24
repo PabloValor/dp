@@ -12,6 +12,8 @@ angular.module('app.home')
 
         $scope.tournament = false;
 
+        $rootScope.$on("newFriendNotification", function() { $scope.friends_count = parseInt($scope.friends_count) + 1 });
+
         HomepageService.getAllTournaments(
             function(tournamentList) {
                 if(tournamentList.length > 0) {

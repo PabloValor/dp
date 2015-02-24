@@ -23,6 +23,14 @@ angular.module('app.home', [])
                 authenticate: true,
                 templateUrl: 'scripts/home/views/news.html'
             });
+    }])
+
+    .run(['$rootScope', 'StatisticsService', function($rootScope, StatisticsService) {
+        $rootScope.$on("playingNewGame",
+                       function() {
+                           var n = StatisticsService.getGamesCounts();
+                           StatisticsService.setGameCounts(parseInt(n) + 1);
+                       });        
     }]);
 
 

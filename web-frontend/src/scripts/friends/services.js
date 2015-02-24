@@ -2,8 +2,8 @@
 angular.module('app.friends')
 
 
-.factory('FriendsService', ['$http', 'SETTINGS', 'Data',  'NotificationService',
-    function($http, SETTINGS, Data, NotificationService) {
+.factory('FriendsService', ['$http', '$rootScope','SETTINGS', 'Data',  'NotificationService',
+    function($http, $rootScope, SETTINGS, Data, NotificationService) {
     return {
         getFriends: function(f_success, f_error) {
             if(!!Data.friends) {
@@ -52,6 +52,9 @@ angular.module('app.friends')
                     console.log(response);
 
                     if(!!f_success) {
+                        if(status) {
+                            $rootScope.$broadcast("haveNewFriend");
+                        }
                         f_success(response);
                     }
                 })

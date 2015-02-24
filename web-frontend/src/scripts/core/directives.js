@@ -151,7 +151,7 @@ angular.module('app.core')
                   notification_message = getGameNotificationMessage(notification);
                   NotificationService.addGameNotification(notification);
               } else {
-                  $rootScope.$broadcast("newFriendNotification");                  
+                  $rootScope.$broadcast("newFriendNotification", notification);
                   notification_message = getFriendNotificationMessage(notification);
                   NotificationService.addFriendNotification(notification);
               }

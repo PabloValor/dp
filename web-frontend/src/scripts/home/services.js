@@ -2,12 +2,18 @@
 angular.module('app.home')
 .factory('StatisticsService', ['$http', 'Session', 'SETTINGS', 'NotificationService',  function($http, Session, SETTINGS, NotificationService) {
     return {
+        setGameCounts : function(n) {
+            Session.create('games_count', n);
+        },
         getGamesCounts : function(){
             return Session.get('games_count');
         },
         getGamesPoints : function(){
             return Session.get('games_points');
         },
+        setFriendsCounts : function(n) {
+            Session.create('friends_count', n);
+        },        
         getFriendsCounts: function(){
             return Session.get('friends_count');
         },

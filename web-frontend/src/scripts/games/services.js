@@ -1,8 +1,8 @@
 'use strict';
 angular.module('app.games')
 
-.factory('GameService', ['$http', 'SETTINGS', 'NotificationService', 
-    function($http, SETTINGS, NotificationService) {
+.factory('GameService', ['$http', '$rootScope', 'SETTINGS', 'NotificationService', 
+    function($http, $rootScope, SETTINGS, NotificationService) {
     return {
         all: function(f_success, f_error) {
                 $http.get(SETTINGS.url.games())
@@ -27,6 +27,8 @@ angular.module('app.games')
                         console.log(response)
 
                         if(!!f_success) {
+                            console.info("New game playing")
+                            $rootScope.$broadcast("playingNewGame");
                             f_success(response);
                         }
                     })
@@ -61,6 +63,10 @@ angular.module('app.games')
                     console.log(response);
 
                     if(!!f_success) {
+                        if(status) {
+                            $rootScope.$broadcast("playingNewGame");
+                        }
+                        
                         f_success(response);
                     }
                 })
