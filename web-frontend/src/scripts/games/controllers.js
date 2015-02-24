@@ -477,7 +477,7 @@ angular.module('app.games')
                 }
 
                 var fixtures = tournamentGame.fixtures;
-                var current_fixture_number =  tournamentGame.current_fixture.number;
+                var current_fixture_number =  tournamentGame.current_fixture.number - 1;
                 for(var i = 0; i < current_fixture_number; i ++) {
                   fixture = fixtures[i];
 
