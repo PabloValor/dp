@@ -4,7 +4,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height:( $header_height * 2);
+    height: $header_height;
 
     background-color: #173A66;
 
@@ -14,14 +14,7 @@
     }
     
     @include box-shadow(0 1px 2px rgba(0,0,0,.1));
-    @media (min-width:$screen-sm) {
-        height: $header_height;
-        background-color: #173A66;
 
-        &.businessSite {
-            background-color: #68A50B;            
-        }
-    }
 
     // shared
     a {
@@ -46,7 +39,8 @@
         line-height: 48px;
         font-size: 18px;
         color: #ccc;
-        @media (min-width:$screen-sm) {
+        
+        @media (max-width:$screen-sm) {
             display: block;
         }
     }
@@ -158,15 +152,12 @@
                 > .btn-group > a,
                 > a {
                     position: relative;
-                    background-color: $gray-lighter;
                     display: block;
                     padding: 4px 8px;
                     border-radius: 22px;
-                    @media (min-width: $screen-sm) {
-                        background-color: transparent;
-                        color: $bright;
-                    }
-
+                    background-color: transparent;
+                    color: $bright;
+         
                     .badge {
                         position: absolute;
                         top: -2px;
@@ -232,6 +223,10 @@
               .badge-warning {
                 background-color: #3A99FF;
               }
+
+              @media (max-width:$screen-xs) {
+                  margin-top: 15px;
+              }
             }
 
             height: $header_height;
@@ -242,6 +237,11 @@
             padding-top: 16px;
             > li {
                 margin-left: 15px;
+            }
+
+            @media (max-width:$screen-xs) {
+                margin-right: 0px;
+                padding: 0px;
             }
         }
     }

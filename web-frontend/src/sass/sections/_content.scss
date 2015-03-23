@@ -8,7 +8,7 @@
     top: ($header_height * 2);
     right: 0;
     bottom: 0;
-    width: 100%;
+    width: auto;    
     left: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -16,7 +16,6 @@
     // @include transition(left .3s ease-in-out);
     @media (min-width:$screen-sm) {
         top: $header_height;
-        width: auto;
         left: 220px;
     }
     // !important, avoid flikering for all pages.

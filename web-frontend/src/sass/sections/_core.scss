@@ -170,10 +170,6 @@
 }
 
 // http://cssload.net/#sthash.1KQE37Uu.dpuf
-#circleG {
-  width:121.33333333333333px;
-}
-
 .circleG {
   background-color:#FFFFFF;
   float:left;
@@ -323,18 +319,24 @@ background-color:#000000}
 
     font-size: 50px;
     font-weight: 600;
-    left: 35%;
     margin: 0 auto;
     position: absolute;
     top: 200px;
     z-index: 20;
     letter-spacing: 2px;
 
-    #circleG {
-      position: absolute;
-      right: -122px;
-      top: 183px;
+    width: 100%;
+
+    .container {
+        width: 350px;
+        margin: 0 auto;
+        
+        #circleG {
+            display: inline-block;
+        }
+
     }
+
 
     &.logo-business {
         background-image: url("../images/logo-business-wb.png");

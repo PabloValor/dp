@@ -77,7 +77,7 @@
       return {
         restrict: 'A',
         link: function(scope, ele, attrs) {
-          var $window, Timer, app, updateClass;
+          var $window, Timer, app;
           app = $('#app');
           $window = $(window);
           ele.on('click', function(e) {
@@ -89,18 +89,13 @@
             }
             return e.preventDefault();
           });
+            
           Timer = void 0;
-          updateClass = function() {
-            var width;
-            width = $window.width();
-            if (width < 768) {
-              return app.removeClass('nav-min');
-            }
-          };
+
           return $window.resize(function() {
-            var t;
-            clearTimeout(t);
-            return t = setTimeout(updateClass, 300);
+              var t;
+              clearTimeout(t);
+              return t;
           });
         }
       };

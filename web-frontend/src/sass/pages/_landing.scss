@@ -4,10 +4,12 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #B2B2B2;
+    background-position: center;
     padding: 0px;
     position: relative;
     width: 100%;
-    height: 100%;    
+    height: 100%;
+    
 
     &.bg_1 {
       background-image: url("../images/background/bg_1.jpg");
@@ -44,8 +46,20 @@
       margin-top: 20px;
       text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 
+      @media screen and (max-width: $screen-xs) {
+          padding-bottom: 130px;
+          padding-left: 0px;
+          background-size: 120px auto;
+          background-position: center top;
+          width: auto;
+      }
+      
       span {
-        font-family: "lato";
+          font-family: "lato";
+
+          @media screen and (max-width: $screen-xs) {
+              display: none;
+          }
       }
   }
 
@@ -61,7 +75,11 @@
 
     position: absolute;
     top: 200px;
-
+    
+    @media screen and (max-width: $screen-xs) {
+        display: none;
+    }
+    
     .text {
       font-size: 45px;
       width: 60%;
@@ -82,7 +100,11 @@
       background: rgba(255,255,255,0.3);
       height: 200px;
       text-align: center;
-
+      
+      @media screen and (max-width: $screen-xs) {
+          margin-top: 100px;
+      }
+      
       hr {
         margin-top: 40px;
         margin-bottom: 20px;
@@ -125,3 +147,6 @@
     font-weight: bold;
   }
 }
+
+
+

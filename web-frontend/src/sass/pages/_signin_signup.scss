@@ -26,9 +26,21 @@
         margin-top: 10px;
         margin-bottom: 20px;
         text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-
+        
+        @media screen and (max-width: $screen-xs) {
+            padding-bottom: 130px;
+            padding-left: 0px;
+            background-size: 120px auto;
+            background-position: center top;
+            width: auto;
+        }
+        
         span {
             font-family: "lato";
+
+            @media screen and (max-width: $screen-xs) {
+                display: none;
+            }
         }
 
         &.logo-business {
