@@ -7,7 +7,8 @@ urlpatterns = patterns('tournaments.views',
                     url(r'^teams$', TournamentTeamsList.as_view(), name = 'tournamentTeamsList'),                       
                     url(r'^fixtures/next$', AllTournamentNextFixtureList.as_view(), name = 'allTournamentNextFixtureList'),
                     url(r'^fixtures/current-or-last$', AllTournamentCurrentOrLastFixtureList.as_view(), name = 'allTournamentCurrentOrLastFixtureList'),                       
-                    url(r'^(?P<pk>[0-9]+)/fixture$', TournamentFixture.as_view(), name = 'tournamentFixture'),
+                    url(r'^fixtures/(?P<pk>[0-9]+)$', TournamentFixture.as_view(), name = 'tournamentFixture'),
+                    url(r'^(?P<pk>[0-9]+)/fixture$', TournamentAllFixtures.as_view(), name = 'tournamentAllFixtures'),
                     url(r'^(?P<pk>[0-9]+)/stats$', TournamentStats.as_view(), name = 'tournamentStats'),                       
 )
 

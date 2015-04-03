@@ -121,7 +121,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Assert
@@ -158,7 +158,7 @@ class TournamentFixtureAPITest(APITestCase):
 
         # Tournament A
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Assert
@@ -170,7 +170,7 @@ class TournamentFixtureAPITest(APITestCase):
 
         # Tournament B
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament_b.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament_b.id })
         response = self.client.get(url)
 
         # Assert
@@ -179,7 +179,7 @@ class TournamentFixtureAPITest(APITestCase):
 
         # Tournament C
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament_c.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament_c.id })
         response = self.client.get(url)
 
         # Assert
@@ -197,7 +197,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id + 1 })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id + 1 })
         response = self.client.get(url)
 
         # Assert
@@ -209,7 +209,7 @@ class TournamentFixtureAPITest(APITestCase):
         fixture_1 = FixtureFactory(tournament = tournament, number = 0)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Assert
@@ -229,7 +229,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Asset
@@ -252,7 +252,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Asset
@@ -274,7 +274,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Asset
@@ -296,7 +296,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Asset
@@ -316,7 +316,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Asset
@@ -346,7 +346,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Asset
@@ -370,7 +370,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Assert
@@ -403,7 +403,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Assert
@@ -422,7 +422,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Asset
@@ -440,7 +440,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         # Player gets Tournament Fixture
-        url = reverse('tournamentFixture', kwargs = {'pk': tournament.id })
+        url = reverse('tournamentAllFixtures', kwargs = {'pk': tournament.id })
         response = self.client.get(url)
 
         # Asset
@@ -917,7 +917,38 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data[0]['tournament_name'], tournament.name)
         self.assertEqual(response.data[0]['fixture']['number'], fixture_3.number)                        
 
-        
+    def test_get_tournament_fixture_200_OK(self):
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1)
+        fixture_3 = FixtureFactory(tournament = tournament, number = 2)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets Tournament Fixture
+        url = reverse('tournamentFixture', kwargs = {'pk': fixture_2.id })
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.data['number'], fixture_2.number)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_anon_get_tournament_401_UNAUTHORIZED(self):
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0)
+
+        # Player gets Tournament Fixture
+        url = reverse('tournamentFixture', kwargs = {'pk': fixture_1.id })
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
 class FixtureTest(TestCase):
     def test_get_active_fixture_A(self):
         tournament = TournamentFactory()
