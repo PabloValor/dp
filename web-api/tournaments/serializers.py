@@ -4,7 +4,7 @@ from .models import Team, Tournament, Fixture, Match
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = ('id', 'name', 'crest')
+        fields = ('name', 'crest')
 
 class MatchSerializer(serializers.ModelSerializer):
     visitor_team = TeamSerializer()
@@ -13,7 +13,7 @@ class MatchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Match
-        #date, local_team, local_team_goals, visitor_team, visitor_team_goals fixture, suspended, is_classic,
+        fields = ('local_team', 'visitor_team', 'winner', 'id', 'date', 'is_finished', 'local_team_goals', 'visitor_team_goals')
 
 class FixtureSerializer(serializers.ModelSerializer):
     matches = MatchSerializer(many = True)
@@ -22,6 +22,11 @@ class FixtureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fixture
         fields = ('number', 'is_finished', 'matches', 'is_closed')
+
+class FixtureMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Fixture
+        fields = ('number', 'is_finished', 'id', 'is_closed')
 
 class TournamentSerializer(serializers.ModelSerializer):
     class Meta:

@@ -401,7 +401,7 @@ angular.module('app.games')
 
           var username, points;
           // We see if a user did not played a game and fill up with zero points
-          for(var i = 1; i < $scope.game.current_fixture; i++) {
+          for(var i = 1; i < $scope.game.current_fixture.number; i++) {
             fp = fixture_points[i];
 
             // If no player played this fixture we fill up with zero points
@@ -432,7 +432,7 @@ angular.module('app.games')
             $scope.currentFixturePoints--;
           }
 
-          $scope.lastFixturePoints = $scope.game.current_fixture - 1;
+          $scope.lastFixturePoints = $scope.game.current_fixture.number - 1;
 
           $scope.currentFixturePoints = 1;
           $scope.fixture_points = fixture_points;
@@ -478,7 +478,7 @@ angular.module('app.games')
 
                   // Fixture that is being played
                   // Fixture has the ID of the Match fixture
-                  var game_current_fixture = $scope.game.current_fixture;
+                  var game_current_fixture = $scope.game.current_fixture.number;
                   console.info(" current fixture");
                   console.info(game_current_fixture);
                   var first_prediction_key = Object.keys(predictions)[0];

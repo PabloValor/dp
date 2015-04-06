@@ -469,6 +469,48 @@ class GameAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertFalse(Game.objects.first().open_predictions)
 
+    def test_get_with_current_fixture_200_OK(self):
+        player = PlayerFactory()
+
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1)
+
+        game = GameFactory(tournament = tournament)
+        game_player = GamePlayerFactory(player = player, game = game)
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameList')
+        response = self.client.get(url)
+        r_games = response.data
+        
+        self.assertEqual(r_games[0]['name'], game.name)
+        self.assertEqual(r_games[0]['current_fixture']['id'], fixture_1.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_with_current_fixture_B_200_OK(self):
+        player = PlayerFactory()
+
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0, is_finished = True)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1)
+
+        game = GameFactory(tournament = tournament)
+        game_player = GamePlayerFactory(player = player, game = game)
+
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('gameList')
+        response = self.client.get(url)
+        r_games = response.data
+        
+        self.assertEqual(r_games[0]['name'], game.name)
+        self.assertEqual(r_games[0]['current_fixture']['id'], fixture_2.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
 class GameAPIInvitationTest(APITestCase):
     """ 
       PLAYER ACCEPTS OR REJECTS GAME INVITATION

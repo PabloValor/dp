@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.db.models import Q
 from .models import Game, Player, GamePlayer, PlayerFriend, PlayerMatchPrediction, FixturePlayerPoints
 from tournaments.models import Match
-from tournaments.serializers import MatchSerializer
+from tournaments.serializers import MatchSerializer, FixtureMinimalSerializer
 
 
 class FixturePlayerPointsSerializer(serializers.ModelSerializer):
@@ -77,7 +77,9 @@ class GameSerializer(serializers.ModelSerializer):
     
     owner = serializers.CharField(source = 'owner.username', read_only = True)
     tournament_name = serializers.CharField(source = 'tournament.name', read_only = True)
-    current_fixture = serializers.IntegerField(source = 'tournament.get_current_fixture_number', read_only = True)
+    tournament_id = serializers.CharField(source = 'tournament.id', read_only = True)
+    current_fixture = FixtureMinimalSerializer(source = 'tournament.get_current_fixture', read_only = True)
+    last_fixture_number = serializers.IntegerField(source = 'tournament.get_last_fixture_number', read_only = True)
 
     def validate(self, attrs):
         game_owner = self.context['request'].user
@@ -132,9 +134,9 @@ class GameSerializer(serializers.ModelSerializer):
         
     class Meta:
         model = Game
-        fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 
+        fields  = ('id', 'owner', 'name', 'tournament', 'tournament_name', 'tournament_id',
                     'gameplayers', 'you', 'classic', 'points_exact', 'open_predictions',
-                    'points_general',  'points_classic',  'points_double',
+                    'points_general',  'points_classic',  'points_double', 'last_fixture_number',
                     'current_fixture')
 
 class PlayerMatchPredictionSerializer(serializers.ModelSerializer):
@@ -155,6 +157,7 @@ class PlayerMatchPredictionListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlayerMatchPrediction
+        fields = ('local_team_goals', 'visitor_team_goals', 'points', 'id', 'match')
 
 class PlayerSerializer(serializers.ModelSerializer):
 #    games = serializers.PrimaryKeyRelatedField(many = True)

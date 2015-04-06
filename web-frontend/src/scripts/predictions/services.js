@@ -5,6 +5,7 @@ angular.module('app.predictions')
     function($http, SETTINGS, Data) {
       var tournaments = {};
       var predictions = {};
+      var fixtures = {};
 
       return {
           getTournamentFixture: 
@@ -32,6 +33,38 @@ angular.module('app.predictions')
                       }
                   });
                 },
+          getFixtureByNumber: 
+                function(tournament_id, fixture_number, f_success, f_error) {
+                  var tournament = fixtures[tournament_id];
+                  if(!!tournament) {
+                    var fixture = fixtures[tournament_id][fixture_number];
+
+                    if(!!fixture) {
+                      if(!!f_success)
+                        f_success(fixture);
+                      return;
+                    }
+
+                  } else {
+                    fixtures[tournament_id] = {};
+                  }
+
+                  $http.get(SETTINGS.url.fixtureByNumber(tournament_id, fixture_number))
+                  .success(function(response) {
+                      fixtures[tournament_id][fixture_number] = response;
+
+                      if(!!f_success) {
+                          f_success(response);
+                      }
+                  })
+                  .error(function(response) {
+                      console.log(response);
+
+                      if(!!f_error) {
+                          f_success(response);
+                      }
+                  });
+                },          
             doPrediction: 
                 function(gameplayer_id, match_id, local_team_goals, visitor_team_goals, f_success, f_error) {
                   var data = {'gameplayer': gameplayer_id, 

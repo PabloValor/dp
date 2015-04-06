@@ -917,7 +917,7 @@ class TournamentFixtureAPITest(APITestCase):
         self.assertEqual(response.data[0]['tournament_name'], tournament.name)
         self.assertEqual(response.data[0]['fixture']['number'], fixture_3.number)                        
 
-    def test_get_tournament_fixture_200_OK(self):
+    def test_get_tournament_fixture_by_id_200_OK(self):
         # Tournament
         tournament = TournamentFactory()
         fixture_1 = FixtureFactory(tournament = tournament, number = 0)
@@ -948,6 +948,46 @@ class TournamentFixtureAPITest(APITestCase):
 
         # Assert
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_get_tournament_fixture_by_number_A_200_OK(self):
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1)
+        fixture_3 = FixtureFactory(tournament = tournament, number = 2)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets Tournament Fixture
+        url = reverse('tournamentFixtureByNumber', kwargs = {'pk': tournament.id, 'number': fixture_2.number })
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.data['number'], fixture_2.number)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_tournament_fixture_by_number_B_200_OK(self):
+        # Tournament
+        tournament = TournamentFactory()
+        fixture_1 = FixtureFactory(tournament = tournament, number = 0)
+        fixture_2 = FixtureFactory(tournament = tournament, number = 1)
+        fixture_3 = FixtureFactory(tournament = tournament, number = 2)
+
+        # Player
+        player = PlayerFactory()
+        token = Token.objects.get(user__username = player.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Player gets Tournament Fixture
+        url = reverse('tournamentFixtureByNumber', kwargs = {'pk': tournament.id, 'number': fixture_3.number })
+        response = self.client.get(url)
+
+        # Assert
+        self.assertEqual(response.data['number'], fixture_3.number)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 class FixtureTest(TestCase):
     def test_get_active_fixture_A(self):

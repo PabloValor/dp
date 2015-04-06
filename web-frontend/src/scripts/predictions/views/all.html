@@ -65,7 +65,7 @@
                   <div class="menu">
                     <div class="pull-right">
                         <button class="btn btn-w-md btn-gap-v btn-inverse" type="button" ng-disabled="currentFixture.number == 1" ng-click="previousFixture()"><i class="fa fa-long-arrow-left"></i></button>
-                        <button class="btn btn-w-md btn-gap-v btn-inverse" type="button" ng-disabled="currentFixture.number == lastFixtureNumber" ng-click="nextFixture()" ng-disabled=""><i class="fa fa-long-arrow-right"></i></button>
+                        <button class="btn btn-w-md btn-gap-v btn-inverse" type="button" ng-disabled="currentFixture.number == selectedGame.last_fixture_number" ng-click="nextFixture()" ng-disabled=""><i class="fa fa-long-arrow-right"></i></button>
                     </div>
                   </div>
                 </div>
