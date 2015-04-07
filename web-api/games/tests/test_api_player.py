@@ -1695,6 +1695,11 @@ class PlayerMatchPredictionAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+        url = reverse('playerMatchPredictionListByFixtureNumber', kwargs = {'gp': gp.id, 'fixture_number': fixture.number})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
     def test_fede_get_nico_gets_predictions_403_FORBIDDEN_B(self):
         """
           Fede tries to get Nico's predictions but Fede didn't answer the Game Request
@@ -1718,6 +1723,11 @@ class PlayerMatchPredictionAPITest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
 
         url = reverse('playerMatchPredictionList', kwargs = {'gp': gp.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+        url = reverse('playerMatchPredictionListByFixtureNumber', kwargs = {'gp': gp.id, 'fixture_number': fixture.number})
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -1749,6 +1759,11 @@ class PlayerMatchPredictionAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+        url = reverse('playerMatchPredictionListByFixtureNumber', kwargs = {'gp': gp.id, 'fixture_number': fixture.number})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
     def test_fede_get_nico_gets_predictions_403_FORBIDDEN_D(self):
         """
           Fede tries to get Nico's predictions but the Game doesn't allow that
@@ -1776,6 +1791,11 @@ class PlayerMatchPredictionAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
+        url = reverse('playerMatchPredictionListByFixtureNumber', kwargs = {'gp': gp.id, 'fixture_number': fixture.number})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
     def test_nico_gets_his_prediction_in_a_closed_prediction_game_200_OK(self):
         # Tournament
         fixture = FixtureFactory()
@@ -1796,3 +1816,114 @@ class PlayerMatchPredictionAPITest(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
+
+    def test_nico_gets_his_prediction_of_a_game_by_fixture_number_200_OK_A(self):
+        """
+        Test get Predictions by Fixture Number
+
+        Fixtures: 1
+        Predictions on Fixture 1: 2
+        Matches: 3
+
+        """
+        # Tournament
+        fixture = FixtureFactory()
+        match = MatchFactory(fixture = fixture)
+        match_2 = MatchFactory(fixture = fixture)
+        match_3 = MatchFactory(fixture = fixture)
+
+        # Nico
+        game = GameFactory(tournament = fixture.tournament)
+        nico = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match_2)
+
+        # Player authentication
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        url = reverse('playerMatchPredictionListByFixtureNumber', kwargs = {'gp': gp.id, 'fixture_number':fixture.number })
+        response = self.client.get(url)
+        data = response.data
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(data), 2)
+
+    def test_nico_gets_his_prediction_of_a_game_by_fixture_number_200_OK_B(self):
+        """
+        Test get Predictions by Fixture Number
+
+        Fixtures: 3
+        Matches: 3
+        Predictions on Fixture 1: 3
+        Predictions on Fixture 2: 2
+        Predictions on Fixture 3: 0
+
+        """
+
+        # Tournament
+        tournament = TournamentFactory()
+
+        # Fixture 1
+        fixture_1 = FixtureFactory(tournament = tournament, number = 1)
+        match_1 = MatchFactory(fixture = fixture_1)
+        match_2 = MatchFactory(fixture = fixture_1)
+        match_3 = MatchFactory(fixture = fixture_1)
+
+        # Fixture 2
+        fixture_2 = FixtureFactory(tournament = tournament, number = 2)
+        match_21 = MatchFactory(fixture = fixture_2)
+        match_22 = MatchFactory(fixture = fixture_2)
+        match_23 = MatchFactory(fixture = fixture_2)
+
+        # Fixture 3
+        fixture_3 = FixtureFactory(tournament = tournament, number = 3)
+        match_31 = MatchFactory(fixture = fixture_3)
+        match_32 = MatchFactory(fixture = fixture_3)
+        match_33 = MatchFactory(fixture = fixture_3)
+
+        # Nico
+        game = GameFactory(tournament = tournament)
+        nico = PlayerFactory()
+        gp = GamePlayerFactory(game = game, player = nico, status = True)
+
+        # Fixture 1 Predictions 
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match_1)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match_2)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match_3)
+
+        # Fixture 2 Predictions 
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match_21)
+        PlayerMatchPredictionFactory(gameplayer = gp, match = match_23)
+
+        # Fixture 3 Predictions
+        # Zero
+
+        # Player authentication
+        token = Token.objects.get(user__username = nico.username)
+        self.client.credentials(HTTP_AUTHORIZATION = 'Token ' + token.key)
+
+        # Fixture 1: 
+        url = reverse('playerMatchPredictionListByFixtureNumber', kwargs = {'gp': gp.id, 'fixture_number': fixture_1.number })
+        response = self.client.get(url)
+        data = response.data
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(data), 3)
+
+        # Fixture 2: 
+        url = reverse('playerMatchPredictionListByFixtureNumber', kwargs = {'gp': gp.id, 'fixture_number':fixture_2.number })
+        response = self.client.get(url)
+        data = response.data
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(data), 2)
+
+        # Fixture 3: 
+        url = reverse('playerMatchPredictionListByFixtureNumber', kwargs = {'gp': gp.id, 'fixture_number':fixture_3.number })
+        response = self.client.get(url)
+        data = response.data
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(data), 0)

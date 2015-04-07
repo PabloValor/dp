@@ -76,6 +76,17 @@ class PlayerMatchPredictionList(generics.ListAPIView):
 
         return PlayerMatchPrediction.objects.filter(gameplayer__id = gameplayer_id).order_by('match__fixture__number')
 
+class PlayerMatchPredictionListByFixtureNumber(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated, SameGamePlaying, OpenGame)
+    serializer_class = PlayerMatchPredictionListSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        gameplayer_id = self.kwargs['gp']
+        fixture_number = self.kwargs['fixture_number']
+
+        return PlayerMatchPrediction.objects.filter(gameplayer__id = gameplayer_id, match__fixture__number = fixture_number)
+
 class PlayerList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = Player.objects.all()
