@@ -112,6 +112,30 @@ angular.module('app.predictions')
                           f_error(response);
                       }
                   });
+                },
+            getPredictionsByFixtureNumber: 
+                function(gameplayer_id, fixture_number,  f_success, f_error) {
+                  $http.get(SETTINGS.url.getPredictionsByFixtureNumber(gameplayer_id, fixture_number))
+                  .success(function(predictions) {
+                      var matches_predictions = {};
+                      var prediction;
+                      for(var i in predictions) {
+                          prediction = predictions[i];
+                          matches_predictions[prediction.match.id] = prediction;
+                      }
+
+                      if(!!f_success) {
+                          f_success(matches_predictions);
+                      }
+                  })
+                  .error(function(response) {
+                      console.log("ERROR");
+                      console.error(response);
+
+                      if(!!f_error) {
+                          f_error(response);
+                      }
+                  });
                 }
     }
 }]);

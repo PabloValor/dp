@@ -10,7 +10,7 @@ angular.module('app.predictions')
           
           setCurrentFixture(tournament_id, fixture_number)
               .then(function() {
-                setFixturePredictions($scope.selectedGame.you[0])
+                setFixturePredictions($scope.selectedGame.you[0], fixture_number)
                   .then(function() {
                     var gameplayer = $scope.selectedGame.you[0];
                     mapFixturePredictions($scope.currentFixture, $scope.predictions[gameplayer.id], $scope.selectedGame.classic);
@@ -24,12 +24,16 @@ angular.module('app.predictions')
                     }
                   });
               });
+        }
 
+        function cacheSidesFixtures(tournament_id, fixture_number, total_fixtures) {
           if(fixture_number > 0) {
             PredictionService.getFixtureByNumber(tournament_id, fixture_number + 1);
           }
 
-          PredictionService.getFixtureByNumber(tournament_id, fixture_number - 1);
+          if(fixture_number < total_fixtures) {
+            PredictionService.getFixtureByNumber(tournament_id, fixture_number - 1);
+          }
         }
 
         function setCurrentFixture(tournament_id, fixture_number) {
@@ -47,10 +51,10 @@ angular.module('app.predictions')
             return deferred.promise;
         }
 
-        function setFixturePredictions(gameplayer) {
+        function setFixturePredictions(gameplayer, fixture_number) {
             var deferred = $q.defer();
 
-            PredictionService.getPredictions(gameplayer.id,
+            PredictionService.getPredictionsByFixtureNumber(gameplayer.id, fixture_number,
               function(predictions) {
 
                 console.info("Predictions");
@@ -120,6 +124,9 @@ angular.module('app.predictions')
 
             changeCurrentFixture(tournament_id, fixture_number, function() { $rootScope.loadingInit = false; });
 
+            var total_fixtures = $scope.selectedGame.last_fixture_number;
+            cacheSidesFixtures(tournament_id, fixture_number, total_fixtures);
+
           } else {
             $rootScope.loadingInit = false;
           }
@@ -137,13 +144,18 @@ angular.module('app.predictions')
           var fixture_number = $scope.selectedGame.current_fixture.number;
           var tournament_id = $scope.selectedGame.tournament_id;
           changeCurrentFixture(tournament_id, fixture_number);
+
+          var total_fixtures = $scope.selectedGame.last_fixture_number;
+          cacheSidesFixtures(tournament_id, fixture_number, total_fixtures);
         }
 
         $scope.selectGameplayer = function(gameplayer) {
           $scope.loadingFixture = true;
           $scope.selectedGameplayer = gameplayer;
 
-          setFixturePredictions(gameplayer)
+          var fixture_number = $scope.selectedGame.current_fixture.number;
+
+          setFixturePredictions(gameplayer, fixture_number)
             .then(function() {
               mapFixturePredictions($scope.currentFixture, $scope.predictions[gameplayer.id], $scope.selectedGame.classic);
               $scope.loadingFixture = false;
@@ -154,12 +166,18 @@ angular.module('app.predictions')
           var fixture_number = $scope.currentFixture.number + 1;
           var tournament_id = $scope.selectedGame.tournament_id;
           changeCurrentFixture(tournament_id, fixture_number);
+          
+          var total_fixtures = $scope.selectedGame.last_fixture_number;
+          cacheSidesFixtures(tournament_id, fixture_number, total_fixtures);
         }
 
         $scope.previousFixture = function() {
           var fixture_number = $scope.currentFixture.number - 1;
           var tournament_id = $scope.selectedGame.tournament_id;
           changeCurrentFixture(tournament_id, fixture_number);
+
+          var total_fixtures = $scope.selectedGame.last_fixture_number;
+          cacheSidesFixtures(tournament_id, fixture_number, total_fixtures);
         }
 
         $scope.doGeneralPrediction = function(match, winner_is_local) {

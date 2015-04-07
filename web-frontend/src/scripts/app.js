@@ -87,6 +87,7 @@
             gamePlayerCreate: function() { return this.base + '/games/gameplayer/' },
             doPrediction: function() { return this.base + '/games/prediction/'},
             getPredictions: function(gameplayer_id) { return this.base + '/games/predictions/' + gameplayer_id + '/' },
+            getPredictionsByFixtureNumber: function(gameplayer_id, fixture_number) { return this.base + '/games/predictions/' + gameplayer_id + '/' + fixture_number },
             updateNotification: function(pk, notification_type) { return this.base + '/notifications/' + pk + '/' + notification_type },
             contactNew: function() { return this.base + '/contact/'},
             allTournamentsHomepage: function() { return this.base + '/homepage/tournaments'},            
