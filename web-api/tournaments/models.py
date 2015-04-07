@@ -96,7 +96,10 @@ class Tournament(models.Model):
 
     def get_last_fixture_number(self):
         fixtures = self.fixtures.all().order_by('-number')
-        return fixtures[0].number
+        if fixtures.exists() :
+            return fixtures[0].number
+        else:
+            return None
 
     def get_future_fixtures(self):
       fixtures = self.fixtures.filter(is_finished = False, is_playing = False).order_by('number')
